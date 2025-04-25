@@ -1,0 +1,850 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/tubiao.png">
+  <link rel="icon" href="/img/tubiao.png">
+  
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#4F4F4F">
+  <meta name="author" content="chen">
+  <meta name="keywords" content="">
+  
+    <meta name="description" content="sprintf函数函数功能sprintf是 PHP 中一个格式化字符串的函数，功能是根据指定的格式化字符串，将一系列参数转换并格式化为一个新的字符串 函数语法1sprintf(format, arg1, arg2,...)   format：是必需参数，规定字符串以及如何格式化其中的变量，如果 format 字符串中不包含任何占位符（如 %s、%d 等），那么可以不需要额外的 arg 参数 arg">
+<meta property="og:type" content="article">
+<meta property="og:title" content="sprintf漏洞">
+<meta property="og:url" content="https://yschen20.github.io/2025/04/25/sprintf%E6%BC%8F%E6%B4%9E/index.html">
+<meta property="og:site_name" content="(๑´ڡ&#96;๑)">
+<meta property="og:description" content="sprintf函数函数功能sprintf是 PHP 中一个格式化字符串的函数，功能是根据指定的格式化字符串，将一系列参数转换并格式化为一个新的字符串 函数语法1sprintf(format, arg1, arg2,...)   format：是必需参数，规定字符串以及如何格式化其中的变量，如果 format 字符串中不包含任何占位符（如 %s、%d 等），那么可以不需要额外的 arg 参数 arg">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://yschen20.github.io/2025/04/25/sprintf%E6%BC%8F%E6%B4%9E/image-20250331135554907.png">
+<meta property="og:image" content="https://yschen20.github.io/2025/04/25/sprintf%E6%BC%8F%E6%B4%9E/image-20250331135700220.png">
+<meta property="og:image" content="https://yschen20.github.io/2025/04/25/sprintf%E6%BC%8F%E6%B4%9E/image-20250331135759133.png">
+<meta property="og:image" content="https://yschen20.github.io/2025/04/25/sprintf%E6%BC%8F%E6%B4%9E/image-20250331182802265.png">
+<meta property="og:image" content="https://yschen20.github.io/2025/04/25/sprintf%E6%BC%8F%E6%B4%9E/image-20250331184548380.png">
+<meta property="og:image" content="https://yschen20.github.io/2025/04/25/sprintf%E6%BC%8F%E6%B4%9E/image-20250331184805384.png">
+<meta property="og:image" content="https://yschen20.github.io/2025/04/25/sprintf%E6%BC%8F%E6%B4%9E/image-20250331184936727.png">
+<meta property="og:image" content="https://yschen20.github.io/2025/04/25/sprintf%E6%BC%8F%E6%B4%9E/image-20250331185243464.png">
+<meta property="og:image" content="https://yschen20.github.io/2025/04/25/sprintf%E6%BC%8F%E6%B4%9E/image-20250331185501796.png">
+<meta property="og:image" content="https://yschen20.github.io/2025/04/25/sprintf%E6%BC%8F%E6%B4%9E/image-20250331185545261.png">
+<meta property="og:image" content="https://yschen20.github.io/2025/04/25/sprintf%E6%BC%8F%E6%B4%9E/image-20250331185805000.png">
+<meta property="og:image" content="https://yschen20.github.io/2025/04/25/sprintf%E6%BC%8F%E6%B4%9E/image-20250331190020446.png">
+<meta property="og:image" content="https://yschen20.github.io/2025/04/25/sprintf%E6%BC%8F%E6%B4%9E/image-20250331190440729.png">
+<meta property="og:image" content="https://yschen20.github.io/2025/04/25/sprintf%E6%BC%8F%E6%B4%9E/image-20250331190532826.png">
+<meta property="og:image" content="https://yschen20.github.io/2025/04/25/sprintf%E6%BC%8F%E6%B4%9E/image-20250331190609726.png">
+<meta property="article:published_time" content="2025-04-25T07:35:54.000Z">
+<meta property="article:modified_time" content="2025-04-25T07:36:19.792Z">
+<meta property="article:author" content="chen">
+<meta property="article:tag" content="小知识">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://yschen20.github.io/2025/04/25/sprintf%E6%BC%8F%E6%B4%9E/image-20250331135554907.png">
+<meta name="twitter:creator" content="@chen">
+  
+  
+    <meta name="referrer" content="no-referrer-when-downgrade">
+  
+  
+  <title>sprintf漏洞 - (๑´ڡ`๑)</title>
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/c/font_1749284_5i9bdhy70f8.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/c/font_1736178_k526ubmyhba.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/css/highlight-dark.css" />
+  
+
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"yschen20.github.io","root":"/","version":"1.9.8","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":true,"follow_dnt":true,"baidu":null,"google":{"measurement_id":null},"tencent":{"sid":null,"cid":null},"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false},"umami":{"src":null,"website_id":null,"domains":null,"start_time":"2025-04-25T00:00:00.000Z","token":null,"api_server":null}},"search_path":"/local-search.xml","include_content_in_search":true};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+
+
+  
+<meta name="generator" content="Hexo 7.3.0"></head>
+
+
+<body>
+  
+
+  <header>
+    
+
+<div class="header-inner" style="height: 70vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>小晨的博客</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/" target="_self">
+                <i class="iconfont icon-home-fill"></i>
+                <span>首页</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/" target="_self">
+                <i class="iconfont icon-archive-fill"></i>
+                <span>归档</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/" target="_self">
+                <i class="iconfont icon-category-fill"></i>
+                <span>分类</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/links/" target="_self">
+                <i class="iconfont icon-link-fill"></i>
+                <span>友链</span>
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              <i class="iconfont icon-search"></i>
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">
+              <i class="iconfont icon-dark" id="color-toggle-icon"></i>
+            </a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+  
+
+<div id="banner" class="banner" parallax=true
+     style="background: url('/img/2.png') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle" data-typed-text="sprintf漏洞"></span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-author" aria-hidden="true"></i>
+        chen
+      </span>
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2025-04-25 15:35" pubdate>
+          2025年4月25日 下午
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          1.9k 字
+        
+      </span>
+    
+
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-clock-fill"></i>
+        
+        
+        
+          17 分钟
+        
+      </span>
+    
+
+    
+    
+      
+        <span id="busuanzi_container_page_pv" style="display: none">
+          <i class="iconfont icon-eye" aria-hidden="true"></i>
+          <span id="busuanzi_value_page_pv"></span> 次
+        </span>
+        
+
+      
+    
+  </div>
+
+
+        
+      </div>
+
+      
+    </div>
+  </div>
+</div>
+
+</div>
+
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <h1 id="seo-header">sprintf漏洞</h1>
+            
+              <p id="updated-time" class="note note-info" style="display: none">
+                
+                  
+                    本文最后更新于 2025-04-25T15:36:19+08:00
+                  
+                  
+
+                
+              </p>
+            
+            
+              <div class="markdown-body">
+                
+                <h1 id="sprintf函数"><a href="#sprintf函数" class="headerlink" title="sprintf函数"></a><code>sprintf</code>函数</h1><h3 id="函数功能"><a href="#函数功能" class="headerlink" title="函数功能"></a>函数功能</h3><p><code>sprintf</code>是 PHP 中一个格式化字符串的函数，功能是根据指定的格式化字符串，将一系列参数转换并格式化为一个新的字符串</p>
+<h3 id="函数语法"><a href="#函数语法" class="headerlink" title="函数语法"></a>函数语法</h3><figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs PHP"><span class="hljs-title function_ invoke__">sprintf</span>(format, arg1, arg2,...)<br></code></pre></td></tr></table></figure>
+
+<ul>
+<li><code>format</code>：是必需参数，规定字符串以及如何格式化其中的变量，如果 <code>format</code> 字符串中不包含任何占位符（如 <code>%s</code>、<code>%d</code> 等），那么可以不需要额外的 <code>arg</code> 参数</li>
+<li><code>arg1, arg2,...</code>：可选参数，要被插入到<code>format</code>字符串中指定位置的参数，可以有多个</li>
+</ul>
+<table>
+<thead>
+<tr>
+<th align="center">参数</th>
+<th align="left">描述</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="center">format</td>
+<td align="left">必需。规定字符串以及如何格式化其中的变量。可能的格式值：<br/><br/>%% - 返回一个百分号 %<br/><br/>%b - 二进制数<br/><br/>%c - ASCII 值对应的字符<br/><br/>%d - 包含正负号的十进制数（负数、0、正数）<br/><br/>%e - 使用小写的科学计数法（例如 1.2e+2）<br/><br/>%E - 使用大写的科学计数法（例如 1.2E+2）<br/><br/>%u - 不包含正负号的十进制数（大于等于 0）<br/><br/>%f - 浮点数（本地设置）<br/><br/>%F - 浮点数（非本地设置）<br/><br/>%g - 较短的 %e 和 %f<br/><br/>%G - 较短的 %E 和 %f<br/><br/>%o - 八进制数<br/><br/>%s - 字符串<br/><br/>%x - 十六进制数（小写字母）<br/><br/>%X - 十六进制数（大写字母）<br/><br/>附加的格式值。必需放置在 % 和字母之间（例如 %.2f）：<br/><br/>+ （在数字前面加上 + 或 - 来定义数字的正负性。默认情况下，只有负数才做标记，正数不做标记）<br/><br/>‘ （规定使用什么作为填充，默认是空格。它必须与宽度指定器一起使用。例如：%’x20s（使用 “x” 作为填充））<br/><br/>- （左调整变量值）<br/><br/>[0-9] （规定变量值的最小宽度）<br/><br/>.[0-9] （规定小数位数或最大字符串长度）<br/><br/>注释：如果使用多个上述的格式值，它们必须按照以上顺序使用<br/></td>
+</tr>
+<tr>
+<td align="center">arg1</td>
+<td align="left">如果<code>format</code>中有占位符（如 <code>%s</code>、<code>%d</code> 等），这个参数是必需的，规定插到 <em>format</em> 字符串中第一个 % 符号处的参数</td>
+</tr>
+<tr>
+<td align="center">arg2</td>
+<td align="left">可选，规定插到 <em>format</em> 字符串中第二个 % 符号处的参数</td>
+</tr>
+</tbody></table>
+<h3 id="常见用法"><a href="#常见用法" class="headerlink" title="常见用法"></a>常见用法</h3><ul>
+<li><strong>格式化数字</strong></li>
+</ul>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs PHP"><span class="hljs-variable">$num</span> = <span class="hljs-number">123.456</span>;<br><span class="hljs-variable">$result</span> = <span class="hljs-title function_ invoke__">sprintf</span>(<span class="hljs-string">&quot;%.2f&quot;</span>, <span class="hljs-variable">$num</span>);<br><span class="hljs-keyword">echo</span> <span class="hljs-variable">$result</span>;<br><span class="hljs-comment">// 输出 123.46，将数字格式化为保留两位小数的字符串</span><br></code></pre></td></tr></table></figure>
+
+<p><img src="/2025/04/25/sprintf%E6%BC%8F%E6%B4%9E/image-20250331135554907.png" srcset="/img/loading.gif" lazyload alt="image-20250331135554907"></p>
+<ul>
+<li><strong>拼接字符串和变量</strong></li>
+</ul>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs php"><span class="hljs-variable">$name</span> = <span class="hljs-string">&quot;John&quot;</span>;<br><span class="hljs-variable">$age</span> = <span class="hljs-number">30</span>;<br><span class="hljs-variable">$result</span> = <span class="hljs-title function_ invoke__">sprintf</span>(<span class="hljs-string">&quot;My name is %s and I&#x27;m %d years old.&quot;</span>, <span class="hljs-variable">$name</span>, <span class="hljs-variable">$age</span>);<br><span class="hljs-keyword">echo</span> <span class="hljs-variable">$result</span>;<br><span class="hljs-comment">// 输出 My name is John and I&#x27;m 30 years old.</span><br></code></pre></td></tr></table></figure>
+
+<p><img src="/2025/04/25/sprintf%E6%BC%8F%E6%B4%9E/image-20250331135700220.png" srcset="/img/loading.gif" lazyload alt="image-20250331135700220"></p>
+<ul>
+<li><strong>格式化日期</strong></li>
+</ul>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs php"><span class="hljs-variable">$timestamp</span> = <span class="hljs-title function_ invoke__">time</span>();<br><span class="hljs-variable">$result</span> = <span class="hljs-title function_ invoke__">sprintf</span>(<span class="hljs-string">&quot;%02d-%02d-%d&quot;</span>, <span class="hljs-title function_ invoke__">date</span>(<span class="hljs-string">&quot;m&quot;</span>, <span class="hljs-variable">$timestamp</span>), <span class="hljs-title function_ invoke__">date</span>(<span class="hljs-string">&quot;d&quot;</span>, <span class="hljs-variable">$timestamp</span>), <span class="hljs-title function_ invoke__">date</span>(<span class="hljs-string">&quot;Y&quot;</span>, <span class="hljs-variable">$timestamp</span>));<br><span class="hljs-keyword">echo</span> <span class="hljs-variable">$result</span>;<br><span class="hljs-comment">// 输出当前日期，格式为 mm-dd-yyyy</span><br></code></pre></td></tr></table></figure>
+
+<p><img src="/2025/04/25/sprintf%E6%BC%8F%E6%B4%9E/image-20250331135759133.png" srcset="/img/loading.gif" lazyload alt="image-20250331135759133"></p>
+<h1 id="sprintf函数存在的漏洞"><a href="#sprintf函数存在的漏洞" class="headerlink" title="sprintf函数存在的漏洞"></a><code>sprintf</code>函数存在的漏洞</h1><h2 id="占位符漏洞"><a href="#占位符漏洞" class="headerlink" title="占位符漏洞"></a>占位符漏洞</h2><h3 id="原理"><a href="#原理" class="headerlink" title="原理"></a>原理</h3><p>格式化字符串函数在处理占位符时，会按照特定规则将传入的参数替换到占位符所在的位置，当用户能够控制格式化字符串（包含占位符）或部分参数时，就可能出现安全问题。</p>
+<p>攻击者可以利用特殊构造的格式化字符串来读取内存中的敏感信息、修改内存数据、甚至执行任意代码。</p>
+<h3 id="1"><a href="#1" class="headerlink" title="%1$"></a><code>%1$</code></h3><p><code>%1$</code>是格式化字符串中的一种高级占位符用法，在格式化字符串中，<code>%</code>通常是占位符的起始符号。<code>%1$</code> 中的 <code>1</code> 代表参数列表中的第 1 个参数（编号从 1 开始），<code>$</code> 是分隔符，它的作用是明确指定要使用的参数序号。借助这种方式，你能够精确控制在格式化字符串中使用哪个参数进行替换，还可以多次使用同一个参数。</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs PHP"><span class="hljs-title function_ invoke__">sprintf</span>(format, arg1, arg2, arg++)<br></code></pre></td></tr></table></figure>
+
+<p>arg1、arg2、++ 参数将被插入到主字符串中的百分号（%）符号处。该函数是逐步执行的。在第一个 % 符号处，插入 arg1，在第二个 % 符号处，插入 arg2，依此类推。</p>
+<p><strong>如果 % 符号多于 arg 参数，则您必须使用占位符。占位符位于 % 符号之后，由数字和 “$” 组成</strong></p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs PHP"><span class="hljs-keyword">echo</span> <span class="hljs-title function_ invoke__">sprintf</span>(<span class="hljs-string">&quot;a=%2\$s, b=%1\$s&quot;</span>, <span class="hljs-string">&quot;a&quot;</span>, <span class="hljs-string">&quot;b&quot;</span>);<br><span class="hljs-comment">// 执行结果为：a=b, b=a</span><br></code></pre></td></tr></table></figure>
+
+<p><code>%2\$s</code> 表示将第 2 个参数（即 <code>&quot;b&quot;</code> ）以字符串类型插入，<code>%1\$s</code> 表示将第 1 个参数（即 <code>&quot;a&quot;</code> ）以字符串类型插入。所以最终输出 <code>a=b, b=a</code> 。 其中 <code>\</code> 是转义字符，用来转义 <code>$</code> ，防止它被 shell 等环境提前解析 ，确保 <code>sprintf</code> 函数能正确识别占位符。 而 <code>%2$s</code> 里的 <code>2</code> 指明用第 2 个参数，<code>s</code> 表明参数类型为字符串。</p>
+<h3 id="sprintf底层实现代码"><a href="#sprintf底层实现代码" class="headerlink" title="sprintf底层实现代码"></a><code>sprintf</code>底层实现代码</h3><figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br></pre></td><td class="code"><pre><code class="hljs PHP"><span class="hljs-keyword">switch</span> (format[inpos]) &#123;<br><span class="hljs-keyword">case</span> <span class="hljs-string">&#x27;s&#x27;</span>:<br>    &#123;<br>        zend_string * t;<br>        zend_string * str = <span class="hljs-title function_ invoke__">zval_get_tmp_string</span>(tmp, &amp;t);<br>        <span class="hljs-title function_ invoke__">php_sprintf_appendstring</span>( &amp; result, &amp;outpos, <span class="hljs-title function_ invoke__">ZSTR_VAL</span>(str), width, precision, padding, alignment, <span class="hljs-title function_ invoke__">ZSTR_LEN</span>(str), <span class="hljs-number">0</span>, expprec, <span class="hljs-number">0</span>);<br>        <span class="hljs-title function_ invoke__">zend_tmp_string_release</span>(t);<br>        <span class="hljs-keyword">break</span>;<br>    &#125;<br><span class="hljs-keyword">case</span> <span class="hljs-string">&#x27;d&#x27;</span>:<br>    <span class="hljs-title function_ invoke__">php_sprintf_appendint</span>( &amp; result, &amp;outpos, <span class="hljs-title function_ invoke__">zval_get_long</span>(tmp), width, padding, alignment, always_sign);<br>    <span class="hljs-keyword">break</span>;<br><span class="hljs-keyword">case</span> <span class="hljs-string">&#x27;u&#x27;</span>:<br>    <span class="hljs-title function_ invoke__">php_sprintf_appenduint</span>( &amp; result, &amp;outpos, <span class="hljs-title function_ invoke__">zval_get_long</span>(tmp), width, padding, alignment);<br>    <span class="hljs-keyword">break</span>;<br><span class="hljs-keyword">case</span> <span class="hljs-string">&#x27;g&#x27;</span>:<br><span class="hljs-keyword">case</span> <span class="hljs-string">&#x27;G&#x27;</span>:<br><span class="hljs-keyword">case</span> <span class="hljs-string">&#x27;e&#x27;</span>:<br><span class="hljs-keyword">case</span> <span class="hljs-string">&#x27;E&#x27;</span>:<br><span class="hljs-keyword">case</span> <span class="hljs-string">&#x27;f&#x27;</span>:<br><span class="hljs-keyword">case</span> <span class="hljs-string">&#x27;F&#x27;</span>:<br>    <span class="hljs-title function_ invoke__">php_sprintf_appenddouble</span>( &amp; result, &amp;outpos, <span class="hljs-title function_ invoke__">zval_get_double</span>(tmp), width, padding, alignment, precision, adjusting, format[inpos], always_sign);<br>    <span class="hljs-keyword">break</span>;<br><span class="hljs-keyword">case</span> <span class="hljs-string">&#x27;c&#x27;</span>:<br>    <span class="hljs-title function_ invoke__">php_sprintf_appendchar</span>( &amp; result, &amp;outpos, (char) <span class="hljs-title function_ invoke__">zval_get_long</span>(tmp));<br>    <span class="hljs-keyword">break</span>;<br><span class="hljs-keyword">case</span> <span class="hljs-string">&#x27;o&#x27;</span>:<br>    <span class="hljs-title function_ invoke__">php_sprintf_append2n</span>( &amp; result, &amp;outpos, <span class="hljs-title function_ invoke__">zval_get_long</span>(tmp), width, padding, alignment, <span class="hljs-number">3</span>, hexchars, expprec);<br>    <span class="hljs-keyword">break</span>;<br><span class="hljs-keyword">case</span> <span class="hljs-string">&#x27;x&#x27;</span>:<br>    <span class="hljs-title function_ invoke__">php_sprintf_append2n</span>( &amp; result, &amp;outpos, <span class="hljs-title function_ invoke__">zval_get_long</span>(tmp), width, padding, alignment, <span class="hljs-number">4</span>, hexchars, expprec);<br>    <span class="hljs-keyword">break</span>;<br><span class="hljs-keyword">case</span> <span class="hljs-string">&#x27;X&#x27;</span>:<br>    <span class="hljs-title function_ invoke__">php_sprintf_append2n</span>( &amp; result, &amp;outpos, <span class="hljs-title function_ invoke__">zval_get_long</span>(tmp), width, padding, alignment, <span class="hljs-number">4</span>, HEXCHARS, expprec);<br>    <span class="hljs-keyword">break</span>;<br><span class="hljs-keyword">case</span> <span class="hljs-string">&#x27;b&#x27;</span>:<br>    <span class="hljs-title function_ invoke__">php_sprintf_append2n</span>( &amp; result, &amp;outpos, <span class="hljs-title function_ invoke__">zval_get_long</span>(tmp), width, padding, alignment, <span class="hljs-number">1</span>, hexchars, expprec);<br>    <span class="hljs-keyword">break</span>;<br><span class="hljs-keyword">case</span> <span class="hljs-string">&#x27;%&#x27;</span>:<br>    <span class="hljs-title function_ invoke__">php_sprintf_appendchar</span>( &amp; result, &amp;outpos, <span class="hljs-string">&#x27;%&#x27;</span>);<br>    <span class="hljs-keyword">break</span>;<br><span class="hljs-keyword">default</span>:<br>    <span class="hljs-keyword">break</span>;<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<p>通过底层实现代码可以发现，<code>sprintf（）</code>方法就是对15种类型做了匹配，15种类型以外的就直接break了没有做任何处理，所以就会导致一个问题：</p>
+<p>如果我们输入<code>%</code>\或者<code>%1$\</code>,他会把反斜杠当做格式化字符的类型，然而找不到匹配的项那么<code>%\</code>,<code>%1$\</code>就因为没有经过任何处理而被替换为空。</p>
+<p>因此<code>sprintf</code>注入的原理就是用一个15种类型之外的<code>\</code>来代替格式字符类型让函数替换为空，则<code>%1$\&#39;</code>后面的单引号就能闭合前面的单引号。</p>
+<p>此外，还要注意**函数<code>addslashes()</code>**作用是返回在预定义字符之前添加反斜杠的字符串。预定义字符是单引号<code>&#39;</code>、双引号<code>&quot;</code>、反斜杠<code>\</code>、<code>NULL</code>。比如下面的代码，这样就造成了得结果是我们无法在注入的过程当中使用单引号（’）</p>
+<p><img src="/2025/04/25/sprintf%E6%BC%8F%E6%B4%9E/image-20250331182802265.png" srcset="/img/loading.gif" lazyload alt="image-20250331182802265"></p>
+<h1 id="题目"><a href="#题目" class="headerlink" title="题目"></a>题目</h1><p>题目来源</p>
+<blockquote>
+<p>NSSCTF–git泄露</p>
+</blockquote>
+<p>这是这题的后半部分的考点，源码如下</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs PHP"><span class="hljs-meta">&lt;?php</span><br><span class="hljs-variable">$pass</span>=<span class="hljs-title function_ invoke__">sprintf</span>(<span class="hljs-string">&quot;and pass=&#x27;%s&#x27;&quot;</span>,<span class="hljs-title function_ invoke__">addslashes</span>(<span class="hljs-variable">$_GET</span>[<span class="hljs-string">&#x27;pass&#x27;</span>]));<br><span class="hljs-variable">$sql</span>=<span class="hljs-title function_ invoke__">sprintf</span>(<span class="hljs-string">&quot;select * from user where name=&#x27;%s&#x27; <span class="hljs-subst">$pass</span>&quot;</span>,<span class="hljs-title function_ invoke__">addslashes</span>(<span class="hljs-variable">$_GET</span>[<span class="hljs-string">&#x27;name&#x27;</span>]));<br><span class="hljs-meta">?&gt;</span><br></code></pre></td></tr></table></figure>
+
+<p>审计代码，这段代码通过<code>GET</code>请求的<code>name</code>和<code>pass</code>参数，构造一条<code>SQL</code>查询语句，从 <code>user</code> 表中筛选出符合特定条件的记录。</p>
+<p><code>payload</code>如下</p>
+<figure class="highlight routeros"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs routeros">?<span class="hljs-attribute">name</span>=<span class="hljs-string">&#x27;admin&#x27;</span>&amp;pass=123%1$&#x27; <span class="hljs-keyword">or</span> <span class="hljs-attribute">1</span>=1--+<br></code></pre></td></tr></table></figure>
+
+<p><strong><code>addslashes()</code>将’转义成&#39; 则passpass&#x3D;123%1$&#39;</strong></p>
+<p>最终构造的SQL语句如下</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs SQL"><span class="hljs-keyword">select</span> <span class="hljs-operator">*</span> <span class="hljs-keyword">from</span> <span class="hljs-keyword">user</span> <span class="hljs-keyword">where</span> name<span class="hljs-operator">=</span><span class="hljs-string">&#x27;admin&#x27;</span> <span class="hljs-keyword">and</span> pass<span class="hljs-operator">=</span><span class="hljs-string">&#x27;123&#x27;</span> <span class="hljs-keyword">or</span> <span class="hljs-number">1</span><span class="hljs-operator">=</span><span class="hljs-number">1</span><span class="hljs-comment">--+&#x27;</span><br></code></pre></td></tr></table></figure>
+
+<p><img src="/2025/04/25/sprintf%E6%BC%8F%E6%B4%9E/image-20250331184548380.png" srcset="/img/loading.gif" lazyload alt="image-20250331184548380"></p>
+<p>可以看到跳转到<code>wjbh.php</code>这个页面了，虽然表面上看着是<code>Not Found</code>，但这实际是出题人写来混淆的，抓包可以知道状态码是200，查看源码可以看到<code>flag</code>的位置在<code>/flag</code></p>
+<p><img src="/2025/04/25/sprintf%E6%BC%8F%E6%B4%9E/image-20250331184805384.png" srcset="/img/loading.gif" lazyload alt="image-20250331184805384"></p>
+<p>但是访问后却发现又回到最初的界面了</p>
+<p><img src="/2025/04/25/sprintf%E6%BC%8F%E6%B4%9E/image-20250331184936727.png" srcset="/img/loading.gif" lazyload alt="image-20250331184936727"></p>
+<p>那就去抓包看看</p>
+<p><img src="/2025/04/25/sprintf%E6%BC%8F%E6%B4%9E/image-20250331185243464.png" srcset="/img/loading.gif" lazyload alt="image-20250331185243464"></p>
+<p>发现<code>cookie</code>请求头中有一个参数<code>file</code>，对其值进行 Hex 解码</p>
+<p><img src="/2025/04/25/sprintf%E6%BC%8F%E6%B4%9E/image-20250331185501796.png" srcset="/img/loading.gif" lazyload alt="image-20250331185501796"></p>
+<p>解出<code>flag.txt</code>，访问又是什么都没有，再继续抓包</p>
+<p><img src="/2025/04/25/sprintf%E6%BC%8F%E6%B4%9E/image-20250331185545261.png" srcset="/img/loading.gif" lazyload alt="image-20250331185545261"></p>
+<p><img src="/2025/04/25/sprintf%E6%BC%8F%E6%B4%9E/image-20250331185805000.png" srcset="/img/loading.gif" lazyload alt="image-20250331185805000"></p>
+<p>没什么区别，看到之前的<code>cookie</code>参数<code>file</code>，想到是不是用来读取<code>flag.txt</code>这个文件的，但是没有读到，要是给它加上伪协议读取呢</p>
+<p><img src="/2025/04/25/sprintf%E6%BC%8F%E6%B4%9E/image-20250331190020446.png" srcset="/img/loading.gif" lazyload alt="image-20250331190020446"></p>
+<p>还是不行</p>
+<p><img src="/2025/04/25/sprintf%E6%BC%8F%E6%B4%9E/image-20250331190440729.png" srcset="/img/loading.gif" lazyload alt="image-20250331190440729"></p>
+<p>想到之前的提示在<code>/flag</code>文件中，那就读取这个文件</p>
+<p><img src="/2025/04/25/sprintf%E6%BC%8F%E6%B4%9E/image-20250331190532826.png" srcset="/img/loading.gif" lazyload alt="image-20250331190532826"></p>
+<figure class="highlight abnf"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs abnf"><span class="hljs-attribute">file</span><span class="hljs-operator">=</span><span class="hljs-number">2</span>f666c6167<br></code></pre></td></tr></table></figure>
+
+<p><img src="/2025/04/25/sprintf%E6%BC%8F%E6%B4%9E/image-20250331190609726.png" srcset="/img/loading.gif" lazyload alt="image-20250331190609726"></p>
+<figure class="highlight apache"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs apache"><span class="hljs-attribute">ctfshow</span>&#123;<span class="hljs-number">31</span>ba3d58-<span class="hljs-number">60</span>d3-<span class="hljs-number">40</span>f8-<span class="hljs-number">9</span>e39-<span class="hljs-number">291</span>c554cdf46&#125;<br></code></pre></td></tr></table></figure>
+
+<p>这就出flag了，好难的萌新赛</p>
+
+                
+              </div>
+            
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+    <div class="post-meta mr-3 d-flex align-items-center">
+      <i class="iconfont icon-category"></i>
+      
+
+<span class="category-chains">
+  
+  
+    
+      <span class="category-chain">
+        
+  <a href="/categories/%E5%B0%8F%E7%9F%A5%E8%AF%86/" class="category-chain-item">小知识</a>
+  
+  
+
+      </span>
+    
+  
+</span>
+
+    </div>
+  
+  
+    <div class="post-meta">
+      <i class="iconfont icon-tags"></i>
+      
+        <a href="/tags/%E5%B0%8F%E7%9F%A5%E8%AF%86/" class="print-no-link">#小知识</a>
+      
+    </div>
+  
+</div>
+
+
+              
+  
+
+  <div class="license-box my-3">
+    <div class="license-title">
+      <div>sprintf漏洞</div>
+      <div>https://yschen20.github.io/2025/04/25/sprintf漏洞/</div>
+    </div>
+    <div class="license-meta">
+      
+        <div class="license-meta-item">
+          <div>作者</div>
+          <div>chen</div>
+        </div>
+      
+      
+        <div class="license-meta-item license-meta-date">
+          <div>发布于</div>
+          <div>2025年4月25日</div>
+        </div>
+      
+      
+        <div class="license-meta-item license-meta-date">
+          <div>更新于</div>
+          <div>2025年4月25日</div>
+        </div>
+      
+      
+        <div class="license-meta-item">
+          <div>许可协议</div>
+          <div>
+            
+              
+              
+                <a class="print-no-link" target="_blank" href="https://creativecommons.org/licenses/by/4.0/">
+                  <span class="hint--top hint--rounded" aria-label="BY - 署名">
+                    <i class="iconfont icon-cc-by"></i>
+                  </span>
+                </a>
+              
+            
+          </div>
+        </div>
+      
+    </div>
+    <div class="license-icon iconfont"></div>
+  </div>
+
+
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/2025/04/25/%E7%AC%A6%E5%8F%B7%E9%93%BE%E6%8E%A5%E7%AA%81%E7%A0%B4%E7%9B%AE%E5%BD%95%E9%99%90%E5%88%B6/" title="符号链接突破目录限制">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">符号链接突破目录限制</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2025/04/25/%E6%8F%90%E6%9D%83/" title="提权">
+                        <span class="hidden-mobile">提权</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="margin-left: -1rem">
+    <div id="toc">
+  <p class="toc-header">
+    <i class="iconfont icon-list"></i>
+    <span>目录</span>
+  </p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+  
+    <div class="footer-content">
+       <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+    </div>
+  
+  
+    <div class="statistics">
+  
+  
+
+  
+    
+      <span id="busuanzi_container_site_pv" style="display: none">
+        总访问量 
+        <span id="busuanzi_value_site_pv"></span>
+         次
+      </span>
+    
+    
+      <span id="busuanzi_container_site_uv" style="display: none">
+        总访客数 
+        <span id="busuanzi_value_site_uv"></span>
+         人
+      </span>
+    
+    
+
+  
+
+</div>
+
+  
+  
+</div>
+
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://lib.baomitu.com/jquery/3.6.4/jquery.min.js" ></script>
+<script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+
+  <script  src="https://lib.baomitu.com/typed.js/2.0.12/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var subtitle = document.getElementById('subtitle');
+      if (!subtitle || !typing) {
+        return;
+      }
+      var text = subtitle.getAttribute('data-typed-text');
+      
+        typing(text);
+      
+    })(window, document);
+  </script>
+
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+
+  
+<script>
+  var relativeDate = function() {
+    var updatedTime = document.getElementById('updated-time');
+    if (updatedTime) {
+      var text = updatedTime.textContent;
+      var reg = /\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}(?:Z|[+-]\d{2}:\d{2})/;
+      var matchs = text.match(reg);
+      if (matchs) {
+        var relativeTime = moment(matchs[0]).fromNow();
+        updatedTime.textContent = text.replace(reg, relativeTime);
+      }
+      updatedTime.style.display = '';
+    }
+  };
+  Fluid.utils.createScript('https://lib.baomitu.com/moment.js/2.29.4/moment.min.js', function() {
+    if (!'zh-cn'.startsWith('en')) {
+      Fluid.utils.createScript('https://lib.baomitu.com/moment.js/2.29.4/locale/zh-cn.min.js', function() {
+        relativeDate();
+      });
+    } else {
+      relativeDate();
+    }
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/tocbot/4.20.1/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    window.tocbot.init(Object.assign({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      scrollSmooth    : true,
+      includeTitleTags: true,
+      headingsOffset  : -boardTop,
+    }, CONFIG.toc));
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('tocbot' in window) {
+        tocbot.refresh();
+        var toc = jQuery('#toc');
+        if (toc.length === 0 || !tocbot) {
+          return;
+        }
+        if (toc.find('.toc-list-item').length > 0) {
+          toc.css('visibility', 'visible');
+        }
+      }
+    });
+  });
+</script>
+
+
+  <script src=https://lib.baomitu.com/clipboard.js/2.0.11/clipboard.min.js></script>
+
+  <script>Fluid.plugins.codeWidget();</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/anchor-js/5.0.0/anchor.min.js', function() {
+    window.anchors.options = {
+      placement: CONFIG.anchorjs.placement,
+      visible  : CONFIG.anchorjs.visible
+    };
+    if (CONFIG.anchorjs.icon) {
+      window.anchors.options.icon = CONFIG.anchorjs.icon;
+    }
+    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+    var res = [];
+    for (var item of el) {
+      res.push('.markdown-body > ' + item.trim());
+    }
+    if (CONFIG.anchorjs.placement === 'left') {
+      window.anchors.options.class = 'anchorjs-link-left';
+    }
+    window.anchors.add(res.join(', '));
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('anchors' in window) {
+        anchors.removeAll();
+        var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+        var res = [];
+        for (var item of el) {
+          res.push('.markdown-body > ' + item.trim());
+        }
+        if (CONFIG.anchorjs.placement === 'left') {
+          anchors.options.class = 'anchorjs-link-left';
+        }
+        anchors.add(res.join(', '));
+      }
+    });
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
+
+  <script  src="/js/local-search.js" ></script>
+
+  <script defer src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js" ></script>
+
+
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">博客在允许 JavaScript 运行的环境下浏览效果更佳</div>
+  </noscript>
+</body>
+</html>
