@@ -1,0 +1,857 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/tubiao.png">
+  <link rel="icon" href="/img/tubiao.png">
+  
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#4F4F4F">
+  <meta name="author" content="chen">
+  <meta name="keywords" content="">
+  
+    <meta name="description" content="参考文章：https:&#x2F;&#x2F;blog.csdn.net&#x2F;giaogiaohuohua&#x2F;article&#x2F;details&#x2F;148055593  CatBank先注册一个账号a  根据这个提示可知要余额为一百万，可以进行转账，另外注册一个账户b，用账户a给账户b转账一百万  然后登录账户b得到flag，登录后可以再转账一次，就可以得到flag了  猫猫的秘密查看网页源码 1234567891011121">
+<meta property="og:type" content="article">
+<meta property="og:title" content="第二届帕鲁杯web复现">
+<meta property="og:url" content="https://yschen20.github.io/2025/05/22/%E7%AC%AC%E4%BA%8C%E5%B1%8A%E5%B8%95%E9%B2%81%E6%9D%AFweb%E5%A4%8D%E7%8E%B0/index.html">
+<meta property="og:site_name" content="(๑´ڡ&#96;๑)">
+<meta property="og:description" content="参考文章：https:&#x2F;&#x2F;blog.csdn.net&#x2F;giaogiaohuohua&#x2F;article&#x2F;details&#x2F;148055593  CatBank先注册一个账号a  根据这个提示可知要余额为一百万，可以进行转账，另外注册一个账户b，用账户a给账户b转账一百万  然后登录账户b得到flag，登录后可以再转账一次，就可以得到flag了  猫猫的秘密查看网页源码 1234567891011121">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://yschen20.github.io/assets/image-20250521190819353.png">
+<meta property="og:image" content="https://yschen20.github.io/assets/image-20250521191105882.png">
+<meta property="og:image" content="https://yschen20.github.io/assets/image-20250521191207690.png">
+<meta property="og:image" content="https://yschen20.github.io/assets/image-20250522111905489.png">
+<meta property="og:image" content="https://yschen20.github.io/assets/image-20250522111932989.png">
+<meta property="og:image" content="https://yschen20.github.io/assets/image-20250522112129697.png">
+<meta property="og:image" content="https://yschen20.github.io/assets/image-20250522112159988.png">
+<meta property="og:image" content="https://yschen20.github.io/assets/image-20250522113032964.png">
+<meta property="og:image" content="https://yschen20.github.io/assets/image-20250522113046029.png">
+<meta property="og:image" content="https://yschen20.github.io/assets/image-20250521193326629.png">
+<meta property="og:image" content="https://yschen20.github.io/assets/image-20250521193641312.png">
+<meta property="og:image" content="https://yschen20.github.io/assets/image-20250521194020766.png">
+<meta property="og:image" content="https://yschen20.github.io/assets/image-20250521194505342.png">
+<meta property="og:image" content="https://yschen20.github.io/assets/image-20250521194926072.png">
+<meta property="og:image" content="https://yschen20.github.io/assets/image-20250521195049079.png">
+<meta property="og:image" content="https://yschen20.github.io/assets/image-20250521195228885.png">
+<meta property="og:image" content="https://yschen20.github.io/assets/image-20250521201332033.png">
+<meta property="og:image" content="https://yschen20.github.io/assets/image-20250521202235881.png">
+<meta property="og:image" content="https://yschen20.github.io/assets/image-20250521202631294.png">
+<meta property="og:image" content="https://yschen20.github.io/assets/image-20250522104806394.png">
+<meta property="og:image" content="https://yschen20.github.io/assets/image-20250522105757109.png">
+<meta property="og:image" content="https://yschen20.github.io/assets/image-20250522105903757.png">
+<meta property="og:image" content="https://yschen20.github.io/assets/image-20250522105949967.png">
+<meta property="og:image" content="https://yschen20.github.io/assets/image-20250522110141998.png">
+<meta property="article:published_time" content="2025-05-22T03:50:34.000Z">
+<meta property="article:modified_time" content="2025-05-22T03:51:46.243Z">
+<meta property="article:author" content="chen">
+<meta property="article:tag" content="比赛复现">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://yschen20.github.io/assets/image-20250521190819353.png">
+<meta name="twitter:creator" content="@chen">
+  
+  
+    <meta name="referrer" content="no-referrer-when-downgrade">
+  
+  
+  <title>第二届帕鲁杯web复现 - (๑´ڡ`๑)</title>
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/c/font_1749284_5i9bdhy70f8.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/c/font_1736178_k526ubmyhba.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/css/highlight-dark.css" />
+  
+
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"yschen20.github.io","root":"/","version":"1.9.8","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":true,"follow_dnt":true,"baidu":null,"google":{"measurement_id":null},"tencent":{"sid":null,"cid":null},"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false},"umami":{"src":null,"website_id":null,"domains":null,"start_time":"2025-04-25T00:00:00.000Z","token":null,"api_server":null}},"search_path":"/local-search.xml","include_content_in_search":true};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+
+
+  
+<meta name="generator" content="Hexo 7.3.0"></head>
+
+
+<body>
+  
+
+  <header>
+    
+
+<div class="header-inner" style="height: 70vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>小晨的博客</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/" target="_self">
+                <i class="iconfont icon-home-fill"></i>
+                <span>首页</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/" target="_self">
+                <i class="iconfont icon-archive-fill"></i>
+                <span>归档</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/" target="_self">
+                <i class="iconfont icon-category-fill"></i>
+                <span>分类</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/links/" target="_self">
+                <i class="iconfont icon-link-fill"></i>
+                <span>友链</span>
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              <i class="iconfont icon-search"></i>
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">
+              <i class="iconfont icon-dark" id="color-toggle-icon"></i>
+            </a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+  
+
+<div id="banner" class="banner" parallax=true
+     style="background: url('/img/2.png') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle" data-typed-text="第二届帕鲁杯web复现"></span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-author" aria-hidden="true"></i>
+        chen
+      </span>
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2025-05-22 11:50" pubdate>
+          2025年5月22日 中午
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          1.1k 字
+        
+      </span>
+    
+
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-clock-fill"></i>
+        
+        
+        
+          10 分钟
+        
+      </span>
+    
+
+    
+    
+      
+        <span id="busuanzi_container_page_pv" style="display: none">
+          <i class="iconfont icon-eye" aria-hidden="true"></i>
+          <span id="busuanzi_value_page_pv"></span> 次
+        </span>
+        
+
+      
+    
+  </div>
+
+
+        
+      </div>
+
+      
+    </div>
+  </div>
+</div>
+
+</div>
+
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <h1 id="seo-header">第二届帕鲁杯web复现</h1>
+            
+              <p id="updated-time" class="note note-info" style="display: none">
+                
+                  
+                    本文最后更新于 2025-05-22T11:51:46+08:00
+                  
+                  
+
+                
+              </p>
+            
+            
+              <div class="markdown-body">
+                
+                <blockquote>
+<p>参考文章：<a target="_blank" rel="noopener" href="https://blog.csdn.net/giaogiaohuohua/article/details/148055593">https://blog.csdn.net/giaogiaohuohua/article/details/148055593</a></p>
+</blockquote>
+<h1 id="CatBank"><a href="#CatBank" class="headerlink" title="CatBank"></a>CatBank</h1><p>先注册一个账号a</p>
+<p><img src="/./assets/image-20250521190819353.png" srcset="/img/loading.gif" lazyload alt="image-20250521190819353"></p>
+<p>根据这个提示可知要余额为一百万，可以进行转账，另外注册一个账户b，用账户a给账户b转账一百万</p>
+<p><img src="/./assets/image-20250521191105882.png" srcset="/img/loading.gif" lazyload alt="image-20250521191105882"></p>
+<p>然后登录账户b得到flag，登录后可以再转账一次，就可以得到flag了</p>
+<p><img src="/./assets/image-20250521191207690.png" srcset="/img/loading.gif" lazyload alt="image-20250521191207690"></p>
+<h1 id="猫猫的秘密"><a href="#猫猫的秘密" class="headerlink" title="猫猫的秘密"></a>猫猫的秘密</h1><p>查看网页源码</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br></pre></td><td class="code"><pre><code class="hljs html"><span class="hljs-tag">&lt;<span class="hljs-name">script</span>&gt;</span><span class="language-javascript"></span><br><span class="language-javascript">        <span class="hljs-keyword">let</span> token = <span class="hljs-string">&#x27;&#x27;</span>;</span><br><span class="language-javascript">        </span><br><span class="language-javascript">        <span class="hljs-variable language_">document</span>.<span class="hljs-title function_">getElementById</span>(<span class="hljs-string">&#x27;loginBtn&#x27;</span>).<span class="hljs-title function_">addEventListener</span>(<span class="hljs-string">&#x27;click&#x27;</span>, <span class="hljs-title function_">async</span> () =&gt; &#123;</span><br><span class="language-javascript">            <span class="hljs-keyword">const</span> username = <span class="hljs-variable language_">document</span>.<span class="hljs-title function_">getElementById</span>(<span class="hljs-string">&#x27;username&#x27;</span>).<span class="hljs-property">value</span>;</span><br><span class="language-javascript">            <span class="hljs-keyword">const</span> password = <span class="hljs-variable language_">document</span>.<span class="hljs-title function_">getElementById</span>(<span class="hljs-string">&#x27;password&#x27;</span>).<span class="hljs-property">value</span>;</span><br><span class="language-javascript">            </span><br><span class="language-javascript">            <span class="hljs-keyword">try</span> &#123;</span><br><span class="language-javascript">                <span class="hljs-keyword">const</span> response = <span class="hljs-keyword">await</span> <span class="hljs-title function_">fetch</span>(<span class="hljs-string">&#x27;/login&#x27;</span>, &#123;</span><br><span class="language-javascript">                    <span class="hljs-attr">method</span>: <span class="hljs-string">&#x27;POST&#x27;</span>,</span><br><span class="language-javascript">                    <span class="hljs-attr">headers</span>: &#123;</span><br><span class="language-javascript">                        <span class="hljs-string">&#x27;Content-Type&#x27;</span>: <span class="hljs-string">&#x27;application/json&#x27;</span></span><br><span class="language-javascript">                    &#125;,</span><br><span class="language-javascript">                    <span class="hljs-attr">body</span>: <span class="hljs-title class_">JSON</span>.<span class="hljs-title function_">stringify</span>(&#123; username, password &#125;)</span><br><span class="language-javascript">                &#125;);</span><br><span class="language-javascript">                </span><br><span class="language-javascript">                <span class="hljs-keyword">const</span> data = <span class="hljs-keyword">await</span> response.<span class="hljs-title function_">json</span>();</span><br><span class="language-javascript">                </span><br><span class="language-javascript">                <span class="hljs-keyword">if</span> (response.<span class="hljs-property">ok</span>) &#123;</span><br><span class="language-javascript">                    token = data.<span class="hljs-property">token</span>;</span><br><span class="language-javascript">                    <span class="hljs-variable language_">document</span>.<span class="hljs-title function_">getElementById</span>(<span class="hljs-string">&#x27;loginResult&#x27;</span>).<span class="hljs-property">textContent</span> = <span class="hljs-string">`登录成功: <span class="hljs-subst">$&#123;data.message&#125;</span>`</span>;</span><br><span class="language-javascript">                    <span class="hljs-variable language_">document</span>.<span class="hljs-title function_">getElementById</span>(<span class="hljs-string">&#x27;loginResult&#x27;</span>).<span class="hljs-property">classList</span>.<span class="hljs-title function_">remove</span>(<span class="hljs-string">&#x27;hidden&#x27;</span>);</span><br><span class="language-javascript">                    <span class="hljs-variable language_">document</span>.<span class="hljs-title function_">getElementById</span>(<span class="hljs-string">&#x27;loginSection&#x27;</span>).<span class="hljs-property">classList</span>.<span class="hljs-title function_">add</span>(<span class="hljs-string">&#x27;hidden&#x27;</span>);</span><br><span class="language-javascript">                    <span class="hljs-variable language_">document</span>.<span class="hljs-title function_">getElementById</span>(<span class="hljs-string">&#x27;secretSection&#x27;</span>).<span class="hljs-property">classList</span>.<span class="hljs-title function_">remove</span>(<span class="hljs-string">&#x27;hidden&#x27;</span>);</span><br><span class="language-javascript">                &#125; <span class="hljs-keyword">else</span> &#123;</span><br><span class="language-javascript">                    <span class="hljs-variable language_">document</span>.<span class="hljs-title function_">getElementById</span>(<span class="hljs-string">&#x27;loginResult&#x27;</span>).<span class="hljs-property">textContent</span> = <span class="hljs-string">`错误: <span class="hljs-subst">$&#123;data.error&#125;</span>`</span>;</span><br><span class="language-javascript">                    <span class="hljs-variable language_">document</span>.<span class="hljs-title function_">getElementById</span>(<span class="hljs-string">&#x27;loginResult&#x27;</span>).<span class="hljs-property">classList</span>.<span class="hljs-title function_">remove</span>(<span class="hljs-string">&#x27;hidden&#x27;</span>);</span><br><span class="language-javascript">                &#125;</span><br><span class="language-javascript">            &#125; <span class="hljs-keyword">catch</span> (error) &#123;</span><br><span class="language-javascript">                <span class="hljs-variable language_">document</span>.<span class="hljs-title function_">getElementById</span>(<span class="hljs-string">&#x27;loginResult&#x27;</span>).<span class="hljs-property">textContent</span> = <span class="hljs-string">`发生错误: <span class="hljs-subst">$&#123;error.message&#125;</span>`</span>;</span><br><span class="language-javascript">                <span class="hljs-variable language_">document</span>.<span class="hljs-title function_">getElementById</span>(<span class="hljs-string">&#x27;loginResult&#x27;</span>).<span class="hljs-property">classList</span>.<span class="hljs-title function_">remove</span>(<span class="hljs-string">&#x27;hidden&#x27;</span>);</span><br><span class="language-javascript">            &#125;</span><br><span class="language-javascript">        &#125;);</span><br><span class="language-javascript">        </span><br><span class="language-javascript">        <span class="hljs-variable language_">document</span>.<span class="hljs-title function_">getElementById</span>(<span class="hljs-string">&#x27;getSecretBtn&#x27;</span>).<span class="hljs-title function_">addEventListener</span>(<span class="hljs-string">&#x27;click&#x27;</span>, <span class="hljs-title function_">async</span> () =&gt; &#123;</span><br><span class="language-javascript">            <span class="hljs-keyword">try</span> &#123;</span><br><span class="language-javascript">                <span class="hljs-keyword">const</span> response = <span class="hljs-keyword">await</span> <span class="hljs-title function_">fetch</span>(<span class="hljs-string">&#x27;/get_secret&#x27;</span>, &#123;</span><br><span class="language-javascript">                    <span class="hljs-attr">method</span>: <span class="hljs-string">&#x27;GET&#x27;</span>,</span><br><span class="language-javascript">                    <span class="hljs-attr">headers</span>: &#123;</span><br><span class="language-javascript">                        <span class="hljs-string">&#x27;Authorization&#x27;</span>: token</span><br><span class="language-javascript">                    &#125;</span><br><span class="language-javascript">                &#125;);</span><br><span class="language-javascript">                </span><br><span class="language-javascript">                <span class="hljs-keyword">const</span> data = <span class="hljs-keyword">await</span> response.<span class="hljs-title function_">json</span>();</span><br><span class="language-javascript">                </span><br><span class="language-javascript">                <span class="hljs-keyword">if</span> (response.<span class="hljs-property">ok</span>) &#123;</span><br><span class="language-javascript">                    <span class="hljs-keyword">let</span> resultText = <span class="hljs-string">`<span class="hljs-subst">$&#123;data.message&#125;</span>\n\n`</span>;</span><br><span class="language-javascript">                    </span><br><span class="language-javascript">                    <span class="hljs-keyword">if</span> (data.<span class="hljs-property">public</span>) &#123;</span><br><span class="language-javascript">                        resultText += <span class="hljs-string">`<span class="hljs-subst">$&#123;data.public&#125;</span>\n\n`</span>;</span><br><span class="language-javascript">                    &#125;</span><br><span class="language-javascript">                    </span><br><span class="language-javascript">                    <span class="hljs-keyword">if</span> (data.<span class="hljs-property">confidential</span>) &#123;</span><br><span class="language-javascript">                        resultText += <span class="hljs-string">`猫猫信息: <span class="hljs-subst">$&#123;data.confidential&#125;</span>\n\n`</span>;</span><br><span class="language-javascript">                    &#125;</span><br><span class="language-javascript">                    </span><br><span class="language-javascript">                    <span class="hljs-keyword">if</span> (data.<span class="hljs-property">flag</span>) &#123;</span><br><span class="language-javascript">                        resultText += <span class="hljs-string">`Flag: <span class="hljs-subst">$&#123;data.flag&#125;</span>`</span>;</span><br><span class="language-javascript">                    &#125;</span><br><span class="language-javascript">                    </span><br><span class="language-javascript">                    <span class="hljs-variable language_">document</span>.<span class="hljs-title function_">getElementById</span>(<span class="hljs-string">&#x27;secretResult&#x27;</span>).<span class="hljs-property">textContent</span> = resultText;</span><br><span class="language-javascript">                &#125; <span class="hljs-keyword">else</span> &#123;</span><br><span class="language-javascript">                    <span class="hljs-variable language_">document</span>.<span class="hljs-title function_">getElementById</span>(<span class="hljs-string">&#x27;secretResult&#x27;</span>).<span class="hljs-property">textContent</span> = <span class="hljs-string">`错误: <span class="hljs-subst">$&#123;data.error&#125;</span>`</span>;</span><br><span class="language-javascript">                &#125;</span><br><span class="language-javascript">                </span><br><span class="language-javascript">                <span class="hljs-variable language_">document</span>.<span class="hljs-title function_">getElementById</span>(<span class="hljs-string">&#x27;secretResult&#x27;</span>).<span class="hljs-property">classList</span>.<span class="hljs-title function_">remove</span>(<span class="hljs-string">&#x27;hidden&#x27;</span>);</span><br><span class="language-javascript">            &#125; <span class="hljs-keyword">catch</span> (error) &#123;</span><br><span class="language-javascript">                <span class="hljs-variable language_">document</span>.<span class="hljs-title function_">getElementById</span>(<span class="hljs-string">&#x27;secretResult&#x27;</span>).<span class="hljs-property">textContent</span> = <span class="hljs-string">`发生错误: <span class="hljs-subst">$&#123;error.message&#125;</span>`</span>;</span><br><span class="language-javascript">                <span class="hljs-variable language_">document</span>.<span class="hljs-title function_">getElementById</span>(<span class="hljs-string">&#x27;secretResult&#x27;</span>).<span class="hljs-property">classList</span>.<span class="hljs-title function_">remove</span>(<span class="hljs-string">&#x27;hidden&#x27;</span>);</span><br><span class="language-javascript">            &#125;</span><br><span class="language-javascript">        &#125;);</span><br><span class="language-javascript">        </span><br><span class="language-javascript">        <span class="hljs-variable language_">document</span>.<span class="hljs-title function_">getElementById</span>(<span class="hljs-string">&#x27;logoutBtn&#x27;</span>).<span class="hljs-title function_">addEventListener</span>(<span class="hljs-string">&#x27;click&#x27;</span>, <span class="hljs-function">() =&gt;</span> &#123;</span><br><span class="language-javascript">            token = <span class="hljs-string">&#x27;&#x27;</span>;</span><br><span class="language-javascript">            <span class="hljs-variable language_">document</span>.<span class="hljs-title function_">getElementById</span>(<span class="hljs-string">&#x27;username&#x27;</span>).<span class="hljs-property">value</span> = <span class="hljs-string">&#x27;&#x27;</span>;</span><br><span class="language-javascript">            <span class="hljs-variable language_">document</span>.<span class="hljs-title function_">getElementById</span>(<span class="hljs-string">&#x27;password&#x27;</span>).<span class="hljs-property">value</span> = <span class="hljs-string">&#x27;&#x27;</span>;</span><br><span class="language-javascript">            <span class="hljs-variable language_">document</span>.<span class="hljs-title function_">getElementById</span>(<span class="hljs-string">&#x27;loginResult&#x27;</span>).<span class="hljs-property">classList</span>.<span class="hljs-title function_">add</span>(<span class="hljs-string">&#x27;hidden&#x27;</span>);</span><br><span class="language-javascript">            <span class="hljs-variable language_">document</span>.<span class="hljs-title function_">getElementById</span>(<span class="hljs-string">&#x27;secretResult&#x27;</span>).<span class="hljs-property">classList</span>.<span class="hljs-title function_">add</span>(<span class="hljs-string">&#x27;hidden&#x27;</span>);</span><br><span class="language-javascript">            <span class="hljs-variable language_">document</span>.<span class="hljs-title function_">getElementById</span>(<span class="hljs-string">&#x27;secretSection&#x27;</span>).<span class="hljs-property">classList</span>.<span class="hljs-title function_">add</span>(<span class="hljs-string">&#x27;hidden&#x27;</span>);</span><br><span class="language-javascript">            <span class="hljs-variable language_">document</span>.<span class="hljs-title function_">getElementById</span>(<span class="hljs-string">&#x27;loginSection&#x27;</span>).<span class="hljs-property">classList</span>.<span class="hljs-title function_">remove</span>(<span class="hljs-string">&#x27;hidden&#x27;</span>);</span><br><span class="language-javascript">        &#125;);</span><br><span class="language-javascript">    </span><span class="hljs-tag">&lt;/<span class="hljs-name">script</span>&gt;</span><br></code></pre></td></tr></table></figure>
+
+<p>发现存在一个<code>/get_secret</code>路由，存在有<code>Authorization</code>进行认证，测试后发现是<code>JWT</code>认证，伪造成<code>admin</code>去访问</p>
+<p><img src="/./assets/image-20250522111905489.png" srcset="/img/loading.gif" lazyload alt="image-20250522111905489"></p>
+<p>但是会得到<code>Invalid token: Invalid algorithm</code>报错</p>
+<p><img src="/./assets/image-20250522111932989.png" srcset="/img/loading.gif" lazyload alt="image-20250522111932989"></p>
+<p>JWT存在一个CVE漏洞</p>
+<blockquote>
+<p>在JWT的Header中alg的值用于告诉服务器使用哪种算法对令牌进行签名，从而告诉服务器在验证签名时需要使用哪种算法，目前可以选择HS256，即HMAC和SHA256，JWT同时也支持将算法设定为”None”，如果”alg”字段设为”None”，则标识不签名，这样一来任何token都是有效的</p>
+</blockquote>
+<p>所以这里可以将<code>alg</code>部分设置为<code>None</code>绕过</p>
+<p>JWT网站：<a target="_blank" rel="noopener" href="https://jwt.io/">https://jwt.io/</a></p>
+<p><img src="/./assets/image-20250522112129697.png" srcset="/img/loading.gif" lazyload alt="image-20250522112129697"></p>
+<p>就会得到如下信息</p>
+<p><img src="/./assets/image-20250522112159988.png" srcset="/img/loading.gif" lazyload alt="image-20250522112159988"></p>
+<p>十六进制转化后是</p>
+<figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs json"><span class="hljs-punctuation">&#123;</span><br>    <span class="hljs-attr">&quot;message&quot;</span><span class="hljs-punctuation">:</span><span class="hljs-string">&quot;欢迎 admin&quot;</span><span class="hljs-punctuation">,</span><br>    <span class="hljs-attr">&quot;public&quot;</span><span class="hljs-punctuation">:</span><span class="hljs-string">&quot;喵喵喵？你想看什么捏&quot;</span><br><span class="hljs-punctuation">&#125;</span><br></code></pre></td></tr></table></figure>
+
+<p>权限还是不够获得flag，继续构造jwt的payload部分，常见的权限字符串有：<code>role</code>，<code>account</code>，<code>isAdmin</code>等，经过尝试后发现是<code>role</code></p>
+<p><img src="/./assets/image-20250522113032964.png" srcset="/img/loading.gif" lazyload alt="image-20250522113032964"></p>
+<p><img src="/./assets/image-20250522113046029.png" srcset="/img/loading.gif" lazyload alt="image-20250522113046029"></p>
+<h1 id="CatNet"><a href="#CatNet" class="headerlink" title="CatNet"></a>CatNet</h1><p>用<code>dirsearch</code>可以扫出<code>/admin</code>路由</p>
+<p><img src="/./assets/image-20250521193326629.png" srcset="/img/loading.gif" lazyload alt="image-20250521193326629"></p>
+<p>访问会看到有IP，想到伪造XFF</p>
+<p><img src="/./assets/image-20250521193641312.png" srcset="/img/loading.gif" lazyload alt="image-20250521193641312"></p>
+<figure class="highlight apache"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs apache"><span class="hljs-attribute">X</span>-Forwarded-For: <span class="hljs-number">127.0.0.1</span><br></code></pre></td></tr></table></figure>
+
+<p><img src="/./assets/image-20250521194020766.png" srcset="/img/loading.gif" lazyload alt="image-20250521194020766"></p>
+<p>看源码，会发现有<code>authentication </code>认证，是<code>X-Internal-Auth</code>，<code>getflag</code>是访问<code>/admin/flag</code></p>
+<p><img src="/./assets/image-20250521194505342.png" srcset="/img/loading.gif" lazyload alt="image-20250521194505342"></p>
+<p>直接bp抓包</p>
+<p><img src="/./assets/image-20250521194926072.png" srcset="/img/loading.gif" lazyload alt="image-20250521194926072"></p>
+<p>放到<code>Intruder</code>中爆破出正确的<code>X-Internal-Auth</code>，手动加上这个请求头与payload</p>
+<p><img src="/./assets/image-20250521195049079.png" srcset="/img/loading.gif" lazyload alt="image-20250521195049079"></p>
+<p>成功爆破出是123</p>
+<p><img src="/./assets/image-20250521195228885.png" srcset="/img/loading.gif" lazyload alt="image-20250521195228885"></p>
+<h1 id="ezblog"><a href="#ezblog" class="headerlink" title="ezblog"></a>ezblog</h1><p>使用反编译工具查看附件源码，在<code>dashboard.class</code>中看到有一个<code>/backdoor</code>路由，满足传参<code>key</code>等于正确的<code>key</code>即可获取flag</p>
+<p><img src="/./assets/image-20250521201332033.png" srcset="/img/loading.gif" lazyload alt="image-20250521201332033"></p>
+<p>然后是<code>app.class</code>文件，这里设置了<code>assets</code>的目录为<code>/app/assets</code></p>
+<p><img src="/./assets/image-20250521202235881.png" srcset="/img/loading.gif" lazyload alt="image-20250521202235881"></p>
+<p>点击<code>FileStaticRepository</code>跳转到<code>FileStaticRepository.class</code>文件</p>
+<p><img src="/./assets/image-20250521202631294.png" srcset="/img/loading.gif" lazyload alt="image-20250521202631294"></p>
+<p>可以看到这段代码</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-keyword">public</span> URL <span class="hljs-title function_">find</span><span class="hljs-params">(String relativePath)</span> <span class="hljs-keyword">throws</span> Exception &#123;<br>        <span class="hljs-type">File</span> <span class="hljs-variable">file</span> <span class="hljs-operator">=</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">File</span>(location, relativePath);<br><br>        <span class="hljs-keyword">if</span> (file.exists()) &#123;<br>            <span class="hljs-keyword">return</span> file.toURI().toURL();<br>        &#125; <span class="hljs-keyword">else</span> &#123;<br>            <span class="hljs-keyword">return</span> <span class="hljs-literal">null</span>;<br>        &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<p>在上一个文件知道了<code>assets</code>的目录为<code>/app/assets</code>，如果在后面添加<code>../../etc/passwd</code>，最后就会得到<code>/etc/passwd</code></p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs php"><span class="hljs-comment"># 访问网站</span><br>http:<span class="hljs-comment">//challenge.qsnctf.com:31555/assets/../../etc/passwd</span><br><span class="hljs-comment"># 返回内容</span><br>http:<span class="hljs-comment">//challenge.qsnctf.com:31555/etc/passwd</span><br></code></pre></td></tr></table></figure>
+
+<p>访问<code>/assets/..</code>可以得到上级目录文件，会发现有个<code>app.jar</code>文件，这就是真正的<code>app.jar</code>文件</p>
+<p><img src="/./assets/image-20250522104806394.png" srcset="/img/loading.gif" lazyload alt="image-20250522104806394"></p>
+<p>通过访问<code>/assets/../app.jar</code>，就可以获取<code>/app</code>下的<code>app.jar</code>文件</p>
+<p>先抓包修改成访问<code>/assets/../app.jar</code></p>
+<p><img src="/./assets/image-20250522105757109.png" srcset="/img/loading.gif" lazyload alt="image-20250522105757109"></p>
+<p>改好之后直接放包，就可以下载到<code>app.jar</code>文件了</p>
+<p><img src="/./assets/image-20250522105903757.png" srcset="/img/loading.gif" lazyload alt="image-20250522105903757"></p>
+<p>将下载得到的文件用工具反编译打开，可以在<code>dashboard.class</code>找到<code>realkey</code>为<code>NlRVANA@007</code></p>
+<p><img src="/./assets/image-20250522105949967.png" srcset="/img/loading.gif" lazyload alt="image-20250522105949967"></p>
+<p>最后就是访问<code>/backdoor</code>路由，然后GET传参<code>key</code>为<code>NlRVANA@007</code></p>
+<figure class="highlight routeros"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs routeros">/backdoor?<span class="hljs-attribute">key</span>=NlRVANA@007<br></code></pre></td></tr></table></figure>
+
+<p><img src="/./assets/image-20250522110141998.png" srcset="/img/loading.gif" lazyload alt="image-20250522110141998"></p>
+<h1 id="CatShell"><a href="#CatShell" class="headerlink" title="CatShell"></a>CatShell</h1><p>我太菜了，不会做。。。</p>
+
+                
+              </div>
+            
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+    <div class="post-meta mr-3 d-flex align-items-center">
+      <i class="iconfont icon-category"></i>
+      
+
+<span class="category-chains">
+  
+  
+    
+      <span class="category-chain">
+        
+  <a href="/categories/%E6%AF%94%E8%B5%9B%E5%A4%8D%E7%8E%B0/" class="category-chain-item">比赛复现</a>
+  
+  
+
+      </span>
+    
+  
+</span>
+
+    </div>
+  
+  
+    <div class="post-meta">
+      <i class="iconfont icon-tags"></i>
+      
+        <a href="/tags/%E6%AF%94%E8%B5%9B%E5%A4%8D%E7%8E%B0/" class="print-no-link">#比赛复现</a>
+      
+    </div>
+  
+</div>
+
+
+              
+  
+
+  <div class="license-box my-3">
+    <div class="license-title">
+      <div>第二届帕鲁杯web复现</div>
+      <div>https://yschen20.github.io/2025/05/22/第二届帕鲁杯web复现/</div>
+    </div>
+    <div class="license-meta">
+      
+        <div class="license-meta-item">
+          <div>作者</div>
+          <div>chen</div>
+        </div>
+      
+      
+        <div class="license-meta-item license-meta-date">
+          <div>发布于</div>
+          <div>2025年5月22日</div>
+        </div>
+      
+      
+        <div class="license-meta-item license-meta-date">
+          <div>更新于</div>
+          <div>2025年5月22日</div>
+        </div>
+      
+      
+        <div class="license-meta-item">
+          <div>许可协议</div>
+          <div>
+            
+              
+              
+                <a class="print-no-link" target="_blank" href="https://creativecommons.org/licenses/by/4.0/">
+                  <span class="hint--top hint--rounded" aria-label="BY - 署名">
+                    <i class="iconfont icon-cc-by"></i>
+                  </span>
+                </a>
+              
+            
+          </div>
+        </div>
+      
+    </div>
+    <div class="license-icon iconfont"></div>
+  </div>
+
+
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2025/05/09/SSRF%E5%AD%A6%E4%B9%A0/" title="SSRF学习">
+                        <span class="hidden-mobile">SSRF学习</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+  
+  
+    <article id="comments" lazyload>
+      
+  <div id="twikoo"></div>
+  <script type="text/javascript">
+    Fluid.utils.loadComments('#comments', function() {
+      Fluid.utils.createScript('https://lib.baomitu.com/twikoo/1.6.8/twikoo.all.min.js', function() {
+        var options = Object.assign(
+          {"envId":"https://imagegoo-twikoo.hf.space","region":"ap-shanghai","path":"window.location.pathname"},
+          {
+            el: '#twikoo',
+            path: 'window.location.pathname',
+            onCommentLoaded: function() {
+              Fluid.utils.listenDOMLoaded(function() {
+                var imgSelector = '#twikoo .tk-content img:not(.tk-owo-emotion)';
+                Fluid.plugins.imageCaption(imgSelector);
+                Fluid.plugins.fancyBox(imgSelector);
+              });
+            }
+          }
+        )
+        twikoo.init(options)
+      });
+    });
+  </script>
+  <noscript>Please enable JavaScript to view the comments</noscript>
+
+
+    </article>
+  
+
+
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="margin-left: -1rem">
+    <div id="toc">
+  <p class="toc-header">
+    <i class="iconfont icon-list"></i>
+    <span>目录</span>
+  </p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+  
+    <div class="footer-content">
+       <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+    </div>
+  
+  
+    <div class="statistics">
+  
+  
+
+  
+    
+      <span id="busuanzi_container_site_pv" style="display: none">
+        总访问量 
+        <span id="busuanzi_value_site_pv"></span>
+         次
+      </span>
+    
+    
+      <span id="busuanzi_container_site_uv" style="display: none">
+        总访客数 
+        <span id="busuanzi_value_site_uv"></span>
+         人
+      </span>
+    
+    
+
+  
+
+</div>
+
+  
+  
+</div>
+
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://lib.baomitu.com/jquery/3.6.4/jquery.min.js" ></script>
+<script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+
+  <script  src="https://lib.baomitu.com/typed.js/2.0.12/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var subtitle = document.getElementById('subtitle');
+      if (!subtitle || !typing) {
+        return;
+      }
+      var text = subtitle.getAttribute('data-typed-text');
+      
+        typing(text);
+      
+    })(window, document);
+  </script>
+
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+
+  
+<script>
+  var relativeDate = function() {
+    var updatedTime = document.getElementById('updated-time');
+    if (updatedTime) {
+      var text = updatedTime.textContent;
+      var reg = /\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}(?:Z|[+-]\d{2}:\d{2})/;
+      var matchs = text.match(reg);
+      if (matchs) {
+        var relativeTime = moment(matchs[0]).fromNow();
+        updatedTime.textContent = text.replace(reg, relativeTime);
+      }
+      updatedTime.style.display = '';
+    }
+  };
+  Fluid.utils.createScript('https://lib.baomitu.com/moment.js/2.29.4/moment.min.js', function() {
+    if (!'zh-cn'.startsWith('en')) {
+      Fluid.utils.createScript('https://lib.baomitu.com/moment.js/2.29.4/locale/zh-cn.min.js', function() {
+        relativeDate();
+      });
+    } else {
+      relativeDate();
+    }
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/tocbot/4.20.1/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    window.tocbot.init(Object.assign({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      scrollSmooth    : true,
+      includeTitleTags: true,
+      headingsOffset  : -boardTop,
+    }, CONFIG.toc));
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('tocbot' in window) {
+        tocbot.refresh();
+        var toc = jQuery('#toc');
+        if (toc.length === 0 || !tocbot) {
+          return;
+        }
+        if (toc.find('.toc-list-item').length > 0) {
+          toc.css('visibility', 'visible');
+        }
+      }
+    });
+  });
+</script>
+
+
+  <script src=https://lib.baomitu.com/clipboard.js/2.0.11/clipboard.min.js></script>
+
+  <script>Fluid.plugins.codeWidget();</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/anchor-js/5.0.0/anchor.min.js', function() {
+    window.anchors.options = {
+      placement: CONFIG.anchorjs.placement,
+      visible  : CONFIG.anchorjs.visible
+    };
+    if (CONFIG.anchorjs.icon) {
+      window.anchors.options.icon = CONFIG.anchorjs.icon;
+    }
+    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+    var res = [];
+    for (var item of el) {
+      res.push('.markdown-body > ' + item.trim());
+    }
+    if (CONFIG.anchorjs.placement === 'left') {
+      window.anchors.options.class = 'anchorjs-link-left';
+    }
+    window.anchors.add(res.join(', '));
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('anchors' in window) {
+        anchors.removeAll();
+        var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+        var res = [];
+        for (var item of el) {
+          res.push('.markdown-body > ' + item.trim());
+        }
+        if (CONFIG.anchorjs.placement === 'left') {
+          anchors.options.class = 'anchorjs-link-left';
+        }
+        anchors.add(res.join(', '));
+      }
+    });
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
+
+  <script  src="/js/local-search.js" ></script>
+
+  <script defer src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js" ></script>
+
+
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">博客在允许 JavaScript 运行的环境下浏览效果更佳</div>
+  </noscript>
+</body>
+</html>
