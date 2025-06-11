@@ -4,6 +4,33 @@
   
   
   <entry>
+    <title>MySQL8-特性注入-TABLE</title>
+    <link href="/2025/06/11/MySQL8-%E7%89%B9%E6%80%A7%E6%B3%A8%E5%85%A5-TABLE/"/>
+    <url>/2025/06/11/MySQL8-%E7%89%B9%E6%80%A7%E6%B3%A8%E5%85%A5-TABLE/</url>
+    
+    <content type="html"><![CDATA[<blockquote><p>MySQL8 环境搭建：<a href="https://www.cnblogs.com/2020javamianshibaodian/p/12906655.html">https://www.cnblogs.com/2020javamianshibaodian/p/12906655.html</a></p></blockquote><h1 id="table"><a href="#table" class="headerlink" title="table"></a>table</h1><p>官方文档：<a href="https://dev.mysql.com/doc/refman/8.0/en/table.html">https://dev.mysql.com/doc/refman/8.0/en/table.html</a></p><p><code>table</code>函数是MySQL8版本新增的函数，作用和<code>select</code>函数类似，作用是列出表中的全部信息，但是前提是要知道表名</p><p>规范语法</p><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs SQL"><span class="hljs-keyword">TABLE</span> table_name [<span class="hljs-keyword">ORDER</span> <span class="hljs-keyword">BY</span> column_name] [LIMIT number [<span class="hljs-keyword">OFFSET</span> number]] <br></code></pre></td></tr></table></figure><h3 id="使用table函数查询users表中的内容，结果和常规的使用select查询一致"><a href="#使用table函数查询users表中的内容，结果和常规的使用select查询一致" class="headerlink" title="使用table函数查询users表中的内容，结果和常规的使用select查询一致"></a>使用<code>table</code>函数查询<code>users</code>表中的内容，结果和常规的使用<code>select</code>查询一致</h3><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs SQL"><span class="hljs-keyword">table</span> users;<br></code></pre></td></tr></table></figure><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs SQL"><span class="hljs-keyword">select</span> <span class="hljs-operator">*</span> <span class="hljs-keyword">from</span> users;<br></code></pre></td></tr></table></figure><p><img src="/2025/06/11/MySQL8-%E7%89%B9%E6%80%A7%E6%B3%A8%E5%85%A5-TABLE/image-20250611212135187-1749650906498-7.png" alt="image-20250611212135187"></p><h3 id="table支持order-by、limit、offset等限制条件"><a href="#table支持order-by、limit、offset等限制条件" class="headerlink" title="table支持order by、limit、offset等限制条件"></a><code>table</code>支持<code>order by</code>、<code>limit</code>、<code>offset</code>等限制条件</h3><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs SQL"><span class="hljs-keyword">table</span> num <span class="hljs-keyword">order</span> <span class="hljs-keyword">by</span> b;<br></code></pre></td></tr></table></figure><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs SQL"><span class="hljs-keyword">table</span> num limit <span class="hljs-number">3</span>;<br></code></pre></td></tr></table></figure><p><img src="/2025/06/11/MySQL8-%E7%89%B9%E6%80%A7%E6%B3%A8%E5%85%A5-TABLE/image-20250611213923292-1749650906498-9.png" alt="image-20250611213923292"></p><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs SQL"><span class="hljs-keyword">table</span> num <span class="hljs-keyword">order</span> <span class="hljs-keyword">by</span> b limit <span class="hljs-number">3</span>;<br></code></pre></td></tr></table></figure><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs SQL"><span class="hljs-keyword">table</span> num <span class="hljs-keyword">order</span> <span class="hljs-keyword">by</span> b limit <span class="hljs-number">3</span> <span class="hljs-keyword">offset</span> <span class="hljs-number">2</span>;<br></code></pre></td></tr></table></figure><p><img src="/2025/06/11/MySQL8-%E7%89%B9%E6%80%A7%E6%B3%A8%E5%85%A5-TABLE/image-20250611214201800-1749650906498-6.png" alt="image-20250611214201800"></p><h3 id="table支持union联合查询"><a href="#table支持union联合查询" class="headerlink" title="table支持union联合查询"></a><code>table</code>支持<code>union</code>联合查询</h3><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs sql"><span class="hljs-keyword">table</span> num1 <span class="hljs-keyword">union</span> <span class="hljs-keyword">table</span> num2;<br></code></pre></td></tr></table></figure><p><img src="/2025/06/11/MySQL8-%E7%89%B9%E6%80%A7%E6%B3%A8%E5%85%A5-TABLE/image-20250611214914075-1749650906498-10.png" alt="image-20250611214914075"></p><h3 id="不可以使用where限定查询某一行"><a href="#不可以使用where限定查询某一行" class="headerlink" title="不可以使用where限定查询某一行"></a>不可以使用<code>where</code>限定查询某一行</h3><p><img src="/2025/06/11/MySQL8-%E7%89%B9%E6%80%A7%E6%B3%A8%E5%85%A5-TABLE/image-20250611215902088-1749650906498-8.png" alt="image-20250611215902088"></p>]]></content>
+    
+    
+    <categories>
+      
+      <category>漏洞笔记</category>
+      
+      <category>SQL注入</category>
+      
+    </categories>
+    
+    
+    <tags>
+      
+      <tag>MySQL8特性注入</tag>
+      
+    </tags>
+    
+  </entry>
+  
+  
+  
+  <entry>
     <title>HNCTF-2025-部分web复现</title>
     <link href="/2025/06/10/H&amp;NCTF-2025-%E9%83%A8%E5%88%86web%E5%A4%8D%E7%8E%B0/"/>
     <url>/2025/06/10/H&amp;NCTF-2025-%E9%83%A8%E5%88%86web%E5%A4%8D%E7%8E%B0/</url>
