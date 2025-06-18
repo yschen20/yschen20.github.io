@@ -83,6 +83,10 @@ Fluid.events = {
     if (board.length === 0) {
       return;
     }
+    var arrowUpIcon = jQuery('#scroll-top-button i');
+    if(arrowUpIcon.length === 0){
+      return;
+    }
     var posDisplay = false;
     var scrollDisplay = false;
     // Position
@@ -92,8 +96,13 @@ Fluid.events = {
       var right = bodyWidth - boardRight;
       posDisplay = right >= 50;
       topArrow.css({
-        'bottom': posDisplay && scrollDisplay ? '20px' : '-60px',
-        'right' : right - 64 + 'px'
+        'bottom': scrollDisplay ? '20px' : '-60px',
+        'right' : posDisplay ? right - 64 : 8 + 'px',
+        'min-width' : posDisplay ? 40 : 28 + 'px',
+        'min-height' : posDisplay ? 40 : 28 + 'px'
+      });
+      arrowUpIcon.css({
+        'font-size' : posDisplay ? 32 : 20 + 'px'
       });
     };
     setTopArrowPos();
@@ -104,7 +113,7 @@ Fluid.events = {
       var scrollHeight = document.body.scrollTop + document.documentElement.scrollTop;
       scrollDisplay = scrollHeight >= headerHeight;
       topArrow.css({
-        'bottom': posDisplay && scrollDisplay ? '20px' : '-60px'
+        'bottom': scrollDisplay ? '20px' : '-60px'
       });
     });
     // Click
@@ -115,6 +124,7 @@ Fluid.events = {
       });
     });
   },
+
 
   registerImageLoadedEvent: function() {
     if (!('NProgress' in window)) { return; }
