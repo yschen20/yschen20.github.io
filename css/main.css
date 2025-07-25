@@ -848,10 +848,10 @@ i.iconfont {
   --color-mode: "light";
   --body-bg-color: #FFFAFA;
   --board-bg-color: #ffffff80;
-  --text-color: #3c4858;
+  --text-color: #000000;
   --sec-text-color: #718096;
-  --post-text-color: #2c3e50;
-  --post-heading-color: #1a202c;
+  --post-text-color: #000000;
+  --post-heading-color: #000000;
   --post-link-color: #0366d6;
   --link-hover-color: #30a9de;
   --link-hover-bg-color: #f8f9fa;
@@ -865,7 +865,7 @@ i.iconfont {
   --button-hover-bg-color: #f2f3f5;
   --highlight-bg-color: #f6f8fa;
   --inlinecode-bg-color: rgba(175,184,193,0.2);
-  --fold-title-color: #3c4858;
+  --fold-title-color: #000000;
   --fold-border-color: #eaecef;
 }
 @media (prefers-color-scheme: dark) {
@@ -875,10 +875,10 @@ i.iconfont {
   :root:not([data-user-color-scheme]) {
     --body-bg-color: #363636;
     --board-bg-color: #00000080;
-    --text-color: #c4c6c9;
+    --text-color: #FFFFFF;
     --sec-text-color: #a7a9ad;
-    --post-text-color: #c4c6c9;
-    --post-heading-color: #c4c6c9;
+    --post-text-color: #FFFFFF;
+    --post-heading-color: #FFFFFF;
     --post-link-color: #1589e9;
     --link-hover-color: #30a9de;
     --link-hover-bg-color: #364151;
@@ -892,7 +892,7 @@ i.iconfont {
     --button-hover-bg-color: #46647e;
     --highlight-bg-color: #1C1D21;
     --inlinecode-bg-color: rgba(99,110,123,0.4);
-    --fold-title-color: #c4c6c9;
+    --fold-title-color: #FFFFFF;
     --fold-border-color: #435266;
   }
   :root:not([data-user-color-scheme]) img {
@@ -929,10 +929,10 @@ i.iconfont {
   [data-user-color-scheme="dark"] {
     --body-bg-color: #363636;
     --board-bg-color: #00000080;
-    --text-color: #c4c6c9;
+    --text-color: #FFFFFF;
     --sec-text-color: #a7a9ad;
-    --post-text-color: #c4c6c9;
-    --post-heading-color: #c4c6c9;
+    --post-text-color: #FFFFFF;
+    --post-heading-color: #FFFFFF;
     --post-link-color: #1589e9;
     --link-hover-color: #30a9de;
     --link-hover-bg-color: #364151;
@@ -946,7 +946,7 @@ i.iconfont {
     --button-hover-bg-color: #46647e;
     --highlight-bg-color: #1C1D21;
     --inlinecode-bg-color: rgba(99,110,123,0.4);
-    --fold-title-color: #c4c6c9;
+    --fold-title-color: #FFFFFF;
     --fold-border-color: #435266;
   }
   [data-user-color-scheme="dark"] img {
