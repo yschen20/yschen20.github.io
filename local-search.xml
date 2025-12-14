@@ -4,6 +4,31 @@
   
   
   <entry>
+    <title>在IDEA使用CTF中Java题的jar包</title>
+    <link href="/2025/12/14/%E5%9C%A8IDEA%E4%BD%BF%E7%94%A8CTF%E4%B8%ADJava%E9%A2%98%E7%9A%84jar%E5%8C%85/"/>
+    <url>/2025/12/14/%E5%9C%A8IDEA%E4%BD%BF%E7%94%A8CTF%E4%B8%ADJava%E9%A2%98%E7%9A%84jar%E5%8C%85/</url>
+    
+    <content type="html"><![CDATA[<blockquote><p>CTF 中的 Java 题会给<code>.jar</code>包，或者可以从题目中获取到，之前一直不知道怎么用这个包里面的类，找了红烧花园宝宝师傅问了学习一下，这里记录一下</p></blockquote><p>下载到附件的<code>demo.jar</code>包</p><p><img src="/2025/11/12/0xGame2025-WEB-WP/ar%E5%8C%85/image-20251214143708366.png" alt="image-20251214143708366"></p><p>然后在<code>jd-gui</code>里打开</p><p><img src="/2025/11/12/0xGame2025-WEB-WP/ar%E5%8C%85/image-20251214143751815.png" alt="image-20251214143751815"></p><p>找到左上角的 File 里的 Save All Sources</p><p><img src="/2025/11/12/0xGame2025-WEB-WP/ar%E5%8C%85/image-20251214143843311.png" alt="image-20251214143843311"></p><p>将反编译好的源码保存出来，要等一会，得到压缩包</p><p><img src="/2025/11/12/0xGame2025-WEB-WP/ar%E5%8C%85/image-20251214143933811.png" alt="image-20251214143933811"></p><p><img src="/2025/11/12/0xGame2025-WEB-WP/ar%E5%8C%85/image-20251214144012384.png" alt="image-20251214144012384"></p><p>将得到的压缩包解压缩，找到<code>BOOT-INF\classes\</code>目录下的<code>com</code>文件夹（一般是放源码的地方）</p><p><img src="/2025/11/12/0xGame2025-WEB-WP/ar%E5%8C%85/image-20251214144425253.png" alt="image-20251214144425253"></p><p>在 IDEA 中新建个 Maven 项目</p><p><img src="/2025/11/12/0xGame2025-WEB-WP/ar%E5%8C%85/image-20251214144339163.png" alt="image-20251214144339163"></p><p>将<code>com</code>文件夹复制粘贴到<code>src/main/java/</code>目录下</p><p><img src="/2025/11/12/0xGame2025-WEB-WP/ar%E5%8C%85/image-20251214144631272.png" alt="image-20251214144631272"></p><p><img src="/2025/11/12/0xGame2025-WEB-WP/ar%E5%8C%85/image-20251214144655299.png" alt="image-20251214144655299"></p><p>然后找到压缩包解压出来的<code>META-INF\maven\org.example\demo3</code>目录下的<code>pom.xml</code>文件，这里一般都是<code>META-INF\maven\</code>的目录下的吧</p><p><img src="/2025/11/12/0xGame2025-WEB-WP/ar%E5%8C%85/image-20251214144913249.png" alt="image-20251214144913249"></p><p>把里面内容都复制粘贴到项目的<code>pom.xml</code>里，要全部替换掉</p><p><img src="/2025/11/12/0xGame2025-WEB-WP/ar%E5%8C%85/image-20251214145031728.png" alt="image-20251214145031728"></p><p>然后右边会看到一个蓝色的 M 图标</p><p><img src="/2025/11/12/0xGame2025-WEB-WP/ar%E5%8C%85/image-20251214145113722.png" alt="image-20251214145113722"></p><p><img src="/2025/11/12/0xGame2025-WEB-WP/ar%E5%8C%85/image-20251214145126173.png" alt="image-20251214145126173"></p><p>点击同步更新一下，就可以导好所需的外部库了</p><p><img src="/2025/11/12/0xGame2025-WEB-WP/ar%E5%8C%85/image-20251214145158727.png" alt="image-20251214145158727"></p><p>还有就是这些类的源码是要改一改的，都是报错</p><p><img src="/2025/11/12/0xGame2025-WEB-WP/ar%E5%8C%85/image-20251214145309725.png" alt="image-20251214145309725"></p><p>简单改一改就好，比如上面这个就可以改成下面这样，简单改改包路径就好</p><p><img src="/2025/11/12/0xGame2025-WEB-WP/ar%E5%8C%85/image-20251214145407405.png" alt="image-20251214145407405"></p><p>遇到下面这种爆红的，就导入类即可</p><p><img src="/2025/11/12/0xGame2025-WEB-WP/ar%E5%8C%85/image-20251214145513242.png" alt="image-20251214145513242"></p><p><img src="/2025/11/12/0xGame2025-WEB-WP/ar%E5%8C%85/image-20251214145655269.png" alt="image-20251214145655269"></p><p>其他的排版格式啥的就不重要了，能用就行</p><p>然后创建个测试类，就可以正常使用到出题人自定义的类了</p><p><img src="/2025/11/12/0xGame2025-WEB-WP/ar%E5%8C%85/image-20251214150524381.png" alt="image-20251214150524381"></p>]]></content>
+    
+    
+    <categories>
+      
+      <category>环境搭建</category>
+      
+    </categories>
+    
+    
+    <tags>
+      
+      <tag>环境搭建</tag>
+      
+    </tags>
+    
+  </entry>
+  
+  
+  
+  <entry>
     <title>CC1链（LazyMap版）</title>
     <link href="/2025/12/11/CC1%E9%93%BE%EF%BC%88LazyMap%E7%89%88%EF%BC%89/"/>
     <url>/2025/12/11/CC1%E9%93%BE%EF%BC%88LazyMap%E7%89%88%EF%BC%89/</url>
