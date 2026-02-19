@@ -849,7 +849,7 @@ i.iconfont {
   --body-bg-color: #FFFAFA;
   --board-bg-color: #ffffff80;
   --text-color: #000000;
-  --sec-text-color: #718096;
+  --sec-text-color: #000000;
   --post-text-color: #000000;
   --post-heading-color: #000000;
   --post-link-color: #0366d6;
@@ -876,7 +876,7 @@ i.iconfont {
     --body-bg-color: #363636;
     --board-bg-color: #00000080;
     --text-color: #FFFAFA;
-    --sec-text-color: #a7a9ad;
+    --sec-text-color: #E8E8E8;
     --post-text-color: #FFFFFF;
     --post-heading-color: #FFFFFF;
     --post-link-color: #1589e9;
@@ -930,7 +930,7 @@ i.iconfont {
     --body-bg-color: #363636;
     --board-bg-color: #00000080;
     --text-color: #FFFAFA;
-    --sec-text-color: #a7a9ad;
+    --sec-text-color: #E8E8E8;
     --post-text-color: #FFFFFF;
     --post-heading-color: #FFFFFF;
     --post-link-color: #1589e9;
