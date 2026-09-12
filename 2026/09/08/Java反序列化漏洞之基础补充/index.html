@@ -26,18 +26,18 @@
 <meta property="og:site_name" content="Suzen">
 <meta property="og:description" content="前言之前基础学的懵懵懂懂的，到后面学到反序列化，写各种代码，就不知道写什么，为什么这么写，比如 Java 反射，放到序列化漏洞利用里，每次就是照搬来用，没怎么想过每一步为什么这么用（之前也许想过，不过忘了），也挺久没看 Java 了，现在来重温一下基础 反射到现在已经调过了各种链子，感觉反射大部分都是给一些私有字段进行赋特殊值，从而达到触发利用链中某一节点，最终可以让整个链子通了 之前学调链子的时">
 <meta property="og:locale" content="zh_CN">
-<meta property="og:image" content="https://yschen20.github.io/2025/11/12/0xGame2025-WEB-WP/age-20260908153537536.png">
-<meta property="og:image" content="https://yschen20.github.io/2025/11/12/0xGame2025-WEB-WP/age-20260908153632127.png">
-<meta property="og:image" content="https://yschen20.github.io/2025/11/12/0xGame2025-WEB-WP/age-20260908153442943.png">
-<meta property="og:image" content="https://yschen20.github.io/2025/11/12/0xGame2025-WEB-WP/age-20260908161010017.png">
-<meta property="og:image" content="https://yschen20.github.io/2025/11/12/0xGame2025-WEB-WP/age-20260908165229065.png">
-<meta property="og:image" content="https://yschen20.github.io/2025/11/12/0xGame2025-WEB-WP/age-20260908165258590.png">
+<meta property="og:image" content="https://yschen20.github.io/2026/09/08/Java%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96%E6%BC%8F%E6%B4%9E%E4%B9%8B%E5%9F%BA%E7%A1%80%E8%A1%A5%E5%85%85/image-20260908153537536.png">
+<meta property="og:image" content="https://yschen20.github.io/2026/09/08/Java%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96%E6%BC%8F%E6%B4%9E%E4%B9%8B%E5%9F%BA%E7%A1%80%E8%A1%A5%E5%85%85/image-20260908153632127.png">
+<meta property="og:image" content="https://yschen20.github.io/2026/09/08/Java%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96%E6%BC%8F%E6%B4%9E%E4%B9%8B%E5%9F%BA%E7%A1%80%E8%A1%A5%E5%85%85/image-20260908153442943.png">
+<meta property="og:image" content="https://yschen20.github.io/2026/09/08/Java%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96%E6%BC%8F%E6%B4%9E%E4%B9%8B%E5%9F%BA%E7%A1%80%E8%A1%A5%E5%85%85/image-20260908161010017.png">
+<meta property="og:image" content="https://yschen20.github.io/2026/09/08/Java%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96%E6%BC%8F%E6%B4%9E%E4%B9%8B%E5%9F%BA%E7%A1%80%E8%A1%A5%E5%85%85/image-20260908165229065.png">
+<meta property="og:image" content="https://yschen20.github.io/2026/09/08/Java%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96%E6%BC%8F%E6%B4%9E%E4%B9%8B%E5%9F%BA%E7%A1%80%E8%A1%A5%E5%85%85/image-20260908165258590.png">
 <meta property="article:published_time" content="2026-09-08T06:42:32.000Z">
 <meta property="article:modified_time" content="2026-09-08T09:04:38.822Z">
 <meta property="article:author" content="Suzen">
 <meta property="article:tag" content="Java">
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:image" content="https://yschen20.github.io/2025/11/12/0xGame2025-WEB-WP/age-20260908153537536.png">
+<meta name="twitter:image" content="https://yschen20.github.io/2026/09/08/Java%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96%E6%BC%8F%E6%B4%9E%E4%B9%8B%E5%9F%BA%E7%A1%80%E8%A1%A5%E5%85%85/image-20260908153537536.png">
 <meta name="twitter:creator" content="@Suzen">
   
   
@@ -80,6 +80,9 @@
 
   
 <link rel="stylesheet" href="/css/glassbg.css">
+<link rel="stylesheet" href="/css/banner-video.css">
+<link rel="stylesheet" href="/css/hero.css">
+<link rel="stylesheet" href="/css/pages-tweak.css">
 
 
 
@@ -113,7 +116,7 @@
 <meta name="generator" content="Hexo 7.3.0"></head>
 
 
-<body><!-- hexo injector body_begin start --><div id="web_bg"></div><!-- hexo injector body_begin end -->
+<body ><!-- hexo injector body_begin start --><div id="web_bg"></div><!-- hexo injector body_begin end -->
 
     
 
@@ -272,6 +275,18 @@
           
           
             <li class="nav-item">
+              <a class="nav-link" href="/posts/" target="_self">
+                <i class="iconfont icon-books"></i>
+                <span>文章</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
               <a class="nav-link" href="/archives/" target="_self">
                 <i class="iconfont icon-archive-fill"></i>
                 <span>归档</span>
@@ -330,11 +345,13 @@
   <div class="full-bg-img">
     <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
       <div class="banner-text text-center fade-in-up">
+        
         <div class="h2">
           
             <span id="subtitle" data-typed-text="Java反序列化漏洞之基础补充"></span>
           
         </div>
+        
 
         
           
@@ -464,11 +481,11 @@
 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-type">int</span> <span class="hljs-variable">age</span> <span class="hljs-operator">=</span> (<span class="hljs-type">int</span>) field.get(person);<br>System.out.println(age);<br></code></pre></td></tr></table></figure>
 
 <p>先看一下修改前的，注释掉3、4步，会出现报错，因为没权限访问私有字段<code>age</code></p>
-<p><img src="/2025/11/12/0xGame2025-WEB-WP/age-20260908153537536.png" srcset="/img/loading.gif" lazyload alt="image-20260908153537536"></p>
+<p><img src="/2026/09/08/Java%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96%E6%BC%8F%E6%B4%9E%E4%B9%8B%E5%9F%BA%E7%A1%80%E8%A1%A5%E5%85%85/image-20260908153537536.png" srcset="/img/loading.gif" lazyload alt="image-20260908153537536"></p>
 <p>只注释掉第4步，现在就有权限访问到了，可以获取修改前的值</p>
-<p><img src="/2025/11/12/0xGame2025-WEB-WP/age-20260908153632127.png" srcset="/img/loading.gif" lazyload alt="image-20260908153632127"></p>
+<p><img src="/2026/09/08/Java%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96%E6%BC%8F%E6%B4%9E%E4%B9%8B%E5%9F%BA%E7%A1%80%E8%A1%A5%E5%85%85/image-20260908153632127.png" srcset="/img/loading.gif" lazyload alt="image-20260908153632127"></p>
 <p>下面就是修改后的值</p>
-<p><img src="/2025/11/12/0xGame2025-WEB-WP/age-20260908153442943.png" srcset="/img/loading.gif" lazyload alt="image-20260908153442943"></p>
+<p><img src="/2026/09/08/Java%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96%E6%BC%8F%E6%B4%9E%E4%B9%8B%E5%9F%BA%E7%A1%80%E8%A1%A5%E5%85%85/image-20260908153442943.png" srcset="/img/loading.gif" lazyload alt="image-20260908153442943"></p>
 <h1 id="序列化"><a href="#序列化" class="headerlink" title="序列化"></a>序列化</h1><p>拿以前写过的来看，这个方法就接收一个构造好的对象</p>
 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">serialize</span><span class="hljs-params">(Object obj)</span> <span class="hljs-keyword">throws</span> Exception&#123;<br>    <span class="hljs-type">FileOutputStream</span> <span class="hljs-variable">fos</span> <span class="hljs-operator">=</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">FileOutputStream</span>(<span class="hljs-string">&quot;ser.bin&quot;</span>);<br>    <span class="hljs-type">ObjectOutputStream</span> <span class="hljs-variable">oos</span> <span class="hljs-operator">=</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">ObjectOutputStream</span>(fos);<br>    oos.writeObject(obj);<br>    oos.close();<br>&#125;<br></code></pre></td></tr></table></figure>
 
@@ -488,7 +505,7 @@
 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-keyword">import</span> java.io.Serializable;<br><br><span class="hljs-keyword">public</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">Person</span> <span class="hljs-keyword">implements</span> <span class="hljs-title class_">Serializable</span> &#123;<br>    <span class="hljs-keyword">public</span> <span class="hljs-type">String</span> <span class="hljs-variable">name</span> <span class="hljs-operator">=</span> <span class="hljs-string">&quot;Suzen&quot;</span>;<br>    <span class="hljs-keyword">private</span> <span class="hljs-type">int</span> <span class="hljs-variable">age</span> <span class="hljs-operator">=</span> <span class="hljs-number">20</span>;<br>&#125;<br></code></pre></td></tr></table></figure>
 
 <p>在<code>main()</code>方法中调用<code>serialize()</code>方法，将<code>person</code>对象序列化，可以看到生成了一个<code>ser.bin</code>文件</p>
-<p><img src="/2025/11/12/0xGame2025-WEB-WP/age-20260908161010017.png" srcset="/img/loading.gif" lazyload alt="image-20260908161010017"></p>
+<p><img src="/2026/09/08/Java%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96%E6%BC%8F%E6%B4%9E%E4%B9%8B%E5%9F%BA%E7%A1%80%E8%A1%A5%E5%85%85/image-20260908161010017.png" srcset="/img/loading.gif" lazyload alt="image-20260908161010017"></p>
 <h1 id="反序列化"><a href="#反序列化" class="headerlink" title="反序列化"></a>反序列化</h1><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">unserialize</span><span class="hljs-params">(String Filename)</span> <span class="hljs-keyword">throws</span> Exception&#123;<br>    <span class="hljs-type">FileInputStream</span> <span class="hljs-variable">fis</span> <span class="hljs-operator">=</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">FileInputStream</span>(Filename);<br>    <span class="hljs-type">ObjectInputStream</span> <span class="hljs-variable">ois</span> <span class="hljs-operator">=</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">ObjectInputStream</span>(fis);<br>    ois.readObject();<br>    ois.close();<br>&#125;<br></code></pre></td></tr></table></figure>
 
 <p>反序列化就是和序列化是相对应的，看着代码也很好理解，就不过多赘述</p>
@@ -523,9 +540,9 @@
 <h2 id="8-关闭文件流"><a href="#8-关闭文件流" class="headerlink" title="8. 关闭文件流"></a>8. 关闭文件流</h2><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs java">fos.close();<br></code></pre></td></tr></table></figure>
 
 <h2 id="检验-2"><a href="#检验-2" class="headerlink" title="检验"></a>检验</h2><p>注释掉之前的序列化操作，只保留<code>serializeBase64Encode()</code></p>
-<p><img src="/2025/11/12/0xGame2025-WEB-WP/age-20260908165229065.png" srcset="/img/loading.gif" lazyload alt="image-20260908165229065"></p>
+<p><img src="/2026/09/08/Java%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96%E6%BC%8F%E6%B4%9E%E4%B9%8B%E5%9F%BA%E7%A1%80%E8%A1%A5%E5%85%85/image-20260908165229065.png" srcset="/img/loading.gif" lazyload alt="image-20260908165229065"></p>
 <p>看一下<code>ser.bin</code>文件，确实是 base64 编码后的字符串</p>
-<p><img src="/2025/11/12/0xGame2025-WEB-WP/age-20260908165258590.png" srcset="/img/loading.gif" lazyload alt="image-20260908165258590"></p>
+<p><img src="/2026/09/08/Java%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96%E6%BC%8F%E6%B4%9E%E4%B9%8B%E5%9F%BA%E7%A1%80%E8%A1%A5%E5%85%85/image-20260908165258590.png" srcset="/img/loading.gif" lazyload alt="image-20260908165258590"></p>
 <h1 id="Base64解码"><a href="#Base64解码" class="headerlink" title="Base64解码"></a>Base64解码</h1><p>也是和 Base64 编码相对应的</p>
 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> Object <span class="hljs-title function_">unserializeBase64Decode</span><span class="hljs-params">(String Filename)</span> <span class="hljs-keyword">throws</span> Exception&#123;<br>    <span class="hljs-type">FileInputStream</span> <span class="hljs-variable">fis</span> <span class="hljs-operator">=</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">FileInputStream</span>(Filename);<br>    <span class="hljs-type">byte</span>[] data = <span class="hljs-keyword">new</span> <span class="hljs-title class_">byte</span>[fis.available()];<br>    fis.read(data);<br>    fis.close();<br>    <span class="hljs-type">byte</span>[] decodedBytes = Base64.getDecoder().decode(<span class="hljs-keyword">new</span> <span class="hljs-title class_">String</span>(data));<br>    <span class="hljs-type">ByteArrayInputStream</span> <span class="hljs-variable">bais</span> <span class="hljs-operator">=</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">ByteArrayInputStream</span>(decodedBytes);<br>    <span class="hljs-type">ObjectInputStream</span> <span class="hljs-variable">ois</span> <span class="hljs-operator">=</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">ObjectInputStream</span>(bais);<br>    <span class="hljs-type">Object</span> <span class="hljs-variable">obj</span> <span class="hljs-operator">=</span> ois.readObject();<br>    <span class="hljs-keyword">return</span> obj;<br>&#125;<br></code></pre></td></tr></table></figure>
 
@@ -1028,6 +1045,11 @@
   <script defer src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js" ></script>
 
 
+
+
+  
+<script src="/js/banner-video.js"></script>
+<script src="/js/quote.js"></script>
 
 
 

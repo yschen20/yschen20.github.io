@@ -1,0 +1,1309 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/Suzen.jpg">
+  <link rel="icon" href="/img/Suzen.jpg">
+  
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#4F4F4F">
+  <meta name="author" content="Suzen">
+  <meta name="keywords" content="">
+  
+    <meta property="og:type" content="website">
+<meta property="og:title" content="文章">
+<meta property="og:url" content="https://yschen20.github.io/posts/index.html">
+<meta property="og:site_name" content="Suzen">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:author" content="Suzen">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:creator" content="@Suzen">
+  
+  
+    <meta name="referrer" content="no-referrer-when-downgrade">
+  
+  
+  <title>文章 - Suzen</title>
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
+
+
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/c/font_1749284_5i9bdhy70f8.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/c/font_1736178_k526ubmyhba.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/css/highlight-dark.css" />
+  
+
+
+
+  
+<link rel="stylesheet" href="/css/glassbg.css">
+<link rel="stylesheet" href="/css/banner-video.css">
+<link rel="stylesheet" href="/css/hero.css">
+<link rel="stylesheet" href="/css/pages-tweak.css">
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"yschen20.github.io","root":"/","version":"1.9.8","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":true,"follow_dnt":true,"baidu":null,"google":{"measurement_id":null},"tencent":{"sid":null,"cid":null},"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false},"umami":{"src":null,"website_id":null,"domains":null,"start_time":"2025-04-25T00:00:00.000Z","token":null,"api_server":null}},"search_path":"/local-search.xml","include_content_in_search":true};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+
+
+  
+<meta name="generator" content="Hexo 7.3.0"></head>
+
+
+<body ><!-- hexo injector body_begin start --><div id="web_bg"></div><!-- hexo injector body_begin end -->
+
+    
+
+<style type="text/css">
+  @keyframes spin3D {
+    from {
+      transform: rotate3d(0.5, 0.5, 0.5, 360deg);
+    }
+
+    to {
+      transform: rotate3d(0deg);
+    }
+  }
+
+  #loading {
+    height: 100%;
+    background-color: #172d4781;
+    backdrop-filter: saturate(100%) blur(10px);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    overflow: hidden;
+    z-index: 99999999;
+  }
+
+  .spinner-box {
+    width: 300px;
+    height: 300px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: transparent;
+  }
+
+  .leo {
+    position: absolute;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 50%;
+  }
+
+  .blue-orbit {
+    width: 175px;
+    height: 175px;
+    border: 2px solid #1a91fa;
+    animation: spin3D 3s linear .2s infinite;
+  }
+
+  .green-orbit {
+    width: 135px;
+    height: 135px;
+    border: 2px solid #00ffdd;
+    animation: spin3D 2s linear 0s infinite;
+  }
+
+  .red-orbit {
+    width: 100px;
+    height: 100px;
+    border: 2px solid #d75151;
+    animation: spin3D 1s linear 0s infinite;
+  }
+
+  .white-orbit-a {
+    width: 70px;
+    height: 70px;
+    border: 1px solid #faf5f5;
+    animation: spin3D 3s linear 0s infinite;
+  }
+
+  .white-orbit-b {
+    width: 70px;
+    height: 70px;
+    border: 1px solid #faf5f5;
+    animation: spin3D 1.5s linear 0s infinite;
+  }
+
+  .nucleus {
+    width: 1px;
+    height: 1px;
+    border: 1px solid #ffffff;
+    animation: spin3D 1s linear 0s infinite;
+  }
+</style>
+
+<div id="loading">
+    <div class="spinner-box">
+        <div class="blue-orbit leo"></div>
+        <div class="green-orbit leo"></div>
+        <div class="red-orbit leo"></div>
+        <div class="white-orbit-a leo"></div>
+        <div class="white-orbit-b leo"></div>
+        <div class="nucleus leo"></div>
+    </div>
+</div>
+
+<script>
+  (function () {
+    const loaded = function () {
+      window.onload = function () {
+        const loader = document.getElementById("loading");
+        loader.className = "fadeout";
+        setTimeout(function () {
+            loader.style.display = "none";
+          },
+                500
+        );
+      }
+    };
+    loaded();
+  })();
+</script>
+
+
+
+  
+
+  <header>
+    
+
+<div class="header-inner" style="height: 100vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>Suzen的博客</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/" target="_self">
+                <i class="iconfont icon-home-fill"></i>
+                <span>首页</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/posts/" target="_self">
+                <i class="iconfont icon-books"></i>
+                <span>文章</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/" target="_self">
+                <i class="iconfont icon-archive-fill"></i>
+                <span>归档</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/" target="_self">
+                <i class="iconfont icon-category-fill"></i>
+                <span>分类</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/links/" target="_self">
+                <i class="iconfont icon-link-fill"></i>
+                <span>友链</span>
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              <i class="iconfont icon-search"></i>
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">
+              <i class="iconfont icon-dark" id="color-toggle-icon"></i>
+            </a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+  
+
+<div id="banner" class="banner" parallax=true
+     style="background: url('/img/default.png') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+      <div class="banner-text text-center fade-in-up">
+        
+        <div class="h2">
+          
+            <span id="subtitle" data-typed-text="Suzen"></span>
+          
+        </div>
+        
+
+        
+      </div>
+
+      
+        <div class="scroll-down-bar">
+          <i class="iconfont icon-arrowdown"></i>
+        </div>
+      
+    </div>
+  </div>
+</div>
+
+</div>
+
+  </header>
+
+  <main>
+    
+      <div class="container nopadding-x-md">
+        <div id="board"
+          style="margin-top: 0">
+          <div class="container">
+            <div class="row">
+              <div class="col-12 col-md-10 m-auto">
+                
+
+
+  <div class="row mx-auto index-card">
+    
+    
+    <article class="col-12 col-md-12 mx-auto index-info">
+      <h2 class="index-header">
+        
+        <a href="/2026/09/08/Java%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96%E6%BC%8F%E6%B4%9E%E4%B9%8B%E5%9F%BA%E7%A1%80%E8%A1%A5%E5%85%85/" target="_self">
+          Java反序列化漏洞之基础补充
+        </a>
+      </h2>
+
+      
+      <a class="index-excerpt index-excerpt__noimg" href="/2026/09/08/Java%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96%E6%BC%8F%E6%B4%9E%E4%B9%8B%E5%9F%BA%E7%A1%80%E8%A1%A5%E5%85%85/" target="_self">
+        <div>
+          前言之前基础学的懵懵懂懂的，到后面学到反序列化，写各种代码，就不知道写什么，为什么这么写，比如 Java 反射，放到序列化漏洞利用里，每次就是照搬来用，没怎么想过每一步为什么这么用（之前也许想过，不过忘了），也挺久没看 Java 了，现在来重温一下基础 反射到现在已经调过了各种链子，感觉反射大部分都是给一些私有字段进行赋特殊值，从而达到触发利用链中某一节点，最终可以让整个链子通了 之前学调链子的时
+        </div>
+      </a>
+
+      <div class="index-btm post-metas">
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-date"></i>
+            <time datetime="2026-09-08 14:42" pubdate>
+              2026-09-08
+            </time>
+          </div>
+        
+        
+          <div class="post-meta mr-3 d-flex align-items-center">
+            <i class="iconfont icon-category"></i>
+            
+
+<span class="category-chains">
+  
+  
+    
+      <span class="category-chain">
+        
+  <a href="/categories/%E6%BC%8F%E6%B4%9E%E7%AC%94%E8%AE%B0/" class="category-chain-item">漏洞笔记</a>
+  
+  
+    <span>></span>
+    
+  <a href="/categories/%E6%BC%8F%E6%B4%9E%E7%AC%94%E8%AE%B0/Java%E5%AE%89%E5%85%A8/" class="category-chain-item">Java安全</a>
+  
+  
+    <span>></span>
+    
+  <a href="/categories/%E6%BC%8F%E6%B4%9E%E7%AC%94%E8%AE%B0/Java%E5%AE%89%E5%85%A8/Java%E5%9F%BA%E7%A1%80/" class="category-chain-item">Java基础</a>
+  
+  
+
+  
+
+  
+
+      </span>
+    
+  
+</span>
+
+          </div>
+        
+        
+          <div class="post-meta">
+            <i class="iconfont icon-tags"></i>
+            
+              <a href="/tags/Java/">#Java</a>
+            
+          </div>
+        
+      </div>
+    </article>
+  </div>
+
+  <div class="row mx-auto index-card">
+    
+    
+    <article class="col-12 col-md-12 mx-auto index-info">
+      <h2 class="index-header">
+        
+        <a href="/2026/09/08/ZeroLogon-%E7%BB%83%E4%B9%A0/" target="_self">
+          ZeroLogon 练习
+        </a>
+      </h2>
+
+      
+      <a class="index-excerpt index-excerpt__noimg" href="/2026/09/08/ZeroLogon-%E7%BB%83%E4%B9%A0/" target="_self">
+        <div>
+          靶场介绍 网络地址  12目标地址：192.168.111.100本机地址：192.168.111.25   【复现】CVE-2020-1472 ZeroLogon 漏洞 漏洞概述     Zerologon(CVE-2020-1472)是Netlogon远程协议的一个特权提升漏洞，可以在不提供任何据的情况下通过身份验证，并实现域内提权。 环境共有两台机器，用于测试两种情况，分别为攻击机在域中以及
+        </div>
+      </a>
+
+      <div class="index-btm post-metas">
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-date"></i>
+            <time datetime="2026-09-08 11:16" pubdate>
+              2026-09-08
+            </time>
+          </div>
+        
+        
+          <div class="post-meta mr-3 d-flex align-items-center">
+            <i class="iconfont icon-category"></i>
+            
+
+<span class="category-chains">
+  
+  
+    
+      <span class="category-chain">
+        
+  <a href="/categories/%E6%B8%97%E9%80%8F/" class="category-chain-item">渗透</a>
+  
+  
+    <span>></span>
+    
+  <a href="/categories/%E6%B8%97%E9%80%8F/%E6%97%A0%E5%A2%83/" class="category-chain-item">无境</a>
+  
+  
+    <span>></span>
+    
+  <a href="/categories/%E6%B8%97%E9%80%8F/%E6%97%A0%E5%A2%83/%E5%86%85%E7%BD%91%E9%9D%B6%E5%9C%BA/" class="category-chain-item">内网靶场</a>
+  
+  
+
+  
+
+  
+
+      </span>
+    
+  
+</span>
+
+          </div>
+        
+        
+          <div class="post-meta">
+            <i class="iconfont icon-tags"></i>
+            
+              <a href="/tags/%E5%86%85%E7%BD%91%E6%B8%97%E9%80%8F/">#内网渗透</a>
+            
+          </div>
+        
+      </div>
+    </article>
+  </div>
+
+  <div class="row mx-auto index-card">
+    
+    
+    <article class="col-12 col-md-12 mx-auto index-info">
+      <h2 class="index-header">
+        
+        <a href="/2026/06/28/%E7%BA%A2%E6%97%A5%E9%9D%B6%E5%9C%BA%E4%B8%80/" target="_self">
+          红日靶场一
+        </a>
+      </h2>
+
+      
+      <a class="index-excerpt index-excerpt__noimg" href="/2026/06/28/%E7%BA%A2%E6%97%A5%E9%9D%B6%E5%9C%BA%E4%B8%80/" target="_self">
+        <div>
+          前言靶机地址：https://bdziyi.com/ulab/lab.html?page=target-detail&amp;id=94 这是在无境开的，要会员，不过我强哥有，感谢我强哥 要是不想充会员，可以找其他免费的，好像有能下载到本地的虚拟机吧，我也懒得找来下了 或者是用灵境平台，好像也是免费的：https://xvshifu.github.io/xvsf/posts/hongri1/ WP
+        </div>
+      </a>
+
+      <div class="index-btm post-metas">
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-date"></i>
+            <time datetime="2026-06-28 14:06" pubdate>
+              2026-06-28
+            </time>
+          </div>
+        
+        
+          <div class="post-meta mr-3 d-flex align-items-center">
+            <i class="iconfont icon-category"></i>
+            
+
+<span class="category-chains">
+  
+  
+    
+      <span class="category-chain">
+        
+  <a href="/categories/%E6%B8%97%E9%80%8F/" class="category-chain-item">渗透</a>
+  
+  
+    <span>></span>
+    
+  <a href="/categories/%E6%B8%97%E9%80%8F/%E6%97%A0%E5%A2%83/" class="category-chain-item">无境</a>
+  
+  
+    <span>></span>
+    
+  <a href="/categories/%E6%B8%97%E9%80%8F/%E6%97%A0%E5%A2%83/%E5%86%85%E7%BD%91%E9%9D%B6%E5%9C%BA/" class="category-chain-item">内网靶场</a>
+  
+  
+    <span>></span>
+    
+  <a href="/categories/%E6%B8%97%E9%80%8F/%E6%97%A0%E5%A2%83/%E5%86%85%E7%BD%91%E9%9D%B6%E5%9C%BA/%E7%BA%A2%E6%97%A5%E9%9D%B6%E5%9C%BA/" class="category-chain-item">红日靶场</a>
+  
+  
+
+  
+
+  
+
+  
+
+      </span>
+    
+  
+</span>
+
+          </div>
+        
+        
+          <div class="post-meta">
+            <i class="iconfont icon-tags"></i>
+            
+              <a href="/tags/%E5%86%85%E7%BD%91%E6%B8%97%E9%80%8F/">#内网渗透</a>
+            
+          </div>
+        
+      </div>
+    </article>
+  </div>
+
+  <div class="row mx-auto index-card">
+    
+    
+    <article class="col-12 col-md-12 mx-auto index-info">
+      <h2 class="index-header">
+        
+        <a href="/2026/06/26/Fastjson1-2-24%E7%89%88%E6%9C%AC%E6%BC%8F%E6%B4%9E%E5%88%86%E6%9E%90/" target="_self">
+          Fastjson1.2.24版本漏洞分析
+        </a>
+      </h2>
+
+      
+      <a class="index-excerpt index-excerpt__noimg" href="/2026/06/26/Fastjson1-2-24%E7%89%88%E6%9C%AC%E6%BC%8F%E6%B4%9E%E5%88%86%E6%9E%90/" target="_self">
+        <div>
+          环境搭建 JDK 就和之前一样用的 jdk-8u65 Fastjson 用的 1.2.24（1.2.22 &lt;&#x3D; Fastjson &lt;&#x3D; 1.2.24） Maven的话应该无所谓  然后是依赖 12345678910111213141516171819202122&lt;dependencies&gt;    &lt;dependency&gt;        &lt
+        </div>
+      </a>
+
+      <div class="index-btm post-metas">
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-date"></i>
+            <time datetime="2026-06-26 14:51" pubdate>
+              2026-06-26
+            </time>
+          </div>
+        
+        
+          <div class="post-meta mr-3 d-flex align-items-center">
+            <i class="iconfont icon-category"></i>
+            
+
+<span class="category-chains">
+  
+  
+    
+      <span class="category-chain">
+        
+  <a href="/categories/%E6%BC%8F%E6%B4%9E%E7%AC%94%E8%AE%B0/" class="category-chain-item">漏洞笔记</a>
+  
+  
+    <span>></span>
+    
+  <a href="/categories/%E6%BC%8F%E6%B4%9E%E7%AC%94%E8%AE%B0/Java%E5%AE%89%E5%85%A8/" class="category-chain-item">Java安全</a>
+  
+  
+    <span>></span>
+    
+  <a href="/categories/%E6%BC%8F%E6%B4%9E%E7%AC%94%E8%AE%B0/Java%E5%AE%89%E5%85%A8/Fastjson/" class="category-chain-item">Fastjson</a>
+  
+  
+
+  
+
+  
+
+      </span>
+    
+  
+</span>
+
+          </div>
+        
+        
+          <div class="post-meta">
+            <i class="iconfont icon-tags"></i>
+            
+              <a href="/tags/Java/">#Java</a>
+            
+          </div>
+        
+      </div>
+    </article>
+  </div>
+
+  <div class="row mx-auto index-card">
+    
+    
+    <article class="col-12 col-md-12 mx-auto index-info">
+      <h2 class="index-header">
+        
+        <a href="/2026/06/18/Fastjson%E5%9F%BA%E7%A1%80/" target="_self">
+          Fastjson基础
+        </a>
+      </h2>
+
+      
+      <a class="index-excerpt index-excerpt__noimg" href="/2026/06/18/Fastjson%E5%9F%BA%E7%A1%80/" target="_self">
+        <div>
+          Fastjson简介Fastjson 是阿里巴巴开源的一个 Java 语言实现的 JSON 处理库，主要用于 JSON 字符串与 Java 对象之间的互相转换 提供两个主要接口来分别实现序列化和反序列化操作：  序列化：JSON.toJSONString将 Java 对象转换为 json 对象 反序列化：JSON.parseObject/JSON.parse 将 json 对象重新变回 Java
+        </div>
+      </a>
+
+      <div class="index-btm post-metas">
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-date"></i>
+            <time datetime="2026-06-18 16:49" pubdate>
+              2026-06-18
+            </time>
+          </div>
+        
+        
+          <div class="post-meta mr-3 d-flex align-items-center">
+            <i class="iconfont icon-category"></i>
+            
+
+<span class="category-chains">
+  
+  
+    
+      <span class="category-chain">
+        
+  <a href="/categories/%E6%BC%8F%E6%B4%9E%E7%AC%94%E8%AE%B0/" class="category-chain-item">漏洞笔记</a>
+  
+  
+    <span>></span>
+    
+  <a href="/categories/%E6%BC%8F%E6%B4%9E%E7%AC%94%E8%AE%B0/Java%E5%AE%89%E5%85%A8/" class="category-chain-item">Java安全</a>
+  
+  
+    <span>></span>
+    
+  <a href="/categories/%E6%BC%8F%E6%B4%9E%E7%AC%94%E8%AE%B0/Java%E5%AE%89%E5%85%A8/Fastjson/" class="category-chain-item">Fastjson</a>
+  
+  
+
+  
+
+  
+
+      </span>
+    
+  
+</span>
+
+          </div>
+        
+        
+          <div class="post-meta">
+            <i class="iconfont icon-tags"></i>
+            
+              <a href="/tags/Java/">#Java</a>
+            
+          </div>
+        
+      </div>
+    </article>
+  </div>
+
+  <div class="row mx-auto index-card">
+    
+    
+    <article class="col-12 col-md-12 mx-auto index-info">
+      <h2 class="index-header">
+        
+        <a href="/2026/06/16/JNDI%E6%B3%A8%E5%85%A5/" target="_self">
+          JNDI注入
+        </a>
+      </h2>
+
+      
+      <a class="index-excerpt index-excerpt__noimg" href="/2026/06/16/JNDI%E6%B3%A8%E5%85%A5/" target="_self">
+        <div>
+          JNDI的概念官方文档：https://docs.oracle.com/javase/tutorial/jndi/overview/index.html JNDI（Java Naming and Directory Interface） 是 Java 提供的一套统一访问命名和目录服务的 API，用来把“名字”映射成“对象”，方便在 Java 应用中查找和使用各种资源 是一个名字对应一个 Java
+        </div>
+      </a>
+
+      <div class="index-btm post-metas">
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-date"></i>
+            <time datetime="2026-06-16 15:47" pubdate>
+              2026-06-16
+            </time>
+          </div>
+        
+        
+          <div class="post-meta mr-3 d-flex align-items-center">
+            <i class="iconfont icon-category"></i>
+            
+
+<span class="category-chains">
+  
+  
+    
+      <span class="category-chain">
+        
+  <a href="/categories/%E6%BC%8F%E6%B4%9E%E7%AC%94%E8%AE%B0/" class="category-chain-item">漏洞笔记</a>
+  
+  
+    <span>></span>
+    
+  <a href="/categories/%E6%BC%8F%E6%B4%9E%E7%AC%94%E8%AE%B0/Java%E5%AE%89%E5%85%A8/" class="category-chain-item">Java安全</a>
+  
+  
+    <span>></span>
+    
+  <a href="/categories/%E6%BC%8F%E6%B4%9E%E7%AC%94%E8%AE%B0/Java%E5%AE%89%E5%85%A8/JNDI%E6%B3%A8%E5%85%A5/" class="category-chain-item">JNDI注入</a>
+  
+  
+
+  
+
+  
+
+      </span>
+    
+  
+</span>
+
+          </div>
+        
+        
+          <div class="post-meta">
+            <i class="iconfont icon-tags"></i>
+            
+              <a href="/tags/Java/">#Java</a>
+            
+          </div>
+        
+      </div>
+    </article>
+  </div>
+
+  <div class="row mx-auto index-card">
+    
+    
+    <article class="col-12 col-md-12 mx-auto index-info">
+      <h2 class="index-header">
+        
+        <a href="/2026/06/15/Reactor/" target="_self">
+          Reactor
+        </a>
+      </h2>
+
+      
+      <a class="index-excerpt index-excerpt__noimg" href="/2026/06/15/Reactor/" target="_self">
+        <div>
+          USER FLAGnmap 扫一下靶机的端口服务 1nmap -A -p- 10.129.4.41  一个 22 端口，一个 3000 端口  先看 3000 端口  Wappalyzer 看一下框架是 React 和 Next.js  想到去年一个漏洞：CVE-2025-55182 用插件看一下确实存在，不过插件因为网络问题不能直接打  上网找POC 1234567891011121314151
+        </div>
+      </a>
+
+      <div class="index-btm post-metas">
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-date"></i>
+            <time datetime="2026-06-15 13:01" pubdate>
+              2026-06-15
+            </time>
+          </div>
+        
+        
+          <div class="post-meta mr-3 d-flex align-items-center">
+            <i class="iconfont icon-category"></i>
+            
+
+<span class="category-chains">
+  
+  
+    
+      <span class="category-chain">
+        
+  <a href="/categories/%E6%B8%97%E9%80%8F/" class="category-chain-item">渗透</a>
+  
+  
+    <span>></span>
+    
+  <a href="/categories/%E6%B8%97%E9%80%8F/HTB/" class="category-chain-item">HTB</a>
+  
+  
+
+  
+
+      </span>
+    
+  
+</span>
+
+          </div>
+        
+        
+          <div class="post-meta">
+            <i class="iconfont icon-tags"></i>
+            
+              <a href="/tags/%E6%B8%97%E9%80%8F/">#渗透</a>
+            
+          </div>
+        
+      </div>
+    </article>
+  </div>
+
+  <div class="row mx-auto index-card">
+    
+    
+    <article class="col-12 col-md-12 mx-auto index-info">
+      <h2 class="index-header">
+        
+        <a href="/2026/06/06/CVE-2018-20062%EF%BC%88ThinkPHP-5-0-23-RCE%EF%BC%89/" target="_self">
+          CVE-2018-20062（ThinkPHP 5.0.23 RCE）
+        </a>
+      </h2>
+
+      
+      <a class="index-excerpt index-excerpt__noimg" href="/2026/06/06/CVE-2018-20062%EF%BC%88ThinkPHP-5-0-23-RCE%EF%BC%89/" target="_self">
+        <div>
+          前言自从染上了Codex，感觉自己的越来越懒了，好久没看过代码，就想到这个 CVE，跟着网上的文章审一遍，锻炼一下代码审计的能力，动一动脑子（虽然有的也是借助 AI 去理解的代码） 环境准备源码下载地址：https://gitee.com/sysorem-lee/thinkphp_5.0.23_with_extend/repository/archive/master.zip 我是把源码拉到本地，
+        </div>
+      </a>
+
+      <div class="index-btm post-metas">
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-date"></i>
+            <time datetime="2026-06-06 23:40" pubdate>
+              2026-06-06
+            </time>
+          </div>
+        
+        
+          <div class="post-meta mr-3 d-flex align-items-center">
+            <i class="iconfont icon-category"></i>
+            
+
+<span class="category-chains">
+  
+  
+    
+      <span class="category-chain">
+        
+  <a href="/categories/CVE/" class="category-chain-item">CVE</a>
+  
+  
+
+      </span>
+    
+  
+</span>
+
+          </div>
+        
+        
+          <div class="post-meta">
+            <i class="iconfont icon-tags"></i>
+            
+              <a href="/tags/CVE%E5%A4%8D%E7%8E%B0/">#CVE复现</a>
+            
+          </div>
+        
+      </div>
+    </article>
+  </div>
+
+  <div class="row mx-auto index-card">
+    
+    
+    <article class="col-12 col-md-12 mx-auto index-info">
+      <h2 class="index-header">
+        
+        <a href="/2026/04/14/Silentium/" target="_self">
+          Silentium
+        </a>
+      </h2>
+
+      
+      <a class="index-excerpt index-excerpt__noimg" href="/2026/04/14/Silentium/" target="_self">
+        <div>
+          USER FLAGnmap 扫一下靶机的端口服务 1nmap -A 10.129.94.71  22 的 SSH 服务，还有 80 的 HTTP  先看 80 的，无法重定向，设置一下/etc/hosts 110.129.94.71 silentium.htb   浏览器可以成功访问到  用 dirsearch 扫目录没扫到有用东西 利用 fuff 工具扫子域名 1ffuf -u http://s
+        </div>
+      </a>
+
+      <div class="index-btm post-metas">
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-date"></i>
+            <time datetime="2026-04-14 20:24" pubdate>
+              2026-04-14
+            </time>
+          </div>
+        
+        
+          <div class="post-meta mr-3 d-flex align-items-center">
+            <i class="iconfont icon-category"></i>
+            
+
+<span class="category-chains">
+  
+  
+    
+      <span class="category-chain">
+        
+  <a href="/categories/%E6%B8%97%E9%80%8F/" class="category-chain-item">渗透</a>
+  
+  
+    <span>></span>
+    
+  <a href="/categories/%E6%B8%97%E9%80%8F/HTB/" class="category-chain-item">HTB</a>
+  
+  
+
+  
+
+      </span>
+    
+  
+</span>
+
+          </div>
+        
+        
+          <div class="post-meta">
+            <i class="iconfont icon-tags"></i>
+            
+              <a href="/tags/%E6%B8%97%E9%80%8F/">#渗透</a>
+            
+          </div>
+        
+      </div>
+    </article>
+  </div>
+
+  <div class="row mx-auto index-card">
+    
+    
+    <article class="col-12 col-md-12 mx-auto index-info">
+      <h2 class="index-header">
+        
+        <a href="/2026/04/11/CCTV/" target="_self">
+          CCTV
+        </a>
+      </h2>
+
+      
+      <a class="index-excerpt index-excerpt__noimg" href="/2026/04/11/CCTV/" target="_self">
+        <div>
+          USER FLAGnmap 扫一下靶机的端口服务 1nmap -A 10.129.20.186  22 的 SSH，还有 80 的 Web，并且不能重定向到http://cctv.htb/  先看 80 的 Web，配置一下/etc/hosts 110.129.20.186 cctv.htb   浏览器访问，成功重定向  页面右上角有个登录按钮，点击来到登录界面，可以看出是  ZoneMinder
+        </div>
+      </a>
+
+      <div class="index-btm post-metas">
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-date"></i>
+            <time datetime="2026-04-11 00:14" pubdate>
+              2026-04-11
+            </time>
+          </div>
+        
+        
+          <div class="post-meta mr-3 d-flex align-items-center">
+            <i class="iconfont icon-category"></i>
+            
+
+<span class="category-chains">
+  
+  
+    
+      <span class="category-chain">
+        
+  <a href="/categories/%E6%B8%97%E9%80%8F/" class="category-chain-item">渗透</a>
+  
+  
+    <span>></span>
+    
+  <a href="/categories/%E6%B8%97%E9%80%8F/HTB/" class="category-chain-item">HTB</a>
+  
+  
+
+  
+
+      </span>
+    
+  
+</span>
+
+          </div>
+        
+        
+          <div class="post-meta">
+            <i class="iconfont icon-tags"></i>
+            
+              <a href="/tags/%E6%B8%97%E9%80%8F/">#渗透</a>
+            
+          </div>
+        
+      </div>
+    </article>
+  </div>
+
+
+
+  <nav aria-label="navigation">
+    <span class="pagination" id="pagination">
+      <span class="page-number current">1</span><a class="page-number" href="/posts/page/2/#board">2</a><a class="page-number" href="/posts/page/3/#board">3</a><span class="space">&hellip;</span><a class="page-number" href="/posts/page/12/#board">12</a><a class="extend next" rel="next" href="/posts/page/2/#board"><i class="iconfont icon-arrowright"></i></a>
+    </span>
+  </nav>
+
+
+
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+    <div>
+        <span id="timeDate">正在载入天数...</span>
+        <span id="times">载入时分秒...</span>
+        <script>
+          var now = new Date();
+          function createtime(){
+            var grt= new Date("04/25/2025 00:00:00");
+            now.setTime(now.getTime()+250);
+            days = (now - grt ) / 1000 / 60 / 60 / 24;
+            dnum = Math.floor(days);
+            hours = (now - grt ) / 1000 / 60 / 60 - (24 * dnum);
+            hnum = Math.floor(hours);
+            if(String(hnum).length ==1 ){
+              hnum = "0" + hnum;
+            }
+            minutes = (now - grt ) / 1000 /60 - (24 * 60 * dnum) - (60 * hnum);
+            mnum = Math.floor(minutes);
+            if(String(mnum).length ==1 ){
+              mnum = "0" + mnum;
+            }
+            seconds = (now - grt ) / 1000 - (24 * 60 * 60 * dnum) - (60 * 60 * hnum) - (60 * mnum);
+            snum = Math.round(seconds);
+            if(String(snum).length ==1 ){
+              snum = "0" + snum;
+            }
+            document.getElementById("timeDate").innerHTML = "🚀已持续航行&nbsp"+dnum+"&nbsp天";
+            document.getElementById("times").innerHTML = hnum + "&nbsp时&nbsp" + mnum + "&nbsp分&nbsp" + snum + "&nbsp秒";
+          }
+          setInterval("createtime()",250);
+        </script>
+    </div>
+
+
+
+    <div class="footer-content">
+       <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+    </div>
+  
+  
+    <div class="statistics">
+  
+  
+
+  
+    
+      <span id="busuanzi_container_site_pv" style="display: none">
+        总访问量 
+        <span id="busuanzi_value_site_pv"></span>
+         次
+      </span>
+    
+    
+      <span id="busuanzi_container_site_uv" style="display: none">
+        总访客数 
+        <span id="busuanzi_value_site_uv"></span>
+         人
+      </span>
+    
+    
+
+  
+
+</div>
+
+  
+  
+</div>
+
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://lib.baomitu.com/jquery/3.6.4/jquery.min.js" ></script>
+<script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+
+  <script  src="https://lib.baomitu.com/typed.js/2.0.12/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var subtitle = document.getElementById('subtitle');
+      if (!subtitle || !typing) {
+        return;
+      }
+      var text = subtitle.getAttribute('data-typed-text');
+      
+        jQuery.ajax({
+          type: 'GET',
+          url: 'https://v1.hitokoto.cn',
+          headers: {},
+          dataType: 'json',
+          timeout: 5000,
+          success: function(result) {
+            var apiText;
+            if (result) {
+              var keys = 'hitokoto'.split(',');
+              if (result instanceof Array) {
+                result = result[0];
+              }
+              for (const k of keys) {
+                var value = result[k];
+                if (typeof value === 'string') {
+                  apiText = value;
+                  break;
+                } else if (value instanceof Object) {
+                  result = value;
+                }
+              }
+            }
+            apiText ? typing(apiText) : typing(text);
+          },
+          error: function(xhr, status, error) {
+            if (error) {
+              console.error('Failed to request https://v1.hitokoto.cn:', error);
+            }
+            typing(text);
+          }
+        })
+      
+    })(window, document);
+  </script>
+
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+
+  <script  src="/js/local-search.js" ></script>
+
+  <script defer src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js" ></script>
+
+
+
+
+  
+<script src="/js/banner-video.js"></script>
+<script src="/js/quote.js"></script>
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">博客在允许 JavaScript 运行的环境下浏览效果更佳</div>
+  </noscript>
+<!-- hexo injector body_end start --><script src="/js/backgroundize.js"></script><!-- hexo injector body_end end --></body>
+</html>

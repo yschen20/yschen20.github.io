@@ -132,13 +132,19 @@ Fluid.events = {
     var bg = document.getElementById('banner');
     if (bg) {
       var src = bg.style.backgroundImage;
-      var url = src.match(/\((.*?)\)/)[1].replace(/(['"])/g, '');
-      var img = new Image();
-      img.onload = function() {
-        window.NProgress && window.NProgress.status !== null && window.NProgress.inc(0.2);
-      };
-      img.src = url;
-      if (img.complete) { img.onload(); }
+      // 视频背景页的 #banner 背景为 "none"（静态图已在模板层移除），
+      // 此时 match 返回 null；直接取 [1] 会抛 TypeError 并中断后续初始化。
+      // 仅在背景确为 url(...) 形式时处理。
+      var matched = src.match(/\((.*?)\)/);
+      if (matched) {
+        var url = matched[1].replace(/(['"])/g, '');
+        var img = new Image();
+        img.onload = function() {
+          window.NProgress && window.NProgress.status !== null && window.NProgress.inc(0.2);
+        };
+        img.src = url;
+        if (img.complete) { img.onload(); }
+      }
     }
 
     var notLazyImages = jQuery('main img:not([lazyload])');

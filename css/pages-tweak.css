@@ -1,0 +1,15 @@
+/* 页面留白微调：使首页 / 文章页与归档页（archive）的呼吸感保持一致 */
+
+/* 文章页内容板：归档页在 banner 满屏时 #board 为 margin-top:0，
+   文章页默认 -2rem（内容板与 banner 重叠）。
+   此处对齐归档页，令内容板与 banner 拉开距离，保持一致的顶部留白。 */
+#board-ctn > #board {
+  margin-top: 0;
+}
+
+/* 文章页保持简洁阅读界面：隐藏头像相关元素 */
+#board-ctn .about-avatar,
+#board-ctn .about-info,
+#board-ctn .banner-hero {
+  display: none;
+}

